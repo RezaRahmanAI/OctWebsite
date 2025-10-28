@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Injectable, NgZone, OnDestroy, inject } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import Lenis, { LenisOptions } from '@studio-freight/lenis';
+import Lenis, { LenisOptions } from 'lenis';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
