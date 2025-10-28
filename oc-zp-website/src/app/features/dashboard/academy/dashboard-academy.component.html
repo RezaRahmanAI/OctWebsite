@@ -1,0 +1,106 @@
+<div class="grid gap-8 lg:grid-cols-[2fr_1fr]">
+  <div class="card-surface p-6">
+    <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <div>
+        <h2 class="text-lg font-semibold text-slate-800">Academy Tracks</h2>
+        <p class="text-xs text-slate-500">Define curriculum stacks and levels.</p>
+      </div>
+      <input
+        type="search"
+        placeholder="Search track"
+        class="rounded-full border border-slate-200 px-4 py-2 text-sm focus:border-primary-500 focus:outline-none"
+        (input)="filter.set($any($event.target).value)"
+      />
+    </div>
+    <div class="mt-6 space-y-4">
+      <div *ngFor="let track of filtered()" class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <p class="text-base font-semibold text-slate-800">{{ track.title }}</p>
+            <p class="text-sm text-slate-500">{{ track.duration }} • {{ track.priceLabel }}</p>
+            <p class="mt-2 text-sm text-slate-600">Age: {{ track.ageRange || 'Any' }}</p>
+            <div class="mt-3 space-y-2 text-[12px] text-slate-500">
+              <div *ngFor="let level of track.levels">
+                <p class="font-semibold text-slate-600">{{ level.name }}</p>
+                <p>Tools: {{ level.tools.join(', ') }}</p>
+                <p>Outcomes: {{ level.outcomes.join(', ') }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col items-end gap-2 text-xs font-semibold">
+            <span class="rounded-full px-3 py-1" [class.bg-emerald-100]="track.active" [class.text-emerald-600]="track.active" [class.bg-rose-100]="!track.active" [class.text-rose-600]="!track.active">
+              {{ track.active ? 'Active' : 'Hidden' }}
+            </span>
+            <button type="button" class="text-primary-600" (click)="select(track.id)">Edit</button>
+            <button type="button" class="text-rose-500" (click)="delete(track.id)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-surface p-6">
+    <h3 class="text-lg font-semibold text-slate-800">{{ selectedId() ? 'Edit Track' : 'Create Track' }}</h3>
+    <form [formGroup]="form" (ngSubmit)="save()" class="mt-4 space-y-4">
+      <div>
+        <label class="text-xs font-semibold uppercase text-slate-500">Title</label>
+        <input formControlName="title" type="text" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:border-primary-500 focus:outline-none" (input)="updateSlug()" />
+      </div>
+      <div>
+        <label class="text-xs font-semibold uppercase text-slate-500">Slug</label>
+        <input formControlName="slug" type="text" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:border-primary-500 focus:outline-none" />
+      </div>
+      <div class="grid gap-4 md:grid-cols-2">
+        <div>
+          <label class="text-xs font-semibold uppercase text-slate-500">Age Range</label>
+          <input formControlName="ageRange" type="text" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:border-primary-500 focus:outline-none" />
+        </div>
+        <div>
+          <label class="text-xs font-semibold uppercase text-slate-500">Duration</label>
+          <input formControlName="duration" type="text" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:border-primary-500 focus:outline-none" />
+        </div>
+      </div>
+      <div>
+        <label class="text-xs font-semibold uppercase text-slate-500">Price Label</label>
+        <input formControlName="priceLabel" type="text" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:border-primary-500 focus:outline-none" />
+      </div>
+      <div class="space-y-4">
+        <div class="flex items-center justify-between">
+          <p class="text-xs font-semibold uppercase text-slate-500">Levels</p>
+          <button type="button" class="text-xs font-semibold text-primary-600" (click)="addLevel()">Add level</button>
+        </div>
+        <div *ngFor="let level of levelGroups; let i = index" [formGroup]="level" class="rounded-xl border border-slate-200 p-4">
+          <div class="flex items-center justify-between text-xs font-semibold text-slate-500">
+            <span>Level {{ i + 1 }}</span>
+            <button type="button" class="text-rose-500" (click)="removeLevel(i)" [disabled]="levels.length === 1">Remove</button>
+          </div>
+          <div class="mt-3 space-y-3">
+            <div>
+              <label class="text-xs font-semibold uppercase text-slate-500">Name</label>
+              <input formControlName="name" type="text" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none" />
+            </div>
+            <div>
+              <label class="text-xs font-semibold uppercase text-slate-500">Tools (comma separated)</label>
+              <input formControlName="tools" type="text" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none" />
+            </div>
+            <div>
+              <label class="text-xs font-semibold uppercase text-slate-500">Outcomes (comma separated)</label>
+              <input formControlName="outcomes" type="text" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <label class="flex items-center gap-2 text-sm text-slate-600">
+        <input type="checkbox" formControlName="active" class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500" />
+        Active
+      </label>
+      <div class="flex justify-end gap-3">
+        <button type="button" class="rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold text-slate-600" (click)="newTrack()">
+          Clear
+        </button>
+        <button type="submit" class="rounded-full bg-primary-600 px-6 py-2 text-xs font-semibold uppercase tracking-wide text-white">
+          {{ selectedId() ? 'Update' : 'Create' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

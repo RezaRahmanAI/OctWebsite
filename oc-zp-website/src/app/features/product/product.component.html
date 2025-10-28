@@ -1,0 +1,25 @@
+<section class="section-padding">
+  <div class="container-responsive space-y-8">
+    <app-section-heading eyebrow="Product" title="ZeroProgrammingBD industry solutions" subtitle="Configured platforms ready to deploy for your vertical." align="center"></app-section-heading>
+    <div class="flex justify-center">
+      <input
+        type="search"
+        placeholder="Search products"
+        class="w-full max-w-md rounded-full border border-slate-200 px-4 py-2 text-sm focus:border-primary-500 focus:outline-none"
+        (input)="query.set($any($event.target).value)"
+      />
+    </div>
+    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+      <app-card
+        *ngFor="let product of products()"
+        [title]="product.title"
+        [description]="product.summary"
+        [link]="['/product', product.slug]"
+      >
+        <ul class="mt-4 list-disc space-y-1 pl-5 text-sm text-slate-500">
+          <li *ngFor="let feature of product.features">{{ feature }}</li>
+        </ul>
+      </app-card>
+    </div>
+  </div>
+</section>

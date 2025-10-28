@@ -1,0 +1,37 @@
+<section class="section-padding">
+  <div class="container-responsive" *ngIf="service() as service; else notFound">
+    <div class="space-y-6">
+      <a routerLink="/services" class="text-sm font-semibold text-primary-600">← Back to services</a>
+      <h1 class="text-4xl font-bold text-slate-900">{{ service.title }}</h1>
+      <p class="text-lg text-slate-600">{{ service.summary }}</p>
+      <div class="grid gap-4 md:grid-cols-2">
+        <div class="space-y-3">
+          <h2 class="text-xl font-semibold text-slate-800">Why teams choose this</h2>
+          <ul class="list-disc space-y-2 pl-5 text-sm text-slate-600">
+            <li *ngFor="let feature of service.features">{{ feature }}</li>
+          </ul>
+        </div>
+        <div class="card-surface p-5 text-sm text-slate-600">
+          <p>
+            Ready to plan a roadmap? Our delivery squad will co-design a sprint-based engagement aligned to your KPIs, then bring
+            in academy apprentices to support ongoing experimentation.
+          </p>
+          <a routerLink="/contact" class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary-600">
+            Talk to us
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<ng-template #notFound>
+  <div class="section-padding">
+    <div class="container-responsive text-center">
+      <p class="text-lg font-semibold text-slate-600">Service not found.</p>
+      <a routerLink="/services" class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary-600">Browse services</a>
+    </div>
+  </div>
+</ng-template>

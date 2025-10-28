@@ -1,0 +1,19 @@
+:host {
+  display: block;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, #337bff 0%, #1f5fe6 100%);
+  transition: width 0.2s ease;
+}
+
+nav a:hover::after,
+nav a.router-link-active::after {
+  width: 100%;
+}

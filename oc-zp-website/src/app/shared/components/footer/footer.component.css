@@ -1,0 +1,7 @@
+:host {
+  display: block;
+}
+
+footer a {
+  transition: color 0.2s ease;
+}
