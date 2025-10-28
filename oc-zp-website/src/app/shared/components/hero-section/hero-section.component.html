@@ -1,0 +1,46 @@
+<section class="relative overflow-hidden bg-white">
+  <div class="container-responsive section-padding grid gap-12 lg:grid-cols-2 items-center">
+    <div class="space-y-6">
+      <span *ngIf="eyebrow" class="inline-flex items-center rounded-full bg-primary-50 px-4 py-1 text-sm font-medium text-primary-700">
+        {{ eyebrow }}
+      </span>
+      <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
+        {{ title }}
+      </h1>
+      <p class="max-w-xl text-lg text-slate-600" *ngIf="subtitle">
+        {{ subtitle }}
+      </p>
+      <div class="flex flex-wrap gap-4 pt-4">
+        <a
+          class="inline-flex items-center justify-center rounded-full bg-primary-600 px-6 py-3 text-base font-semibold text-white shadow-soft transition hover:bg-primary-700"
+          [routerLink]="primaryLink"
+        >
+          {{ primaryLabel }}
+        </a>
+        <a
+          class="inline-flex items-center justify-center rounded-full border border-slate-200 px-6 py-3 text-base font-semibold text-slate-900 transition hover:border-primary-500 hover:text-primary-600"
+          [routerLink]="secondaryLink"
+        >
+          {{ secondaryLabel }}
+        </a>
+      </div>
+    </div>
+    <div class="relative">
+      <div class="pointer-events-none absolute -left-16 -top-16 h-48 w-48 rounded-full bg-primary-100 blur-3xl"></div>
+      <div class="card-surface relative overflow-hidden p-8">
+        <p class="text-sm font-medium text-primary-600">Trusted by founders and future builders</p>
+        <p class="mt-4 text-lg text-slate-600">
+          ObjectCanvas studios deliver enterprise-grade services while ZeroProgrammingBD Academy equips talent with market-ready
+          programs.
+        </p>
+        <div class="mt-6 flex items-center gap-4">
+          <div class="h-12 w-12 rounded-full bg-primary-100/70"></div>
+          <div>
+            <p class="font-semibold text-slate-900">Unified Team</p>
+            <p class="text-sm text-slate-500">Delivery & Education</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

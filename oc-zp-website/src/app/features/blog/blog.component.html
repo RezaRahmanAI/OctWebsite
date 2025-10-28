@@ -1,0 +1,57 @@
+<section class="section-padding">
+  <div class="container-responsive space-y-10">
+    <app-section-heading eyebrow="Blog" title="Dispatches from our studio" subtitle="Stories from software delivery, product experiments, and academy cohorts." align="center"></app-section-heading>
+    <div class="flex flex-wrap justify-center gap-3">
+      <button
+        type="button"
+        class="rounded-full px-4 py-2 text-sm font-semibold"
+        [class.bg-primary-600]="!activeTag()"
+        [class.text-white]="!activeTag()"
+        [class.bg-slate-200]="activeTag()"
+        [class.text-slate-700]="activeTag()"
+        (click)="setTag(null)"
+      >
+        All
+      </button>
+      <button
+        *ngFor="let tag of tags()"
+        type="button"
+        class="rounded-full px-4 py-2 text-sm font-semibold"
+        [class.bg-primary-600]="activeTag() === tag"
+        [class.text-white]="activeTag() === tag"
+        [class.bg-slate-200]="activeTag() !== tag"
+        [class.text-slate-700]="activeTag() !== tag"
+        (click)="setTag(tag)"
+      >
+        #{{ tag }}
+      </button>
+    </div>
+    <div class="flex justify-center">
+      <input
+        type="search"
+        placeholder="Search posts"
+        class="w-full max-w-md rounded-full border border-slate-200 px-4 py-2 text-sm focus:border-primary-500 focus:outline-none"
+        (input)="searchTerm.set($any($event.target).value)"
+      />
+    </div>
+    <div class="grid gap-6 md:grid-cols-2">
+      <article *ngFor="let post of posts()" class="card-surface flex flex-col overflow-hidden">
+        <img *ngIf="post.coverUrl" [src]="post.coverUrl" [alt]="post.title" class="h-48 w-full object-cover" />
+        <div class="space-y-4 p-6">
+          <p class="text-xs font-semibold uppercase tracking-wide text-primary-600">{{ post.publishedAt | date: 'mediumDate' }}</p>
+          <h2 class="text-2xl font-semibold text-slate-900">{{ post.title }}</h2>
+          <p class="text-sm text-slate-600">{{ post.excerpt }}</p>
+          <div class="flex flex-wrap gap-2 text-xs text-primary-600">
+            <span *ngFor="let tag of post.tags" class="rounded-full bg-primary-50 px-2 py-1">#{{ tag }}</span>
+          </div>
+          <a [routerLink]="['/blog', post.slug]" class="inline-flex items-center gap-2 text-sm font-semibold text-primary-600">
+            Read more
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
