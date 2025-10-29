@@ -24,7 +24,7 @@ module.exports = {
         muted: '#6B7280',
       },
       boxShadow: {
-        soft: '0 20px 45px -25px rgba(15, 23, 42, 0.35)',
+        soft: '0 24px 50px -28px rgba(20, 31, 55, 0.35)',
       },
       borderRadius: {
         '2xl': '1.25rem',

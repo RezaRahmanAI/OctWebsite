@@ -28,5 +28,5 @@ body {
 }
 
 .card-surface {
-  @apply rounded-2xl bg-white shadow-soft border border-slate-100;
+  @apply rounded-2xl bg-base shadow-soft border border-primary-50/60;
 }

@@ -3,10 +3,10 @@
   [class.-translate-y-full]="isHidden()"
   [class.shadow-none]="atTop()"
 >
-  <div class="backdrop-blur-md bg-white/80">
+  <div class="backdrop-blur-md bg-base/85">
     <div class="container-responsive flex items-center justify-between py-4">
       <a routerLink="/" class="text-lg font-semibold text-primary-700">OC × ZP</a>
-      
+
       <nav class="hidden items-center gap-8 lg:flex">
         <ng-container *ngFor="let item of navItems">
           <a
@@ -14,24 +14,24 @@
             [routerLink]="item.link"
             routerLinkActive="text-primary-600 after:w-full"
             [routerLinkActiveOptions]="{ exact: item.link === '/' }"
-            class="group relative text-sm font-semibold text-slate-700 transition hover:text-primary-600"
+            class="group relative text-sm font-semibold text-ink transition hover:text-primary-600"
           >
             <span>{{ item.label }}</span>
             <span class="absolute -bottom-1 left-0 h-0.5 w-0 bg-primary-600 transition-all group-hover:w-full"></span>
           </a>
         </ng-container>
         <div class="relative group">
-          <button type="button" class="flex items-center gap-1 text-sm font-semibold text-slate-700 transition hover:text-primary-600">
+          <button type="button" class="flex items-center gap-1 text-sm font-semibold text-ink transition hover:text-primary-600">
             About Us
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
           </button>
-          <div class="invisible absolute left-0 top-full mt-4 w-56 rounded-2xl border border-slate-100 bg-white p-4 opacity-0 shadow-xl transition group-hover:visible group-hover:opacity-100">
+          <div class="invisible absolute left-0 top-full mt-4 w-56 rounded-2xl border border-primary-50 bg-base p-4 opacity-0 shadow-xl transition group-hover:visible group-hover:opacity-100">
             <button
               *ngFor="let about of aboutLinks"
               (click)="navigateToAbout(about.fragment)"
-              class="flex w-full items-start gap-3 rounded-xl px-3 py-2 text-left text-sm font-medium text-slate-600 hover:bg-primary-50 hover:text-primary-700"
+              class="flex w-full items-start gap-3 rounded-xl px-3 py-2 text-left text-sm font-medium text-muted hover:bg-primary-50 hover:text-primary-700"
             >
               <span class="mt-1 h-2 w-2 rounded-full bg-primary-500"></span>
               {{ about.label }}
@@ -44,10 +44,41 @@
             [routerLink]="item.link"
             routerLinkActive="text-primary-600 after:w-full"
             [routerLinkActiveOptions]="{ exact: item.link === '/' }"
-            class="group relative text-sm font-semibold text-slate-700 transition hover:text-primary-600"
+            class="group relative text-sm font-semibold text-ink transition hover:text-primary-600"
           >
             <span>{{ item.label }}</span>
             <span class="absolute -bottom-1 left-0 h-0.5 w-0 bg-primary-600 transition-all group-hover:w-full"></span>
           </a>
         </ng-container>
       </nav>
+
+      <button
+        type="button"
+        class="inline-flex items-center justify-center rounded-full bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-soft transition hover:bg-primary-700 lg:hidden"
+        (click)="toggleMenu()"
+      >
+        Menu
+      </button>
+    </div>
+  </div>
+
+  <div
+    class="lg:hidden"
+    *ngIf="isMenuOpen()"
+  >
+    <div class="border-t border-primary-50 bg-base px-4 pb-6 pt-4 shadow-xl">
+      <nav class="space-y-3">
+        <a
+          *ngFor="let item of navItems"
+          [routerLink]="item.link"
+          (click)="closeMenu()"
+          routerLinkActive="bg-primary-50 text-primary-700"
+          class="block rounded-xl px-3 py-2 text-sm font-semibold text-ink transition hover:bg-primary-50 hover:text-primary-700"
+          [routerLinkActiveOptions]="{ exact: item.link === '/' }"
+        >
+          {{ item.label }}
+        </a>
+      </nav>
+    </div>
+  </div>
+</header>

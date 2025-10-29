@@ -1,13 +1,13 @@
-<section class="relative overflow-hidden bg-white">
+<section class="relative overflow-hidden bg-surface">
   <div class="container-responsive section-padding grid gap-12 lg:grid-cols-2 items-center">
     <div class="space-y-6">
-      <span *ngIf="eyebrow" class="inline-flex items-center rounded-full bg-primary-50 px-4 py-1 text-sm font-medium text-primary-700">
+      <span *ngIf="eyebrow" class="inline-flex items-center rounded-full bg-primary-100/80 px-4 py-1 text-sm font-medium text-primary-700">
         {{ eyebrow }}
       </span>
-      <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
+      <h1 class="text-4xl font-bold tracking-tight text-ink sm:text-5xl lg:text-6xl">
         {{ title }}
       </h1>
-      <p class="max-w-xl text-lg text-slate-600" *ngIf="subtitle">
+      <p class="max-w-xl text-lg text-muted" *ngIf="subtitle">
         {{ subtitle }}
       </p>
       <div class="flex flex-wrap gap-4 pt-4">
@@ -18,7 +18,7 @@
           {{ primaryLabel }}
         </a>
         <a
-          class="inline-flex items-center justify-center rounded-full border border-slate-200 px-6 py-3 text-base font-semibold text-slate-900 transition hover:border-primary-500 hover:text-primary-600"
+          class="inline-flex items-center justify-center rounded-full border border-primary-200 px-6 py-3 text-base font-semibold text-primary-700 transition hover:border-primary-400 hover:text-primary-600"
           [routerLink]="secondaryLink"
         >
           {{ secondaryLabel }}
@@ -26,18 +26,21 @@
       </div>
     </div>
     <div class="relative">
-      <div class="pointer-events-none absolute -left-16 -top-16 h-48 w-48 rounded-full bg-primary-100 blur-3xl"></div>
+      <div class="pointer-events-none absolute -left-20 -top-24 h-56 w-56 rounded-full bg-primary-200 blur-3xl"></div>
+      <div class="pointer-events-none absolute -right-16 -bottom-20 h-48 w-48 rounded-full bg-accent-400/60 blur-3xl"></div>
       <div class="card-surface relative overflow-hidden p-8">
-        <p class="text-sm font-medium text-primary-600">Trusted by founders and future builders</p>
-        <p class="mt-4 text-lg text-slate-600">
-          ObjectCanvas studios deliver enterprise-grade services while ZeroProgrammingBD Academy equips talent with market-ready
-          programs.
-        </p>
-        <div class="mt-6 flex items-center gap-4">
-          <div class="h-12 w-12 rounded-full bg-primary-100/70"></div>
-          <div>
-            <p class="font-semibold text-slate-900">Unified Team</p>
-            <p class="text-sm text-slate-500">Delivery & Education</p>
+        <div class="absolute inset-0 bg-gradient-to-br from-primary-50 via-base/40 to-base"></div>
+        <div class="relative space-y-4">
+          <p class="text-sm font-semibold text-primary-600">Trusted by founders and future builders</p>
+          <p class="text-lg text-muted">
+            ObjectCanvas studios deliver enterprise-grade services while ZeroProgrammingBD Academy equips talent with market-ready programs.
+          </p>
+          <div class="flex items-center gap-4">
+            <div class="h-12 w-12 rounded-full bg-primary-100/80 ring-4 ring-primary-50"></div>
+            <div>
+              <p class="font-semibold text-ink">Unified Team</p>
+              <p class="text-sm text-muted">Delivery &amp; Education</p>
+            </div>
           </div>
         </div>
       </div>

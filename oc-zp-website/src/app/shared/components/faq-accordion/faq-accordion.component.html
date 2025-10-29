@@ -1,7 +1,7 @@
 <div class="space-y-4">
-  <div *ngFor="let item of items; let i = index" class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+  <div *ngFor="let item of items; let i = index" class="overflow-hidden rounded-2xl border border-primary-50 bg-base shadow-soft">
     <button
-      class="flex w-full items-center justify-between gap-4 px-6 py-4 text-left text-base font-semibold text-slate-900"
+      class="flex w-full items-center justify-between gap-4 px-6 py-4 text-left text-base font-semibold text-ink"
       type="button"
       (click)="toggle(i)"
       [attr.aria-expanded]="isExpanded(i)"
@@ -9,7 +9,7 @@
       <span>{{ item.question }}</span>
       <span class="text-primary-500">{{ isExpanded(i) ? '−' : '+' }}</span>
     </button>
-    <div *ngIf="isExpanded(i)" class="border-t border-slate-100 bg-slate-50 px-6 py-4 text-sm text-slate-600">
+    <div *ngIf="isExpanded(i)" class="border-t border-primary-50 bg-surface px-6 py-4 text-sm text-muted">
       {{ item.answer }}
     </div>
   </div>
