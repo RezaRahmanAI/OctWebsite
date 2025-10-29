@@ -3,13 +3,13 @@
   [eyebrow]="heroSettings.tagline"
   [title]="heroSettings.heroTitle || heroSettings.siteTitle"
   [subtitle]="heroSettings.heroSubtitle"
-  [primaryLabel]="heroSettings.primaryCtaLabel || 'Launch a project'"
-  [secondaryLabel]="'Explore services'"
+  [primaryLabel]="heroSettings.primaryCtaLabel || 'Start a project'"
+  [secondaryLabel]="'View capabilities'"
   secondaryLink="/services"
   [mediaImage]="heroSettings.heroImageUrl || '/images/hero-collaboration.svg'"
   [mediaAlt]="heroSettings.heroImageAlt || heroSettings.heroTitle || heroSettings.siteTitle"
   [mediaBadge]="heroSettings.heroMediaBadge || 'Hybrid studio'"
-  [mediaCaption]="heroSettings.heroMediaCaption || 'Delivery squads and academy mentors co-create every launch.'"
+  [mediaCaption]="heroSettings.heroMediaCaption || 'Studios and academy mentors choreograph each release together.'"
   [highlights]="heroHighlights"
 ></app-hero-section>
 
@@ -42,6 +42,12 @@
         <img [src]="item.image" [alt]="item.alt" loading="lazy" />
         <figcaption>{{ item.caption }}</figcaption>
       </figure>
+      <div class="studio-visual-stack">
+        <article *ngFor="let item of secondaryExperience" class="studio-visual-card">
+          <img [src]="item.image" [alt]="item.alt" loading="lazy" />
+          <p>{{ item.caption }}</p>
+        </article>
+      </div>
     </div>
   </div>
 </section>
@@ -200,8 +206,8 @@
     <div class="academy-copy">
       <app-section-heading
         eyebrow="Academy"
-        title="ZeroProgrammingBD academy tracks"
-        subtitle="Learners grow alongside client delivery, mastering portfolio-ready challenges."
+        title="A campus inside every project"
+        subtitle="We mirrored the academy spotlight on ObjectCanvas.com with modern gradient cards, program durations, and a timeline describing how learners ship alongside delivery squads."
       ></app-section-heading>
       <p class="academy-description">
         Tracks share the same energy as the live site—feature-rich cards, pricing callouts, and an invitation to experience the learning journey.
@@ -258,9 +264,9 @@
   <div class="container-responsive stories-grid">
     <div class="stories-feed">
       <app-section-heading
-        eyebrow="Stories"
-        title="Latest from the blog"
-        subtitle="Insights from live delivery and learning squads."
+        eyebrow="Insights"
+        title="Latest thinking from the studio"
+        subtitle="A newsreel layout keeps the energy high—timestamped posts with sharp summaries continue the visual rhythm from ObjectCanvas.com."
       ></app-section-heading>
       <div class="stories-list">
         <div *ngFor="let post of recentPosts()" class="story-card-item">
@@ -273,11 +279,11 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
           </a>
-        </div>
+        </article>
       </div>
     </div>
     <app-testimonial
-      quote="The combined studio and academy model keeps us shipping reliably while growing new talent."
+      quote="The refreshed experience feels like our real studio—beautiful, strategic, and ready to launch."
       author="Sophia Rahman"
       role="CEO, ObjectCanvas"
     ></app-testimonial>

@@ -24,10 +24,10 @@
           {{ secondaryLabel }}
         </a>
       </div>
-      <div *ngIf="highlights.length" class="hero-highlights">
-        <div *ngFor="let highlight of highlights" class="hero-highlight">
-          <span class="hero-highlight-value">{{ highlight.value }}</span>
-          <span class="hero-highlight-label">{{ highlight.label }}</span>
+      <div *ngIf="highlights.length" class="hero-metrics">
+        <div *ngFor="let highlight of highlights" class="hero-metric">
+          <span class="hero-metric-value">{{ highlight.value }}</span>
+          <span class="hero-metric-label">{{ highlight.label }}</span>
         </div>
       </div>
       <p class="hero-footnote">
@@ -79,6 +79,29 @@
             <p class="hero-progress-tags">Design • Engineering • Data science</p>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="hero-stage">
+      <div class="hero-stage-frame" *ngIf="mediaImage">
+        <figure class="hero-stage-media">
+          <img [src]="mediaImage" [alt]="mediaAlt || title" loading="lazy" />
+          <figcaption *ngIf="mediaCaption" class="hero-stage-caption">
+            {{ mediaCaption }}
+          </figcaption>
+        </figure>
+        <span *ngIf="mediaBadge" class="hero-stage-badge">{{ mediaBadge }}</span>
+      </div>
+      <div class="hero-stage-panels">
+        <article class="hero-panel" *ngIf="highlights[0] as firstHighlight">
+          <p class="hero-panel-eyebrow">Studio velocity</p>
+          <p class="hero-panel-title">{{ firstHighlight.value }} experts</p>
+          <p class="hero-panel-body">Researchers, designers, and engineers embedded as one hybrid squad.</p>
+        </article>
+        <article class="hero-panel hero-panel--accent" *ngIf="highlights[1] as secondHighlight">
+          <p class="hero-panel-eyebrow">Enablement</p>
+          <p class="hero-panel-title">{{ secondHighlight.value }} alumni</p>
+          <p class="hero-panel-body">ZeroProgrammingBD mentors coach every release from inside the workflow.</p>
+        </article>
       </div>
     </div>
   </div>
