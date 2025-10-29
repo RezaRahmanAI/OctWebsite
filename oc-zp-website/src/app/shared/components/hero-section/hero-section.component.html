@@ -10,12 +10,12 @@
       <p class="max-w-xl text-lg text-muted" *ngIf="subtitle">
         {{ subtitle }}
       </p>
-      <div class="flex flex-wrap gap-4 pt-4">
-        <a
-          class="inline-flex items-center justify-center rounded-full bg-primary-600 px-6 py-3 text-base font-semibold text-white shadow-soft transition hover:bg-primary-700"
-          [routerLink]="primaryLink"
-        >
+      <div class="flex flex-wrap items-center gap-4 pt-2">
+        <a class="btn-primary" [routerLink]="primaryLink">
           {{ primaryLabel }}
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14m-7-7l7 7-7 7" />
+          </svg>
         </a>
         <a
           class="inline-flex items-center justify-center rounded-full border border-primary-200 px-6 py-3 text-base font-semibold text-primary-700 transition hover:border-primary-400 hover:text-primary-600"
@@ -23,6 +23,24 @@
         >
           {{ secondaryLabel }}
         </a>
+      </div>
+      <div class="grid gap-4 pt-6 sm:grid-cols-2">
+        <div class="glass-panel p-6">
+          <p class="text-sm font-semibold text-primary-200">Studio Velocity</p>
+          <p class="mt-3 text-2xl font-semibold text-white">92% on-time releases</p>
+          <p class="mt-3 text-sm text-muted">Cross-discipline pods blending ObjectCanvas technologists and ZeroProgramming mentors.</p>
+        </div>
+        <div class="glass-panel flex flex-col justify-between gap-4 p-6">
+          <div>
+            <p class="text-sm font-semibold text-primary-200">Academy Impact</p>
+            <p class="mt-3 text-2xl font-semibold text-white">480+ graduates</p>
+          </div>
+          <div class="flex items-center -space-x-3">
+            <div class="h-10 w-10 rounded-full border border-outline/80 bg-gradient-to-tr from-primary-500 to-accent-500"></div>
+            <div class="h-10 w-10 rounded-full border border-outline/80 bg-gradient-to-tr from-primary-400 via-primary-500 to-accent-500"></div>
+            <div class="h-10 w-10 rounded-full border border-outline/80 bg-gradient-to-tr from-primary-300 via-accent-500 to-primary-500"></div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="relative">

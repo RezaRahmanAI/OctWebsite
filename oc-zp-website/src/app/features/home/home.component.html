@@ -3,7 +3,7 @@
   [eyebrow]="heroSettings.tagline"
   [title]="heroSettings.heroTitle || heroSettings.siteTitle"
   [subtitle]="heroSettings.heroSubtitle"
-  [primaryLabel]="heroSettings.primaryCtaLabel || 'Get Started'"
+  [primaryLabel]="heroSettings.primaryCtaLabel || 'Launch a project'"
 ></app-hero-section>
 
 <section class="border-y border-primary-50/70 bg-base/70">
@@ -116,7 +116,7 @@
 </section>
 
 <section class="section-padding">
-  <div class="container-responsive grid gap-10 lg:grid-cols-2 lg:items-center">
+  <div class="container-responsive grid gap-12 lg:grid-cols-2 lg:items-start">
     <div class="space-y-6">
       <app-section-heading
         eyebrow="Academy"
@@ -130,12 +130,7 @@
           <p class="mt-2 text-sm text-muted">Levels: {{ track.levels.length }}</p>
         </div>
       </div>
-      <a routerLink="/academy" class="inline-flex items-center gap-2 text-sm font-semibold text-primary-600">
-        Explore academy
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-      </a>
+      <a routerLink="/academy" class="btn-primary w-fit">Explore academy</a>
     </div>
     <div class="grid gap-6">
       <app-stat *ngFor="let stat of stats" [value]="stat.value" [label]="stat.label"></app-stat>
@@ -233,7 +228,7 @@
 </section>
 
 <section class="section-padding">
-  <div class="container-responsive grid gap-10 lg:grid-cols-[2fr_3fr]">
+  <div class="container-responsive grid gap-12 lg:grid-cols-[1.2fr_1fr]">
     <div>
       <app-section-heading
         eyebrow="FAQs"
