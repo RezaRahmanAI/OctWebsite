@@ -3,73 +3,81 @@
   [eyebrow]="heroSettings.tagline"
   [title]="heroSettings.heroTitle || heroSettings.siteTitle"
   [subtitle]="heroSettings.heroSubtitle"
-  [primaryLabel]="heroSettings.primaryCtaLabel || 'Launch a project'"
-  [secondaryLabel]="'Explore services'"
+  [primaryLabel]="heroSettings.primaryCtaLabel || 'Start a project'"
+  [secondaryLabel]="'View capabilities'"
   secondaryLink="/services"
   [mediaImage]="heroSettings.heroImageUrl || '/images/hero-collaboration.svg'"
   [mediaAlt]="heroSettings.heroImageAlt || heroSettings.heroTitle || heroSettings.siteTitle"
   [mediaBadge]="heroSettings.heroMediaBadge || 'Hybrid studio'"
-  [mediaCaption]="heroSettings.heroMediaCaption || 'Delivery squads and academy mentors co-create every launch.'"
+  [mediaCaption]="heroSettings.heroMediaCaption || 'Studios and academy mentors choreograph each release together.'"
   [highlights]="heroHighlights"
 ></app-hero-section>
 
-<section class="section-padding fusion-section">
-  <div class="container-responsive grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-    <div class="space-y-6">
+<section class="section-padding studio-section">
+  <div class="container-responsive studio-grid">
+    <div class="studio-copy">
       <app-section-heading
-        eyebrow="Fusion"
-        title="ObjectCanvas craft × ZeroProgrammingBD momentum"
-        subtitle="Strategists, designers, engineers, and mentors operate as one studio so you scale products and talent together."
+        eyebrow="Hybrid studio"
+        title="Immersive journeys from vision to launch"
+        subtitle="Inspired by ObjectCanvas.com, the home experience now orbits a cinematic studio story—rich imagery, confident copy, and pathways that show how delivery and enablement operate as one."
       ></app-section-heading>
-      <p class="text-base text-muted">
-        Inspired by the immersive storytelling of ObjectCanvas and the vibrant academy spirit of ZeroProgrammingBD, this platform is designed to feel cinematic yet actionable. Every interaction hints at the delivery engine behind your next release.
+      <p class="studio-lede">
+        From discovery rituals to academy enablement, every component pairs imagery with outcomes so visitors understand the full ObjectCanvas × ZeroProgrammingBD ecosystem in a glance.
       </p>
-      <ul class="fusion-list">
+      <ul class="studio-bullets">
         <li *ngFor="let highlight of fusionHighlights">
-          <span class="fusion-icon">&#10003;</span>
-          <span>{{ highlight }}</span>
+          <span class="studio-bullet-icon"></span>
+          <p>{{ highlight }}</p>
         </li>
       </ul>
-      <div class="fusion-moments">
-        <div *ngFor="let moment of collaborationMoments" class="fusion-card">
+      <div class="studio-moments">
+        <article *ngFor="let moment of collaborationMoments" class="studio-moment">
           <h3>{{ moment.title }}</h3>
           <p>{{ moment.detail }}</p>
-        </div>
+        </article>
       </div>
     </div>
-    <div class="fusion-gallery">
-      <figure *ngFor="let item of experienceGallery; let i = index" [class.fusion-gallery-main]="i === 0">
-        <img [src]="item.image" [alt]="item.alt" loading="lazy" />
-        <figcaption>{{ item.caption }}</figcaption>
+    <div class="studio-visual">
+      <figure *ngIf="primaryExperience" class="studio-visual-main">
+        <img [src]="primaryExperience.image" [alt]="primaryExperience.alt" loading="lazy" />
+        <figcaption>{{ primaryExperience.caption }}</figcaption>
       </figure>
-    </div>
-  </div>
-</section>
-
-<section class="border-y border-primary-50/70 bg-base/70">
-  <div class="container-responsive py-10 lg:py-16">
-    <p class="text-center text-xs font-semibold uppercase tracking-[0.4em] text-primary-600">Trusted by product teams</p>
-    <div class="mt-8 grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-      <div
-        *ngFor="let partner of partners"
-        class="group flex h-24 flex-col items-center justify-center rounded-2xl border border-primary-50 bg-base px-4 text-center shadow-soft transition hover:-translate-y-1 hover:border-primary-200 hover:shadow-lg"
-      >
-        <span class="text-lg font-semibold text-ink">{{ partner.name }}</span>
-        <span class="text-sm text-muted group-hover:text-primary-600">{{ partner.tagline }}</span>
+      <div class="studio-visual-stack">
+        <article *ngFor="let item of secondaryExperience" class="studio-visual-card">
+          <img [src]="item.image" [alt]="item.alt" loading="lazy" />
+          <p>{{ item.caption }}</p>
+        </article>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section-padding">
-  <div class="container-responsive space-y-8">
-    <app-section-heading
-      eyebrow="Services"
-      title="ObjectCanvas delivery studio"
-      subtitle="Cross-functional teams that design, build, and scale digital platforms."
-      align="center"
-    ></app-section-heading>
-    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+<section class="brand-wall">
+  <div class="container-responsive brand-wall-inner">
+    <p class="brand-wall-label">Partners shaping ambitious releases</p>
+    <div class="brand-wall-grid">
+      <div *ngFor="let partner of partners" class="brand-wall-card">
+        <span class="brand-wall-name">{{ partner.name }}</span>
+        <span class="brand-wall-tag">{{ partner.tagline }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-padding practices-section">
+  <div class="container-responsive practices-grid">
+    <div class="practices-intro">
+      <app-section-heading
+        eyebrow="Practices"
+        title="What we design, build, and scale"
+        subtitle="Cohesive storytelling showcases the three pillars you see across ObjectCanvas.com—strategy, platforms, and enablement—translated into our services."
+      ></app-section-heading>
+      <ul class="practices-pillars">
+        <li *ngFor="let pillar of servicePillars">{{ pillar }}</li>
+      </ul>
+      <a routerLink="/services" class="link-pill">Explore all services</a>
+    </div>
+    <div class="practices-cards">
       <app-card
         *ngFor="let service of serviceCards()"
         [title]="service.title"
@@ -82,27 +90,27 @@
   </div>
 </section>
 
-<section class="section-padding bg-base">
-  <div class="container-responsive space-y-8">
+<section class="section-padding showcase-section">
+  <div class="container-responsive space-y-10">
     <app-section-heading
-      eyebrow="Case studies"
-      title="Proof in production"
-      subtitle="Highlights from ObjectCanvas Technology engagements powered by ZeroProgrammingBD enablement."
       align="center"
+      eyebrow="Selected work"
+      title="Experience the ObjectCanvas showreel"
+      subtitle="A cinematic grid of recent launches mirrors the immersive storytelling on ObjectCanvas.com, pairing industry context with measurable outcomes."
     ></app-section-heading>
-    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-      <article *ngFor="let study of caseStudies" class="case-study-card">
-        <figure class="case-study-media">
+    <div class="showcase-grid">
+      <article *ngFor="let study of caseStudies" class="showcase-card">
+        <figure class="showcase-media">
           <img [src]="study.image" [alt]="study.imageAlt" loading="lazy" />
           <figcaption>{{ study.industry }}</figcaption>
         </figure>
-        <div class="case-study-body">
-          <h3 class="text-xl font-semibold text-ink">{{ study.title }}</h3>
-          <p class="text-sm text-muted">{{ study.summary }}</p>
+        <div class="showcase-body">
+          <h3>{{ study.title }}</h3>
+          <p>{{ study.summary }}</p>
         </div>
-        <div class="case-study-footer">
-          <span class="text-sm font-semibold text-primary-600">{{ study.result }}</span>
-          <a [routerLink]="study.link" class="inline-flex items-center gap-2 text-sm font-semibold text-primary-600">
+        <div class="showcase-footer">
+          <span>{{ study.result }}</span>
+          <a [routerLink]="study.link" class="showcase-link">
             View details
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -114,15 +122,26 @@
   </div>
 </section>
 
-<section class="section-padding">
-  <div class="container-responsive space-y-8">
-    <app-section-heading
-      eyebrow="Products"
-      title="ZeroProgrammingBD accelerators"
-      subtitle="Ready-to-run platforms for ambitious companies."
-      align="center"
-    ></app-section-heading>
-    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+<section class="accelerators-surface">
+  <div class="container-responsive accelerators-grid">
+    <div class="accelerators-copy">
+      <app-section-heading
+        eyebrow="Accelerators"
+        title="Reusable platforms to fast-forward your roadmap"
+        subtitle="Product tiles blend screenshots with crisp copy so clients instantly recognize the ready-to-launch systems available."
+      ></app-section-heading>
+      <p class="accelerators-lede">
+        Every accelerator carries the same polish as the ObjectCanvas showcase—heroic imagery, pricing clarity, and outcomes tied to operations.
+      </p>
+      <div class="accelerators-metrics">
+        <div *ngFor="let stat of stats" class="accelerators-metric">
+          <span class="accelerators-metric-value">{{ stat.value }}</span>
+          <span class="accelerators-metric-label">{{ stat.label }}</span>
+        </div>
+      </div>
+      <a routerLink="/product" class="link-pill link-pill--ghost">Browse all accelerators</a>
+    </div>
+    <div class="accelerators-cards">
       <app-card
         *ngFor="let product of productCards()"
         [title]="product.title"
@@ -135,163 +154,90 @@
   </div>
 </section>
 
-<section class="section-padding bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 text-white">
-  <div class="container-responsive grid gap-12 lg:grid-cols-2 lg:items-center">
-    <div class="space-y-6">
-      <app-section-heading
-        eyebrow="Capabilities"
-        title="End-to-end partnership"
-        subtitle="Every engagement combines strategic clarity, craft, and enablement."
-      ></app-section-heading>
-      <p class="text-base text-primary-100/90">
-        ObjectCanvas Technology and ZeroProgrammingBD operate as one team to de-risk delivery while cultivating future talent.
-      </p>
-    </div>
-    <div class="grid gap-4">
-      <div
-        *ngFor="let capability of capabilities"
-        class="rounded-2xl border border-white/10 bg-white/10 p-6 backdrop-blur-sm transition hover:border-white/30"
-      >
-        <h3 class="text-lg font-semibold">{{ capability.title }}</h3>
-        <p class="mt-2 text-sm text-primary-100/90">{{ capability.description }}</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section-padding">
-  <div class="container-responsive grid gap-12 lg:grid-cols-2 lg:items-start">
-    <div class="space-y-6">
+<section class="section-padding academy-section">
+  <div class="container-responsive academy-grid">
+    <div class="academy-intro">
       <app-section-heading
         eyebrow="Academy"
-        title="ZeroProgrammingBD academy tracks"
-        subtitle="Learners grow alongside client delivery, mastering portfolio-ready challenges."
+        title="A campus inside every project"
+        subtitle="We mirrored the academy spotlight on ObjectCanvas.com with modern gradient cards, program durations, and a timeline describing how learners ship alongside delivery squads."
       ></app-section-heading>
-      <div class="grid gap-4">
-        <div *ngFor="let track of academyTracks()" class="rounded-2xl border border-primary-50 bg-base p-4 shadow-soft">
-          <p class="text-lg font-semibold text-ink">{{ track.title }}</p>
-          <p class="text-sm text-muted">{{ track.duration }} • {{ track.priceLabel }}</p>
-          <p class="mt-2 text-sm text-muted">Levels: {{ track.levels.length }}</p>
+      <div class="academy-timeline">
+        <div *ngFor="let step of process; let index = index" class="academy-step">
+          <span class="academy-step-index">0{{ index + 1 }}</span>
+          <div>
+            <h3>{{ step.title }}</h3>
+            <p>{{ step.detail }}</p>
+          </div>
         </div>
       </div>
-      <a routerLink="/academy" class="btn-primary w-fit">Explore academy</a>
     </div>
-    <div class="grid gap-6">
-      <app-stat *ngFor="let stat of stats" [value]="stat.value" [label]="stat.label"></app-stat>
-    </div>
-  </div>
-</section>
-
-<section class="section-padding bg-base">
-  <div class="container-responsive space-y-8">
-    <app-section-heading
-      eyebrow="Technology"
-      title="Full-stack toolkit"
-      subtitle="Modern frameworks, cloud, and data platforms to accelerate outcomes."
-      align="center"
-    ></app-section-heading>
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <div
-        *ngFor="let tool of techStack"
-        class="flex items-center justify-between rounded-2xl border border-primary-50 bg-base px-5 py-4 shadow-soft"
-      >
-        <span class="text-base font-semibold text-ink">{{ tool }}</span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-      </div>
+    <div class="academy-tracks">
+      <article *ngFor="let track of academyTracks()" class="academy-track-card">
+        <div class="academy-track-header">
+          <p class="academy-track-title">{{ track.title }}</p>
+          <span class="academy-track-duration">{{ track.duration }}</span>
+        </div>
+        <p class="academy-track-meta">{{ track.ageRange || track.priceLabel }} • {{ track.levels.length }} levels</p>
+        <p class="academy-track-footnote">{{ track.priceLabel }}</p>
+      </article>
     </div>
   </div>
 </section>
 
-<section class="section-padding bg-base">
-  <div class="container-responsive grid gap-10 lg:grid-cols-2 lg:items-center">
-    <div class="space-y-6">
+<section class="section-padding insight-section">
+  <div class="container-responsive insight-grid">
+    <div class="insight-posts">
       <app-section-heading
-        eyebrow="Stories"
-        title="Latest from the blog"
-        subtitle="Insights from live delivery and learning squads."
+        eyebrow="Insights"
+        title="Latest thinking from the studio"
+        subtitle="A newsreel layout keeps the energy high—timestamped posts with sharp summaries continue the visual rhythm from ObjectCanvas.com."
       ></app-section-heading>
-      <div class="space-y-4">
-        <div *ngFor="let post of recentPosts()" class="rounded-2xl border border-primary-50 bg-surface p-4">
-          <p class="text-sm font-semibold text-primary-600">{{ post.publishedAt | date: 'mediumDate' }}</p>
-          <h3 class="mt-1 text-lg font-semibold text-ink">{{ post.title }}</h3>
-          <p class="mt-2 text-sm text-muted">{{ post.excerpt }}</p>
-          <a [routerLink]="['/blog', post.slug]" class="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-primary-600">
+      <div class="insight-list">
+        <article *ngFor="let post of recentPosts()" class="insight-card">
+          <p class="insight-date">{{ post.publishedAt | date: 'mediumDate' }}</p>
+          <h3>{{ post.title }}</h3>
+          <p>{{ post.excerpt }}</p>
+          <a [routerLink]="['/blog', post.slug]" class="insight-link">
             Read more
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
           </a>
-        </div>
+        </article>
       </div>
     </div>
     <app-testimonial
-      quote="The combined studio and academy model keeps us shipping reliably while growing new talent."
+      quote="The refreshed experience feels like our real studio—beautiful, strategic, and ready to launch."
       author="Sophia Rahman"
       role="CEO, ObjectCanvas"
     ></app-testimonial>
   </div>
 </section>
 
-<section class="section-padding bg-gradient-to-br from-surface via-base to-surface">
-  <div class="container-responsive grid gap-10 lg:grid-cols-[2fr_3fr]">
-    <div>
-      <app-section-heading
-        eyebrow="Process"
-        title="How we partner"
-        subtitle="A clear, confident path from ideation to enablement."
-      ></app-section-heading>
-      <div class="mt-8 space-y-4">
-        <div *ngFor="let step of process; let index = index" class="rounded-2xl border border-primary-50 bg-base p-5 shadow-soft">
-          <div class="flex items-center justify-between">
-            <span class="text-sm font-semibold uppercase tracking-widest text-primary-500">Step {{ index + 1 }}</span>
-            <span class="h-2 w-2 rounded-full bg-accent-500"></span>
-          </div>
-          <h3 class="mt-3 text-lg font-semibold text-ink">{{ step.title }}</h3>
-          <p class="mt-2 text-sm text-muted">{{ step.detail }}</p>
-        </div>
-      </div>
-    </div>
-    <div class="card-surface p-6">
-      <h3 class="text-xl font-semibold text-ink">Ready to collaborate?</h3>
-      <p class="mt-2 text-sm text-muted">Share your project vision and our team will reach out within 24 hours.</p>
-      <a routerLink="/contact" class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary-600">
-        Talk to us
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-      </a>
-      <div class="mt-8 rounded-2xl border border-primary-50 bg-surface p-5">
-        <p class="text-sm font-semibold text-primary-600">Prefer to talk now?</p>
-        <p class="mt-1 text-lg font-semibold text-ink">+880 1234-567890</p>
-        <p class="mt-2 text-sm text-muted">We are available Sunday-Thursday, 10am-6pm BST.</p>
-      </div>
-    </div>
+<section class="section-padding faq-section">
+  <div class="container-responsive space-y-8">
+    <app-section-heading
+      align="center"
+      eyebrow="FAQ"
+      title="Answers before you reach out"
+      subtitle="Curated questions reinforce the confidence of a studio that has done this dozens of times."
+    ></app-section-heading>
+    <app-faq-accordion [items]="faqs"></app-faq-accordion>
   </div>
 </section>
 
-<section class="section-padding">
-  <div class="container-responsive grid gap-12 lg:grid-cols-[1.2fr_1fr]">
-    <div>
-      <app-section-heading
-        eyebrow="FAQs"
-        title="Answers for partners"
-        subtitle="Common questions from founders, teams, and learners."
-      ></app-section-heading>
-      <app-faq-accordion class="mt-6" [items]="faqs"></app-faq-accordion>
-    </div>
-    <div class="card-surface p-6">
-      <h3 class="text-xl font-semibold text-ink">Join the OCT & ZeroProgrammingBD network</h3>
-      <p class="mt-2 text-sm text-muted">
-        Subscribe for studio updates, academy cohorts, and open innovation briefs.
+<section class="cta-strip">
+  <div class="container-responsive cta-inner">
+    <div class="cta-copy">
+      <h2>Let’s orchestrate your next release</h2>
+      <p>
+        Share your vision and we’ll assemble the ObjectCanvas × ZeroProgrammingBD squad, complete with academy mentors ready to join.
       </p>
-      <a routerLink="/contact" class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary-600">
-        Join newsletter
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-      </a>
+    </div>
+    <div class="cta-actions">
+      <a routerLink="/contact" class="btn-primary">Start a project</a>
+      <a routerLink="/services" class="link-pill link-pill--ghost">View capabilities</a>
     </div>
   </div>
 </section>
