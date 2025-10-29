@@ -293,5 +293,9 @@ export const settingsSeed: SiteSettings[] = [
     heroTitle: 'Product studios and talent accelerator under one roof',
     heroSubtitle: 'From ideation to launch, we design and ship platforms while training the next wave of makers.',
     primaryCtaLabel: 'Get Started',
+    heroImageUrl: '/images/hero-collaboration.svg',
+    heroImageAlt: 'Hybrid ObjectCanvas and ZeroProgrammingBD team collaborating over shared delivery dashboards',
+    heroMediaBadge: 'Hybrid studio',
+    heroMediaCaption: 'ObjectCanvas squads and ZeroProgrammingBD mentors co-create every launch.',
   },
 ];

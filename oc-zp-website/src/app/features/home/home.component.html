@@ -4,7 +4,47 @@
   [title]="heroSettings.heroTitle || heroSettings.siteTitle"
   [subtitle]="heroSettings.heroSubtitle"
   [primaryLabel]="heroSettings.primaryCtaLabel || 'Launch a project'"
+  [secondaryLabel]="'Explore services'"
+  secondaryLink="/services"
+  [mediaImage]="heroSettings.heroImageUrl || '/images/hero-collaboration.svg'"
+  [mediaAlt]="heroSettings.heroImageAlt || heroSettings.heroTitle || heroSettings.siteTitle"
+  [mediaBadge]="heroSettings.heroMediaBadge || 'Hybrid studio'"
+  [mediaCaption]="heroSettings.heroMediaCaption || 'Delivery squads and academy mentors co-create every launch.'"
+  [highlights]="heroHighlights"
 ></app-hero-section>
+
+<section class="section-padding fusion-section">
+  <div class="container-responsive grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+    <div class="space-y-6">
+      <app-section-heading
+        eyebrow="Fusion"
+        title="ObjectCanvas craft × ZeroProgrammingBD momentum"
+        subtitle="Strategists, designers, engineers, and mentors operate as one studio so you scale products and talent together."
+      ></app-section-heading>
+      <p class="text-base text-muted">
+        Inspired by the immersive storytelling of ObjectCanvas and the vibrant academy spirit of ZeroProgrammingBD, this platform is designed to feel cinematic yet actionable. Every interaction hints at the delivery engine behind your next release.
+      </p>
+      <ul class="fusion-list">
+        <li *ngFor="let highlight of fusionHighlights">
+          <span class="fusion-icon">&#10003;</span>
+          <span>{{ highlight }}</span>
+        </li>
+      </ul>
+      <div class="fusion-moments">
+        <div *ngFor="let moment of collaborationMoments" class="fusion-card">
+          <h3>{{ moment.title }}</h3>
+          <p>{{ moment.detail }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="fusion-gallery">
+      <figure *ngFor="let item of experienceGallery; let i = index" [class.fusion-gallery-main]="i === 0">
+        <img [src]="item.image" [alt]="item.alt" loading="lazy" />
+        <figcaption>{{ item.caption }}</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
 
 <section class="border-y border-primary-50/70 bg-base/70">
   <div class="container-responsive py-10 lg:py-16">
@@ -35,6 +75,8 @@
         [title]="service.title"
         [description]="service.summary"
         [link]="['/services', service.slug]"
+        [image]="service.image"
+        [imageAlt]="service.imageAlt"
       ></app-card>
     </div>
   </div>
@@ -49,16 +91,16 @@
       align="center"
     ></app-section-heading>
     <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-      <article
-        *ngFor="let study of caseStudies"
-        class="card-surface flex h-full flex-col justify-between bg-base p-6"
-      >
-        <div class="space-y-4">
-          <p class="text-sm font-semibold text-primary-600">{{ study.industry }}</p>
+      <article *ngFor="let study of caseStudies" class="case-study-card">
+        <figure class="case-study-media">
+          <img [src]="study.image" [alt]="study.imageAlt" loading="lazy" />
+          <figcaption>{{ study.industry }}</figcaption>
+        </figure>
+        <div class="case-study-body">
           <h3 class="text-xl font-semibold text-ink">{{ study.title }}</h3>
           <p class="text-sm text-muted">{{ study.summary }}</p>
         </div>
-        <div class="mt-6 flex items-center justify-between border-t border-primary-50 pt-4">
+        <div class="case-study-footer">
           <span class="text-sm font-semibold text-primary-600">{{ study.result }}</span>
           <a [routerLink]="study.link" class="inline-flex items-center gap-2 text-sm font-semibold text-primary-600">
             View details
@@ -86,6 +128,8 @@
         [title]="product.title"
         [description]="product.summary"
         [link]="['/product', product.slug]"
+        [image]="product.image"
+        [imageAlt]="product.imageAlt"
       ></app-card>
     </div>
   </div>

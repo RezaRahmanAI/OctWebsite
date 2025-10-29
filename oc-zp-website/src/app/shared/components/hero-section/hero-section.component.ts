@@ -17,4 +17,9 @@ export class HeroSectionComponent {
   @Input() primaryLink = '/contact';
   @Input() secondaryLabel = 'Talk to us';
   @Input() secondaryLink = '/contact';
+  @Input() mediaImage?: string;
+  @Input() mediaAlt?: string;
+  @Input() mediaBadge?: string;
+  @Input() mediaCaption?: string;
+  @Input() highlights: { value: string; label: string }[] = [];
 }

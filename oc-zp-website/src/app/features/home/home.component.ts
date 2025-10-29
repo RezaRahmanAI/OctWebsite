@@ -41,8 +41,71 @@ export class HomeComponent {
   private readonly settings = inject(SettingsService);
 
   readonly hero = computed(() => this.settings.settings());
-  readonly serviceCards = computed(() => this.services.services().slice(0, 4));
-  readonly productCards = computed(() => this.products.products().slice(0, 4));
+  readonly heroHighlights = [
+    { value: '40+', label: 'Product strategists & engineers' },
+    { value: '480+', label: 'Academy graduates' },
+    { value: '6', label: 'Innovation hubs' },
+  ];
+
+  private readonly serviceIllustrations: Record<string, { image: string; alt: string }> = {
+    'software-development': {
+      image: '/images/studio-lab.svg',
+      alt: 'Screens illustrating the ObjectCanvas delivery studio',
+    },
+    'website-development': {
+      image: '/images/visionmesh.svg',
+      alt: 'Component-driven marketing experience mockups',
+    },
+    'mobile-app-development': {
+      image: '/images/orbit-health.svg',
+      alt: 'Mobile telemedicine dashboards designed by the hybrid studio',
+    },
+    'ecommerce-website': {
+      image: '/images/product-universe.svg',
+      alt: 'Commerce accelerators orbiting the combined platform',
+    },
+  };
+
+  private readonly productIllustrations: Record<string, { image: string; alt: string }> = {
+    'accounting-inventory': {
+      image: '/images/delta-bank.svg',
+      alt: 'Accounting and inventory insights with automated ledgers',
+    },
+    'pos-software': {
+      image: '/images/hero-collaboration.svg',
+      alt: 'Retail command center built by ObjectCanvas and ZeroProgrammingBD',
+    },
+    'real-estate-management': {
+      image: '/images/academy-experience.svg',
+      alt: 'Connected real estate workflows with academy-trained analysts',
+    },
+    'production-management': {
+      image: '/images/studio-lab.svg',
+      alt: 'Production control room visualizing live manufacturing telemetry',
+    },
+  };
+
+  readonly serviceCards = computed(() =>
+    this.services
+      .services()
+      .slice(0, 4)
+      .map(card => ({
+        ...card,
+        image: this.serviceIllustrations[card.slug]?.image,
+        imageAlt: this.serviceIllustrations[card.slug]?.alt,
+      })),
+  );
+
+  readonly productCards = computed(() =>
+    this.products
+      .products()
+      .slice(0, 4)
+      .map(card => ({
+        ...card,
+        image: this.productIllustrations[card.slug]?.image,
+        imageAlt: this.productIllustrations[card.slug]?.alt,
+      })),
+  );
   readonly academyTracks = computed(() => this.academy.tracks().slice(0, 3));
   readonly recentPosts = computed(() => this.blog.posts().slice(0, 3));
 
@@ -63,6 +126,8 @@ export class HomeComponent {
       summary:
         'Computer vision workflows deployed to the edge with adaptive model retraining and ZeroProgramming apprentices embedded alongside senior engineers.',
       link: ['/services', 'software-development'],
+      image: '/images/visionmesh.svg',
+      imageAlt: 'VisionMesh adaptive computer vision control center',
     },
     {
       title: 'Delta Bank SME Super App',
@@ -71,6 +136,8 @@ export class HomeComponent {
       summary:
         'Unified onboarding, lending, and analytics using a secure micro frontend architecture and shared academy squads for support and QA.',
       link: ['/product', 'pos-software'],
+      image: '/images/delta-bank.svg',
+      imageAlt: 'Delta Bank SME super app experience overview',
     },
     {
       title: 'Orbit Health Telemedicine Network',
@@ -79,6 +146,47 @@ export class HomeComponent {
       summary:
         'HIPAA-aligned telemedicine modules built with resilient infrastructure and academy fellows managing the patient success desk.',
       link: ['/services', 'mobile-app-development'],
+      image: '/images/orbit-health.svg',
+      imageAlt: 'Orbit Health telemedicine dashboards and patient triage',
+    },
+  ];
+
+  readonly fusionHighlights = [
+    'ObjectCanvas discovery rituals translate vision to tangible prototypes in days, not months.',
+    'ZeroProgrammingBD Academy layers enablement into every sprint so teams scale with confidence.',
+    'Signature launch playbooks combine brand systems, engineering rigor, and talent pipelines.',
+  ];
+
+  readonly experienceGallery = [
+    {
+      image: '/images/studio-lab.svg',
+      alt: 'Studio lab dashboards',
+      caption: 'Experience-led studios choreograph design, engineering, and strategy in one shared command center.',
+    },
+    {
+      image: '/images/academy-experience.svg',
+      alt: 'Academy coaching interface',
+      caption: 'ZeroProgrammingBD cohorts learn directly from live delivery data with mentors on call.',
+    },
+    {
+      image: '/images/product-universe.svg',
+      alt: 'Product orbit illustration',
+      caption: 'Accelerators cover finance, health, and commerce so your product starts with momentum.',
+    },
+  ];
+
+  readonly collaborationMoments = [
+    {
+      title: 'Immersive discovery',
+      detail: 'Signature ObjectCanvas blueprint workshops align leaders around journeys, goals, and metrics fast.',
+    },
+    {
+      title: 'Launch-ready build',
+      detail: 'Cross-functional squads deliver production-grade releases with academy fellows embedded for scale.',
+    },
+    {
+      title: 'Enablement runway',
+      detail: 'Mentored graduates join your teams with documentation, tooling, and rituals already mastered.',
     },
   ];
 

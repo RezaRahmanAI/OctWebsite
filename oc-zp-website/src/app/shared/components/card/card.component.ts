@@ -15,4 +15,6 @@ export class CardComponent {
   @Input() badge?: string;
   @Input() icon?: string;
   @Input() link?: string | any[];
+  @Input() image?: string;
+  @Input() imageAlt?: string;
 }

@@ -1,65 +1,59 @@
-<section class="relative overflow-hidden bg-surface">
-  <div class="container-responsive section-padding grid gap-12 lg:grid-cols-2 items-center">
-    <div class="space-y-6">
-      <span *ngIf="eyebrow" class="inline-flex items-center rounded-full bg-primary-100/80 px-4 py-1 text-sm font-medium text-primary-700">
+<section class="hero-surface">
+  <div class="hero-gradient"></div>
+  <div class="hero-orb hero-orb--left"></div>
+  <div class="hero-orb hero-orb--right"></div>
+  <div class="container-responsive section-padding hero-grid">
+    <div class="hero-copy">
+      <span *ngIf="eyebrow" class="hero-eyebrow">
         {{ eyebrow }}
       </span>
-      <h1 class="text-4xl font-bold tracking-tight text-ink sm:text-5xl lg:text-6xl">
+      <h1 class="hero-title">
         {{ title }}
       </h1>
-      <p class="max-w-xl text-lg text-muted" *ngIf="subtitle">
+      <p class="hero-subtitle" *ngIf="subtitle">
         {{ subtitle }}
       </p>
-      <div class="flex flex-wrap items-center gap-4 pt-2">
+      <div class="hero-actions">
         <a class="btn-primary" [routerLink]="primaryLink">
           {{ primaryLabel }}
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14m-7-7l7 7-7 7" />
           </svg>
         </a>
-        <a
-          class="inline-flex items-center justify-center rounded-full border border-primary-200 px-6 py-3 text-base font-semibold text-primary-700 transition hover:border-primary-400 hover:text-primary-600"
-          [routerLink]="secondaryLink"
-        >
+        <a class="hero-secondary" [routerLink]="secondaryLink">
           {{ secondaryLabel }}
         </a>
       </div>
-      <div class="grid gap-4 pt-6 sm:grid-cols-2">
-        <div class="glass-panel p-6">
-          <p class="text-sm font-semibold text-primary-200">Studio Velocity</p>
-          <p class="mt-3 text-2xl font-semibold text-white">92% on-time releases</p>
-          <p class="mt-3 text-sm text-muted">Cross-discipline pods blending ObjectCanvas technologists and ZeroProgramming mentors.</p>
-        </div>
-        <div class="glass-panel flex flex-col justify-between gap-4 p-6">
-          <div>
-            <p class="text-sm font-semibold text-primary-200">Academy Impact</p>
-            <p class="mt-3 text-2xl font-semibold text-white">480+ graduates</p>
-          </div>
-          <div class="flex items-center -space-x-3">
-            <div class="h-10 w-10 rounded-full border border-outline/80 bg-gradient-to-tr from-primary-500 to-accent-500"></div>
-            <div class="h-10 w-10 rounded-full border border-outline/80 bg-gradient-to-tr from-primary-400 via-primary-500 to-accent-500"></div>
-            <div class="h-10 w-10 rounded-full border border-outline/80 bg-gradient-to-tr from-primary-300 via-accent-500 to-primary-500"></div>
-          </div>
+      <div *ngIf="highlights.length" class="hero-highlights">
+        <div *ngFor="let highlight of highlights" class="hero-highlight">
+          <span class="hero-highlight-value">{{ highlight.value }}</span>
+          <span class="hero-highlight-label">{{ highlight.label }}</span>
         </div>
       </div>
     </div>
-    <div class="relative">
-      <div class="pointer-events-none absolute -left-20 -top-24 h-56 w-56 rounded-full bg-primary-200 blur-3xl"></div>
-      <div class="pointer-events-none absolute -right-16 -bottom-20 h-48 w-48 rounded-full bg-accent-400/60 blur-3xl"></div>
-      <div class="card-surface relative overflow-hidden p-8">
-        <div class="absolute inset-0 bg-gradient-to-br from-primary-50 via-base/40 to-base"></div>
-        <div class="relative space-y-4">
-          <p class="text-sm font-semibold text-primary-600">Trusted by founders and future builders</p>
-          <p class="text-lg text-muted">
-            ObjectCanvas studios deliver enterprise-grade services while ZeroProgrammingBD Academy equips talent with market-ready programs.
-          </p>
-          <div class="flex items-center gap-4">
-            <div class="h-12 w-12 rounded-full bg-primary-100/80 ring-4 ring-primary-50"></div>
-            <div>
-              <p class="font-semibold text-ink">Unified Team</p>
-              <p class="text-sm text-muted">Delivery &amp; Education</p>
-            </div>
+    <div class="hero-media">
+      <figure *ngIf="mediaImage" class="hero-media-frame">
+        <img [src]="mediaImage" [alt]="mediaAlt || title" loading="lazy" />
+        <figcaption *ngIf="mediaCaption" class="hero-media-caption">
+          {{ mediaCaption }}
+        </figcaption>
+        <span *ngIf="mediaBadge" class="hero-media-badge">{{ mediaBadge }}</span>
+      </figure>
+      <div class="hero-media-overlay">
+        <div class="hero-panel">
+          <p class="hero-panel-eyebrow">Studio Velocity</p>
+          <p class="hero-panel-title">92% on-time releases</p>
+          <p class="hero-panel-body">Cross-discipline pods blending ObjectCanvas technologists and ZeroProgramming mentors.</p>
+        </div>
+        <div class="hero-panel">
+          <p class="hero-panel-eyebrow">Academy Impact</p>
+          <p class="hero-panel-title">480+ graduates</p>
+          <div class="hero-avatar-group">
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
+          <p class="hero-panel-body">Learners ship alongside senior engineers with guided enablement.</p>
         </div>
       </div>
     </div>
