@@ -8,13 +8,7 @@ import {
   SettingsService,
   ProductsService,
 } from '../../core/services';
-import {
-  CardComponent,
-  FaqAccordionComponent,
-  HeroSectionComponent,
-  SectionHeadingComponent,
-  TestimonialComponent,
-} from '../../shared/components';
+import { CardComponent, FaqAccordionComponent, HeroSectionComponent, SectionHeadingComponent, TestimonialComponent, StatComponent } from '../../shared/components';
 
 @Component({
   selector: 'app-home',
@@ -27,6 +21,7 @@ import {
     CardComponent,
     TestimonialComponent,
     FaqAccordionComponent,
+    StatComponent,
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
@@ -54,13 +49,36 @@ export class HomeComponent {
     'Academy enablement embedded from kickoff so teams graduate ready to scale.',
   ];
 
-  readonly marqueeLoops = [0, 1];
+  readonly capabilities = [
+    {
+      title: 'Strategy & Vision',
+      description: 'Crafting long-term roadmaps with measurable milestones.',
+    },
+    {
+      title: 'Design & Experience',
+      description: 'Building user-centric experiences with iterative design.',
+    },
+    {
+      title: 'Engineering & Delivery',
+      description: 'Developing scalable, robust software with a focus on quality.',
+    },
+    {
+      title: 'Academy & Enablement',
+      description: 'Growing internal talent through hands-on, live mentorship.',
+    },
+  ];
 
-  readonly servicePillars = [
-    'Discovery blueprints that align stakeholders in days',
-    'Experience design systems tuned for conversion and scale',
-    'Engineering pods with automation, QA, and observability built-in',
-    'Academy enablement so your internal team grows alongside every release',
+  readonly techStack = [
+    'Angular',
+    'React',
+    'Node.js',
+    'Express.js',
+    'MongoDB',
+    'AWS',
+    'Docker',
+    'Kubernetes',
+    'Terraform',
+    'Git',
   ];
 
   private readonly serviceIllustrations: Record<string, { image: string; alt: string }> = {
@@ -105,22 +123,22 @@ export class HomeComponent {
     this.services
       .services()
       .slice(0, 4)
-      .map(card => ({
+      .map((card) => ({
         ...card,
         image: this.serviceIllustrations[card.slug]?.image,
         imageAlt: this.serviceIllustrations[card.slug]?.alt,
-      })),
+      }))
   );
 
   readonly productCards = computed(() =>
     this.products
       .products()
       .slice(0, 4)
-      .map(card => ({
+      .map((card) => ({
         ...card,
         image: this.productIllustrations[card.slug]?.image,
         imageAlt: this.productIllustrations[card.slug]?.alt,
-      })),
+      }))
   );
 
   readonly academyTracks = computed(() => this.academy.tracks().slice(0, 3));
@@ -178,17 +196,20 @@ export class HomeComponent {
     {
       image: '/images/studio-lab.svg',
       alt: 'Studio lab dashboards',
-      caption: 'Experience-led studios choreograph design, engineering, and strategy in one shared command center.',
+      caption:
+        'Experience-led studios choreograph design, engineering, and strategy in one shared command center.',
     },
     {
       image: '/images/academy-experience.svg',
       alt: 'Academy coaching interface',
-      caption: 'ZeroProgrammingBD cohorts learn directly from live delivery data with mentors on call.',
+      caption:
+        'ZeroProgrammingBD cohorts learn directly from live delivery data with mentors on call.',
     },
     {
       image: '/images/product-universe.svg',
       alt: 'Product orbit illustration',
-      caption: 'Accelerators cover finance, health, and commerce so your product starts with momentum.',
+      caption:
+        'Accelerators cover finance, health, and commerce so your product starts with momentum.',
     },
   ];
 
@@ -198,26 +219,31 @@ export class HomeComponent {
   readonly collaborationMoments = [
     {
       title: 'Immersive discovery',
-      detail: 'Blueprint workshops align leaders around journeys, goals, and the data we will instrument from day one.',
+      detail:
+        'Blueprint workshops align leaders around journeys, goals, and the data we will instrument from day one.',
     },
     {
       title: 'Launch-ready build',
-      detail: 'Cross-functional squads deliver production-grade releases with academy fellows embedded for scale.',
+      detail:
+        'Cross-functional squads deliver production-grade releases with academy fellows embedded for scale.',
     },
     {
       title: 'Enablement runway',
-      detail: 'Mentored graduates join your teams with documentation, tooling, and rituals already mastered.',
+      detail:
+        'Mentored graduates join your teams with documentation, tooling, and rituals already mastered.',
     },
   ];
 
   readonly process = [
     {
       title: 'Discover & Align',
-      detail: 'Collaborative rituals capture product vision, success metrics, and technical constraints.',
+      detail:
+        'Collaborative rituals capture product vision, success metrics, and technical constraints.',
     },
     {
       title: 'Co-create & Prototype',
-      detail: 'Design and engineering ship interactive slices weekly while mentors coach rising talent.',
+      detail:
+        'Design and engineering ship interactive slices weekly while mentors coach rising talent.',
     },
     {
       title: 'Launch & Scale',
