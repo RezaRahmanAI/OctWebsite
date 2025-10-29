@@ -1,0 +1,67 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1f2937" />
+      <stop offset="1" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="accentGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22d3ee" />
+      <stop offset="1" stop-color="#6366f1" />
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(180 160) rotate(45) scale(340)">
+      <stop stop-color="#22d3ee" stop-opacity="0.6" />
+      <stop offset="1" stop-color="#0f172a" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="glow2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1010 720) rotate(45) scale(280)">
+      <stop stop-color="#6366f1" stop-opacity="0.6" />
+      <stop offset="1" stop-color="#0f172a" stop-opacity="0" />
+    </radialGradient>
+    <clipPath id="deviceClip">
+      <rect x="180" y="160" width="840" height="520" rx="48" />
+    </clipPath>
+  </defs>
+  <rect width="1200" height="900" rx="56" fill="url(#bgGradient)" />
+  <circle cx="180" cy="160" r="240" fill="url(#glow)" />
+  <circle cx="1010" cy="720" r="210" fill="url(#glow2)" />
+  <rect x="160" y="140" width="880" height="560" rx="64" fill="#020617" stroke="#0ea5e9" stroke-opacity="0.16" stroke-width="2" />
+  <g clip-path="url(#deviceClip)">
+    <rect x="180" y="160" width="840" height="520" fill="#020617" />
+    <rect x="180" y="160" width="840" height="120" fill="#0f172a" />
+    <circle cx="236" cy="220" r="28" fill="#1e293b" />
+    <path d="M218 212h36l-18 32z" fill="url(#accentGradient)" />
+    <rect x="300" y="196" width="240" height="24" rx="12" fill="#1e293b" />
+    <rect x="300" y="236" width="320" height="18" rx="9" fill="#1e293b" />
+    <rect x="220" y="320" width="400" height="220" rx="32" fill="#020b19" stroke="#1d4ed8" stroke-opacity="0.24" />
+    <rect x="660" y="320" width="320" height="180" rx="28" fill="#020b19" stroke="#22d3ee" stroke-opacity="0.24" />
+    <rect x="660" y="530" width="320" height="110" rx="28" fill="#020b19" stroke="#f472b6" stroke-opacity="0.24" />
+    <rect x="260" y="352" width="320" height="28" rx="14" fill="#1e293b" />
+    <rect x="260" y="398" width="280" height="20" rx="10" fill="#1e293b" />
+    <rect x="260" y="430" width="280" height="20" rx="10" fill="#1e293b" />
+    <rect x="260" y="462" width="200" height="20" rx="10" fill="#1e293b" />
+    <rect x="700" y="352" width="240" height="16" rx="8" fill="#1e293b" />
+    <rect x="700" y="380" width="200" height="16" rx="8" fill="#1e293b" />
+    <rect x="700" y="408" width="160" height="16" rx="8" fill="#1e293b" />
+    <rect x="700" y="436" width="260" height="16" rx="8" fill="#0ea5e9" fill-opacity="0.32" />
+    <rect x="700" y="560" width="220" height="16" rx="8" fill="#1e293b" />
+    <rect x="700" y="588" width="180" height="16" rx="8" fill="#1e293b" />
+    <rect x="700" y="616" width="220" height="16" rx="8" fill="#f472b6" fill-opacity="0.32" />
+    <g opacity="0.9">
+      <rect x="220" y="564" width="130" height="36" rx="18" fill="#1e293b" />
+      <rect x="360" y="564" width="130" height="36" rx="18" fill="#1e293b" />
+      <rect x="500" y="564" width="130" height="36" rx="18" fill="#1e293b" />
+      <circle cx="236" cy="582" r="12" fill="#22d3ee" />
+      <circle cx="376" cy="582" r="12" fill="#6366f1" />
+      <circle cx="516" cy="582" r="12" fill="#f472b6" />
+    </g>
+  </g>
+  <g opacity="0.9">
+    <rect x="120" y="640" width="260" height="160" rx="32" fill="#0f172a" stroke="#22d3ee" stroke-opacity="0.2" />
+    <text x="150" y="700" fill="#bae6fd" font-size="26" font-family="'Inter', 'Segoe UI', sans-serif">Hybrid squads</text>
+    <text x="150" y="740" fill="#e0f2fe" font-size="20" font-family="'Inter', 'Segoe UI', sans-serif" opacity="0.8">Design × Engineering × Academy</text>
+  </g>
+  <g opacity="0.9">
+    <rect x="860" y="120" width="220" height="120" rx="28" fill="#0f172a" stroke="#f472b6" stroke-opacity="0.3" />
+    <text x="890" y="178" fill="#f5d0fe" font-size="22" font-family="'Inter', 'Segoe UI', sans-serif">Launch in</text>
+    <text x="890" y="212" fill="#f472b6" font-size="32" font-weight="700" font-family="'Inter', 'Segoe UI', sans-serif">6 weeks</text>
+  </g>
+</svg>
