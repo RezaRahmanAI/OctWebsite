@@ -1,9 +1,9 @@
-<div class="rounded-2xl bg-white/80 p-6 shadow-soft">
-  <p class="text-3xl font-semibold text-primary-600">
+<div class="glass-panel p-6 text-white">
+  <p class="text-3xl font-semibold text-primary-200">
     <ng-container *ngIf="isNumber(value); else textValue">{{ value | number: '1.0-0' }}</ng-container>
   </p>
-  <p class="mt-2 text-sm font-semibold uppercase tracking-wide text-slate-500">{{ label }}</p>
-  <p *ngIf="description" class="mt-2 text-sm text-slate-500">{{ description }}</p>
+  <p class="mt-2 text-sm font-semibold uppercase tracking-[0.28em] text-primary-100/80">{{ label }}</p>
+  <p *ngIf="description" class="mt-2 text-sm text-muted">{{ description }}</p>
 </div>
 
 <ng-template #textValue>{{ value }}</ng-template>

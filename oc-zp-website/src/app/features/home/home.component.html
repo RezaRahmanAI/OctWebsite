@@ -3,11 +3,32 @@
   [eyebrow]="heroSettings.tagline"
   [title]="heroSettings.heroTitle || heroSettings.siteTitle"
   [subtitle]="heroSettings.heroSubtitle"
-  [primaryLabel]="heroSettings.primaryCtaLabel || 'Get Started'"
+  [primaryLabel]="heroSettings.primaryCtaLabel || 'Launch a project'"
 ></app-hero-section>
+
+<section class="relative border-y border-outline/70 bg-[rgba(6,10,24,0.85)]">
+  <div class="container-responsive py-12 lg:py-16">
+    <p class="text-center text-xs font-semibold uppercase tracking-[0.5em] text-primary-200">Trusted by digital leaders</p>
+    <div class="mt-10 grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+      <div
+        *ngFor="let partner of partners"
+        class="group flex h-28 flex-col items-center justify-center rounded-2xl border border-outline bg-[rgba(11,16,32,0.85)] px-4 text-center shadow-glow transition hover:-translate-y-1 hover:border-primary-400/60"
+      >
+        <span class="text-lg font-semibold text-white">{{ partner.name }}</span>
+        <span class="text-sm text-muted group-hover:text-primary-100">{{ partner.tagline }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="section-padding">
-  <div class="container-responsive space-y-8">
-    <app-section-heading eyebrow="Services" title="ObjectCanvas delivery studio" subtitle="Cross-functional teams that design, build, and scale digital platforms." align="center"></app-section-heading>
+  <div class="container-responsive space-y-10">
+    <app-section-heading
+      eyebrow="Services"
+      title="ObjectCanvas Technology delivery studio"
+      subtitle="Cross-functional squads co-creating next-generation platforms, accelerated by the ZeroProgrammingBD academy."
+      align="center"
+    ></app-section-heading>
     <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
       <app-card
         *ngFor="let service of serviceCards()"
@@ -18,9 +39,67 @@
     </div>
   </div>
 </section>
-<section class="section-padding bg-white">
-  <div class="container-responsive space-y-8">
-    <app-section-heading eyebrow="Products" title="ZeroProgrammingBD accelerators" subtitle="Ready-to-run platforms for ambitious companies." align="center"></app-section-heading>
+
+<section class="section-padding bg-[rgba(6,9,24,0.8)]">
+  <div class="container-responsive grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-center">
+    <div class="space-y-6">
+      <app-section-heading
+        eyebrow="Experience"
+        title="What the combined studio delivers"
+        subtitle="From discovery to adoption, we embed measurable impact into every sprint."
+      ></app-section-heading>
+      <p class="text-sm text-muted">
+        Every engagement is co-led by ObjectCanvas strategists, designers, and engineers with ZeroProgrammingBD mentors cultivating the next cohort of builders.
+      </p>
+      <a routerLink="/about" fragment="overview" class="btn-secondary w-fit">Explore our model</a>
+    </div>
+    <div class="grid gap-4">
+      <div *ngFor="let highlight of experienceHighlights" class="glass-panel p-6">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-semibold text-white">{{ highlight.title }}</h3>
+          <span class="rounded-full bg-[rgba(44,54,118,0.8)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-primary-200">
+            {{ highlight.metric }}
+          </span>
+        </div>
+        <p class="mt-3 text-sm text-muted">{{ highlight.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-padding">
+  <div class="container-responsive space-y-10">
+    <app-section-heading
+      eyebrow="Case studies"
+      title="Proof in production"
+      subtitle="Highlights from ObjectCanvas Technology engagements powered by ZeroProgrammingBD enablement."
+      align="center"
+    ></app-section-heading>
+    <div class="grid gap-8 lg:grid-cols-3">
+      <article *ngFor="let study of spotlightProjects" class="glass-panel flex h-full flex-col overflow-hidden">
+        <img [src]="study.image" [alt]="study.title" class="h-44 w-full object-cover" loading="lazy" />
+        <div class="flex flex-1 flex-col gap-4 p-6">
+          <p class="text-xs font-semibold uppercase tracking-[0.3em] text-primary-200">{{ study.industry }}</p>
+          <h3 class="text-xl font-semibold text-white">{{ study.title }}</h3>
+          <p class="text-sm text-muted">{{ study.summary }}</p>
+          <div class="mt-auto flex items-center justify-between pt-4">
+            <span class="text-sm font-semibold text-primary-100">{{ study.result }}</span>
+            <a [routerLink]="study.link" class="btn-secondary px-4 py-2 text-xs">View details</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section-padding bg-[rgba(10,14,30,0.88)]">
+  <div class="container-responsive space-y-10">
+    <app-section-heading
+      eyebrow="Products"
+      title="ZeroProgrammingBD accelerators"
+      subtitle="Ready-to-run platforms for ambitious companies across retail, banking, and healthcare."
+      align="center"
+    ></app-section-heading>
     <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
       <app-card
         *ngFor="let product of productCards()"
@@ -31,65 +110,183 @@
     </div>
   </div>
 </section>
+
 <section class="section-padding">
-  <div class="container-responsive grid gap-10 lg:grid-cols-2 lg:items-center">
+  <div class="container-responsive grid gap-12 lg:grid-cols-2 lg:items-start">
     <div class="space-y-6">
-      <app-section-heading eyebrow="Academy" title="ZeroProgrammingBD academy tracks" subtitle="Learners grow alongside client delivery, mastering portfolio-ready challenges."></app-section-heading>
+      <app-section-heading
+        eyebrow="Capabilities"
+        title="End-to-end partnership"
+        subtitle="Every engagement combines strategic clarity, design systems, engineering excellence, and enablement."
+      ></app-section-heading>
+      <p class="text-sm text-muted">
+        ObjectCanvas Technology and ZeroProgrammingBD operate as one team to de-risk delivery while cultivating future talent and internal champions.
+      </p>
+    </div>
+    <div class="grid gap-4">
+      <div
+        *ngFor="let capability of capabilities"
+        class="glass-panel border border-outline/70 p-6 transition hover:border-primary-300/80"
+      >
+        <h3 class="text-lg font-semibold text-white">{{ capability.title }}</h3>
+        <p class="mt-2 text-sm text-muted">{{ capability.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-padding bg-[rgba(6,10,22,0.9)]">
+  <div class="container-responsive grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:items-center">
+    <div class="space-y-8">
+      <app-section-heading
+        eyebrow="Academy"
+        title="ZeroProgrammingBD academy tracks"
+        subtitle="Learners grow alongside client delivery, mastering portfolio-ready challenges and industry certifications."
+      ></app-section-heading>
       <div class="grid gap-4">
-        <div *ngFor="let track of academyTracks()" class="rounded-2xl border border-slate-200 bg-white p-4 shadow-soft">
-          <p class="text-lg font-semibold text-slate-800">{{ track.title }}</p>
-          <p class="text-sm text-slate-500">{{ track.duration }} • {{ track.priceLabel }}</p>
-          <p class="mt-2 text-sm text-slate-600">Levels: {{ track.levels.length }}</p>
+        <div *ngFor="let track of academyTracks()" class="glass-panel p-5">
+          <div class="flex items-center justify-between">
+            <p class="text-lg font-semibold text-white">{{ track.title }}</p>
+            <span class="rounded-full bg-[rgba(47,55,110,0.7)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-primary-200">
+              {{ track.levels.length }} levels
+            </span>
+          </div>
+          <p class="mt-2 text-sm text-muted">{{ track.duration }} • {{ track.priceLabel }}</p>
         </div>
       </div>
-      <a routerLink="/academy" class="inline-flex items-center gap-2 text-sm font-semibold text-primary-600">
-        Explore academy
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-      </a>
+      <a routerLink="/academy" class="btn-primary w-fit">Explore academy</a>
     </div>
     <div class="grid gap-6">
       <app-stat *ngFor="let stat of stats" [value]="stat.value" [label]="stat.label"></app-stat>
     </div>
   </div>
 </section>
-<section class="section-padding bg-white">
-  <div class="container-responsive grid gap-10 lg:grid-cols-2 lg:items-center">
-    <div class="space-y-6">
-      <app-section-heading eyebrow="Stories" title="Latest from the blog" subtitle="Insights from live delivery and learning squads."></app-section-heading>
-      <div class="space-y-4">
-        <div *ngFor="let post of recentPosts()" class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-          <p class="text-sm font-semibold text-primary-600">{{ post.publishedAt | date: 'mediumDate' }}</p>
-          <h3 class="mt-1 text-lg font-semibold text-slate-800">{{ post.title }}</h3>
-          <p class="mt-2 text-sm text-slate-600">{{ post.excerpt }}</p>
-          <a [routerLink]="['/blog', post.slug]" class="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-primary-600">
-            Read more
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-          </a>
+
+<section class="section-padding">
+  <div class="container-responsive space-y-8">
+    <app-section-heading
+      eyebrow="Culture"
+      title="Inside the ObjectCanvas × ZeroProgrammingBD studio"
+      subtitle="A peek into the collaborative rituals fueling experimentation and career growth."
+      align="center"
+    ></app-section-heading>
+    <div class="grid gap-6 lg:grid-cols-3">
+      <figure *ngFor="let shot of cultureGallery" class="glass-panel overflow-hidden">
+        <img [src]="shot.image" [alt]="shot.caption" class="h-48 w-full object-cover" loading="lazy" />
+        <figcaption class="p-4 text-sm text-muted">{{ shot.caption }}</figcaption>
+      </figure>
+    </div>
+    <div class="flex flex-wrap justify-center gap-4 pt-4">
+      <div *ngFor="let award of awards" class="glass-panel flex items-center gap-3 px-5 py-3 text-sm text-primary-100">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-accent-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6l1.8 3.64 4.02.58-2.91 2.84.69 4.02L12 14.77l-3.6 1.9.69-4.02-2.91-2.84 4.02-.58L12 6z" />
+        </svg>
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.3em] text-primary-200">{{ award.year }}</p>
+          <p>{{ award.title }}</p>
         </div>
       </div>
     </div>
-    <app-testimonial quote="The combined studio and academy model keeps us shipping reliably while growing new talent." author="Sophia Rahman" role="CEO, ObjectCanvas"></app-testimonial>
   </div>
 </section>
-<section class="section-padding">
-  <div class="container-responsive grid gap-10 lg:grid-cols-[2fr_3fr]">
-    <div>
-      <app-section-heading eyebrow="FAQs" title="Answers for partners" subtitle="Common questions from founders, teams, and learners."></app-section-heading>
-      <app-faq-accordion class="mt-6" [items]="faqs"></app-faq-accordion>
-    </div>
-    <div class="card-surface p-6">
-      <h3 class="text-xl font-semibold text-slate-800">Ready to collaborate?</h3>
-      <p class="mt-2 text-sm text-slate-600">Share your project vision and our team will reach out within 24 hours.</p>
-      <a routerLink="/contact" class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary-600">
-        Talk to us
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+<section class="section-padding bg-[rgba(7,10,24,0.88)]">
+  <div class="container-responsive space-y-10">
+    <app-section-heading
+      eyebrow="Technology"
+      title="Full-stack toolkit"
+      subtitle="Modern frameworks, cloud, and data platforms to accelerate outcomes."
+      align="center"
+    ></app-section-heading>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div
+        *ngFor="let tool of techStack"
+        class="glass-panel flex items-center justify-between px-5 py-4"
+      >
+        <span class="text-base font-semibold text-white">{{ tool }}</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
-      </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-padding">
+  <div class="container-responsive grid gap-12 lg:grid-cols-2 lg:items-start">
+    <div class="space-y-8">
+      <app-section-heading
+        eyebrow="Stories"
+        title="Latest from the studio"
+        subtitle="Insights from live delivery and learning squads across the ObjectCanvas × ZeroProgrammingBD network."
+      ></app-section-heading>
+      <div class="space-y-4">
+        <div *ngFor="let post of recentPosts()" class="glass-panel p-5">
+          <p class="text-xs font-semibold uppercase tracking-[0.3em] text-primary-200">{{ post.publishedAt | date: 'mediumDate' }}</p>
+          <h3 class="mt-2 text-lg font-semibold text-white">{{ post.title }}</h3>
+          <p class="mt-2 text-sm text-muted">{{ post.excerpt }}</p>
+          <a [routerLink]="['/blog', post.slug]" class="btn-secondary mt-4 inline-flex px-4 py-2 text-xs">Read more</a>
+        </div>
+      </div>
+    </div>
+    <app-testimonial
+      quote="The combined studio and academy model keeps us shipping reliably while growing new talent."
+      author="Sophia Rahman"
+      role="CEO, ObjectCanvas"
+    ></app-testimonial>
+  </div>
+</section>
+
+<section class="section-padding bg-[rgba(8,12,28,0.92)]">
+  <div class="container-responsive grid gap-12 lg:grid-cols-[1.2fr_1fr]">
+    <div>
+      <app-section-heading
+        eyebrow="Process"
+        title="How we partner"
+        subtitle="A clear, confident path from ideation to enablement."
+      ></app-section-heading>
+      <div class="mt-10 space-y-5">
+        <div *ngFor="let step of process; let index = index" class="glass-panel p-5">
+          <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-[0.3em] text-primary-200">
+            <span>Step {{ index + 1 }}</span>
+            <span class="rounded-full bg-gradient-to-r from-primary-500 to-accent-500 px-3 py-1 text-[0.65rem] text-white">{{ step.title }}</span>
+          </div>
+          <p class="mt-3 text-sm text-muted">{{ step.detail }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="glass-panel space-y-6 p-8">
+      <h3 class="text-2xl font-semibold text-white">Ready to collaborate?</h3>
+      <p class="text-sm text-muted">Share your project vision and our team will reach out within 24 hours.</p>
+      <a routerLink="/contact" class="btn-primary w-fit">Talk to us</a>
+      <div class="glass-panel border border-outline/60 bg-[rgba(9,12,28,0.8)] p-5">
+        <p class="text-xs font-semibold uppercase tracking-[0.3em] text-primary-200">Prefer to talk now?</p>
+        <p class="mt-2 text-lg font-semibold text-white">+880 1234-567890</p>
+        <p class="mt-2 text-sm text-muted">We are available Sunday-Thursday, 10am-6pm BST.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-padding">
+  <div class="container-responsive grid gap-12 lg:grid-cols-[1.2fr_1fr]">
+    <div>
+      <app-section-heading
+        eyebrow="FAQs"
+        title="Answers for partners"
+        subtitle="Common questions from founders, teams, and learners."
+      ></app-section-heading>
+      <app-faq-accordion class="mt-8" [items]="faqs"></app-faq-accordion>
+    </div>
+    <div class="glass-panel space-y-5 p-8">
+      <h3 class="text-xl font-semibold text-white">Join the ObjectCanvas &amp; ZeroProgrammingBD network</h3>
+      <p class="text-sm text-muted">
+        Subscribe for studio updates, academy cohorts, and open innovation briefs.
+      </p>
+      <a routerLink="/contact" class="btn-primary w-fit">Join newsletter</a>
+      <div class="text-sm text-primary-100/70">
+        <p>Follow our build logs, design drops, and academy demo days on social for daily inspiration.</p>
+      </div>
     </div>
   </div>
 </section>

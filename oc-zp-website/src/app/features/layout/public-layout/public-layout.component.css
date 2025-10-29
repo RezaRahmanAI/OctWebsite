@@ -1,5 +1,5 @@
 :host {
   display: block;
   min-height: 100vh;
-  background: #f8fafc;
+  background: radial-gradient(120% 120% at 10% -10%, rgba(111, 105, 255, 0.24) 0%, rgba(11, 15, 36, 0.92) 40%, #050716 100%);
 }

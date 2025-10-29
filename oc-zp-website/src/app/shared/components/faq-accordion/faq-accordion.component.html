@@ -1,15 +1,15 @@
 <div class="space-y-4">
-  <div *ngFor="let item of items; let i = index" class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+  <div *ngFor="let item of items; let i = index" class="overflow-hidden rounded-2xl border border-outline bg-[rgba(10,14,32,0.92)] shadow-glow">
     <button
-      class="flex w-full items-center justify-between gap-4 px-6 py-4 text-left text-base font-semibold text-slate-900"
+      class="flex w-full items-center justify-between gap-4 px-6 py-4 text-left text-base font-semibold text-white"
       type="button"
       (click)="toggle(i)"
       [attr.aria-expanded]="isExpanded(i)"
     >
       <span>{{ item.question }}</span>
-      <span class="text-primary-500">{{ isExpanded(i) ? '−' : '+' }}</span>
+      <span class="flex h-8 w-8 items-center justify-center rounded-full border border-outline/70 text-primary-100">{{ isExpanded(i) ? '−' : '+' }}</span>
     </button>
-    <div *ngIf="isExpanded(i)" class="border-t border-slate-100 bg-slate-50 px-6 py-4 text-sm text-slate-600">
+    <div *ngIf="isExpanded(i)" class="border-t border-outline/60 bg-[rgba(13,18,40,0.95)] px-6 py-4 text-sm text-muted">
       {{ item.answer }}
     </div>
   </div>
