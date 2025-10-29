@@ -47,6 +47,15 @@ export class HomeComponent {
     { value: '6', label: 'Innovation hubs' },
   ];
 
+  readonly marqueeLoops = [0, 1];
+
+  readonly servicePillars = [
+    'Discovery blueprints that align stakeholders in days',
+    'Experience design systems tuned for conversion and scale',
+    'Engineering pods with automation, QA, and observability built-in',
+    'Academy enablement so your internal team grows alongside every release',
+  ];
+
   private readonly serviceIllustrations: Record<string, { image: string; alt: string }> = {
     'software-development': {
       image: '/images/studio-lab.svg',
@@ -266,4 +275,8 @@ export class HomeComponent {
         'Yes. We mentor learners into apprenticeships that transition to ObjectCanvas projects or partner companies.',
     },
   ];
+
+  trackIndex(index: number, _loop: number): number {
+    return index;
+  }
 }

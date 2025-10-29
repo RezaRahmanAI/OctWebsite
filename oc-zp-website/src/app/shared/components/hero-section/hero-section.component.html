@@ -1,7 +1,7 @@
 <section class="hero-surface">
   <div class="hero-gradient"></div>
-  <div class="hero-orb hero-orb--left"></div>
-  <div class="hero-orb hero-orb--right"></div>
+  <div class="hero-glow hero-glow--left"></div>
+  <div class="hero-glow hero-glow--right"></div>
   <div class="container-responsive section-padding hero-grid">
     <div class="hero-copy">
       <span *ngIf="eyebrow" class="hero-eyebrow">
@@ -30,30 +30,54 @@
           <span class="hero-highlight-label">{{ highlight.label }}</span>
         </div>
       </div>
+      <p class="hero-footnote">
+        Product delivery meets academy enablement in one cinematic platform experience.
+      </p>
     </div>
     <div class="hero-media">
-      <figure *ngIf="mediaImage" class="hero-media-frame">
-        <img [src]="mediaImage" [alt]="mediaAlt || title" loading="lazy" />
-        <figcaption *ngIf="mediaCaption" class="hero-media-caption">
-          {{ mediaCaption }}
-        </figcaption>
-        <span *ngIf="mediaBadge" class="hero-media-badge">{{ mediaBadge }}</span>
-      </figure>
-      <div class="hero-media-overlay">
-        <div class="hero-panel">
-          <p class="hero-panel-eyebrow">Studio Velocity</p>
-          <p class="hero-panel-title">92% on-time releases</p>
-          <p class="hero-panel-body">Cross-discipline pods blending ObjectCanvas technologists and ZeroProgramming mentors.</p>
-        </div>
-        <div class="hero-panel">
-          <p class="hero-panel-eyebrow">Academy Impact</p>
-          <p class="hero-panel-title">480+ graduates</p>
-          <div class="hero-avatar-group">
-            <span></span>
-            <span></span>
-            <span></span>
+      <div class="hero-bento">
+        <figure *ngIf="mediaImage" class="hero-bento-main">
+          <img [src]="mediaImage" [alt]="mediaAlt || title" loading="lazy" />
+          <figcaption *ngIf="mediaCaption" class="hero-media-caption">
+            {{ mediaCaption }}
+          </figcaption>
+          <span *ngIf="mediaBadge" class="hero-media-badge">{{ mediaBadge }}</span>
+        </figure>
+        <div class="hero-bento-stack">
+          <div class="hero-panel hero-panel--glass">
+            <p class="hero-panel-eyebrow">Studio Velocity</p>
+            <p class="hero-panel-title">92% on-time releases</p>
+            <p class="hero-panel-body">Cross-discipline pods blending ObjectCanvas technologists and ZeroProgramming mentors.</p>
           </div>
-          <p class="hero-panel-body">Learners ship alongside senior engineers with guided enablement.</p>
+          <div class="hero-panel hero-panel--accent">
+            <p class="hero-panel-eyebrow">Academy Impact</p>
+            <p class="hero-panel-title">480+ graduates</p>
+            <div class="hero-avatar-group">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <p class="hero-panel-body">Learners ship alongside senior engineers with guided enablement.</p>
+          </div>
+        </div>
+        <div class="hero-bento-footer">
+          <div class="hero-timeline">
+            <span>Discover</span>
+            <span>Sprint 01</span>
+            <span>Launch</span>
+            <span>Scale</span>
+          </div>
+          <div class="hero-progress">
+            <div class="hero-progress-header">
+              <p class="hero-progress-title">Academy readiness</p>
+              <span class="hero-progress-value">86%</span>
+            </div>
+            <div class="hero-progress-meter">
+              <span></span>
+            </div>
+            <p class="hero-progress-tags">Design • Engineering • Data science</p>
+          </div>
         </div>
       </div>
     </div>
