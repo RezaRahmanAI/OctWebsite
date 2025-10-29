@@ -1,15 +1,10 @@
-<figure class="glass-panel space-y-5 p-8">
-  <div class="flex items-center gap-3">
-    <div class="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-primary-500 via-primary-400 to-accent-500 text-white shadow-glow">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17a4 4 0 01-4-4v-3a4 4 0 014-4h1v5H8m7 6a4 4 0 01-4-4v-3a4 4 0 014-4h1v5h-2" />
-      </svg>
-    </div>
-    <span class="text-xs font-semibold uppercase tracking-[0.3em] text-primary-200">Partner stories</span>
-  </div>
-  <blockquote class="text-xl font-medium leading-relaxed text-white">“{{ quote }}”</blockquote>
+<figure class="card-surface space-y-4 p-6">
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17a4 4 0 01-4-4v-3a4 4 0 014-4h1v5H8m7 6a4 4 0 01-4-4v-3a4 4 0 014-4h1v5h-2" />
+  </svg>
+  <blockquote class="text-lg italic text-ink/80">“{{ quote }}”</blockquote>
   <figcaption>
-    <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-100">{{ author }}</p>
-    <p *ngIf="role" class="mt-1 text-sm text-muted">{{ role }}</p>
+    <p class="font-semibold text-ink">{{ author }}</p>
+    <p *ngIf="role" class="text-sm text-muted">{{ role }}</p>
   </figcaption>
 </figure>

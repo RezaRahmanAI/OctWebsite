@@ -6,14 +6,14 @@
 :root {
   color-scheme: dark;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: radial-gradient(120% 120% at 15% 10%, rgba(123, 112, 255, 0.32) 0%, rgba(5, 10, 31, 0.94) 55%, #050815 100%);
-  color: #f9fbff;
+  background-color: #F6F8FB;
+  color: #1F2937;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  background: radial-gradient(120% 120% at 20% 0%, rgba(105, 99, 255, 0.28) 0%, rgba(9, 12, 36, 0.92) 45%, #040614 100%);
+  background-color: #F6F8FB;
 }
 
 .dark :root {
@@ -29,25 +29,5 @@ body {
 }
 
 .card-surface {
-  @apply rounded-2xl border border-outline bg-[rgba(12,18,40,0.8)] shadow-glow backdrop-blur-xl;
-}
-
-.glass-panel {
-  @apply rounded-3xl border border-outline/80 bg-[rgba(12,18,36,0.75)] shadow-glow backdrop-blur-xl;
-}
-
-.badge-pill {
-  @apply inline-flex items-center rounded-full border border-outline/80 bg-[rgba(76,70,178,0.35)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.32em] text-primary-200;
-}
-
-.btn-primary {
-  @apply inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary-500 via-primary-400 to-accent-500 px-6 py-3 text-base font-semibold text-white shadow-glow transition duration-300 hover:scale-[1.02] hover:shadow-[0_0_0_1px_rgba(105,99,255,0.5),0_28px_70px_-30px_rgba(41,213,255,0.55)];
-}
-
-.btn-secondary {
-  @apply inline-flex items-center justify-center gap-2 rounded-full border border-outline/80 bg-[rgba(17,22,45,0.8)] px-6 py-3 text-base font-semibold text-primary-100 transition duration-300 hover:border-primary-300 hover:text-white;
-}
-
-.tag-chip {
-  @apply inline-flex items-center gap-2 rounded-full border border-outline/50 bg-[rgba(32,40,80,0.6)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-primary-200;
+  @apply rounded-2xl bg-base shadow-soft border border-primary-50/60;
 }

@@ -1,9 +1,10 @@
-<section class="relative overflow-hidden">
-  <div class="pointer-events-none absolute inset-x-0 top-0 h-80 bg-gradient-to-b from-primary-500/20 via-transparent to-transparent"></div>
-  <div class="container-responsive section-padding grid items-center gap-12 lg:grid-cols-[1.1fr_1fr]">
-    <div class="space-y-8">
-      <span *ngIf="eyebrow" class="badge-pill">{{ eyebrow }}</span>
-      <h1 class="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+<section class="relative overflow-hidden bg-surface">
+  <div class="container-responsive section-padding grid gap-12 lg:grid-cols-2 items-center">
+    <div class="space-y-6">
+      <span *ngIf="eyebrow" class="inline-flex items-center rounded-full bg-primary-100/80 px-4 py-1 text-sm font-medium text-primary-700">
+        {{ eyebrow }}
+      </span>
+      <h1 class="text-4xl font-bold tracking-tight text-ink sm:text-5xl lg:text-6xl">
         {{ title }}
       </h1>
       <p class="max-w-xl text-lg text-muted" *ngIf="subtitle">
@@ -16,7 +17,10 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14m-7-7l7 7-7 7" />
           </svg>
         </a>
-        <a class="btn-secondary" [routerLink]="secondaryLink">
+        <a
+          class="inline-flex items-center justify-center rounded-full border border-primary-200 px-6 py-3 text-base font-semibold text-primary-700 transition hover:border-primary-400 hover:text-primary-600"
+          [routerLink]="secondaryLink"
+        >
           {{ secondaryLabel }}
         </a>
       </div>
@@ -40,20 +44,21 @@
       </div>
     </div>
     <div class="relative">
-      <div class="pointer-events-none absolute -left-12 -top-10 h-64 w-64 rounded-full bg-primary-500/30 blur-3xl"></div>
-      <div class="pointer-events-none absolute -right-16 bottom-0 h-72 w-72 rounded-full bg-accent-500/30 blur-3xl"></div>
-      <div class="grid gap-6">
-        <div class="glass-panel overflow-hidden p-4 shadow-glow">
-          <img src="/media/hero-analytics.svg" alt="Analytics dashboard" class="w-full rounded-2xl" loading="lazy" />
-        </div>
-        <div class="grid gap-6 lg:grid-cols-2">
-          <div class="glass-panel overflow-hidden p-4 shadow-glow">
-            <img src="/media/team-sync.svg" alt="Product team sync" class="h-full w-full rounded-2xl object-cover" loading="lazy" />
-          </div>
-          <div class="glass-panel flex flex-col gap-4 p-6">
-            <p class="text-sm font-semibold text-primary-200">Signature squads</p>
-            <p class="text-lg text-muted">Design, engineering, and enablement orchestrated by shared playbooks.</p>
-            <img src="/media/lab-collab.svg" alt="Innovation lab" class="w-full rounded-2xl" loading="lazy" />
+      <div class="pointer-events-none absolute -left-20 -top-24 h-56 w-56 rounded-full bg-primary-200 blur-3xl"></div>
+      <div class="pointer-events-none absolute -right-16 -bottom-20 h-48 w-48 rounded-full bg-accent-400/60 blur-3xl"></div>
+      <div class="card-surface relative overflow-hidden p-8">
+        <div class="absolute inset-0 bg-gradient-to-br from-primary-50 via-base/40 to-base"></div>
+        <div class="relative space-y-4">
+          <p class="text-sm font-semibold text-primary-600">Trusted by founders and future builders</p>
+          <p class="text-lg text-muted">
+            ObjectCanvas studios deliver enterprise-grade services while ZeroProgrammingBD Academy equips talent with market-ready programs.
+          </p>
+          <div class="flex items-center gap-4">
+            <div class="h-12 w-12 rounded-full bg-primary-100/80 ring-4 ring-primary-50"></div>
+            <div>
+              <p class="font-semibold text-ink">Unified Team</p>
+              <p class="text-sm text-muted">Delivery &amp; Education</p>
+            </div>
           </div>
         </div>
       </div>

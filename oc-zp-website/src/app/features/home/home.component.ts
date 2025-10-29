@@ -55,7 +55,7 @@ export class HomeComponent {
     { name: 'Skylark Energy', tagline: 'IoT Operations' },
   ];
 
-  readonly spotlightProjects = [
+  readonly caseStudies = [
     {
       title: 'VisionMesh Computer Vision Platform',
       industry: 'Manufacturing',
@@ -63,7 +63,6 @@ export class HomeComponent {
       summary:
         'Computer vision workflows deployed to the edge with adaptive model retraining and ZeroProgramming apprentices embedded alongside senior engineers.',
       link: ['/services', 'software-development'],
-      image: '/media/case-vision.svg',
     },
     {
       title: 'Delta Bank SME Super App',
@@ -72,7 +71,6 @@ export class HomeComponent {
       summary:
         'Unified onboarding, lending, and analytics using a secure micro frontend architecture and shared academy squads for support and QA.',
       link: ['/product', 'pos-software'],
-      image: '/media/case-delta.svg',
     },
     {
       title: 'Orbit Health Telemedicine Network',
@@ -81,7 +79,6 @@ export class HomeComponent {
       summary:
         'HIPAA-aligned telemedicine modules built with resilient infrastructure and academy fellows managing the patient success desk.',
       link: ['/services', 'mobile-app-development'],
-      image: '/media/case-orbit.svg',
     },
   ];
 
@@ -102,45 +99,6 @@ export class HomeComponent {
       title: 'Enablement & Academy',
       description: 'Upskill your teams with ZeroProgrammingBD academies tailored to live delivery contexts.',
     },
-  ];
-
-  readonly experienceHighlights = [
-    {
-      title: 'Product Innovation Sprints',
-      description: 'Rapid validation with real users across fintech, healthtech, and logistics ventures.',
-      metric: '48 enterprise pilots',
-    },
-    {
-      title: 'Managed Platform Ops',
-      description: 'Cloud observability, infrastructure-as-code, and AI copilots keep releases resilient.',
-      metric: '99.95% uptime SLA',
-    },
-    {
-      title: 'Talent Pipelines',
-      description: 'Recruitment, training, and placement through the ZeroProgrammingBD academy.',
-      metric: '480+ graduates placed',
-    },
-  ];
-
-  readonly cultureGallery = [
-    {
-      image: '/media/team-sync.svg',
-      caption: 'Hybrid squads syncing across Dhaka, Dubai, and remote hubs.',
-    },
-    {
-      image: '/media/lab-collab.svg',
-      caption: 'Innovation lab where academy fellows prototype new products.',
-    },
-    {
-      image: '/media/hero-analytics.svg',
-      caption: 'Analytics ops room monitoring releases and platform health.',
-    },
-  ];
-
-  readonly awards = [
-    { title: 'Clutch Top B2B Partner', year: '2024' },
-    { title: 'Bangladesh Innovation 50', year: '2023' },
-    { title: 'Microsoft AI Inner Circle', year: '2022' },
   ];
 
   readonly process = [
