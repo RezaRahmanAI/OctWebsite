@@ -1,11 +1,15 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OctWebsite.Application.DTOs;
 using OctWebsite.Application.Services;
+using OctWebsite.Application.Exceptions;
+using OctWebsite.WebApi.Security;
 
 namespace OctWebsite.WebApi.Controllers;
 
 [ApiController]
 [Route("api/leads")]
+[Authorize(AuthenticationSchemes = ApiKeyAuthenticationDefaults.AuthenticationScheme)]
 public sealed class LeadsController(ILeadService leadService) : ControllerBase
 {
     [HttpGet]
@@ -22,11 +26,19 @@ public sealed class LeadsController(ILeadService leadService) : ControllerBase
         return lead is null ? NotFound() : Ok(lead);
     }
 
+    [AllowAnonymous]
     [HttpPost]
     public async Task<ActionResult<LeadDto>> CreateAsync([FromBody] CreateLeadRequest request, CancellationToken cancellationToken)
     {
-        var created = await leadService.CreateAsync(request, cancellationToken);
-        return CreatedAtAction(nameof(GetByIdAsync), new { id = created.Id }, created);
+        try
+        {
+            var created = await leadService.CreateAsync(request, cancellationToken);
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = created.Id }, created);
+        }
+        catch (ValidationException ex)
+        {
+            return ValidationProblem(ex.Errors);
+        }
     }
 
     [HttpDelete("{id:guid}")]

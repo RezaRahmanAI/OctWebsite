@@ -1,7 +1,7 @@
-using Microsoft.Extensions.DependencyInjection;
 using OctWebsite.Application;
 using OctWebsite.Infrastructure;
 using OctWebsite.Infrastructure.Data;
+using OctWebsite.WebApi.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +11,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddProblemDetails();
+builder.Services
+    .AddAuthentication(ApiKeyAuthenticationDefaults.AuthenticationScheme)
+    .AddScheme<ApiKeyAuthenticationOptions, ApiKeyAuthenticationHandler>(
+        ApiKeyAuthenticationDefaults.AuthenticationScheme,
+        options => builder.Configuration.GetSection("Security:AdminApiKey").Bind(options));
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -25,6 +31,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseExceptionHandler();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 app.MapGet("/", () => Results.Redirect("/swagger", permanent: false)).ExcludeFromDescription();
 
