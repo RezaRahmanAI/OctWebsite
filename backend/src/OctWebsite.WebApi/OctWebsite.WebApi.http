@@ -1,0 +1,21 @@
+@OctWebsite.WebApi_HostAddress = http://localhost:5191
+
+### Team members
+GET {{OctWebsite.WebApi_HostAddress}}/api/team
+Accept: application/json
+
+### Services
+GET {{OctWebsite.WebApi_HostAddress}}/api/services
+Accept: application/json
+
+### Create lead
+POST {{OctWebsite.WebApi_HostAddress}}/api/leads
+Content-Type: application/json
+
+{
+  "name": "Ada Lovelace",
+  "email": "ada@example.com",
+  "phone": "+880123456789",
+  "subject": "Discovery Call",
+  "message": "Please reach out to discuss platform modernization."
+}
