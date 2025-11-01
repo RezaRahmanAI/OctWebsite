@@ -6,7 +6,7 @@ public sealed class ApplicationDbInitializer(ApplicationDbContext context)
 {
     public async Task InitializeAsync(CancellationToken cancellationToken = default)
     {
-        await context.Database.EnsureCreatedAsync(cancellationToken);
+        await context.Database.MigrateAsync(cancellationToken);
 
         await SeedCollectionAsync(context.TeamMembers, SeedData.TeamMembers, cancellationToken);
         await SeedCollectionAsync(context.CompanyAboutEntries, SeedData.About, cancellationToken);

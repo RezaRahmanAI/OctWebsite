@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import { Component, SecurityContext, computed, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs/operators';
 import { BlogService } from '../../core/services';
@@ -20,7 +20,14 @@ export class BlogDetailComponent {
 
   private readonly slug = toSignal(this.route.paramMap.pipe(map(params => params.get('slug'))));
   readonly post = computed(() => (this.slug() ? this.blogService.getBySlug(this.slug()!) : undefined));
-  readonly safeContent = computed<SafeHtml | null>(() =>
-    this.post() ? this.sanitizer.bypassSecurityTrustHtml(this.post()!.content) : null,
-  );
+  readonly safeContent = computed(() => {
+    const content = this.post()?.content;
+    if (!content) {
+      return null;
+    }
+
+    return (
+      this.sanitizer.sanitize(SecurityContext.HTML, content) ?? ''
+    );
+  });
 }
