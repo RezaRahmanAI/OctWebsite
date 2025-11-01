@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OctWebsite.Application.DTOs;
-using OctWebsite.Application.Services;
 using OctWebsite.Application.Exceptions;
+using OctWebsite.Application.Services;
 using OctWebsite.WebApi.Security;
 
 namespace OctWebsite.WebApi.Controllers;
@@ -37,9 +37,26 @@ public sealed class LeadsController(ILeadService leadService) : ControllerBase
         }
         catch (ValidationException ex)
         {
-            return ValidationProblem(ex.Errors);
+            // Create a ValidationProblemDetails object
+            var validationProblemDetails = new ValidationProblemDetails();
+
+            // Add validation errors to ValidationProblemDetails
+            foreach (var error in ex.Errors)
+            {
+                validationProblemDetails.Errors.Add(error.Key, error.Value);
+            }
+
+            // Set additional properties (status code and title)
+            validationProblemDetails.Status = StatusCodes.Status400BadRequest;
+            validationProblemDetails.Title = "One or more validation errors occurred.";
+
+            // Return ValidationProblem
+            return ValidationProblem(validationProblemDetails);
         }
     }
+
+
+
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken)
