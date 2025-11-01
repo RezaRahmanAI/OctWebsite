@@ -6,3 +6,8 @@
 /.dotnet/
 
 # Node modules are already ignored inside project-specific .gitignore
+/backend/.vs/OctWebsite/CopilotIndices/17.14.1368.60722
+/backend/.vs/OctWebsite/FileContentIndex
+/backend/.vs/OctWebsite/v17
+/backend/.vs/OctWebsite/DesignTimeBuild
+/backend/.vs/OctWebsite/config
