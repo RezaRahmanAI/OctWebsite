@@ -290,8 +290,9 @@ export const settingsSeed: SiteSettings[] = [
     id: '3d3d78a9-df62-44c9-9217-6f25cfcf380b',
     siteTitle: 'ObjectCanvas × ZeroProgrammingBD',
     tagline: 'We build reliable software and empower future-ready talent.',
-    heroTitle: 'Product studios and talent accelerator under one roof',
-    heroSubtitle: 'From ideation to launch, we design and ship platforms while training the next wave of makers.',
+    heroTitle: 'Innovative Software Solutions for Global Business',
+    heroSubtitle:
+      'Transforming digital challenges into opportunities with cross-functional teams dedicated to speed, quality, and enablement.',
     primaryCtaLabel: 'Get Started',
     heroImageUrl: '/images/hero-collaboration.svg',
     heroImageAlt: 'Hybrid ObjectCanvas and ZeroProgrammingBD team collaborating over shared delivery dashboards',

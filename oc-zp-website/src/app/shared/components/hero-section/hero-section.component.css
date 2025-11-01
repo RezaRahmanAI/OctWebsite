@@ -2,8 +2,12 @@
   display: block;
 }
 
-.hero-surface {
+.hero {
   position: relative;
+  display: flex;
+  align-items: center;
+  min-height: clamp(65vh, 75vh, 82vh);
+  color: #ffffff;
   overflow: hidden;
   isolation: isolate;
   color: var(--color-ink);
@@ -39,7 +43,7 @@
   background: radial-gradient(circle, rgba(102, 203, 255, 0.55), transparent 70%);
 }
 
-.hero-grid {
+.hero-inner {
   position: relative;
   z-index: 1;
   display: grid;
@@ -62,8 +66,6 @@
 }
 
 .hero-eyebrow {
-  display: inline-flex;
-  align-items: center;
   width: max-content;
   padding: 0.6rem 1.6rem;
   border-radius: 9999px;
@@ -94,11 +96,17 @@
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   gap: 1rem;
 }
 
-.hero-secondary {
+.hero-btn {
+  padding-inline: 2.25rem;
+  padding-block: 1rem;
+  font-size: 1rem;
+  text-decoration: none;
+}
+
+.hero-btn--ghost {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -181,7 +189,9 @@
   filter: saturate(1.15) brightness(1.05);
 }
 
-.hero-media-caption {
+.hero-scroll-icon::before,
+.hero-scroll-icon::after {
+  content: '';
   position: absolute;
   left: 1.75rem;
   right: 1.75rem;
@@ -213,16 +223,20 @@
   backdrop-filter: blur(8px);
 }
 
-.hero-media-overlay {
-  display: grid;
-  gap: 1rem;
+.hero-scroll-icon::after {
+  width: 10px;
+  height: 10px;
+  bottom: 0;
+  border-left: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translate(-50%, -20%) rotate(-45deg);
+  border-radius: 2px;
 }
 
 @media (min-width: 768px) {
   .hero-media-overlay {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-}
 
 .hero-panel {
   display: grid;
