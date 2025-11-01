@@ -1,0 +1,8 @@
+# Backend build artifacts
+/backend/**/bin/
+/backend/**/obj/
+
+# Dotnet local tools
+/.dotnet/
+
+# Node modules are already ignored inside project-specific .gitignore
