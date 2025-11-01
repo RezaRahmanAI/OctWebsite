@@ -7,6 +7,8 @@
   [secondaryLabel]="'View capabilities'"
   secondaryLink="/services"
   [mediaImage]="heroSettings.heroImageUrl || '/images/hero-collaboration.svg'"
+  [mediaPoster]="heroSettings.heroVideoPoster || heroSettings.heroImageUrl || '/images/hero-collaboration.svg'"
+  [mediaVideo]="heroSettings.heroVideoUrl"
   [mediaAlt]="heroSettings.heroImageAlt || heroSettings.heroTitle || heroSettings.siteTitle"
   [mediaBadge]="heroSettings.heroMediaBadge || 'Hybrid studio'"
   [mediaCaption]="heroSettings.heroMediaCaption || 'Studios and academy mentors choreograph each release together.'"

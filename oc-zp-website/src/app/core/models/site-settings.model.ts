@@ -7,6 +7,8 @@ export interface SiteSettings {
   primaryCtaLabel?: string;
   heroImageUrl?: string;
   heroImageAlt?: string;
+  heroVideoUrl?: string;
+  heroVideoPoster?: string;
   heroMediaBadge?: string;
   heroMediaCaption?: string;
 }
