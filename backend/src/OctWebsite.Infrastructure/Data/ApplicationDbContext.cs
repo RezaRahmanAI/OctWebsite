@@ -1,13 +1,12 @@
-using System.Linq;
-using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OctWebsite.Domain.Entities;
+using System.Text.Json;
 
 namespace OctWebsite.Infrastructure.Data;
 
-internal sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
+public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
 {
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
 
@@ -29,9 +28,12 @@ internal sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext
             json => JsonSerializer.Deserialize<IReadOnlyList<string>>(json, JsonOptions) ?? Array.Empty<string>());
 
         var stringListComparer = new ValueComparer<IReadOnlyList<string>>(
-            (left, right) => (left ?? Array.Empty<string>()).SequenceEqual(right ?? Array.Empty<string>()),
-            value => value == null ? 0 : value.Aggregate(0, (hash, item) => HashCode.Combine(hash, item?.GetHashCode() ?? 0)),
-            value => (value ?? Array.Empty<string>()).ToArray());
+        (left, right) => (left ?? Array.Empty<string>()).SequenceEqual(right ?? Array.Empty<string>()),
+        value => value == null
+            ? 0
+            : value.Aggregate(0, (hash, item) =>
+                HashCode.Combine(hash, item == null ? 0 : item.GetHashCode())),
+        value => (value ?? Array.Empty<string>()).ToArray());
 
         var trackLevelConverter = new ValueConverter<IReadOnlyList<AcademyTrackLevel>, string>(
             value => JsonSerializer.Serialize(value ?? Array.Empty<AcademyTrackLevel>(), JsonOptions),

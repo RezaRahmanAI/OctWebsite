@@ -1,9 +1,8 @@
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
 namespace OctWebsite.Infrastructure.Data;
 
-internal sealed class ApplicationDbInitializer(ApplicationDbContext context)
+public sealed class ApplicationDbInitializer(ApplicationDbContext context)
 {
     public async Task InitializeAsync(CancellationToken cancellationToken = default)
     {
