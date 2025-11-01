@@ -286,7 +286,7 @@
 .hero-panel--accent .hero-panel-body {
   color: rgba(255, 255, 255, 0.9);
 }
-
+}
 @media (max-width: 767px) {
   .hero-grid {
     padding: 4rem 0;
