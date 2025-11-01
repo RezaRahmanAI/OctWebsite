@@ -295,6 +295,8 @@ export const settingsSeed: SiteSettings[] = [
     primaryCtaLabel: 'Get Started',
     heroImageUrl: '/images/hero-collaboration.svg',
     heroImageAlt: 'Hybrid ObjectCanvas and ZeroProgrammingBD team collaborating over shared delivery dashboards',
+    heroVideoUrl: 'https://cdn.coverr.co/videos/coverr-engineers-collaborating-over-laptops-9050/1080p.mp4',
+    heroVideoPoster: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1600&q=80',
     heroMediaBadge: 'Hybrid studio',
     heroMediaCaption: 'ObjectCanvas squads and ZeroProgrammingBD mentors co-create every launch.',
   },
