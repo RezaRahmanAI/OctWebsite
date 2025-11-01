@@ -1,11 +1,12 @@
+using Microsoft.EntityFrameworkCore;
 using OctWebsite.Application.Abstractions;
 using OctWebsite.Domain.Entities;
 using OctWebsite.Infrastructure.Data;
 
 namespace OctWebsite.Infrastructure.Repositories;
 
-internal sealed class InMemorySettingsRepository : ISettingsRepository
+internal sealed class EfSettingsRepository(ApplicationDbContext dbContext) : ISettingsRepository
 {
     public Task<SiteSettings?> GetCurrentAsync(CancellationToken cancellationToken = default)
-        => Task.FromResult<SiteSettings?>(SeedData.SiteSettings);
+        => dbContext.SiteSettings.AsNoTracking().SingleOrDefaultAsync(cancellationToken);
 }
