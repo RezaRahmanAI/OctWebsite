@@ -4,16 +4,18 @@
   [title]="heroSettings.heroTitle || heroSettings.siteTitle"
   [subtitle]="heroSettings.heroSubtitle"
   [primaryLabel]="heroSettings.primaryCtaLabel || 'Start a project'"
-  [secondaryLabel]="'View capabilities'"
+  [secondaryLabel]="'View Our Work'"
   secondaryLink="/services"
   [mediaImage]="heroSettings.heroImageUrl || '/images/hero-collaboration.svg'"
+  [mediaPoster]="heroSettings.heroVideoPoster || heroSettings.heroImageUrl || '/images/hero-collaboration.svg'"
+  [mediaVideo]="heroSettings.heroVideoUrl"
   [mediaAlt]="heroSettings.heroImageAlt || heroSettings.heroTitle || heroSettings.siteTitle"
   [mediaBadge]="heroSettings.heroMediaBadge || 'Hybrid studio'"
   [mediaCaption]="heroSettings.heroMediaCaption || 'Studios and academy mentors choreograph each release together.'"
   [highlights]="heroHighlights"
 ></app-hero-section>
 
-<section class="section-padding story-section">
+<section id="main-content" class="section-padding story-section" tabindex="-1">
   <div class="container-responsive story-grid">
     <div class="story-copy">
       <app-section-heading

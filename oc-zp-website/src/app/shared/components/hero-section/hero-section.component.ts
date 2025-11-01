@@ -18,6 +18,8 @@ export class HeroSectionComponent {
   @Input() secondaryLabel = 'Talk to us';
   @Input() secondaryLink = '/contact';
   @Input() mediaImage?: string;
+  @Input() mediaPoster?: string;
+  @Input() mediaVideo?: string;
   @Input() mediaAlt?: string;
   @Input() mediaBadge?: string;
   @Input() mediaCaption?: string;
