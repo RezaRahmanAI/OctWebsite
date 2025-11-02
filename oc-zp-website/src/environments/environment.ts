@@ -1,5 +1,3 @@
 export const environment = {
-  production: false,
-  dataProvider: 'in-memory' as const,
-  apiUrl: '/api',
+  apiUrl: 'http://localhost:5191',
 };
