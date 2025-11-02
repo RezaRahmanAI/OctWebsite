@@ -1,16 +1,15 @@
-import { Injectable, computed, effect, signal } from '@angular/core';
-import { DataProvider, EntityStore } from './data-provider';
+import { Injectable, computed, signal } from '@angular/core';
 import {
-  academySeed,
-  aboutSeed,
-  blogSeed,
-  leadsSeed,
-  productsSeed,
-  servicesSeed,
-  settingsSeed,
-  teamSeed,
-} from './in-memory.data';
-import { loadFromStorage, saveToStorage } from '../utils/storage';
+  AcademyTrack,
+  BlogPost,
+  CompanyAbout,
+  Lead,
+  ProductItem,
+  ServiceItem,
+  SiteSettings,
+  TeamMember,
+} from '../models';
+import { DataProvider, EntityStore } from './data-provider';
 
 interface StoreOptions<T> {
   slug?: (item: T) => string | undefined;
@@ -18,30 +17,25 @@ interface StoreOptions<T> {
 
 @Injectable({ providedIn: 'root' })
 export class InMemoryProvider implements DataProvider {
-  readonly team = this.createStore('team', teamSeed);
-  readonly about = this.createStore('about', aboutSeed);
-  readonly services = this.createStore('services', servicesSeed, {
+  readonly team = this.createStore<TeamMember>();
+  readonly about = this.createStore<CompanyAbout>();
+  readonly services = this.createStore<ServiceItem>({
     slug: item => (item as { slug?: string }).slug,
   });
-  readonly products = this.createStore('products', productsSeed, {
+  readonly products = this.createStore<ProductItem>({
     slug: item => (item as { slug?: string }).slug,
   });
-  readonly academy = this.createStore('academy', academySeed, {
+  readonly academy = this.createStore<AcademyTrack>({
     slug: item => (item as { slug?: string }).slug,
   });
-  readonly blog = this.createStore('blog', blogSeed, {
+  readonly blog = this.createStore<BlogPost>({
     slug: item => (item as { slug?: string }).slug,
   });
-  readonly leads = this.createStore('leads', leadsSeed);
-  readonly settings = this.createStore('settings', settingsSeed);
+  readonly leads = this.createStore<Lead>();
+  readonly settings = this.createStore<SiteSettings>();
 
-  private createStore<T extends { id: string }>(key: string, seed: T[], options: StoreOptions<T> = {}): EntityStore<T> {
-    const storageKey = `data:${key}`;
-    const initial = loadFromStorage(storageKey, seed);
-    const state = signal<T[]>(initial);
-    effect(() => {
-      saveToStorage(storageKey, state());
-    });
+  private createStore<T extends { id: string }>(options: StoreOptions<T> = {}): EntityStore<T> {
+    const state = signal<T[]>([]);
     const count = computed(() => state().length);
 
     const store: EntityStore<T> = {
