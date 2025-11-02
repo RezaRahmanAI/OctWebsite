@@ -14,4 +14,13 @@ public sealed class SettingsController(ISettingsService settingsService) : Contr
         var settings = await settingsService.GetCurrentAsync(cancellationToken);
         return settings is null ? NotFound() : Ok(settings);
     }
+
+    [HttpPut]
+    public async Task<ActionResult<SiteSettingsDto>> SaveAsync(
+        [FromBody] SiteSettingsDto request,
+        CancellationToken cancellationToken)
+    {
+        var saved = await settingsService.SaveAsync(request, cancellationToken);
+        return Ok(saved);
+    }
 }

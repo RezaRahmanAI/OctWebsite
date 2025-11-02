@@ -77,6 +77,20 @@ public static class MappingExtensions
         settings.HeroMediaBadge,
         settings.HeroMediaCaption);
 
+    public static SiteSettings ToEntity(this SiteSettingsDto settings) => new(
+        settings.Id,
+        settings.SiteTitle,
+        settings.Tagline,
+        settings.HeroTitle,
+        settings.HeroSubtitle,
+        settings.PrimaryCtaLabel,
+        settings.HeroImageUrl,
+        settings.HeroImageAlt,
+        settings.HeroVideoUrl,
+        settings.HeroVideoPoster,
+        settings.HeroMediaBadge,
+        settings.HeroMediaCaption);
+
     public static LeadDto ToDto(this Lead lead) => new(
         lead.Id,
         lead.Name,
