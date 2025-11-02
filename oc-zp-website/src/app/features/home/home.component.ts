@@ -33,6 +33,10 @@ export class HomeComponent {
   private readonly blog = inject(BlogService);
   private readonly settings = inject(SettingsService);
 
+  constructor() {
+    void this.settings.ensureLoaded();
+  }
+
   readonly hero = computed(() => this.settings.settings());
   readonly heroHighlights = [
     { value: '52+', label: 'Hybrid studio experts' },
