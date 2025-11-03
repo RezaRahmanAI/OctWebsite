@@ -8,7 +8,7 @@ import { SiteSettings } from '../models';
 export class SettingsService {
   private readonly http = inject(HttpClient);
   private readonly settingsSignal = signal<SiteSettings | null>(null);
-  private readonly apiUrl = `${environment.apiUrl}/settings`;
+  private readonly apiUrl = `${environment.apiUrl}/api/settings`;
   private loadingPromise: Promise<SiteSettings | null> | null = null;
 
   readonly settings = computed(() => this.settingsSignal());
