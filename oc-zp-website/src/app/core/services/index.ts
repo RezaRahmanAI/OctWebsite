@@ -8,3 +8,4 @@ export * from './leads.service';
 export * from './settings.service';
 export * from './toast.service';
 export * from './smooth-scroll.service';
+export * from './theme.service';
