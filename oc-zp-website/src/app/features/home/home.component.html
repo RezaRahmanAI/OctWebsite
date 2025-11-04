@@ -6,9 +6,9 @@
   [primaryLabel]="heroSettings.primaryCtaLabel || 'Start a project'"
   [secondaryLabel]="'View Our Work'"
   secondaryLink="/services"
-  [mediaImage]="heroSettings.heroImageUrl || '/images/hero-collaboration.svg'"
-  [mediaPoster]="heroSettings.heroVideoPoster || heroSettings.heroImageUrl || '/images/hero-collaboration.svg'"
-  [mediaVideo]="heroSettings.heroVideoUrl"
+  [mediaImage]="heroSettings.heroImageUrl || heroPosterFallback"
+  [mediaPoster]="heroSettings.heroVideoPoster || heroSettings.heroImageUrl || heroPosterFallback"
+  [mediaVideo]="heroSettings.heroVideoUrl || heroVideoFallback"
   [mediaAlt]="heroSettings.heroImageAlt || heroSettings.heroTitle || heroSettings.siteTitle"
   [mediaBadge]="heroSettings.heroMediaBadge || 'Hybrid studio'"
   [mediaCaption]="heroSettings.heroMediaCaption || 'Studios and academy mentors choreograph each release together.'"
@@ -281,7 +281,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
           </a>
-
+        </div>
       </div>
     </div>
     <app-testimonial
@@ -290,7 +290,7 @@
       role="CEO, ObjectCanvas"
     ></app-testimonial>
   </div>
-
+  </section>
 
 <section class="section-padding process-section">
   <div class="container-responsive process-grid">

@@ -38,6 +38,9 @@ export class HomeComponent {
   }
 
   readonly hero = computed(() => this.settings.settings());
+  readonly heroVideoFallback =
+    'https://cdn.coverr.co/videos/coverr-abstract-flow-of-neon-lines-4931/1080p.mp4';
+  readonly heroPosterFallback = '/images/hero-motion-poster.svg';
   readonly heroHighlights = [
     { value: '52+', label: 'Hybrid studio experts' },
     { value: '480+', label: 'Academy alumni' },
@@ -87,20 +90,20 @@ export class HomeComponent {
 
   private readonly serviceIllustrations: Record<string, { image: string; alt: string }> = {
     'software-development': {
-      image: '/images/studio-lab.svg',
-      alt: 'Screens illustrating the ObjectCanvas delivery studio',
+      image: '/images/story-mosaic.svg',
+      alt: 'Geometric canvas showing product design workstreams',
     },
     'website-development': {
-      image: '/images/visionmesh.svg',
-      alt: 'Component-driven marketing experience mockups',
+      image: '/images/hero-grid.svg',
+      alt: 'Grid of glowing interface modules layered over motion lines',
     },
     'mobile-app-development': {
-      image: '/images/orbit-health.svg',
-      alt: 'Mobile telemedicine dashboards designed by the hybrid studio',
+      image: '/images/pattern-rings.svg',
+      alt: 'Concentric signal rings highlighting modular feature delivery',
     },
     'ecommerce-website': {
-      image: '/images/product-universe.svg',
-      alt: 'Commerce accelerators orbiting the combined platform',
+      image: '/images/hero-orbits.svg',
+      alt: 'Orbital rings illustrating commerce accelerators in motion',
     },
   };
 
@@ -110,16 +113,16 @@ export class HomeComponent {
       alt: 'Accounting and inventory insights with automated ledgers',
     },
     'pos-software': {
-      image: '/images/hero-collaboration.svg',
-      alt: 'Retail command center built by ObjectCanvas and ZeroProgrammingBD',
+      image: '/images/story-mosaic.svg',
+      alt: 'Retail command center boards connected by dynamic patterns',
     },
     'real-estate-management': {
-      image: '/images/academy-experience.svg',
-      alt: 'Connected real estate workflows with academy-trained analysts',
+      image: '/images/pattern-grid.svg',
+      alt: 'Layered grid representing connected property workflows',
     },
     'production-management': {
-      image: '/images/studio-lab.svg',
-      alt: 'Production control room visualizing live manufacturing telemetry',
+      image: '/images/hero-grid.svg',
+      alt: 'Production control room dashboard woven across a motion grid',
     },
   };
 
@@ -198,20 +201,20 @@ export class HomeComponent {
 
   readonly experienceGallery = [
     {
-      image: '/images/studio-lab.svg',
-      alt: 'Studio lab dashboards',
+      image: '/images/story-mosaic.svg',
+      alt: 'Mosaic of product canvases layered with gradients',
       caption:
-        'Experience-led studios choreograph design, engineering, and strategy in one shared command center.',
+        'Experience-led studios choreograph research, design, and engineering across a living product mosaic.',
     },
     {
-      image: '/images/academy-experience.svg',
-      alt: 'Academy coaching interface',
+      image: '/images/pattern-grid.svg',
+      alt: 'Glowing grid for academy enablement telemetry',
       caption:
         'ZeroProgrammingBD cohorts learn directly from live delivery data with mentors on call.',
     },
     {
-      image: '/images/product-universe.svg',
-      alt: 'Product orbit illustration',
+      image: '/images/pattern-rings.svg',
+      alt: 'Orbital rings showing accelerators in motion',
       caption:
         'Accelerators cover finance, health, and commerce so your product starts with momentum.',
     },
