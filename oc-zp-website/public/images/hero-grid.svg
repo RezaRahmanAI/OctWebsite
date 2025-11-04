@@ -1,0 +1,46 @@
+<svg width="720" height="720" viewBox="0 0 720 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="720" height="720" fill="url(#paint0_radial_grid)"/>
+  <g opacity="0.42" stroke="url(#paint1_linear_grid)" stroke-width="1.2">
+    <path d="M0 60H720"/>
+    <path d="M0 120H720"/>
+    <path d="M0 180H720"/>
+    <path d="M0 240H720"/>
+    <path d="M0 300H720"/>
+    <path d="M0 360H720"/>
+    <path d="M0 420H720"/>
+    <path d="M0 480H720"/>
+    <path d="M0 540H720"/>
+    <path d="M0 600H720"/>
+    <path d="M0 660H720"/>
+    <path d="M60 0V720"/>
+    <path d="M120 0V720"/>
+    <path d="M180 0V720"/>
+    <path d="M240 0V720"/>
+    <path d="M300 0V720"/>
+    <path d="M360 0V720"/>
+    <path d="M420 0V720"/>
+    <path d="M480 0V720"/>
+    <path d="M540 0V720"/>
+    <path d="M600 0V720"/>
+    <path d="M660 0V720"/>
+  </g>
+  <g opacity="0.75" stroke="url(#paint2_radial_grid)" stroke-width="1.6" stroke-dasharray="8 14">
+    <circle cx="360" cy="360" r="320"/>
+    <circle cx="360" cy="360" r="240"/>
+    <circle cx="360" cy="360" r="160"/>
+  </g>
+  <defs>
+    <radialGradient id="paint0_radial_grid" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(360 360) rotate(90) scale(360)">
+      <stop stop-color="#081129" stop-opacity="0"/>
+      <stop offset="1" stop-color="#081129" stop-opacity="0.55"/>
+    </radialGradient>
+    <linearGradient id="paint1_linear_grid" x1="0" y1="0" x2="720" y2="720" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3CC6FF" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#3CC6FF" stop-opacity="0.05"/>
+    </linearGradient>
+    <radialGradient id="paint2_radial_grid" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(360 360) rotate(90) scale(360)">
+      <stop stop-color="#7EF0FF" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#7EF0FF" stop-opacity="0.15"/>
+    </radialGradient>
+  </defs>
+</svg>

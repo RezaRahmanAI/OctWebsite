@@ -2,7 +2,7 @@
   display: block;
 }
 
-.hero {
+.hero-surface {
   position: relative;
   display: flex;
   align-items: center;
@@ -41,6 +41,26 @@
   bottom: -120px;
   right: -80px;
   background: radial-gradient(circle, rgba(102, 203, 255, 0.55), transparent 70%);
+}
+
+.hero-pattern {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.35;
+  filter: drop-shadow(0 32px 90px rgba(3, 16, 44, 0.65));
+}
+
+.hero-pattern--grid {
+  top: -160px;
+  left: -120px;
+  width: min(72vw, 680px);
+}
+
+.hero-pattern--orbits {
+  bottom: -160px;
+  right: -40px;
+  width: min(68vw, 540px);
+  opacity: 0.42;
 }
 
 .hero-inner {
@@ -294,5 +314,19 @@
 
   .hero-media-frame--video {
     aspect-ratio: 16 / 9;
+  }
+
+  .hero-pattern--grid {
+    top: -120px;
+    left: -180px;
+    width: 120%;
+    opacity: 0.28;
+  }
+
+  .hero-pattern--orbits {
+    right: -120px;
+    bottom: -140px;
+    width: 110%;
+    opacity: 0.3;
   }
 }
