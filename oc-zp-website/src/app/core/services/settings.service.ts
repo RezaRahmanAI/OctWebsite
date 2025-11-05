@@ -59,6 +59,7 @@ export class SettingsService {
       heroVideoPoster: settings.heroVideoPoster ?? '',
       heroMediaBadge: settings.heroMediaBadge ?? '',
       heroMediaCaption: settings.heroMediaCaption ?? '',
+      heroBackgroundVideoId: settings.heroBackgroundVideoId ?? '',
     };
 
     const saved = await firstValueFrom(

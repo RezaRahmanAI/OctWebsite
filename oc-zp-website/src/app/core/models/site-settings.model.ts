@@ -11,4 +11,5 @@ export interface SiteSettings {
   heroVideoPoster?: string;
   heroMediaBadge?: string;
   heroMediaCaption?: string;
+  heroBackgroundVideoId?: string;
 }

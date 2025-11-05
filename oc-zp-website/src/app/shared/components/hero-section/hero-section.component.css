@@ -1,22 +1,22 @@
 :host {
   display: block;
-  --hero-surface-bg: linear-gradient(140deg, #fafdff 0%, #edf6ff 55%, #e2f2ff 100%);
-  --hero-pattern-opacity: 0.18;
-  --hero-text-primary: var(--color-ink);
-  --hero-text-secondary: var(--color-soft);
-  --hero-eyebrow-bg: rgba(0, 174, 239, 0.14);
-  --hero-eyebrow-text: var(--color-primary);
-  --hero-panel-surface: var(--color-surface-raised);
-  --hero-panel-text: var(--color-ink);
-  --hero-panel-muted: var(--color-soft);
-  --hero-metric-surface: rgba(255, 255, 255, 0.85);
-  --hero-metric-border: var(--color-border-soft);
-  --hero-metric-text: var(--color-ink);
-  --hero-video-surface: rgba(255, 255, 255, 0.95);
-  --hero-video-border: rgba(0, 118, 162, 0.16);
-  --hero-badge-bg: rgba(0, 174, 239, 0.18);
-  --hero-badge-text: var(--color-primary);
-  --hero-shadow: var(--shadow-soft);
+  --hero-surface-bg: linear-gradient(160deg, #051024 0%, #091a35 45%, #0f2749 100%);
+  --hero-pattern-opacity: 0.22;
+  --hero-text-primary: rgba(238, 245, 255, 0.98);
+  --hero-text-secondary: rgba(204, 224, 255, 0.78);
+  --hero-eyebrow-bg: rgba(124, 241, 255, 0.18);
+  --hero-eyebrow-text: rgba(224, 244, 255, 0.96);
+  --hero-panel-surface: rgba(6, 22, 49, 0.78);
+  --hero-panel-text: rgba(238, 245, 255, 0.96);
+  --hero-panel-muted: rgba(194, 220, 255, 0.78);
+  --hero-metric-surface: rgba(5, 18, 40, 0.72);
+  --hero-metric-border: rgba(102, 203, 255, 0.38);
+  --hero-metric-text: rgba(238, 245, 255, 0.94);
+  --hero-video-surface: rgba(5, 18, 40, 0.72);
+  --hero-video-border: rgba(102, 203, 255, 0.32);
+  --hero-badge-bg: rgba(124, 241, 255, 0.24);
+  --hero-badge-text: rgba(7, 22, 45, 0.92);
+  --hero-shadow: 0 48px 140px -48px rgba(0, 0, 0, 0.65);
 }
 
 :host-context(.theme-dark) {
@@ -50,11 +50,49 @@
   color: var(--hero-text-primary);
 }
 
+.hero-surface--video {
+  --hero-pattern-opacity: 0.12;
+  --hero-eyebrow-bg: rgba(124, 241, 255, 0.24);
+  --hero-panel-surface: rgba(5, 18, 40, 0.78);
+  --hero-panel-muted: rgba(197, 223, 255, 0.8);
+  --hero-video-surface: rgba(7, 20, 45, 0.78);
+  --hero-metric-surface: rgba(7, 20, 45, 0.75);
+  --hero-shadow: 0 60px 160px -48px rgba(4, 12, 32, 0.8);
+}
+
 .hero-background {
   position: absolute;
   inset: 0;
   z-index: 0;
   overflow: hidden;
+}
+
+.hero-background-video,
+.hero-background-overlay {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-background-video {
+  z-index: 0;
+  overflow: hidden;
+  filter: saturate(115%) contrast(105%);
+}
+
+.hero-background-iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140%;
+  height: 140%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  border: 0;
+}
+
+.hero-background-overlay {
+  z-index: 1;
+  background: linear-gradient(160deg, rgba(3, 10, 28, 0.88) 0%, rgba(7, 21, 47, 0.76) 45%, rgba(18, 39, 74, 0.78) 100%);
 }
 
 .hero-gradient {
@@ -86,6 +124,11 @@
   filter: drop-shadow(0 32px 90px rgba(3, 16, 44, 0.35));
 }
 
+.hero-background--video .hero-gradient,
+.hero-background--video .hero-pattern {
+  display: none;
+}
+
 .hero-pattern--grid {
   top: -160px;
   left: -120px;
@@ -106,14 +149,21 @@
 
 .hero-grid {
   display: grid;
-  gap: 3rem;
+  gap: clamp(2.5rem, 4vw, 4rem);
   align-items: center;
-  padding: 6rem 0;
+  padding: clamp(4rem, 8vw, 6.5rem) 0;
 }
 
 @media (min-width: 1024px) {
   .hero-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    align-items: stretch;
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero-grid {
+    gap: clamp(3rem, 5vw, 5rem);
   }
 }
 
@@ -122,6 +172,7 @@
   gap: 1.75rem;
   max-width: 40rem;
   color: var(--hero-text-primary);
+  justify-self: start;
 }
 
 .hero-eyebrow {
@@ -216,6 +267,14 @@
   position: relative;
   display: grid;
   gap: 1.5rem;
+  justify-items: center;
+}
+
+@media (min-width: 1024px) {
+  .hero-media {
+    align-content: center;
+    justify-self: end;
+  }
 }
 
 .hero-media-frame {
@@ -227,8 +286,14 @@
   background: var(--hero-video-surface);
 }
 
+.hero-media-frame {
+  width: min(520px, 100%);
+  min-height: 320px;
+}
+
 .hero-media-frame--video {
   aspect-ratio: 9 / 10;
+  min-height: unset;
 }
 
 .hero-media-frame img,
