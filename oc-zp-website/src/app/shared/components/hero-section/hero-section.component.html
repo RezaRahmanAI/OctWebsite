@@ -1,21 +1,36 @@
-<section class="hero-surface">
-  <div class="hero-background">
-    <span class="hero-gradient hero-gradient--one"></span>
-    <span class="hero-gradient hero-gradient--two"></span>
-    <img
-      src="/images/hero-grid.svg"
-      alt=""
-      aria-hidden="true"
-      class="hero-pattern hero-pattern--grid"
-      loading="lazy"
-    />
-    <img
-      src="/images/hero-orbits.svg"
-      alt=""
-      aria-hidden="true"
-      class="hero-pattern hero-pattern--orbits"
-      loading="lazy"
-    />
+<section class="hero-surface" [class.hero-surface--video]="!!backgroundVideoUrl">
+  <div class="hero-background" [class.hero-background--video]="!!backgroundVideoUrl">
+    <ng-container *ngIf="backgroundVideoUrl as videoUrl; else heroGradients">
+      <div class="hero-background-video">
+        <iframe
+          class="hero-background-iframe"
+          title="Hero background video"
+          [src]="videoUrl"
+          frameborder="0"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+      <div class="hero-background-overlay" aria-hidden="true"></div>
+    </ng-container>
+    <ng-template #heroGradients>
+      <span class="hero-gradient hero-gradient--one"></span>
+      <span class="hero-gradient hero-gradient--two"></span>
+      <img
+        src="/images/hero-grid.svg"
+        alt=""
+        aria-hidden="true"
+        class="hero-pattern hero-pattern--grid"
+        loading="lazy"
+      />
+      <img
+        src="/images/hero-orbits.svg"
+        alt=""
+        aria-hidden="true"
+        class="hero-pattern hero-pattern--orbits"
+        loading="lazy"
+      />
+    </ng-template>
   </div>
   <div class="container-responsive section-padding">
     <div class="hero-grid">

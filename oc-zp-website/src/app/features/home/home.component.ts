@@ -41,6 +41,7 @@ export class HomeComponent {
   readonly heroVideoFallback =
     'https://cdn.coverr.co/videos/coverr-abstract-flow-of-neon-lines-4931/1080p.mp4';
   readonly heroPosterFallback = '/images/hero-motion-poster.svg';
+  readonly heroBackgroundVideoId = 'ScMzIvxBSi4';
   readonly heroHighlights = [
     { value: '52+', label: 'Hybrid studio experts' },
     { value: '480+', label: 'Academy alumni' },
