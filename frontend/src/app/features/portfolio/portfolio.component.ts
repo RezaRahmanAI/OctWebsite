@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SectionHeaderComponent } from '../../shared/components/section-header/section-header.component';
-import { ScrollToDirective } from '../../shared/directives/scroll-reveal.directive';
+import { ScrollRevealDirective } from '../../shared/directives/scroll-reveal.directive';
 
 interface PortfolioItem {
   title: string;
@@ -23,7 +23,7 @@ interface PortfolioPageContent {
 @Component({
   selector: 'app-portfolio',
   standalone: true,
-  imports: [CommonModule, SectionHeaderComponent, ScrollToDirective],
+  imports: [CommonModule, SectionHeaderComponent, ScrollRevealDirective],
   templateUrl: './portfolio.component.html',
   styleUrls: ['./portfolio.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

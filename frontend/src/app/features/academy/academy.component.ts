@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { SectionHeaderComponent } from '../../shared/components/section-header/section-header.component';
-import { ScrollToDirective } from '../../shared/directives/scroll-reveal.directive';
+import { ScrollRevealDirective } from '../../shared/directives/scroll-reveal.directive';
 
 interface AcademyTrack {
   title: string;
@@ -22,7 +22,7 @@ interface AcademyPageContent {
 @Component({
   selector: 'app-academy',
   standalone: true,
-  imports: [CommonModule, SectionHeaderComponent, ScrollToDirective],
+  imports: [CommonModule, SectionHeaderComponent, ScrollRevealDirective],
   templateUrl: './academy.component.html',
   styleUrls: ['./academy.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

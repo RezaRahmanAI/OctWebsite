@@ -11,7 +11,8 @@ import {
   signal
 } from '@angular/core';
 import { SectionHeaderComponent } from '../../shared/components/section-header/section-header.component';
-import { ScrollToDirective } from '../../shared/directives/scroll-reveal.directive';
+import { ScrollRevealDirective } from '../../shared/directives/scroll-reveal.directive';
+import type { Testimonial } from '../../core/models/home-content.model';
 import { SeoService } from '../../core/services/seo.service';
 import { AnimationService } from '../../core/services/animation.service';
 import { ContentService } from '../../core/services/content.service';
@@ -20,7 +21,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, SectionHeaderComponent, ScrollToDirective, RouterLink],
+  imports: [CommonModule, SectionHeaderComponent, ScrollRevealDirective, RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -39,9 +40,12 @@ export class HomeComponent implements AfterViewInit {
 
   protected readonly testimonialView = signal<'client' | 'student'>('client');
 
-  protected readonly filteredTestimonials = computed(() =>
-    this.home().testimonials.items.filter((testimonial) => testimonial.type === this.testimonialView())
-  );
+  protected readonly filteredTestimonials = computed(() => {
+    const view = this.testimonialView();
+    return this.home().testimonials.items.filter(
+      (testimonial: Testimonial) => testimonial.type === view
+    );
+  });
 
   protected readonly statsPool = computed(() => [
     ...this.home().trust.stats,

@@ -54,7 +54,8 @@ export class AnimationService {
         scrollTrigger: {
           trigger: trigger ?? element,
           start,
-          toggleActions: once ? 'play none none none' : 'play none none reverse'
+          toggleActions: once ? 'play none none none' : 'play none none reverse',
+          invalidateOnRefresh: true
         }
       });
     }, element);
