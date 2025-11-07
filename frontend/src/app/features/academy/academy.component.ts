@@ -31,7 +31,7 @@ export class AcademyComponent {
   // Hardcoded example content (replace this with actual API call if needed)
   private _academyContent = signal<AcademyPageContent>({
     header: {
-      eyebrow: 'Hum Academy',
+      eyebrow: 'ZeroProgrammingBD Academy',
       title: 'Learn Technology, Build Careers',
       subtitle: 'Live online courses taught by industry experts. From beginner to professional.',
     },

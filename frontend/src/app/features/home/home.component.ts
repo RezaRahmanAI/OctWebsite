@@ -51,12 +51,12 @@ export class HomeComponent implements AfterViewInit {
 
   constructor() {
     this.seo.update({
-      title: 'Hum Tech & Academy | Digital Marketing, Software Development & Tech Courses in Bangladesh',
+      title: 'ObjectCanvas × ZeroProgrammingBD | Software Solutions & Tech Academy',
       description:
-        'Premium multinational technology company delivering digital marketing, software development, website building, and live tech education for Bangladesh and global markets.',
+        'ObjectCanvas Studios and ZeroProgrammingBD Academy deliver enterprise software, digital marketing, and live technology education for founders, enterprises, and future makers.',
       keywords:
-        'hum tech academy, digital marketing Bangladesh, software development Dhaka, web development, tech courses, lenis gsap',
-      canonical: 'https://www.humtech.academy'
+        'objectcanvas, zeroprogrammingbd, software development Bangladesh, digital marketing, tech academy, angular tailwind lenis',
+      canonical: 'https://www.objectcanvas.com'
     });
   }
 
