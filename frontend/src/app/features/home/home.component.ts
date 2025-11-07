@@ -1,94 +1,111 @@
 import { CommonModule } from '@angular/common';
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  QueryList,
-  ViewChildren,
-  computed,
-  inject,
-  signal
-} from '@angular/core';
-import { SectionHeaderComponent } from '../../shared/components/section-header/section-header.component';
-import { ScrollToDirective } from '../../shared/directives/scroll-reveal.directive';
-import { SeoService } from '../../core/services/seo.service';
-import { AnimationService } from '../../core/services/animation.service';
-import { ContentService } from '../../core/services/content.service';
+import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+
+type SectionLink = {
+  label: string;
+  summary: string;
+  route: string;
+};
+
+type Capability = {
+  title: string;
+  description: string;
+  points: string[];
+};
+
+type Principle = {
+  title: string;
+  detail: string;
+};
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, SectionHeaderComponent, ScrollToDirective, RouterLink],
+  imports: [CommonModule, RouterLink],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements AfterViewInit {
-  private readonly seo = inject(SeoService);
-  private readonly animation = inject(AnimationService);
-  private readonly content = inject(ContentService);
+export class HomeComponent {
+  readonly sectionLinks: SectionLink[] = [
+    {
+      label: 'Services',
+      summary: 'ObjectCanvas experts orchestrate discovery, design, and delivery for complex programmes.',
+      route: '/services'
+    },
+    {
+      label: 'Product',
+      summary: 'ZeroProgramming accelerators provide ready-to-deploy automation and data fabrics.',
+      route: '/product'
+    },
+    {
+      label: 'Academy',
+      summary: 'Pair with practitioner mentors to upskill product, engineering, and growth teams.',
+      route: '/academy'
+    },
+    {
+      label: 'Blog',
+      summary: 'Perspectives on building resilient digital ecosystems and high-performing teams.',
+      route: '/blog'
+    },
+    {
+      label: 'Contact',
+      summary: 'Shape an engagement model that meets your roadmap, budget, and governance needs.',
+      route: '/contact'
+    }
+  ];
 
-  @ViewChildren('counter', { read: ElementRef })
-  private counters?: QueryList<ElementRef<HTMLElement>>;
+  readonly stats = [
+    {
+      value: '85+',
+      label: 'Products launched',
+      description: 'Validated through multi-market delivery sprints and embedded analytics.'
+    },
+    {
+      value: '4.6x',
+      label: 'Automation ROI',
+      description: 'Average efficiency lift achieved with ZeroProgramming playbooks.'
+    },
+    {
+      value: '40',
+      label: 'Mentors on-call',
+      description: 'ObjectCanvas practitioners coaching teams through the Academy.'
+    }
+  ];
 
-  protected readonly home = this.content.homeContent;
-  protected readonly heroVideoSrc = computed(() => this.normalizeMediaUrl(this.home().hero.video.src));
-  protected readonly heroVideoPoster = computed(() => this.normalizeMediaUrl(this.home().hero.video.poster));
-
-  protected readonly testimonialView = signal<'client' | 'student'>('client');
-
-  protected readonly filteredTestimonials = computed(() =>
-    this.home().testimonials.items.filter((testimonial) => testimonial.type === this.testimonialView())
-  );
-
-  protected readonly statsPool = computed(() => [
-    ...this.home().trust.stats,
-    ...this.home().academy.stats,
-    ...this.home().impact.stats
-  ]);
-
-  constructor() {
-    this.seo.update({
-      title: 'Hum Tech & Academy | Digital Marketing, Software Development & Tech Courses in Bangladesh',
+  readonly capabilities: Capability[] = [
+    {
+      title: 'Discovery to delivery',
       description:
-        'Premium multinational technology company delivering digital marketing, software development, website building, and live tech education for Bangladesh and global markets.',
-      keywords:
-        'hum tech academy, digital marketing Bangladesh, software development Dhaka, web development, tech courses, lenis gsap',
-      canonical: 'https://www.humtech.academy'
-    });
-  }
-
-  ngAfterViewInit(): void {
-    queueMicrotask(() => {
-      const stats = this.statsPool();
-      this.counters?.forEach((counter, index) => {
-        const stat = stats[index];
-        if (!stat) {
-          return;
-        }
-        counter.nativeElement.setAttribute('data-suffix', stat.suffix ?? '');
-        if (stat.decimals != null) {
-          counter.nativeElement.setAttribute('data-decimals', String(stat.decimals));
-        }
-        this.animation.animateCounter(counter.nativeElement, stat.value);
-      });
-    });
-  }
-
-  protected setTestimonialView(view: 'client' | 'student'): void {
-    this.testimonialView.set(view);
-  }
-
-  private normalizeMediaUrl(url: string | null | undefined): string {
-    if (!url) {
-      return '';
+        'We align leadership, product, and engineering around measurable outcomes before a line of code is written.',
+      points: ['Value-led product framing', 'Experience blueprints and service maps', 'Roadmaps that balance vision and velocity']
+    },
+    {
+      title: 'Modern engineering craft',
+      description:
+        'ZeroProgramming assets accelerate compliant builds with modular architectures and automation-first practices.',
+      points: ['Composable reference implementations', 'Secure data fabrics and integration pipelines', 'Operational playbooks and observability baked in']
+    },
+    {
+      title: 'Enablement by default',
+      description:
+        'ObjectCanvas mentors embed alongside delivery teams to transfer skills, rituals, and ownership.',
+      points: ['Pairing and capability clinics', 'Academy paths tailored to roles', 'Documentation that sustains momentum']
     }
-    if (/^(https?:)?\/\//.test(url) || url.startsWith('data:')) {
-      return url;
+  ];
+
+  readonly principles: Principle[] = [
+    {
+      title: 'Outcome clarity',
+      detail: 'Every engagement starts with success metrics, governance, and stakeholder alignment.'
+    },
+    {
+      title: 'Integrated teams',
+      detail: 'Product strategists, designers, and engineers operate as one fused team with your leaders.'
+    },
+    {
+      title: 'Momentum mindset',
+      detail: 'We ship fast, learn faster, and leave behind the capability to keep scaling.'
     }
-    const normalized = url.startsWith('/') ? url : `/${url.replace(/^\/+/, '')}`;
-    return normalized.replace(/\/+$/, '');
-  }
+  ];
 }
