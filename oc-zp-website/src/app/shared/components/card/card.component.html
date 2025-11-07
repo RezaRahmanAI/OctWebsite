@@ -1,13 +1,14 @@
-<article class="card-surface group flex h-full flex-col gap-4 overflow-hidden p-0 transition hover:-translate-y-1 hover:shadow-[0_32px_70px_-35px_rgba(15,23,42,0.75)]">
+<article class="card-root group">
+  <div class="card-halo" aria-hidden="true"></div>
   <figure *ngIf="image" class="card-image">
     <img [src]="image" [alt]="imageAlt || title" loading="lazy" />
     <figcaption *ngIf="badge" class="card-image-badge">{{ badge }}</figcaption>
   </figure>
   <div class="card-body">
-    <div class="flex items-center gap-3" [class.mt-4]="image">
-      <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-500 via-primary-400 to-accent-500 text-lg font-semibold text-white shadow-glow">
+    <div class="card-header" [class.card-header--offset]="image">
+      <div class="card-icon">
         <ng-container *ngIf="icon; else defaultIcon">
-          <span class="text-lg font-semibold uppercase">{{ icon[0] }}</span>
+          <span class="card-icon-text">{{ icon[0] }}</span>
         </ng-container>
         <ng-template #defaultIcon>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
@@ -18,20 +19,20 @@
           </svg>
         </ng-template>
       </div>
-      <span *ngIf="badge && !image" class="tag-chip">{{ badge }}</span>
+      <span *ngIf="badge && !image" class="card-pill">{{ badge }}</span>
     </div>
-  <div class="space-y-3">
-    <h3 class="text-xl font-semibold text-ink">{{ title }}</h3>
-    <p class="text-sm text-muted" *ngIf="description">{{ description }}</p>
-  </div>
-  <div class="mt-auto flex items-center gap-2 text-sm font-semibold text-primary-100" *ngIf="link">
-    <a [routerLink]="link" class="inline-flex items-center gap-1 transition group-hover:gap-2">
-      View details
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 7l-10 10m0-10h10v10" />
-      </svg>
-    </a>
-  </div>
+    <div class="card-content">
+      <h3 class="card-title">{{ title }}</h3>
+      <p class="card-description" *ngIf="description">{{ description }}</p>
+    </div>
+    <div class="card-footer" *ngIf="link">
+      <a [routerLink]="link" class="card-link">
+        Explore detail
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14m-7-7l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
   </div>
   <ng-content></ng-content>
 </article>

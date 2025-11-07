@@ -1,7 +1,10 @@
-<div [ngClass]="align === 'center' ? 'text-center' : 'text-left'" class="space-y-3">
-  <p *ngIf="eyebrow" class="text-sm font-semibold uppercase tracking-wide text-primary-600">{{ eyebrow }}</p>
-  <h2 class="text-3xl font-semibold text-ink sm:text-4xl">{{ title }}</h2>
-  <p *ngIf="subtitle" class="text-base text-muted max-w-2xl" [ngClass]="align === 'center' ? 'mx-auto' : ''">
+<div class="heading" [class.heading--center]="align === 'center'">
+  <p *ngIf="eyebrow" class="heading-eyebrow">
+    <span class="heading-dot" aria-hidden="true"></span>
+    {{ eyebrow }}
+  </p>
+  <h2 class="heading-title">{{ title }}</h2>
+  <p *ngIf="subtitle" class="heading-subtitle" [class.heading-subtitle--center]="align === 'center'">
     {{ subtitle }}
   </p>
 </div>
