@@ -1,0 +1,72 @@
+<section id="academy" class="relative isolate py-24">
+  <div class="absolute inset-0 bg-gradient-to-b from-brand-accent/10 via-transparent to-transparent"></div>
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="mb-12 grid gap-10 md:grid-cols-[1.6fr_1fr] md:items-center">
+      <div>
+        <p class="section-title">ZeroProgramming Academy</p>
+        <h2 class="text-3xl font-semibold text-white md:text-4xl">
+          Industry-grade training that mirrors live production work.
+        </h2>
+        <p class="mt-4 text-base text-slate-300">
+          From kids computing labs to no-code entrepreneurship, our curriculum is constantly refreshed with real briefs, code reviews, and QA standards coming out of ObjectCanvas delivery pods.
+        </p>
+        <ul class="mt-6 space-y-3 text-sm text-slate-200">
+          <li *ngFor="let outcome of outcomes" class="flex items-start gap-3">
+            <span class="mt-1 h-1.5 w-1.5 rounded-full bg-brand-secondary"></span>
+            {{ outcome }}
+          </li>
+        </ul>
+      </div>
+      <div class="rounded-3xl border border-white/5 bg-white/5 p-6 text-sm text-slate-200">
+        <h3 class="text-sm font-semibold uppercase tracking-[0.35em] text-brand-secondary">Beyond the classroom</h3>
+        <p class="mt-4">
+          ⚡ Weekly showcase nights with ObjectCanvas architects.
+        </p>
+        <p class="mt-2">
+          🤝 Paid internship and client shadowing opportunities every quarter.
+        </p>
+        <p class="mt-2">
+          🌍 Global mentor network featuring alumni freelancing across five continents.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid gap-6 md:grid-cols-3">
+      <article
+        *ngFor="let track of tracks()"
+        class="flex h-full flex-col justify-between rounded-3xl border border-white/5 bg-navy-900/60 p-6 transition hover:-translate-y-1 hover:border-brand-secondary/40"
+      >
+        <div>
+          <span class="rounded-full bg-brand-secondary/20 px-3 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-brand-secondary">{{ track.audience || 'All levels' }}</span>
+          <h3 class="mt-4 text-xl font-semibold text-white">{{ track.name }}</h3>
+          <p class="mt-2 text-sm text-slate-300">
+            Duration: {{ track.duration }} • Investment: {{ track.investment }}
+          </p>
+        </div>
+        <div class="mt-6 space-y-4">
+          <div *ngFor="let level of track.levels" class="rounded-2xl bg-white/5 p-4">
+            <h4 class="text-sm font-semibold text-brand-accent">{{ level.name }}</h4>
+            <p class="mt-2 text-xs text-slate-300">
+              Tools: {{ level.tools.join(', ') }}
+            </p>
+            <ul class="mt-3 space-y-1 text-xs text-slate-200">
+              <li *ngFor="let outcome of level.outcomes" class="flex items-start gap-2">
+                <span class="mt-1 h-1.5 w-1.5 rounded-full bg-brand-primary"></span>
+                {{ outcome }}
+              </li>
+            </ul>
+          </div>
+        </div>
+        <a
+          class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-brand-secondary transition hover:text-brand-accent"
+          href="#contact"
+        >
+          Request syllabus
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14m-7-7 7 7-7 7" />
+          </svg>
+        </a>
+      </article>
+    </div>
+  </div>
+</section>

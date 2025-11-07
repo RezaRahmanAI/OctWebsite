@@ -1,0 +1,127 @@
+<section id="contact" class="relative isolate py-24">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="grid gap-10 md:grid-cols-[1.2fr_1fr]">
+      <div class="space-y-6">
+        <p class="section-title">Partner with us</p>
+        <h2 class="text-3xl font-semibold text-white md:text-4xl">
+          Let’s architect your next launch or learning initiative.
+        </h2>
+        <p class="text-base text-slate-300">
+          Share your goals and we will assemble a tailored pod blending ObjectCanvas engineers, designers, and ZeroProgramming mentors. We respond within one business day.
+        </p>
+        <div class="flex flex-wrap gap-6 text-sm text-slate-300">
+          <div class="flex items-center gap-3">
+            <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-primary/20 text-brand-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l9 6 9-6-9-6-9 6z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 8v8l-9 6-9-6V8" />
+              </svg>
+            </span>
+            <div>
+              <p class="font-semibold text-white">Corporate innovation labs</p>
+              <p>Design sprints + academy tracks for enterprise teams.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-secondary/20 text-brand-secondary">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6v12m6-6H6" />
+              </svg>
+            </span>
+            <div>
+              <p class="font-semibold text-white">Startup co-builds</p>
+              <p>CTO-as-a-service, product launch, and venture readiness.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-accent/20 text-brand-accent">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v18m9-9H3" />
+              </svg>
+            </span>
+            <div>
+              <p class="font-semibold text-white">Learning partnerships</p>
+              <p>Schools & NGOs bringing computing, no-code, and freelancing to new audiences.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <form
+        [formGroup]="form"
+        (ngSubmit)="submit()"
+        class="space-y-4 rounded-3xl border border-white/5 bg-white/5 p-6 shadow-lg shadow-brand-primary/10"
+      >
+        <div class="grid gap-4 md:grid-cols-2">
+          <label class="flex flex-col text-sm text-slate-300">
+            Name
+            <input
+              formControlName="name"
+              type="text"
+              class="mt-1 rounded-xl border border-transparent bg-navy-900/60 px-4 py-3 text-sm text-white focus:border-brand-primary focus:outline-none"
+              placeholder="Full name"
+            />
+            <span *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="mt-1 text-xs text-red-400">Name is required.</span>
+          </label>
+          <label class="flex flex-col text-sm text-slate-300">
+            Email
+            <input
+              formControlName="email"
+              type="email"
+              class="mt-1 rounded-xl border border-transparent bg-navy-900/60 px-4 py-3 text-sm text-white focus:border-brand-primary focus:outline-none"
+              placeholder="you@company.com"
+            />
+            <span *ngIf="form.get('email')?.invalid && form.get('email')?.touched" class="mt-1 text-xs text-red-400">Enter a valid email.</span>
+          </label>
+        </div>
+        <div class="grid gap-4 md:grid-cols-2">
+          <label class="flex flex-col text-sm text-slate-300">
+            Phone (optional)
+            <input
+              formControlName="phone"
+              type="tel"
+              class="mt-1 rounded-xl border border-transparent bg-navy-900/60 px-4 py-3 text-sm text-white focus:border-brand-primary focus:outline-none"
+              placeholder="+880..."
+            />
+          </label>
+          <label class="flex flex-col text-sm text-slate-300">
+            Subject
+            <input
+              formControlName="subject"
+              type="text"
+              class="mt-1 rounded-xl border border-transparent bg-navy-900/60 px-4 py-3 text-sm text-white focus:border-brand-primary focus:outline-none"
+              placeholder="Project or program focus"
+            />
+          </label>
+        </div>
+        <label class="flex flex-col text-sm text-slate-300">
+          Tell us about your goals
+          <textarea
+            formControlName="message"
+            rows="5"
+            class="mt-1 rounded-xl border border-transparent bg-navy-900/60 px-4 py-3 text-sm text-white focus:border-brand-primary focus:outline-none"
+            placeholder="What are you looking to build or teach?"
+          ></textarea>
+          <span *ngIf="form.get('message')?.invalid && form.get('message')?.touched" class="mt-1 text-xs text-red-400">Message should be at least 10 characters.</span>
+        </label>
+
+        <button
+          type="submit"
+          [disabled]="submitting()"
+          class="w-full rounded-2xl bg-brand-primary px-5 py-3 text-sm font-semibold text-white shadow-glow transition hover:-translate-y-0.5 hover:bg-brand-primary/90 disabled:cursor-not-allowed disabled:opacity-70"
+        >
+          {{ submitting() ? 'Sending...' : 'Send message' }}
+        </button>
+
+        <p
+          *ngIf="statusMessage()"
+          [class.text-emerald-300]="statusType() === 'success'"
+          [class.text-red-400]="statusType() === 'error'"
+          class="text-sm"
+        >
+          {{ statusMessage() }}
+        </p>
+      </form>
+    </div>
+  </div>
+</section>

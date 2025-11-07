@@ -1,0 +1,56 @@
+<section class="relative isolate py-24">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+      <div>
+        <p class="section-title">Insights & resources</p>
+        <h2 class="text-3xl font-semibold text-white md:text-4xl">
+          Lessons from building software and empowering talent.
+        </h2>
+      </div>
+      <a
+        class="inline-flex items-center gap-2 rounded-full border border-brand-secondary/50 px-4 py-2 text-sm font-semibold text-brand-secondary"
+        href="https://objectcanvas.com/blog"
+        target="_blank"
+        rel="noopener"
+      >
+        View all stories
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14m-7-7 7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+
+    <div class="grid gap-6 md:grid-cols-3">
+      <article
+        *ngFor="let post of posts()"
+        class="flex h-full flex-col overflow-hidden rounded-3xl border border-white/5 bg-white/5"
+      >
+        <img
+          [src]="post.coverImageUrl"
+          [alt]="post.title"
+          class="h-40 w-full object-cover"
+        />
+        <div class="flex flex-1 flex-col gap-4 p-6">
+          <div class="flex flex-wrap items-center gap-2 text-[0.7rem] uppercase tracking-[0.3em] text-brand-accent">
+            <span>{{ post.publishedAt | date: 'd MMM yyyy' }}</span>
+            <span class="hidden h-1 w-1 rounded-full bg-brand-accent/40 md:inline-block"></span>
+            <span *ngFor="let tag of post.tags">{{ tag }}</span>
+          </div>
+          <h3 class="text-lg font-semibold text-white">{{ post.title }}</h3>
+          <p class="text-sm text-slate-300">{{ post.excerpt }}</p>
+          <a
+            class="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-brand-secondary"
+            [href]="'https://objectcanvas.com/blog/' + post.slug"
+            target="_blank"
+            rel="noopener"
+          >
+            Read story
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14m-7-7 7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
