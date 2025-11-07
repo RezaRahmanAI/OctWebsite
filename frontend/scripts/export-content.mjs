@@ -107,7 +107,7 @@ const homeContent = {
         tagline: 'Your Digital Home, Perfected'
       },
       {
-        title: 'Hum Academy',
+        title: 'ZeroProgrammingBD Academy',
         icon: '🎓',
         description: 'Future-ready tech education with live cohorts, real-world projects, and mentorship from industry leaders.',
         highlights: [
@@ -123,7 +123,7 @@ const homeContent = {
   },
   differentiators: {
     header: {
-      eyebrow: 'Why Hum Tech & Academy',
+      eyebrow: 'Why ObjectCanvas × ZeroProgrammingBD',
       title: 'Why Leading Companies Choose Us',
       subtitle:
         'End-to-end partnership, measurable outcomes, and a commitment to the teams who rely on our solutions every day.'
@@ -152,14 +152,14 @@ const homeContent = {
       },
       {
         title: 'Beyond Delivery',
-        description: 'We empower your team with upskilling and internal enablement through Hum Academy programs.'
+        description: 'We empower your team with upskilling and internal enablement through ZeroProgrammingBD Academy programs.'
       }
     ],
     partnershipPanel: {
       eyebrow: 'Partnership DNA',
       title: 'Strategy, build, enablement and continuous optimization—one integrated team.',
       description:
-        'We embed with your teams, align KPIs, and share knowledge through Hum Academy so you stay in control long after launch.',
+        'We embed with your teams, align KPIs, and share knowledge through ZeroProgrammingBD Academy so you stay in control long after launch.',
       highlights: [
         { label: 'Dedicated PMO', value: 'Weekly sprints & dashboards' },
         { label: 'Academy Enablement', value: 'Workshops & certifications' }
@@ -214,8 +214,8 @@ const homeContent = {
   },
   academy: {
     header: {
-      eyebrow: 'Hum Academy',
-      title: 'Hum Academy: Learn Technology, Build Careers',
+      eyebrow: 'ZeroProgrammingBD Academy',
+      title: 'ZeroProgrammingBD Academy: Learn Technology, Build Careers',
       subtitle: 'Live online courses taught by industry experts. From beginner to professional.'
     },
     categories: [
@@ -294,7 +294,7 @@ const homeContent = {
     items: [
       {
         quote:
-          'Hum Tech transformed our digital presence and unified our customer journey across markets. Their strategy and execution rival the best global agencies.',
+          'ObjectCanvas transformed our digital presence and unified our customer journey across markets. Their strategy and execution rival the best global agencies.',
         name: 'Arif Khan',
         title: 'Chief Digital Officer, Aarong Global',
         location: 'Dhaka & Dubai',
@@ -312,7 +312,7 @@ const homeContent = {
       },
       {
         quote:
-          'Hum Academy’s DevOps bootcamp helped me transition from support engineer to cloud engineer in under six months with real mentorship.',
+          'ZeroProgrammingBD Academy’s DevOps bootcamp helped me transition from support engineer to cloud engineer in under six months with real mentorship.',
         name: 'Mahim Islam',
         title: 'Cloud Engineer, Sydney',
         location: 'Sydney, Australia',
@@ -355,7 +355,7 @@ const homeContent = {
       {
         title: 'Designing Omni-Channel Experiences for Emerging Markets',
         category: 'Case Study',
-        summary: 'How Hum Tech reimagined retail experiences with localized content and automation.',
+        summary: 'How ObjectCanvas reimagined retail experiences with localized content and automation.',
         readTime: '7 min read'
       },
       {
@@ -383,7 +383,7 @@ const homeContent = {
     },
     academy: {
       title: 'Ready to Advance Your Career?',
-      description: 'Enroll in Hum Academy programs to upgrade your skills with mentorship from industry practitioners.',
+      description: 'Enroll in ZeroProgrammingBD Academy programs to upgrade your skills with mentorship from industry practitioners.',
       cta: {
         label: 'Browse Courses',
         routerLink: '/academy'
@@ -396,21 +396,21 @@ const homeContent = {
       title: "Let's Build Something Amazing Together",
       subtitle: 'Tell us about your goals and we will curate a dedicated team for you.'
     },
-    headquarters: 'Hum Tech & Academy, 123 Innovation Avenue, Tejgaon, Dhaka 1207',
-    phones: ['Bangladesh: +880 1234-567890', 'International: +1 415-555-0198'],
+    headquarters: 'ObjectCanvas Studios & ZeroProgrammingBD Academy, 12/2 Innovation Avenue, Tejgaon, Dhaka 1207',
+    phones: ['Bangladesh: +880 1315-220077', 'International: +1 415-915-0198'],
     emails: [
-      { label: 'Business', value: 'hello@humtech.academy' },
-      { label: 'Academy', value: 'courses@humtech.academy' },
-      { label: 'Support', value: 'support@humtech.academy' }
+      { label: 'Business', value: 'partnerships@objectcanvas.com' },
+      { label: 'Academy', value: 'admissions@zeroprogrammingbd.com' },
+      { label: 'Support', value: 'support@objectcanvas.com' }
     ],
     businessHours: ['Sun-Thu: 9:00 AM - 6:00 PM (GMT+6)', 'Fri-Sat: Closed'],
     socials: [
-      { label: 'LinkedIn', url: 'https://www.linkedin.com/company/humtechacademy' },
-      { label: 'Facebook', url: 'https://www.facebook.com/humtechacademy' },
-      { label: 'Twitter', url: 'https://twitter.com/humtechacademy' },
-      { label: 'Instagram', url: 'https://www.instagram.com/humtechacademy' },
-      { label: 'YouTube', url: 'https://www.youtube.com/@humtechacademy' },
-      { label: 'GitHub', url: 'https://github.com/humtechacademy' }
+      { label: 'LinkedIn', url: 'https://www.linkedin.com/company/objectcanvas' },
+      { label: 'Facebook', url: 'https://www.facebook.com/objectcanvas' },
+      { label: 'Twitter', url: 'https://twitter.com/objectcanvas' },
+      { label: 'Instagram', url: 'https://www.instagram.com/objectcanvas' },
+      { label: 'YouTube', url: 'https://www.youtube.com/@zeroprogrammingbd' },
+      { label: 'GitHub', url: 'https://github.com/objectcanvas' }
     ],
     consultation: {
       label: 'Schedule a Free Consultation',
@@ -419,7 +419,7 @@ const homeContent = {
     },
     profileDownload: {
       label: 'Download Company Profile (PDF)',
-      url: 'https://www.humtech.academy/assets/company-profile.pdf'
+      url: 'https://objectcanvas.com/company-profile.pdf'
     }
   }
 };
@@ -460,7 +460,7 @@ const servicesPage = {
       outcomes: [
         'Accelerated launches with agile delivery and automation',
         'Battle-tested architecture prepared for scale and compliance',
-        'Knowledge transfer to internal teams via Hum Academy enablement'
+        'Knowledge transfer to internal teams via ZeroProgrammingBD Academy enablement'
       ]
     },
     {
@@ -575,7 +575,7 @@ const aboutPage = {
       'ObjectCanvas Studios and ZeroProgrammingBD Academy partner to ship resilient products while upskilling future talent.'
   },
   intro:
-    'Our multidisciplinary team blends product strategists, engineers, data scientists, digital marketers, and educators. We believe the best partnerships combine delivery excellence with capability building, which is why Hum Academy is woven into every engagement.',
+    'Our multidisciplinary team blends product strategists, engineers, data scientists, digital marketers, and educators. We believe the best partnerships combine delivery excellence with capability building, which is why ZeroProgrammingBD Academy is woven into every engagement.',
   values: [
     {
       title: 'Human First Innovation',
@@ -629,7 +629,7 @@ const insightsPage = {
       readTime: '6 min read'
     },
     {
-      title: 'Upskilling Product Teams with Hum Academy',
+      title: 'Upskilling Product Teams with ZeroProgrammingBD Academy',
       category: 'Learning',
       excerpt: 'Playbooks for aligning training roadmaps with product delivery to reduce onboarding time and talent gaps.',
       readTime: '5 min read'
@@ -640,13 +640,13 @@ const insightsPage = {
 const contactPage = {
   header: {
     eyebrow: 'Contact',
-    title: 'Partner with Hum Tech & Academy',
+    title: 'Partner with ObjectCanvas × ZeroProgrammingBD',
     subtitle: 'Share your goals and we will prepare a tailored action plan, timeline, and resourcing model.'
   },
   consultationOptions: 'Schedule a discovery call, request a proposal, or invite us to an RFP.',
   regionalSupport: 'Dhaka · Singapore · Dubai · London · Toronto',
-  emails: ['hello@humtech.academy', 'courses@humtech.academy', 'support@humtech.academy'],
-  formOptions: ['Digital Marketing', 'Software Development', 'Website Building', 'Hum Academy Programs', 'General Inquiry'],
+  emails: ['partnerships@objectcanvas.com', 'admissions@zeroprogrammingbd.com', 'support@objectcanvas.com'],
+  formOptions: ['Digital Marketing', 'Software Development', 'Website Building', 'ZeroProgrammingBD Academy Programs', 'General Inquiry'],
   ndaLabel: 'I would like to sign an NDA prior to sharing sensitive information.',
   responseTime: 'We respond within 24 business hours. For urgent queries, call +880 1234-567890.'
 };
@@ -679,12 +679,12 @@ const navigation = {
 
 const footerContent = {
   socialLinks: [
-    { label: 'LinkedIn', url: 'https://www.linkedin.com/company/humtechacademy' },
-    { label: 'Facebook', url: 'https://www.facebook.com/humtechacademy' },
-    { label: 'Twitter', url: 'https://twitter.com/humtechacademy' },
-    { label: 'Instagram', url: 'https://www.instagram.com/humtechacademy' },
-    { label: 'YouTube', url: 'https://www.youtube.com/@humtechacademy' },
-    { label: 'GitHub', url: 'https://github.com/humtechacademy' }
+    { label: 'LinkedIn', url: 'https://www.linkedin.com/company/objectcanvas' },
+    { label: 'Facebook', url: 'https://www.facebook.com/objectcanvas' },
+    { label: 'Twitter', url: 'https://twitter.com/objectcanvas' },
+    { label: 'Instagram', url: 'https://www.instagram.com/objectcanvas' },
+    { label: 'YouTube', url: 'https://www.youtube.com/@zeroprogrammingbd' },
+    { label: 'GitHub', url: 'https://github.com/objectcanvas' }
   ]
 };
 

@@ -22,12 +22,53 @@ type LearningFormat = {
   styleUrls: ['./academy.component.css']
 })
 export class AcademyComponent {
-  readonly overview = {
-    eyebrow: 'Academy',
-    title: 'Practitioner-led enablement',
-    intro:
-      'ObjectCanvas mentors and ZeroProgramming architects guide your teams through curated learning paths while delivering real products.'
-  };
+  // Hardcoded example content (replace this with actual API call if needed)
+  private _academyContent = signal<AcademyPageContent>({
+    header: {
+      eyebrow: 'ZeroProgrammingBD Academy',
+      title: 'Learn Technology, Build Careers',
+      subtitle: 'Live online courses taught by industry experts. From beginner to professional.',
+    },
+    tracks: [
+      {
+        title: 'Full-Stack Web Development',
+        description:
+          'Become proficient in both front-end and back-end development with hands-on projects.',
+        modules: ['HTML & CSS', 'JavaScript & TypeScript', 'Node.js & Express', 'MongoDB & NoSQL'],
+        outcomes: [
+          'Build full-stack web applications',
+          'Learn industry-standard technologies',
+          'Understand the fundamentals of web development',
+        ],
+      },
+      {
+        title: 'Digital Marketing & SEO',
+        description: 'Master the art of online marketing and SEO to grow businesses and websites.',
+        modules: ['SEO Basics', 'Content Marketing', 'Google Ads', 'Social Media Marketing'],
+        outcomes: [
+          'Drive organic traffic with SEO',
+          'Develop content strategies',
+          'Run successful ad campaigns on Google and social media',
+        ],
+      },
+      {
+        title: 'UI/UX Design',
+        description:
+          'Design user-centric websites and apps that are not only beautiful but functional.',
+        modules: [
+          'Wireframing & Prototyping',
+          'User Research',
+          'Usability Testing',
+          'Figma & Adobe XD',
+        ],
+        outcomes: [
+          'Create intuitive user interfaces',
+          'Enhance user experience through design thinking',
+          'Develop high-fidelity prototypes',
+        ],
+      },
+    ],
+  });
 
   readonly tracks: AcademyTrack[] = [
     {

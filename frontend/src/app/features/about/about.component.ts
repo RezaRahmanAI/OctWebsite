@@ -41,7 +41,7 @@ export class AboutComponent {
       subtitle: 'Building partnerships through innovation and expertise.',
     },
     intro:
-      'Our multidisciplinary team blends product strategists, engineers, data scientists, digital marketers, and educators. We believe the best partnerships combine delivery excellence with capability building, which is why Hum Academy is woven into every engagement.',
+      'ObjectCanvas product strategists, engineers, data scientists, digital marketers, and ZeroProgrammingBD educators collaborate as one team. Delivery excellence and capability building move in lockstep, so every engagement ships solutions and skills together.',
     values: [
       {
         title: 'Innovation',

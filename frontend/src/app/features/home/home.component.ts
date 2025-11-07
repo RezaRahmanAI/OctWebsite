@@ -73,24 +73,41 @@ export class HomeComponent {
     }
   ];
 
-  readonly capabilities: Capability[] = [
-    {
-      title: 'Discovery to delivery',
+  constructor() {
+    this.seo.update({
+      title: 'ObjectCanvas × ZeroProgrammingBD | Software Solutions & Tech Academy',
       description:
-        'We align leadership, product, and engineering around measurable outcomes before a line of code is written.',
-      points: ['Value-led product framing', 'Experience blueprints and service maps', 'Roadmaps that balance vision and velocity']
-    },
-    {
-      title: 'Modern engineering craft',
-      description:
-        'ZeroProgramming assets accelerate compliant builds with modular architectures and automation-first practices.',
-      points: ['Composable reference implementations', 'Secure data fabrics and integration pipelines', 'Operational playbooks and observability baked in']
-    },
-    {
-      title: 'Enablement by default',
-      description:
-        'ObjectCanvas mentors embed alongside delivery teams to transfer skills, rituals, and ownership.',
-      points: ['Pairing and capability clinics', 'Academy paths tailored to roles', 'Documentation that sustains momentum']
+        'ObjectCanvas Studios and ZeroProgrammingBD Academy deliver enterprise software, digital marketing, and live technology education for founders, enterprises, and future makers.',
+      keywords:
+        'objectcanvas, zeroprogrammingbd, software development Bangladesh, digital marketing, tech academy, angular tailwind lenis',
+      canonical: 'https://www.objectcanvas.com'
+    });
+  }
+
+  ngAfterViewInit(): void {
+    queueMicrotask(() => {
+      const stats = this.statsPool();
+      this.counters?.forEach((counter, index) => {
+        const stat = stats[index];
+        if (!stat) {
+          return;
+        }
+        counter.nativeElement.setAttribute('data-suffix', stat.suffix ?? '');
+        if (stat.decimals != null) {
+          counter.nativeElement.setAttribute('data-decimals', String(stat.decimals));
+        }
+        this.animation.animateCounter(counter.nativeElement, stat.value);
+      });
+    });
+  }
+
+  protected setTestimonialView(view: 'client' | 'student'): void {
+    this.testimonialView.set(view);
+  }
+
+  private normalizeMediaUrl(url: string | null | undefined): string {
+    if (!url) {
+      return '';
     }
   ];
 
