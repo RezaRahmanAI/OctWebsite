@@ -1,27 +1,43 @@
-# Frontend
+# Hum Tech & Academy
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.21.
+Premium multinational technology and academy experience built with Angular 18, Tailwind CSS, GSAP, and Lenis.
 
-## Development server
+## Getting Started
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+```bash
+npm install
+npm start
+```
 
-## Code scaffolding
+The development server is available at `http://localhost:4200/`.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Features
 
-## Build
+- Standalone Angular 18 architecture with lazy-loaded feature routes
+- Tailwind CSS design system inspired by global tech leaders
+- GSAP ScrollTrigger animations and Lenis smooth scrolling
+- Responsive layout covering services, academy, portfolio, testimonials, and contact flows
+- SEO meta tags, structured data, and semantic HTML
+- Reusable section header component and scroll reveal directive
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Available Scripts
 
-## Running unit tests
+- `npm start` – run the development server
+- `npm run build` – generate a production build
+- `npm run test` – execute unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Folder Structure
 
-## Running end-to-end tests
+```
+src/
+  app/
+    core/          # Services for animation, scrolling, and SEO
+    features/      # Lazy-loaded feature pages (home, services, academy, etc.)
+    layout/        # Header and footer components
+    shared/        # Reusable components and directives
+  styles.css       # Tailwind layers and global styles
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## License
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Copyright © 2024 Hum Tech & Academy.

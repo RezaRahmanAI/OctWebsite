@@ -1,0 +1,69 @@
+<section class="section-padding">
+  <div class="container-wide grid gap-12 lg:grid-cols-[1fr_1fr]">
+    <div appScrollReveal>
+      <app-section-header
+        [eyebrow]="header()?.eyebrow ?? 'Contact'"
+        [title]="header()?.title ?? 'Contact'"
+        [subtitle]="header()?.subtitle ?? ''"
+      ></app-section-header>
+      <div class="mt-8 space-y-6 text-sm text-slate-600">
+        <div>
+          <h3 class="text-lg font-semibold text-primary">Consultation Options</h3>
+          <p class="mt-2">{{ contactContent()?.consultationOptions }}</p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-primary">Regional Support</h3>
+          <p class="mt-2">{{ contactContent()?.regionalSupport }}</p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-primary">Direct Email</h3>
+          <p *ngFor="let email of emails(); let i = index" class="text-sm text-slate-600" [class.mt-2]="i === 0">
+            {{ email }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="rounded-[32px] border border-slate-100 bg-white p-10 shadow-glow" appScrollReveal>
+      <form class="grid gap-6">
+        <div class="grid gap-4 md:grid-cols-2">
+          <div>
+            <label class="text-sm font-semibold text-primary" for="contact-name">Full Name*</label>
+            <input id="contact-name" class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-accent/40" placeholder="Your name" required />
+          </div>
+          <div>
+            <label class="text-sm font-semibold text-primary" for="contact-company">Company</label>
+            <input id="contact-company" class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-accent/40" placeholder="Organisation" />
+          </div>
+        </div>
+        <div class="grid gap-4 md:grid-cols-2">
+          <div>
+            <label class="text-sm font-semibold text-primary" for="contact-email">Email*</label>
+            <input id="contact-email" type="email" class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-accent/40" placeholder="you@company.com" required />
+          </div>
+          <div>
+            <label class="text-sm font-semibold text-primary" for="contact-phone">Phone</label>
+            <input id="contact-phone" class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-accent/40" placeholder="Optional" />
+          </div>
+        </div>
+        <div>
+          <label class="text-sm font-semibold text-primary" for="contact-interest">I'm interested in</label>
+          <select id="contact-interest" class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-accent/40" required>
+            <option *ngFor="let option of formOptions()">{{ option }}</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-sm font-semibold text-primary" for="contact-details">Project Details*</label>
+          <textarea id="contact-details" rows="5" class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-accent/40" placeholder="Share objectives, timelines, and key requirements" required></textarea>
+        </div>
+        <div class="flex items-start gap-3">
+          <input id="nda" type="checkbox" class="mt-1 h-4 w-4 rounded border-slate-300 text-primary focus:ring-accent/40" required />
+          <label for="nda" class="text-xs text-slate-500">{{ contactContent()?.ndaLabel }}</label>
+        </div>
+        <button type="submit" class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:-translate-y-0.5">
+          Submit Inquiry
+        </button>
+        <p class="text-xs text-slate-500">{{ contactContent()?.responseTime }}</p>
+      </form>
+    </div>
+  </div>
+</section>

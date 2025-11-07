@@ -1,0 +1,57 @@
+:host {
+  display: block;
+}
+
+.form-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-input {
+  @apply w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-700 transition focus:border-primary focus:outline-none focus:ring-2 focus:ring-accent/40;
+}
+
+.dashboard-page {
+  background: linear-gradient(180deg, rgba(241, 245, 249, 0.8) 0%, rgba(255, 255, 255, 0.95) 100%);
+}
+
+.dashboard-side-nav {
+  @apply hidden h-max rounded-3xl border border-slate-200 bg-white/80 p-4 shadow-glow lg:sticky lg:top-28 lg:block;
+}
+
+.dashboard-side-link {
+  @apply block rounded-2xl px-4 py-2 text-sm font-semibold text-slate-500 transition hover:bg-primary/5 hover:text-primary;
+}
+
+.dashboard-mobile-nav {
+  @apply rounded-3xl border border-slate-200 bg-white/80 p-4 shadow-glow lg:hidden;
+}
+
+.dashboard-mobile-link {
+  @apply inline-flex min-w-max items-center justify-center rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-500 transition hover:border-primary hover:text-primary;
+}
+
+summary {
+  list-style: none;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary::after {
+  content: '\25BC';
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: rgb(148 163 184);
+  transition: transform 0.2s ease;
+}
+
+details[open] summary::after {
+  transform: rotate(180deg);
+}
+
+details {
+  scroll-margin-top: 7rem;
+}

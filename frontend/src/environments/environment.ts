@@ -1,4 +1,9 @@
-export const environment = {
-  production: true,
-  apiUrl: 'http://localhost:5191/api'
+type DataProviderKey = 'in-memory';
+
+interface EnvironmentConfig {
+  readonly apiUrl: string;
+}
+
+export const environment: EnvironmentConfig = {
+  apiUrl: 'http://localhost:5191',
 };

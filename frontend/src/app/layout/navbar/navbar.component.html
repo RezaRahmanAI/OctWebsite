@@ -1,0 +1,104 @@
+<header
+  class="fixed inset-x-0 top-0 z-50 transition-all duration-500"
+  [ngClass]="{
+    'bg-white/90 backdrop-blur shadow-glow': scrolled(),
+    'bg-transparent': !scrolled()
+  }"
+>
+  <div class="container-wide">
+    <nav class="flex items-center justify-between py-4">
+      <a class="flex items-center gap-2 text-lg font-semibold text-primary"
+         routerLink="/"
+         (click)="closeMenu()">
+        <span class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-accent/90 via-emerald/80 to-teal text-white font-heading text-xl">H</span>
+        <span class="hidden flex-col leading-tight sm:flex">
+          <span class="font-heading text-xl font-semibold tracking-tight">Hum Tech</span>
+          <span class="text-sm font-medium text-slate-500">&amp; Academy</span>
+        </span>
+        <span class="flex flex-col leading-tight sm:hidden">
+          <span class="font-heading text-xl">Hum Tech</span>
+          <span class="text-xs text-slate-500">Academy</span>
+        </span>
+      </a>
+
+      <div class="hidden items-center gap-8 lg:flex">
+        <ul class="flex items-center gap-6 text-sm font-medium text-slate-600">
+          <li *ngFor="let link of navLinks()">
+            <a
+              [routerLink]="link.path"
+              routerLinkActive="text-primary"
+              [routerLinkActiveOptions]="{ exact: link.exact ?? false }"
+              class="relative transition-colors duration-300 hover:text-primary"
+              (click)="closeMenu()"
+            >
+              {{ link.label }}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="flex items-center gap-3 lg:hidden">
+        <a
+          routerLink="/contact"
+          class="hidden rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:-translate-y-0.5 hover:bg-slate-900 sm:inline-flex"
+          (click)="closeMenu()"
+        >
+          Get Started
+        </a>
+        <button
+          type="button"
+          class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-primary shadow-sm transition hover:border-primary/50"
+          (click)="toggleMenu()"
+          aria-label="Toggle navigation"
+        >
+          <svg *ngIf="!menuOpen()" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+          <svg *ngIf="menuOpen()" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 6l12 12M6 18L18 6" />
+          </svg>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <div *ngIf="menuOpen()" class="lg:hidden">
+    <div class="container-wide pb-6">
+      <div class="rounded-3xl border border-slate-100 bg-white/95 p-6 shadow-glow">
+        <ul class="flex flex-col gap-4 text-base font-medium text-slate-700">
+          <li *ngFor="let link of navLinks()">
+            <a
+              [routerLink]="link.path"
+              routerLinkActive="text-primary"
+              [routerLinkActiveOptions]="{ exact: link.exact ?? false }"
+              class="flex items-center justify-between rounded-xl px-4 py-3 transition hover:bg-slate-50"
+              (click)="closeMenu()"
+            >
+              <span>{{ link.label }}</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </li>
+        </ul>
+
+        <div class="mt-6 flex flex-col gap-3">
+          <a
+            routerLink="/services"
+            class="flex items-center justify-center rounded-full border border-slate-200 px-5 py-3 text-sm font-semibold text-primary transition hover:border-primary hover:text-primary"
+            (click)="closeMenu()"
+          >
+            Explore Services
+          </a>
+          <a
+            routerLink="/academy"
+            class="flex items-center justify-center rounded-full bg-gradient-to-r from-accent via-emerald to-teal px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-accent/30 transition hover:scale-[1.01]"
+            (click)="closeMenu()"
+          >
+            Explore Academy
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
