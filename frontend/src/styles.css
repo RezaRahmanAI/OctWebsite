@@ -39,6 +39,10 @@ a:hover {
   @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
 }
 
+.container-responsive {
+  @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-10 xl:px-16;
+}
+
 .gradient-border {
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2));
   padding: 1px;

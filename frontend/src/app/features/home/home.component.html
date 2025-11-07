@@ -1,630 +1,95 @@
-<section class="hero-section relative overflow-hidden pt-20 md:pt-24">
-  <div class="hero-video-container" aria-hidden="true">
-    <ng-container *ngIf="heroVideoSrc() as videoSrc">
-      <video
-        class="hero-video"
-        autoplay
-        loop
-        muted
-        playsinline
-        preload="auto"
-        [poster]="heroVideoPoster()"
-      >
-        <source [src]="videoSrc" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-    </ng-container>
-  </div>
-  <div class="hero-overlay" aria-hidden="true"></div>
-  <div class="absolute inset-0 -z-10 bg-hero-grid hero-grid-overlay" aria-hidden="true"></div>
-  <div class="container-wide">
-    <div class="grid gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-      <div appScrollReveal>
-        <div
-          class="inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-accent shadow shadow-accent/10"
-        >
-          {{ home().hero.badge }}
-        </div>
-        <h1 class="mt-6 text-4xl font-semibold leading-tight text-primary sm:text-5xl lg:text-6xl">
-          {{ home().hero.title }}
+<section class="relative overflow-hidden bg-background">
+  <div class="absolute inset-0 bg-hero-grid opacity-60"></div>
+  <div class="relative mx-auto flex max-w-6xl flex-col gap-16 px-6 py-24 lg:px-10 xl:px-16">
+    <div class="grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
+      <div class="space-y-6 text-primary">
+        <p class="text-sm font-semibold uppercase tracking-[0.35em] text-teal">Strategic Product Studio</p>
+        <h1 class="font-heading text-4xl leading-tight md:text-5xl xl:text-6xl">
+          ObjectCanvas × ZeroProgramming
         </h1>
-        <p class="mt-6 text-lg text-slate-600 md:text-xl">
-          {{ home().hero.description }}
+        <p class="max-w-2xl text-base text-slate-600 md:text-lg">
+          One integrated team to discover, build, and scale digital products. ObjectCanvas guides the strategy, ZeroProgramming
+          delivers the automation and accelerators, and your organisation keeps the momentum.
         </p>
-        <div class="mt-8 flex flex-wrap gap-4">
-          <ng-container *ngIf="home().hero.primaryCta as cta">
-            <a
-              *ngIf="cta.routerLink; else primaryExternal"
-              [routerLink]="cta.routerLink"
-              [fragment]="cta.fragment"
-              class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:-translate-y-0.5 hover:bg-slate-900"
-            >
-              {{ cta.label }}
-            </a>
-            <ng-template #primaryExternal>
-              <a
-                *ngIf="cta.externalUrl"
-                class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:-translate-y-0.5 hover:bg-slate-900"
-                [href]="cta.externalUrl"
-                target="_blank"
-                rel="noopener"
-              >
-                {{ cta.label }}
-              </a>
-            </ng-template>
-          </ng-container>
-          <ng-container *ngIf="home().hero.secondaryCta as secondary">
-            <a
-              *ngIf="secondary.routerLink; else secondaryExternal"
-              [routerLink]="secondary.routerLink"
-              [fragment]="secondary.fragment"
-              class="inline-flex items-center justify-center rounded-full border border-primary/10 bg-white/90 px-6 py-3 text-sm font-semibold text-primary shadow-sm transition hover:-translate-y-0.5 hover:border-primary hover:text-primary"
-            >
-              {{ secondary.label }}
-            </a>
-            <ng-template #secondaryExternal>
-              <a
-                *ngIf="secondary.externalUrl"
-                class="inline-flex items-center justify-center rounded-full border border-primary/10 bg-white/90 px-6 py-3 text-sm font-semibold text-primary shadow-sm transition hover:-translate-y-0.5 hover:border-primary hover:text-primary"
-                [href]="secondary.externalUrl"
-                target="_blank"
-                rel="noopener"
-              >
-                {{ secondary.label }}
-              </a>
-            </ng-template>
-          </ng-container>
-        </div>
-        <div class="mt-10 grid gap-4 sm:grid-cols-2">
-          <div class="rounded-3xl border border-white/50 bg-white/80 p-6 shadow-glow backdrop-blur">
-            <h3 class="text-2xl font-semibold text-primary">{{ home().hero.highlightCard.title }}</h3>
-            <p class="mt-3 text-sm text-slate-600">{{ home().hero.highlightCard.description }}</p>
-          </div>
-          <div class="rounded-3xl border border-white/40 bg-white/70 p-6 shadow-glow backdrop-blur">
-            <ul class="space-y-3 text-sm text-slate-600">
-              <li *ngFor="let highlight of home().hero.highlightList" class="flex items-start gap-3">
-                <span class="mt-1 h-2 w-2 rounded-full bg-accent"></span>
-                <span>{{ highlight }}</span>
-              </li>
-            </ul>
-          </div>
+        <div class="flex flex-wrap gap-4">
+          <a routerLink="/services" class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:-translate-y-0.5">
+            Explore services
+          </a>
+          <a routerLink="/academy" class="inline-flex items-center justify-center rounded-full border border-primary px-6 py-3 text-sm font-semibold text-primary transition hover:bg-primary/10">
+            Meet the academy
+          </a>
         </div>
       </div>
-      <div class="relative" appScrollReveal>
-        <div class="absolute inset-0 rounded-3xl bg-gradient-to-br from-accent/20 via-emerald/20 to-primary/20 blur-3xl"></div>
-        <div class="relative rounded-[32px] border border-white/60 bg-white/90 p-8 shadow-2xl shadow-primary/20 backdrop-blur">
-          <div class="flex flex-col gap-6">
-            <div>
-              <span class="text-xs font-semibold uppercase tracking-[0.3em] text-accent">{{ home().hero.featurePanel.eyebrow }}</span>
-              <h3 class="mt-3 text-2xl font-semibold text-primary">{{ home().hero.featurePanel.title }}</h3>
-              <p class="mt-4 text-sm leading-relaxed text-slate-600">{{ home().hero.featurePanel.description }}</p>
-            </div>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <div
-                *ngFor="let metric of home().hero.featurePanel.metrics"
-                class="rounded-2xl p-4"
-                [ngClass]="{
-                  'border border-accent/20 bg-accent/10': metric.theme === 'accent',
-                  'border border-emerald/20 bg-emerald/10': metric.theme === 'emerald'
-                }"
-              >
-                <p
-                  class="text-xs font-semibold uppercase tracking-wide"
-                  [ngClass]="{
-                    'text-accent': metric.theme === 'accent',
-                    'text-emerald': metric.theme === 'emerald'
-                  }"
-                >
-                  {{ metric.label }}
-                </p>
-                <p class="mt-2 text-lg font-semibold text-primary">{{ metric.value }}</p>
+      <div class="rounded-3xl bg-white/70 p-8 backdrop-blur-md shadow-glow">
+        <h2 class="font-heading text-2xl text-primary">Navigation at a glance</h2>
+        <p class="mt-2 text-sm text-slate-600">
+          Every section of the site reflects a stage of partnership. Choose where you need momentum right now.
+        </p>
+        <ul class="mt-6 space-y-4">
+          <li *ngFor="let section of sectionLinks" class="rounded-2xl border border-slate-200 bg-white/80 p-4 transition hover:border-teal hover:-translate-y-0.5">
+            <a [routerLink]="section.route" class="block">
+              <div class="flex items-center justify-between gap-4">
+                <div>
+                  <p class="text-sm font-semibold uppercase tracking-[0.3em] text-teal">{{ section.label }}</p>
+                  <p class="mt-1 text-sm text-slate-600">{{ section.summary }}</p>
+                </div>
+                <span class="hidden text-xl text-primary md:inline">→</span>
               </div>
-            </div>
-            <div class="rounded-2xl border border-primary/10 bg-primary/5 p-4">
-              <p class="text-xs font-semibold uppercase tracking-wide text-primary">{{ home().hero.featurePanel.partner.label }}</p>
-              <p class="mt-3 text-sm text-slate-600">{{ home().hero.featurePanel.partner.description }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section-padding">
-  <div class="container-wide">
-    <div class="rounded-3xl border border-slate-200/70 bg-white/80 p-8 shadow-glow" appScrollReveal>
-      <div class="flex flex-wrap items-center justify-between gap-6">
-        <div class="flex flex-wrap items-center gap-6 text-sm font-semibold text-slate-500">
-          <span class="text-slate-400">{{ home().trust.tagline }}</span>
-          <div class="flex flex-wrap items-center gap-6 text-slate-400">
-            <span *ngFor="let company of home().trust.companies" class="transition hover:text-primary">{{ company }}</span>
-          </div>
-        </div>
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <div *ngFor="let stat of home().trust.stats; let idx = index" class="rounded-2xl bg-slate-50 p-4 text-center shadow-sm">
-            <span #counter class="text-3xl font-semibold text-primary" [attr.data-index]="idx">0</span>
-            <p class="mt-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
-              {{ stat.label }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section-padding" id="services">
-  <div class="container-wide">
-    <app-section-header
-      [eyebrow]="home().services.header.eyebrow"
-      [title]="home().services.header.title"
-      [subtitle]="home().services.header.subtitle"
-      [align]="home().services.header.align ?? 'center'"
-    ></app-section-header>
-    <div class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-      <article
-        *ngFor="let service of home().services.items"
-        class="group relative overflow-hidden rounded-3xl border border-slate-100 bg-white p-8 shadow-glow transition-transform duration-500 hover:-translate-y-2 hover:shadow-2xl"
-        [ngClass]="{ 'ring-2 ring-accent/40': service.featured }"
-        appScrollReveal
-      >
-        <div class="flex items-center justify-between">
-          <span class="text-4xl">{{ service.icon }}</span>
-          <span class="rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-accent">
-            {{ service.tagline }}
-          </span>
-        </div>
-        <h3 class="mt-6 text-2xl font-semibold text-primary">{{ service.title }}</h3>
-        <p class="mt-4 text-sm leading-relaxed text-slate-600">{{ service.description }}</p>
-        <ul class="mt-6 space-y-3 text-sm text-slate-600">
-          <li *ngFor="let highlight of service.highlights" class="flex items-start gap-3">
-            <span class="mt-1 h-1.5 w-1.5 rounded-full bg-accent"></span>
-            <span>{{ highlight }}</span>
+            </a>
           </li>
         </ul>
-        <a routerLink="/services" class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary transition group-hover:translate-x-1">
-          Learn More
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
-          </svg>
-        </a>
-      </article>
+      </div>
     </div>
-  </div>
-</section>
 
-<section class="section-padding">
-  <div class="container-wide grid gap-16 lg:grid-cols-2 lg:items-center">
-    <div class="order-2 lg:order-1" appScrollReveal>
-      <app-section-header
-        [eyebrow]="home().differentiators.header.eyebrow"
-        [title]="home().differentiators.header.title"
-        [subtitle]="home().differentiators.header.subtitle"
-      ></app-section-header>
-      <div class="mt-10 grid gap-6">
-        <div *ngFor="let differentiator of home().differentiators.items" class="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm transition hover:border-accent/40 hover:shadow-lg" appScrollReveal>
-          <h4 class="text-lg font-semibold text-primary">{{ differentiator.title }}</h4>
-          <p class="mt-3 text-sm text-slate-600">{{ differentiator.description }}</p>
+    <div class="grid gap-8 rounded-[32px] border border-white/80 bg-white/90 p-10 backdrop-blur">
+      <h2 class="font-heading text-3xl text-primary">Where integrated delivery pays off</h2>
+      <div class="grid gap-6 md:grid-cols-3">
+        <div *ngFor="let stat of stats" class="rounded-3xl border border-slate-100 bg-white p-6 text-primary shadow-sm">
+          <p class="font-heading text-4xl text-teal">{{ stat.value }}</p>
+          <p class="mt-2 text-base font-semibold">{{ stat.label }}</p>
+          <p class="mt-2 text-sm text-slate-600">{{ stat.description }}</p>
         </div>
       </div>
     </div>
-    <div class="order-1 lg:order-2" appScrollReveal>
-      <div class="gradient-border">
-        <div class="relative overflow-hidden rounded-[30px] bg-gradient-to-br from-primary via-slate-900 to-slate-800 p-10 text-slate-100 shadow-2xl">
-          <div class="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-emerald/30 blur-3xl"></div>
-          <div class="absolute -bottom-16 -left-20 h-72 w-72 rounded-full bg-accent/20 blur-3xl"></div>
-          <div class="relative">
-            <p class="text-sm uppercase tracking-[0.3em] text-emerald/90">{{ home().differentiators.partnershipPanel.eyebrow }}</p>
-            <h3 class="mt-4 text-3xl font-semibold leading-snug text-white">{{ home().differentiators.partnershipPanel.title }}</h3>
-            <p class="mt-5 text-sm leading-relaxed text-slate-200">{{ home().differentiators.partnershipPanel.description }}</p>
-            <div class="mt-8 grid gap-4 sm:grid-cols-2">
-              <div *ngFor="let highlight of home().differentiators.partnershipPanel.highlights" class="rounded-2xl border border-white/20 bg-white/10 p-4">
-                <p class="text-xs font-semibold uppercase tracking-wide text-emerald/80">{{ highlight.label }}</p>
-                <p class="mt-2 text-lg font-semibold text-white">{{ highlight.value }}</p>
-              </div>
-            </div>
+
+    <div class="space-y-10">
+      <div class="flex flex-col gap-3">
+        <p class="text-sm font-semibold uppercase tracking-[0.35em] text-teal">Integrated capability</p>
+        <h2 class="font-heading text-3xl text-primary md:text-4xl">The partnership formula</h2>
+        <p class="max-w-3xl text-base text-slate-600 md:text-lg">
+          By connecting ObjectCanvas strategy and ZeroProgramming automation, we reduce risk, accelerate launches, and leave your
+          teams stronger than when we started.
+        </p>
+      </div>
+      <div class="grid gap-8 lg:grid-cols-3">
+        <article *ngFor="let capability of capabilities" class="flex flex-col gap-4 rounded-3xl border border-slate-100 bg-white p-8 shadow-sm transition hover:-translate-y-0.5">
+          <div>
+            <h3 class="font-heading text-2xl text-primary">{{ capability.title }}</h3>
+            <p class="mt-3 text-sm text-slate-600">{{ capability.description }}</p>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section-padding bg-white">
-  <div class="container-wide">
-    <app-section-header
-      [eyebrow]="home().methodology.header.eyebrow"
-      [title]="home().methodology.header.title"
-      [subtitle]="home().methodology.header.subtitle"
-      [align]="home().methodology.header.align ?? 'center'"
-    ></app-section-header>
-    <div class="mt-12 grid gap-6 md:grid-cols-5" appScrollReveal>
-      <div *ngFor="let step of home().methodology.steps; let i = index" class="relative rounded-3xl border border-slate-100 bg-white p-6 text-center shadow-sm">
-        <span class="text-xs font-semibold uppercase tracking-[0.3em] text-accent">Step {{ i + 1 }}</span>
-        <h4 class="mt-3 text-lg font-semibold text-primary">{{ step.step }}</h4>
-        <p class="mt-3 text-sm text-slate-600">{{ step.detail }}</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section-padding">
-  <div class="container-wide">
-    <app-section-header
-      [eyebrow]="home().caseStudies.header.eyebrow"
-      [title]="home().caseStudies.header.title"
-      [subtitle]="home().caseStudies.header.subtitle"
-      [align]="home().caseStudies.header.align ?? 'center'"
-    ></app-section-header>
-    <div class="mt-12 grid gap-6 md:grid-cols-3" appScrollReveal>
-      <article *ngFor="let project of home().caseStudies.items" class="rounded-3xl border border-slate-100 bg-white p-8 shadow-glow transition hover:-translate-y-2 hover:shadow-2xl">
-        <p class="text-xs font-semibold uppercase tracking-[0.3em] text-accent">{{ project.industry }}</p>
-        <h3 class="mt-4 text-2xl font-semibold text-primary">{{ project.client }}</h3>
-        <div class="mt-4 space-y-3 text-sm text-slate-600">
-          <p><span class="font-semibold text-primary">Challenge:</span> {{ project.challenge }}</p>
-          <p><span class="font-semibold text-primary">Solution:</span> {{ project.solution }}</p>
-          <p><span class="font-semibold text-primary">Result:</span> {{ project.result }}</p>
-        </div>
-        <a routerLink="/portfolio" class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary transition hover:translate-x-1">
-          View Case Study
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
-          </svg>
-        </a>
-      </article>
-    </div>
-    <div class="mt-10 flex justify-center">
-      <a routerLink="/portfolio" class="inline-flex items-center gap-2 rounded-full border border-primary/20 px-6 py-3 text-sm font-semibold text-primary transition hover:border-primary">
-        View Full Portfolio
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
-        </svg>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section class="section-padding">
-  <div class="container-wide overflow-hidden rounded-[36px] bg-academy-gradient p-10 text-white shadow-2xl" appScrollReveal>
-    <div class="grid gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-      <div>
-        <app-section-header
-          [eyebrow]="home().academy.header.eyebrow"
-          [title]="home().academy.header.title"
-          [subtitle]="home().academy.header.subtitle"
-        ></app-section-header>
-        <div class="mt-8 flex flex-wrap gap-3">
-          <span *ngFor="let category of home().academy.categories" class="rounded-full bg-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-wide">
-            {{ category }}
-          </span>
-        </div>
-        <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <div *ngFor="let stat of home().academy.stats; let idx = index" class="rounded-3xl bg-white/10 p-6 text-center">
-            <span
-              #counter
-              class="text-3xl font-semibold"
-              [attr.data-index]="idx + home().trust.stats.length"
-            >
-              0
-            </span>
-            <p class="mt-2 text-xs font-semibold uppercase tracking-wide text-white/80">{{ stat.label }}</p>
-          </div>
-        </div>
-        <div class="mt-10 flex flex-wrap gap-4">
-          <a routerLink="/academy" class="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-primary shadow-lg shadow-white/20 transition hover:-translate-y-0.5">
-            Browse All Courses
-          </a>
-          <a routerLink="/academy" fragment="demo" class="inline-flex items-center justify-center rounded-full border border-white/60 px-6 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5">
-            Watch Free Demo Class
-          </a>
-        </div>
-      </div>
-      <div class="space-y-6">
-        <article *ngFor="let course of home().academy.featuredCourses" class="rounded-3xl border border-white/30 bg-white/10 p-6 shadow-xl backdrop-blur">
-          <p class="text-xs font-semibold uppercase tracking-[0.3em] text-white/60">Featured Course</p>
-          <h3 class="mt-4 text-2xl font-semibold">{{ course.title }}</h3>
-          <p class="mt-3 text-sm text-white/80">👨‍🏫 {{ course.instructor }}</p>
-          <p class="mt-2 text-sm text-white/80">⏱️ {{ course.duration }}</p>
-          <p class="mt-2 text-sm text-white/80">⭐ {{ course.rating }}</p>
-          <p class="mt-3 text-base font-semibold text-white">💰 {{ course.price }}</p>
-          <div class="mt-4 flex flex-wrap gap-3">
-            <a routerLink="/academy" class="inline-flex items-center justify-center rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-wide text-primary shadow-lg shadow-white/30 transition hover:-translate-y-0.5">
-              Enroll Now
-            </a>
-            <a routerLink="/academy" fragment="courses" class="inline-flex items-center justify-center rounded-full border border-white/50 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:-translate-y-0.5">
-              View Details
-            </a>
-          </div>
+          <ul class="space-y-2 text-sm text-slate-600">
+            <li *ngFor="let point of capability.points" class="flex items-start gap-3">
+              <span class="mt-1 h-2 w-2 rounded-full bg-teal"></span>
+              <span>{{ point }}</span>
+            </li>
+          </ul>
         </article>
-        <ul class="space-y-3 text-sm text-white/80">
-          <li *ngFor="let benefit of home().academy.benefits" class="flex items-start gap-3"><span class="mt-1 text-lg">✓</span>{{ benefit }}</li>
-        </ul>
       </div>
     </div>
-  </div>
-</section>
 
-<section class="section-padding">
-  <div class="container-wide grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-    <div class="order-2 lg:order-1" appScrollReveal>
-      <app-section-header
-        [eyebrow]="home().globalPresence.header.eyebrow"
-        [title]="home().globalPresence.header.title"
-        [subtitle]="home().globalPresence.header.subtitle"
-      ></app-section-header>
-      <div class="mt-8 grid gap-4 text-sm text-slate-600">
-        <div class="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
-          <h4 class="text-lg font-semibold text-primary">{{ home().globalPresence.headquarters.title }}</h4>
-          <p class="mt-2">{{ home().globalPresence.headquarters.location }}</p>
-          <p class="mt-1 text-xs uppercase tracking-[0.3em] text-slate-500">{{ home().globalPresence.headquarters.address }}</p>
-        </div>
-        <div class="grid gap-4 sm:grid-cols-2">
-          <div class="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
-            <h4 class="text-sm font-semibold uppercase tracking-[0.3em] text-primary">Markets Served</h4>
-            <p class="mt-3">{{ home().globalPresence.marketsServed }}</p>
-          </div>
-          <div class="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
-            <h4 class="text-sm font-semibold uppercase tracking-[0.3em] text-primary">Specialized Verticals</h4>
-            <p class="mt-3">{{ home().globalPresence.verticals }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="order-1 lg:order-2" appScrollReveal>
-      <div class="relative overflow-hidden rounded-[36px] border border-slate-100 bg-white p-10 shadow-glow">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(59,130,246,0.15),_transparent_65%)]"></div>
-        <div class="relative space-y-4 text-center text-sm text-slate-600">
-          <h3 class="text-2xl font-semibold text-primary">{{ home().globalPresence.map.title }}</h3>
-          <p>
-            {{ home().globalPresence.map.description }}
+    <div class="rounded-[32px] border border-slate-100 bg-primary px-8 py-12 text-white shadow-glow">
+      <div class="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+        <div class="space-y-4">
+          <p class="text-sm font-semibold uppercase tracking-[0.35em] text-emerald">Ways of working</p>
+          <h2 class="font-heading text-3xl md:text-4xl">Principles that keep momentum</h2>
+          <p class="max-w-3xl text-sm text-slate-100 md:text-base">
+            Whether we are running a discovery sprint, implementing a data fabric, or coaching your engineers, the same operating
+            model applies.
           </p>
-          <p class="text-xs uppercase tracking-[0.3em] text-slate-500">{{ home().globalPresence.map.badge }}</p>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section-padding bg-white">
-  <div class="container-wide">
-    <app-section-header
-      [eyebrow]="home().testimonials.header.eyebrow"
-      [title]="home().testimonials.header.title"
-      [subtitle]="home().testimonials.header.subtitle"
-      [align]="home().testimonials.header.align ?? 'center'"
-    ></app-section-header>
-    <div class="mt-10 flex justify-center">
-      <div class="inline-flex rounded-full bg-slate-100 p-1">
-        <button
-          type="button"
-          (click)="setTestimonialView('client')"
-          class="rounded-full px-4 py-2 text-sm font-semibold transition"
-          [ngClass]="testimonialView() === 'client' ? 'bg-white text-primary shadow' : 'text-slate-500'"
-        >
-          Client Stories
-        </button>
-        <button
-          type="button"
-          (click)="setTestimonialView('student')"
-          class="rounded-full px-4 py-2 text-sm font-semibold transition"
-          [ngClass]="testimonialView() === 'student' ? 'bg-white text-primary shadow' : 'text-slate-500'"
-        >
-          Student Success
-        </button>
-      </div>
-    </div>
-    <div class="mt-12 grid gap-6 md:grid-cols-2" appScrollReveal >
-      <article *ngFor="let testimonial of filteredTestimonials()" class="flex h-full flex-col justify-between rounded-3xl border border-slate-100 bg-white p-8 shadow-glow">
-        <div>
-          <div class="flex items-center gap-2 text-amber-500">
-            <ng-container *ngFor="let _ of [].constructor(testimonial.rating)">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-              </svg>
-            </ng-container>
-          </div>
-          <p class="mt-5 text-base leading-relaxed text-slate-600">“{{ testimonial.quote }}”</p>
-        </div>
-        <div class="mt-6 border-t border-slate-100 pt-4 text-sm text-slate-500">
-          <p class="font-semibold text-primary">{{ testimonial.name }}</p>
-          <p>{{ testimonial.title }}</p>
-          <p>{{ testimonial.location }}</p>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section class="section-padding">
-  <div class="container-wide">
-    <app-section-header
-      [eyebrow]="home().impact.header.eyebrow"
-      [title]="home().impact.header.title"
-      [subtitle]="home().impact.header.subtitle"
-      [align]="home().impact.header.align ?? 'center'"
-    ></app-section-header>
-    <div class="mt-12 grid gap-6 md:grid-cols-4" appScrollReveal >
-      <div
-        *ngFor="let stat of home().impact.stats; let idx = index"
-        class="rounded-3xl border border-slate-100 bg-white p-6 text-center shadow-sm"
-      >
-        <span
-          #counter
-          class="text-3xl font-semibold text-primary"
-          [attr.data-index]="idx + home().trust.stats.length + home().academy.stats.length"
-        >
-          0
-        </span>
-        <p class="mt-2 text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">{{ stat.label }}</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section-padding bg-white">
-  <div class="container-wide">
-    <app-section-header
-      [eyebrow]="home().insights.header.eyebrow"
-      [title]="home().insights.header.title"
-      [subtitle]="home().insights.header.subtitle"
-      [align]="home().insights.header.align ?? 'center'"
-    ></app-section-header>
-    <div class="mt-12 grid gap-6 md:grid-cols-3" appScrollReveal >
-      <article *ngFor="let insight of home().insights.items" class="flex h-full flex-col justify-between rounded-3xl border border-slate-100 bg-white p-8 shadow-glow transition hover:-translate-y-2 hover:shadow-2xl">
-        <div>
-          <span class="text-xs font-semibold uppercase tracking-[0.3em] text-accent">{{ insight.category }}</span>
-          <h3 class="mt-4 text-2xl font-semibold text-primary">{{ insight.title }}</h3>
-          <p class="mt-4 text-sm text-slate-600">{{ insight.summary }}</p>
-        </div>
-        <div class="mt-6 flex items-center justify-between text-sm text-slate-500">
-          <span>{{ insight.readTime }}</span>
-          <a routerLink="/insights" class="inline-flex items-center gap-2 text-sm font-semibold text-primary transition hover:translate-x-1">
-            Read More
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
-            </svg>
-          </a>
-        </div>
-      </article>
-    </div>
-    <div class="mt-10 flex justify-center">
-      <a routerLink="/insights" class="inline-flex items-center gap-2 rounded-full border border-primary/20 px-6 py-3 text-sm font-semibold text-primary transition hover:border-primary">
-        Read More Articles
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
-        </svg>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section class="section-padding">
-  <div class="container-wide grid gap-6 rounded-[36px] border border-slate-100 bg-white p-10 shadow-glow md:grid-cols-2" appScrollReveal>
-    <div class="rounded-3xl bg-slate-50 p-8">
-      <h3 class="text-2xl font-semibold text-primary">{{ home().closingCtas.business.title }}</h3>
-      <p class="mt-4 text-sm text-slate-600">{{ home().closingCtas.business.description }}</p>
-      <ng-container *ngIf="home().closingCtas.business.cta as businessCta">
-        <a
-          *ngIf="businessCta.routerLink; else businessExternal"
-          [routerLink]="businessCta.routerLink"
-          [fragment]="businessCta.fragment"
-          class="mt-6 inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:-translate-y-0.5"
-        >
-          {{ businessCta.label }}
+        <a routerLink="/contact" class="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-primary transition hover:bg-slate-100">
+          Start the conversation
         </a>
-        <ng-template #businessExternal>
-          <a
-            *ngIf="businessCta.externalUrl"
-            [href]="businessCta.externalUrl"
-            target="_blank"
-            rel="noopener"
-            class="mt-6 inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:-translate-y-0.5"
-          >
-            {{ businessCta.label }}
-          </a>
-        </ng-template>
-      </ng-container>
-    </div>
-    <div class="rounded-3xl bg-accent/10 p-8">
-      <h3 class="text-2xl font-semibold text-primary">{{ home().closingCtas.academy.title }}</h3>
-      <p class="mt-4 text-sm text-slate-600">{{ home().closingCtas.academy.description }}</p>
-      <ng-container *ngIf="home().closingCtas.academy.cta as academyCta">
-        <a
-          *ngIf="academyCta.routerLink; else academyExternal"
-          [routerLink]="academyCta.routerLink"
-          [fragment]="academyCta.fragment"
-          class="mt-6 inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-accent/25 transition hover:-translate-y-0.5"
-        >
-          {{ academyCta.label }}
-        </a>
-        <ng-template #academyExternal>
-          <a
-            *ngIf="academyCta.externalUrl"
-            [href]="academyCta.externalUrl"
-            target="_blank"
-            rel="noopener"
-            class="mt-6 inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-accent/25 transition hover:-translate-y-0.5"
-          >
-            {{ academyCta.label }}
-          </a>
-        </ng-template>
-      </ng-container>
-    </div>
-  </div>
-</section>
-
-<section class="section-padding bg-white" id="contact">
-  <div class="container-wide grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
-    <div appScrollReveal>
-      <app-section-header
-        [eyebrow]="home().contact.header.eyebrow"
-        [title]="home().contact.header.title"
-        [subtitle]="home().contact.header.subtitle"
-      ></app-section-header>
-      <div class="mt-8 space-y-6 text-sm text-slate-600">
-        <div>
-          <h4 class="text-lg font-semibold text-primary">🏢 Headquarters</h4>
-          <p class="mt-2">{{ home().contact.headquarters }}</p>
-        </div>
-        <div class="grid gap-4 sm:grid-cols-2">
-          <div>
-            <h4 class="text-lg font-semibold text-primary">📞 Phone</h4>
-            <p *ngFor="let phone of home().contact.phones; let i = index" [ngClass]="{ 'mt-2': i > 0 }">
-              {{ phone }}
-            </p>
-          </div>
-          <div>
-            <h4 class="text-lg font-semibold text-primary">✉️ Email</h4>
-            <p *ngFor="let email of home().contact.emails" class="mt-2">{{ email.label }}: {{ email.value }}</p>
-          </div>
-        </div>
-        <div>
-          <h4 class="text-lg font-semibold text-primary">🕐 Business Hours</h4>
-          <p *ngFor="let hours of home().contact.businessHours" class="mt-2">{{ hours }}</p>
-        </div>
-        <div>
-          <h4 class="text-lg font-semibold text-primary">🌐 Follow Us</h4>
-          <div class="mt-3 flex flex-wrap gap-3 text-sm font-semibold text-primary">
-            <a *ngFor="let social of home().contact.socials" [href]="social.url" target="_blank" rel="noopener">{{ social.label }}</a>
-          </div>
-          <ng-container *ngIf="home().contact.consultation as consultation">
-            <a
-              *ngIf="consultation.routerLink; else consultationExternal"
-              [routerLink]="consultation.routerLink"
-              [fragment]="consultation.fragment"
-              class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary underline-offset-4 hover:underline"
-            >
-              {{ consultation.label }}
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
-            <ng-template #consultationExternal>
-              <a
-                *ngIf="consultation.externalUrl"
-                [href]="consultation.externalUrl"
-                target="_blank"
-                rel="noopener"
-                class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary underline-offset-4 hover:underline"
-              >
-                {{ consultation.label }}
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
-                </svg>
-              </a>
-            </ng-template>
-          </ng-container>
-          <a
-            [href]="home().contact.profileDownload.url"
-            class="mt-2 inline-flex items-center gap-2 text-sm font-semibold text-primary underline-offset-4 hover:underline"
-          >
-            {{ home().contact.profileDownload.label }}
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
-            </svg>
-          </a>
-        </div>
       </div>
     </div>
     <div class="rounded-[32px] border border-slate-100 bg-white p-10 shadow-glow" appScrollReveal>
@@ -659,11 +124,7 @@
           <label for="message" class="text-sm font-semibold text-primary">Project Details / Message*</label>
           <textarea id="message" rows="4" class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-accent/40" placeholder="Tell us about your goals"></textarea>
         </div>
-        <button type="submit" class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:-translate-y-0.5">
-          Submit
-        </button>
-        <p class="text-xs text-slate-500">By submitting, you agree to our privacy policy and consent to receiving communications.</p>
-      </form>
+      </dl>
     </div>
   </div>
 </section>

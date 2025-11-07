@@ -1,57 +1,97 @@
-<section class="section-padding">
-  <div class="container-responsive space-y-10">
-    <app-section-heading eyebrow="Blog" title="Dispatches from our studio" subtitle="Stories from software delivery, product experiments, and academy cohorts." align="center"></app-section-heading>
-    <div class="flex flex-wrap justify-center gap-3">
-      <button
-        type="button"
-        class="rounded-full px-4 py-2 text-sm font-semibold"
-        [class.bg-primary-600]="!activeTag()"
-        [class.text-white]="!activeTag()"
-        [class.bg-slate-200]="activeTag()"
-        [class.text-slate-700]="activeTag()"
-        (click)="setTag(null)"
-      >
-        All
-      </button>
-      <button
-        *ngFor="let tag of tags()"
-        type="button"
-        class="rounded-full px-4 py-2 text-sm font-semibold"
-        [class.bg-primary-600]="activeTag() === tag"
-        [class.text-white]="activeTag() === tag"
-        [class.bg-slate-200]="activeTag() !== tag"
-        [class.text-slate-700]="activeTag() !== tag"
-        (click)="setTag(tag)"
-      >
-        #{{ tag }}
-      </button>
-    </div>
-    <div class="flex justify-center">
-      <input
-        type="search"
-        placeholder="Search posts"
-        class="w-full max-w-md rounded-full border border-slate-200 px-4 py-2 text-sm focus:border-primary-500 focus:outline-none"
-        (input)="searchTerm.set($any($event.target).value)"
-      />
-    </div>
-    <div class="grid gap-6 md:grid-cols-2">
-      <article *ngFor="let post of posts()" class="card-surface flex flex-col overflow-hidden">
-        <img *ngIf="post.coverUrl" [src]="post.coverUrl" [alt]="post.title" class="h-48 w-full object-cover" />
-        <div class="space-y-4 p-6">
-          <p class="text-xs font-semibold uppercase tracking-wide text-primary-600">{{ post.publishedAt | date: 'mediumDate' }}</p>
-          <h2 class="text-2xl font-semibold text-slate-900">{{ post.title }}</h2>
-          <p class="text-sm text-slate-600">{{ post.excerpt }}</p>
-          <div class="flex flex-wrap gap-2 text-xs text-primary-600">
-            <span *ngFor="let tag of post.tags" class="rounded-full bg-primary-50 px-2 py-1">#{{ tag }}</span>
-          </div>
-          <a [routerLink]="['/blog', post.slug]" class="inline-flex items-center gap-2 text-sm font-semibold text-primary-600">
-            Read more
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-          </a>
+<section class="section-padding bg-background text-primary">
+  <div class="container-responsive space-y-16">
+    <header class="max-w-3xl space-y-4">
+      <p class="text-sm font-semibold uppercase tracking-[0.35em] text-teal">{{ heroCopy.eyebrow }}</p>
+      <h1 class="font-heading text-4xl md:text-5xl">{{ heroCopy.title }}</h1>
+      <p class="text-base text-slate-600 md:text-lg">{{ heroCopy.intro }}</p>
+    </header>
+
+    <div class="grid gap-6 rounded-[32px] border border-slate-100 bg-white p-8 shadow-sm md:grid-cols-[1.25fr_0.75fr]">
+      <div class="space-y-6">
+        <div class="relative">
+          <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">🔍</span>
+          <input
+            type="search"
+            placeholder="Search insights"
+            class="w-full rounded-full border border-slate-200 bg-background px-12 py-3 text-sm focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/30"
+            (input)="searchTerm.set(($any($event.target).value ?? '').toString())"
+          />
         </div>
-      </article>
+        <div class="flex flex-wrap gap-3">
+          <button
+            type="button"
+            class="rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.3em] transition"
+            [class.border-teal]="activeTag() === null"
+            [class.bg-teal]="activeTag() === null"
+            [class.text-white]="activeTag() === null"
+            [class.border-slate-200]="activeTag() !== null"
+            [class.text-primary]="activeTag() !== null"
+            (click)="setTag(null)"
+          >
+            All topics
+          </button>
+          <button
+            *ngFor="let tag of tags()"
+            type="button"
+            class="rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.3em] transition"
+            [class.border-teal]="activeTag() === tag"
+            [class.bg-teal]="activeTag() === tag"
+            [class.text-white]="activeTag() === tag"
+            [class.border-slate-200]="activeTag() !== tag"
+            [class.text-primary]="activeTag() !== tag"
+            (click)="setTag(tag)"
+          >
+            {{ tag }}
+          </button>
+        </div>
+      </div>
+      <div class="space-y-4">
+        <p class="text-sm font-semibold uppercase tracking-[0.35em] text-teal">Editorial pillars</p>
+        <ul class="space-y-3 text-sm text-slate-600">
+          <li *ngFor="let theme of editorialThemes" class="rounded-2xl border border-slate-100 bg-background p-4">
+            <p class="font-semibold text-primary">{{ theme.title }}</p>
+            <p class="mt-1 text-sm text-slate-600">{{ theme.description }}</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="space-y-8">
+      <div class="flex flex-col gap-3">
+        <h2 class="font-heading text-3xl text-primary">Latest thinking</h2>
+        <p class="text-sm text-slate-600">Insights from both studios, curated for digital leaders and delivery teams.</p>
+      </div>
+      <div *ngIf="posts().length; else emptyState" class="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+        <a
+          *ngFor="let post of posts()"
+          [routerLink]="['/blog', post.slug]"
+          class="group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm transition hover:-translate-y-0.5"
+        >
+          <div class="aspect-video bg-slate-100">
+            <img *ngIf="post.coverUrl" [src]="post.coverUrl" [alt]="post.title" class="h-full w-full object-cover" />
+          </div>
+          <div class="flex flex-1 flex-col gap-4 p-6">
+            <div class="flex flex-wrap gap-2">
+              <span *ngFor="let tag of post.tags" class="rounded-full bg-background px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-teal">
+                {{ tag }}
+              </span>
+            </div>
+            <div class="space-y-2">
+              <h3 class="font-heading text-xl text-primary group-hover:text-teal">{{ post.title }}</h3>
+              <p class="text-sm text-slate-600">{{ post.excerpt }}</p>
+            </div>
+            <div class="mt-auto flex items-center justify-between text-xs text-slate-400">
+              <span>{{ post.publishedAt | date: 'mediumDate' }}</span>
+              <span class="font-semibold text-teal">Read more →</span>
+            </div>
+          </div>
+        </a>
+      </div>
+      <ng-template #emptyState>
+        <div class="rounded-3xl border border-dashed border-slate-200 bg-white p-12 text-center text-sm text-slate-500">
+          No posts match this filter yet. Try another topic or reset your search.
+        </div>
+      </ng-template>
     </div>
   </div>
 </section>
