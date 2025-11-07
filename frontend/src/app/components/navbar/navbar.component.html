@@ -1,0 +1,89 @@
+<header
+  class="fixed inset-x-0 top-0 z-50 transition-all duration-500"
+  [ngClass]="{
+    'backdrop-blur-xl bg-navy-900/80 shadow-glow shadow-brand-primary/30': isScrolled(),
+    'bg-transparent': !isScrolled()
+  }"
+>
+  <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+    <button
+      type="button"
+      class="flex items-center gap-2 text-left"
+      (click)="navigate('top')"
+    >
+      <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-brand-secondary/20 text-brand-secondary">
+        <span class="text-xl font-bold">OC</span>
+      </div>
+      <div class="hidden flex-col sm:flex">
+        <span class="text-sm font-semibold tracking-wide text-slate-200">ObjectCanvas × ZeroProgramming</span>
+        <span class="text-xs text-slate-400">Product Engineering & Talent Acceleration</span>
+      </div>
+    </button>
+
+    <div class="hidden items-center gap-8 text-sm font-medium md:flex">
+      <button
+        type="button"
+        class="rounded-full px-3 py-1 text-xs uppercase tracking-[0.35em] text-brand-secondary"
+        (click)="navigate('top')"
+      >
+        Start here
+      </button>
+      <ng-container *ngFor="let link of links">
+        <button
+          type="button"
+          class="transition hover:text-brand-secondary"
+          (click)="navigate(link.target)"
+        >
+          {{ link.label }}
+        </button>
+      </ng-container>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <a
+        class="hidden rounded-full border border-brand-secondary/60 bg-brand-secondary/10 px-4 py-2 text-sm font-semibold text-brand-secondary transition hover:bg-brand-secondary/20 md:inline-flex"
+        href="mailto:hello@objectcanvas.com"
+      >
+        Talk to experts
+      </a>
+      <button
+        type="button"
+        class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-100 transition hover:border-brand-secondary/50 hover:text-brand-secondary md:hidden"
+        (click)="toggleMenu()"
+      >
+        <span class="sr-only">Toggle navigation</span>
+        <svg
+          *ngIf="!isMenuOpen(); else closeIcon"
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <ng-template #closeIcon>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </ng-template>
+      </button>
+    </div>
+  </nav>
+
+  <div
+    class="border-t border-white/5 bg-navy-900/95 px-6 py-4 md:hidden"
+    *ngIf="isMenuOpen()"
+  >
+    <div class="flex flex-col gap-4 text-sm font-medium text-slate-200">
+      <ng-container *ngFor="let link of links">
+        <button type="button" class="text-left transition hover:text-brand-secondary" (click)="navigate(link.target)">
+          {{ link.label }}
+        </button>
+      </ng-container>
+      <a class="rounded-lg bg-brand-secondary/20 px-4 py-2 text-center font-semibold text-brand-secondary" href="mailto:hello@objectcanvas.com">
+        Talk to experts
+      </a>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,88 @@
+<section
+  #heroRef
+  id="top"
+  class="relative isolate overflow-hidden bg-hero-grid pt-32 text-slate-100"
+>
+  <div class="absolute inset-0 -z-10">
+    <div class="absolute inset-0 bg-gradient-to-b from-navy-900/60 via-navy-950/90 to-navy-950"></div>
+    <video
+      *ngIf="settings()?.heroVideoUrl as video"
+      class="absolute inset-0 h-full w-full object-cover opacity-20"
+      autoplay
+      muted
+      loop
+      playsinline
+      [attr.poster]="settings()?.heroImageUrl"
+    >
+      <source [attr.src]="video" type="video/mp4" />
+    </video>
+  </div>
+
+  <div class="mx-auto flex max-w-6xl flex-col gap-10 px-6 pb-20">
+    <div class="flex flex-col gap-6 md:w-3/4" data-hero-animate="headline">
+      <p class="section-title">Trusted by founders, educators & enterprises</p>
+      <h1 class="text-4xl font-semibold leading-tight text-white md:text-6xl">
+        {{ settings()?.headline || 'Ship resilient products. Empower future-ready talent.' }}
+      </h1>
+    </div>
+
+    <div class="grid gap-8 md:grid-cols-[2fr_1fr]" data-hero-animate="copy">
+      <div class="flex flex-col gap-6 text-lg text-slate-200">
+        <p>
+          {{
+            settings()?.subHeadline ||
+              'ObjectCanvas Studios and ZeroProgramming Academy operate as a single innovation engine—combining elite engineers with award-winning instructors to launch software and talent in parallel.'
+          }}
+        </p>
+        <div class="grid gap-6 md:grid-cols-2">
+          <div class="rounded-3xl bg-white/5 p-6 shadow-lg shadow-brand-primary/10">
+            <h3 class="text-sm font-semibold uppercase tracking-widest text-brand-secondary">Our mission</h3>
+            <p class="mt-3 text-sm leading-relaxed text-slate-300">
+              {{ mission?.content || 'Deliver business-critical platforms while upskilling teams and learners with the exact playbooks we use in production.' }}
+            </p>
+          </div>
+          <div class="rounded-3xl bg-white/5 p-6 shadow-lg shadow-brand-primary/10">
+            <h3 class="text-sm font-semibold uppercase tracking-widest text-brand-accent">Our vision</h3>
+            <p class="mt-3 text-sm leading-relaxed text-slate-300">
+              {{ vision?.content || 'Create a Bangladesh-led innovation hub where services and training co-create resilient founders, teams, and products.' }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="space-y-6 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur" data-hero-animate="cta">
+        <div class="flex flex-col gap-3 text-sm text-slate-300">
+          <span class="rounded-full bg-brand-secondary/20 px-3 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-brand-secondary">New for 2025</span>
+          <p>
+            Dual-service partnership decks, immersive founder sprints, and a refreshed ZeroProgramming curriculum mapped to real client deliverables.
+          </p>
+        </div>
+        <a
+          class="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-brand-primary px-5 py-3 text-sm font-semibold text-white shadow-glow shadow-brand-primary/30 transition hover:-translate-y-0.5 hover:bg-brand-primary/90"
+          href="#contact"
+        >
+          Design my transformation
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14m-7-7 7 7-7 7" />
+          </svg>
+        </a>
+        <div class="rounded-xl bg-white/10 p-4 text-xs text-slate-300">
+          <p class="font-semibold text-slate-200">Why hybrid services + academy works</p>
+          <ul class="mt-3 space-y-2">
+            <li class="flex items-start gap-2">
+              <span class="mt-0.5 h-1.5 w-1.5 rounded-full bg-brand-secondary"></span>
+              Sprint retros funnel directly into ZeroProgramming masterclasses.
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-0.5 h-1.5 w-1.5 rounded-full bg-brand-accent"></span>
+              Graduates join delivery pods within 30 days.
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-0.5 h-1.5 w-1.5 rounded-full bg-brand-primary"></span>
+              Continuous insights from fintech, commerce, and public sector builds.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

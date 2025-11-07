@@ -1,0 +1,32 @@
+<section id="insights" class="relative isolate py-24">
+  <div class="absolute inset-0 bg-gradient-to-b from-brand-primary/5 via-transparent to-transparent"></div>
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="mb-10 text-center">
+      <p class="section-title">Signals from partners & alumni</p>
+      <h2 class="mt-4 text-3xl font-semibold text-white md:text-4xl">
+        Proof that services + academy is a powerful combination.
+      </h2>
+    </div>
+    <div class="grid gap-6 md:grid-cols-3">
+      <article
+        *ngFor="let testimonial of testimonials"
+        class="flex h-full flex-col gap-4 rounded-3xl border border-white/5 bg-navy-900/60 p-6"
+      >
+        <span
+          class="inline-flex w-fit rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.35em]"
+          [ngClass]="{
+            'bg-brand-secondary/20 text-brand-secondary': testimonial.focus === 'services',
+            'bg-brand-accent/20 text-brand-accent': testimonial.focus === 'academy'
+          }"
+        >
+          {{ testimonial.focus === 'services' ? 'Product Delivery' : 'Talent Acceleration' }}
+        </span>
+        <p class="text-sm text-slate-200">“{{ testimonial.quote }}”</p>
+        <div class="mt-auto">
+          <p class="text-sm font-semibold text-white">{{ testimonial.name }}</p>
+          <p class="text-xs uppercase tracking-[0.35em] text-slate-400">{{ testimonial.role }}</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
