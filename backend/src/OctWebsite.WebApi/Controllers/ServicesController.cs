@@ -15,6 +15,13 @@ public sealed class ServicesController(IServiceCatalog serviceCatalog) : Control
         return Ok(services);
     }
 
+    [HttpGet("catalog")]
+    public async Task<ActionResult<ServiceCatalogDto>> GetUnifiedCatalogAsync(CancellationToken cancellationToken)
+    {
+        var catalog = await serviceCatalog.GetUnifiedCatalogAsync(cancellationToken);
+        return Ok(catalog);
+    }
+
     [HttpGet("{slug}")]
     public async Task<ActionResult<ServiceItemDto>> GetBySlugAsync(string slug, CancellationToken cancellationToken)
     {
