@@ -40,7 +40,7 @@ export class InsightsComponent {
         title: 'Designing Omni-Channel Experiences for Emerging Markets',
         category: 'Case Study',
         excerpt:
-          'How Hum Tech reimagined retail experiences with localized content and automation.',
+          'How ObjectCanvas reimagined retail experiences with localized content and automation.',
         readTime: '7 min read',
       },
       {

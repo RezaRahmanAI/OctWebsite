@@ -1,6 +1,6 @@
-# Hum Tech & Academy
+# ObjectCanvas × ZeroProgrammingBD
 
-Premium multinational technology and academy experience built with Angular 18, Tailwind CSS, GSAP, and Lenis.
+Premium joint technology studio and academy experience built with Angular 18, Tailwind CSS, GSAP, and Lenis.
 
 ## Getting Started
 
@@ -40,4 +40,4 @@ src/
 
 ## License
 
-Copyright © 2024 Hum Tech & Academy.
+Copyright © 2024 ObjectCanvas × ZeroProgrammingBD.

@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "hum-tech-academy": {
+    "objectcanvas-zeroprogramming": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -55,10 +55,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "hum-tech-academy:build:production"
+              "buildTarget": "objectcanvas-zeroprogramming:build:production"
             },
             "development": {
-              "buildTarget": "hum-tech-academy:build:development"
+              "buildTarget": "objectcanvas-zeroprogramming:build:development"
             }
           },
           "defaultConfiguration": "development"
