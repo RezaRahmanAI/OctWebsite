@@ -28,6 +28,16 @@ public static class MappingExtensions
         service.Features,
         service.Active);
 
+    public static ServiceOfferingDto ToServiceOfferingDto(this ServiceItem service) => new(
+        service.Id,
+        service.Title,
+        service.Slug,
+        service.Summary,
+        service.Icon,
+        service.Features,
+        service.Active,
+        ServiceOfferingType.Service);
+
     public static ProductItemDto ToDto(this ProductItem product) => new(
         product.Id,
         product.Title,
@@ -36,6 +46,16 @@ public static class MappingExtensions
         product.Icon,
         product.Features,
         product.Active);
+
+    public static ServiceOfferingDto ToServiceOfferingDto(this ProductItem product) => new(
+        product.Id,
+        product.Title,
+        product.Slug,
+        product.Summary,
+        product.Icon,
+        product.Features,
+        product.Active,
+        ServiceOfferingType.Product);
 
     public static AcademyTrackDto ToDto(this AcademyTrack track) => new(
         track.Id,

@@ -6,4 +6,5 @@ public interface IServiceCatalog
 {
     Task<IReadOnlyList<ServiceItemDto>> GetAllAsync(CancellationToken cancellationToken = default);
     Task<ServiceItemDto?> GetBySlugAsync(string slug, CancellationToken cancellationToken = default);
+    Task<ServiceCatalogDto> GetUnifiedCatalogAsync(CancellationToken cancellationToken = default);
 }
