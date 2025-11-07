@@ -60,7 +60,16 @@ export class SmoothScrollService implements OnDestroy {
 
   scrollTo(target: number | HTMLElement, options: ScrollOptions = {}): void {
     if (!this.lenis) {
-      this.document.defaultView?.scrollTo({ top: typeof target === 'number' ? target : target.offsetTop, behavior: 'smooth' });
+      const view = this.document.defaultView;
+      if (!view) {
+        return;
+      }
+      const baseTop =
+        typeof target === 'number'
+          ? target
+          : target.getBoundingClientRect().top + view.scrollY;
+      const finalTop = baseTop + (options.offset ?? 0);
+      view.scrollTo({ top: finalTop, behavior: options.immediate ? 'auto' : 'smooth' });
       return;
     }
     this.zone.runOutsideAngular(() => {

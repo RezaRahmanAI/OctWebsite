@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SectionHeaderComponent } from '../../shared/components/section-header/section-header.component';
-import { ScrollToDirective } from '../../shared/directives/scroll-reveal.directive';
+import { ScrollRevealDirective } from '../../shared/directives/scroll-reveal.directive';
 
 interface InsightEntry {
   title: string;
@@ -22,7 +22,7 @@ interface InsightsPageContent {
 @Component({
   selector: 'app-insights',
   standalone: true,
-  imports: [CommonModule, SectionHeaderComponent, ScrollToDirective],
+  imports: [CommonModule, SectionHeaderComponent, ScrollRevealDirective],
   templateUrl: './insights.component.html',
   styleUrls: ['./insights.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
