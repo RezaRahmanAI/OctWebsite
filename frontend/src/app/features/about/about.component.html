@@ -3,9 +3,9 @@
     <!-- Left section: Header and Intro -->
     <div appScrollReveal>
       <app-section-header
-        [eyebrow]="header()?.eyebrow ?? 'About'"
-        [title]="header()?.title ?? 'About'"
-        [subtitle]="header()?.subtitle ?? ''"
+        [eyebrow]="header().eyebrow"
+        [title]="header().title"
+        [subtitle]="header().subtitle"
       ></app-section-header>
       <p class="mt-6 text-base leading-relaxed text-slate-600">
         {{ intro() || 'ObjectCanvas product strategists, engineers, data scientists, digital marketers, and ZeroProgrammingBD educators collaborate as one team. Delivery excellence and capability building move in lockstep, so every engagement ships solutions and skills together.' }}
