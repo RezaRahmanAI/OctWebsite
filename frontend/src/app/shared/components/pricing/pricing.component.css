@@ -15,7 +15,7 @@
 }
 
 .shape--two {
-  @apply right-0 bottom-0 h-64 w-64 bg-secondary/35;
+  @apply right-0 bottom-0 h-64 w-64 bg-secondary/40;
 }
 
 .pricing__header {
@@ -64,5 +64,5 @@
 }
 
 .pricing-card__cta {
-  @apply mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary via-secondary to-accent px-6 py-3 text-sm font-semibold text-white shadow-soft-lg transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:shadow-xl hover:saturate-150;
+  @apply mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary via-secondary to-accent px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:shadow-xl hover:saturate-150;
 }

@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import gsap from 'gsap';
 import { signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ContentService, PricingPlanItem } from '../../services/content.service';
+import { ContentService } from '../../../core/services/content.service';
+import { PricingPlanItem } from '../../../core/models/pricing-plan.model';
 
 @Component({
   selector: 'app-pricing',
