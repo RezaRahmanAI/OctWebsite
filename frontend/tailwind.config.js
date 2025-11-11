@@ -7,6 +7,10 @@ module.exports = {
       colors: {
         background: '#F8FAFC',
         surface: '#FFFFFF',
+        neutral: {
+          text: '#1e293b',
+          accent: '#475569'
+        },
         secondary: {
           DEFAULT: '#F97316',
           50: '#FFF7ED',
@@ -90,7 +94,8 @@ module.exports = {
         heading: ['"Space Grotesk"', 'Inter', ...defaultTheme.fontFamily.sans]
       },
       boxShadow: {
-        glow: '0 20px 45px rgba(15, 23, 42, 0.12)'
+        glow: '0 20px 45px rgba(15, 23, 42, 0.12)',
+        card: '0 30px 90px rgba(15, 23, 42, 0.14)'
       },
       backgroundImage: {
         'academy-gradient': 'linear-gradient(135deg, #6366F1 0%, #A855F7 45%, #F97316 100%)',
