@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SectionHeaderComponent } from '../../shared/components/section-header/section-header.component';
-import { ScrollRevealDirective } from '../../shared/directives/scroll-reveal.directive';
 
 interface AboutPageContent {
   header: {
@@ -27,7 +26,7 @@ interface AboutPageContent {
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule, RouterLink, SectionHeaderComponent, ScrollRevealDirective],
+  imports: [CommonModule, RouterLink, SectionHeaderComponent],
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

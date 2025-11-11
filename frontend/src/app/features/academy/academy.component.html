@@ -18,7 +18,6 @@
     <div class="academy__grid">
       <article
         *ngFor="let feature of kidsComputingFeatures"
-        #interactiveCard
         class="academy-card"
       >
         <span class="academy-card__icon">{{ feature.icon }}</span>
@@ -33,7 +32,6 @@
     <div class="tracks">
       <article
         *ngFor="let track of zeroProgrammingTracks"
-        #interactiveCard
         class="academy-card academy-card--track"
       >
         <h3>{{ track.title }}</h3>
@@ -52,7 +50,6 @@
     <div class="academy__grid">
       <article
         *ngFor="let course of freelancingCourses"
-        #interactiveCard
         class="academy-card"
       >
         <span class="academy-card__icon">{{ course.icon }}</span>

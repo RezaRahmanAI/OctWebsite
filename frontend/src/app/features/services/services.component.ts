@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { SectionHeaderComponent } from '../../shared/components/section-header/section-header.component';
-import { ScrollRevealDirective } from '../../shared/directives/scroll-reveal.directive';
 
 interface ServiceDetail {
   name: string;
@@ -22,7 +21,7 @@ interface ServicesPageContent {
 @Component({
   selector: 'app-services',
   standalone: true,
-  imports: [CommonModule, SectionHeaderComponent, ScrollRevealDirective],
+  imports: [CommonModule, SectionHeaderComponent],
   templateUrl: './services.component.html',
   styleUrls: ['./services.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

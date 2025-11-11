@@ -8,7 +8,7 @@
     <p>Choose the best learning journey for your child with vibrant, interactive classes.</p>
   </header>
   <div class="pricing__grid">
-    <article #pricingCard *ngFor="let plan of plans(); trackBy: trackById" class="pricing-card">
+    <article *ngFor="let plan of plans(); trackBy: trackById" class="pricing-card">
       <div class="pricing-card__glow"></div>
       <h3>{{ plan.name }}</h3>
       <p class="pricing-card__price">{{ plan.duration }}</p>

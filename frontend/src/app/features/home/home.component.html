@@ -19,7 +19,7 @@
   <div class="absolute inset-0 -z-10 bg-hero-grid hero-grid-overlay" aria-hidden="true"></div>
   <div class="container-wide">
     <div class="grid gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-      <div [appScrollReveal]="{ stagger: 0.15, y: 60, duration: 1 }">
+      <div>
         <div
           class="inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-accent shadow shadow-accent/10"
         >
@@ -90,7 +90,7 @@
           </div>
         </div>
       </div>
-      <div class="relative" [appScrollReveal]="{ y: 60, duration: 1, delay: 0.12 }">
+      <div class="relative">
         <div class="absolute inset-0 rounded-3xl bg-gradient-to-br from-accent/20 via-emerald/20 to-primary/20 blur-3xl"></div>
         <div class="relative rounded-[32px] border border-white/60 bg-white/90 p-8 shadow-2xl shadow-primary/20 backdrop-blur">
           <div class="flex flex-col gap-6">
@@ -133,7 +133,7 @@
 
 <section class="section-padding">
   <div class="container-wide">
-    <div class="rounded-3xl border border-slate-200/70 bg-white/80 p-8 shadow-glow" [appScrollReveal]="{ stagger: 0.08 }">
+    <div class="rounded-3xl border border-slate-200/70 bg-white/80 p-8 shadow-glow">
       <div class="flex flex-wrap items-center justify-between gap-6">
         <div class="flex flex-wrap items-center gap-6 text-sm font-semibold text-slate-500">
           <span class="text-slate-400">{{ home().trust.tagline }}</span>
@@ -142,8 +142,8 @@
           </div>
         </div>
         <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <div *ngFor="let stat of home().trust.stats; let idx = index" class="rounded-2xl bg-slate-50 p-4 text-center shadow-sm">
-            <span #counter class="text-3xl font-semibold text-primary" [attr.data-index]="idx">0</span>
+          <div *ngFor="let stat of home().trust.stats" class="rounded-2xl bg-slate-50 p-4 text-center shadow-sm">
+            <span class="text-3xl font-semibold text-primary">{{ formatStatValue(stat) }}</span>
             <p class="mt-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
               {{ stat.label }}
             </p>
@@ -167,7 +167,6 @@
         *ngFor="let service of home().services.items"
         class="group relative overflow-hidden rounded-3xl border border-slate-100 bg-white p-8 shadow-glow transition-transform duration-500 hover:-translate-y-2 hover:shadow-2xl"
         [ngClass]="{ 'ring-2 ring-accent/40': service.featured }"
-        appScrollReveal
       >
         <div class="flex items-center justify-between">
           <span class="text-4xl">{{ service.icon }}</span>
@@ -196,7 +195,7 @@
 
 <section class="section-padding">
   <div class="container-wide grid gap-16 lg:grid-cols-2 lg:items-start">
-    <div class="order-2 lg:order-1" appScrollReveal>
+    <div class="order-2 lg:order-1">
       <app-section-header
         [eyebrow]="home().differentiators.header.eyebrow"
         [title]="home().differentiators.header.title"
@@ -206,14 +205,13 @@
         <div
           *ngFor="let item of home().differentiators.items"
           class="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm transition hover:border-accent/40 hover:shadow-lg"
-          appScrollReveal
         >
           <h4 class="text-lg font-semibold text-primary">{{ item.title }}</h4>
           <p class="mt-3 text-sm text-slate-600">{{ item.description }}</p>
         </div>
       </div>
     </div>
-    <div class="order-1 lg:order-2 lg:sticky lg:top-0 self-start" appScrollReveal>
+    <div class="order-1 lg:order-2 lg:sticky lg:top-0 self-start">
       <div class="gradient-border">
         <div class="relative overflow-hidden rounded-[30px] bg-gradient-to-br from-primary via-slate-900 to-slate-800 p-10 text-slate-100 shadow-2xl">
           <div class="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-emerald/30 blur-3xl"></div>
@@ -244,7 +242,7 @@
       [subtitle]="home().methodology.header.subtitle"
       [align]="home().methodology.header.align ?? 'center'"
     ></app-section-header>
-    <div class="mt-12 grid gap-6 md:grid-cols-5" appScrollReveal>
+    <div class="mt-12 grid gap-6 md:grid-cols-5">
       <div *ngFor="let step of home().methodology.steps; let i = index" class="relative rounded-3xl border border-slate-100 bg-white p-6 text-center shadow-sm">
         <span class="text-xs font-semibold uppercase tracking-[0.3em] text-accent">Step {{ i + 1 }}</span>
         <h4 class="mt-3 text-lg font-semibold text-primary">{{ step.step }}</h4>
@@ -262,7 +260,7 @@
       [subtitle]="home().caseStudies.header.subtitle"
       [align]="home().caseStudies.header.align ?? 'center'"
     ></app-section-header>
-    <div class="mt-12 grid gap-6 md:grid-cols-3" appScrollReveal>
+    <div class="mt-12 grid gap-6 md:grid-cols-3">
       <article *ngFor="let project of home().caseStudies.items" class="rounded-3xl border border-slate-100 bg-white p-8 shadow-glow transition hover:-translate-y-2 hover:shadow-2xl">
         <p class="text-xs font-semibold uppercase tracking-[0.3em] text-accent">{{ project.industry }}</p>
         <h3 class="mt-4 text-2xl font-semibold text-primary">{{ project.client }}</h3>
@@ -291,7 +289,7 @@
 </section>
 
 <section class="section-padding">
-  <div class="container-wide rounded-[36px] bg-academy-gradient p-10 text-white shadow-2xl relative overflow-visible" appScrollReveal>
+  <div class="container-wide rounded-[36px] bg-academy-gradient p-10 text-white shadow-2xl relative overflow-visible">
     <div class="grid gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-start h-full">
       <div class="lg:sticky lg:top-10 self-start max-h-screen lg:max-h-[calc(100vh-5rem)] overflow-y-auto">
         <app-section-header
@@ -306,7 +304,7 @@
         </div>
         <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <div *ngFor="let stat of home().academy.stats" class="rounded-3xl bg-white/10 p-6 text-center">
-            <span #counter class="text-3xl font-semibold">0</span>
+            <span class="text-3xl font-semibold">{{ formatStatValue(stat) }}</span>
             <p class="mt-2 text-xs font-semibold uppercase tracking-wide text-white/80">{{ stat.label }}</p>
           </div>
         </div>
@@ -347,7 +345,7 @@
 
 <section class="section-padding">
   <div class="container-wide grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-    <div class="order-2 lg:order-1" appScrollReveal>
+    <div class="order-2 lg:order-1">
       <app-section-header
         [eyebrow]="home().globalPresence.header.eyebrow"
         [title]="home().globalPresence.header.title"
@@ -371,7 +369,7 @@
         </div>
       </div>
     </div>
-    <div class="order-1 lg:order-2" appScrollReveal>
+    <div class="order-1 lg:order-2">
       <div class="relative overflow-hidden rounded-[36px] border border-slate-100 bg-white p-10 shadow-glow">
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(59,130,246,0.15),_transparent_65%)]"></div>
         <div class="relative space-y-4 text-center text-sm text-slate-600">
@@ -414,7 +412,7 @@
         </button>
       </div>
     </div>
-    <div class="mt-12 grid gap-6 md:grid-cols-2" appScrollReveal >
+    <div class="mt-12 grid gap-6 md:grid-cols-2" >
       <article *ngFor="let testimonial of filteredTestimonials()" class="flex h-full flex-col justify-between rounded-3xl border border-slate-100 bg-white p-8 shadow-glow">
         <div>
           <div class="flex items-center gap-2 text-amber-500">
@@ -444,18 +442,14 @@
       [subtitle]="home().impact.header.subtitle"
       [align]="home().impact.header.align ?? 'center'"
     ></app-section-header>
-    <div class="mt-12 grid gap-6 md:grid-cols-4" appScrollReveal >
+    <div class="mt-12 grid gap-6 md:grid-cols-4" >
       <div
-        *ngFor="let stat of home().impact.stats; let idx = index"
+        *ngFor="let stat of home().impact.stats"
         class="rounded-3xl border border-slate-100 bg-white p-6 text-center shadow-sm"
       >
         <span
-          #counter
           class="text-3xl font-semibold text-primary"
-          [attr.data-index]="idx + home().trust.stats.length + home().academy.stats.length"
-        >
-          0
-        </span>
+        >{{ formatStatValue(stat) }}</span>
         <p class="mt-2 text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">{{ stat.label }}</p>
       </div>
     </div>
@@ -470,7 +464,7 @@
       [subtitle]="home().insights.header.subtitle"
       [align]="home().insights.header.align ?? 'center'"
     ></app-section-header>
-    <div class="mt-12 grid gap-6 md:grid-cols-3" appScrollReveal >
+    <div class="mt-12 grid gap-6 md:grid-cols-3" >
       <article *ngFor="let insight of home().insights.items" class="flex h-full flex-col justify-between rounded-3xl border border-slate-100 bg-white p-8 shadow-glow transition hover:-translate-y-2 hover:shadow-2xl">
         <div>
           <span class="text-xs font-semibold uppercase tracking-[0.3em] text-accent">{{ insight.category }}</span>
@@ -500,7 +494,7 @@
 </section>
 
 <section class="section-padding">
-  <div class="container-wide grid gap-6 rounded-[36px] border border-slate-100 bg-white p-10 shadow-glow md:grid-cols-2" appScrollReveal>
+  <div class="container-wide grid gap-6 rounded-[36px] border border-slate-100 bg-white p-10 shadow-glow md:grid-cols-2">
     <div class="rounded-3xl bg-slate-50 p-8">
       <h3 class="text-2xl font-semibold text-primary">{{ home().closingCtas.business.title }}</h3>
       <p class="mt-4 text-sm text-slate-600">{{ home().closingCtas.business.description }}</p>
@@ -556,7 +550,7 @@
 
 <section class="section-padding bg-white" id="contact">
   <div class="container-wide grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
-    <div appScrollReveal>
+    <div>
       <app-section-header
         [eyebrow]="home().contact.header.eyebrow"
         [title]="home().contact.header.title"
@@ -627,7 +621,7 @@
         </div>
       </div>
     </div>
-    <div class="rounded-[32px] border border-slate-100 bg-white p-10 shadow-glow" appScrollReveal>
+    <div class="rounded-[32px] border border-slate-100 bg-white p-10 shadow-glow">
       <form class="grid gap-6">
         <div class="grid gap-4 md:grid-cols-2">
           <div>

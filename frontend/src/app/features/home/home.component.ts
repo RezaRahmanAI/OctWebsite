@@ -1,38 +1,22 @@
 import { CommonModule } from '@angular/common';
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  QueryList,
-  ViewChildren,
-  computed,
-  inject,
-  signal
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { SectionHeaderComponent } from '../../shared/components/section-header/section-header.component';
-import { ScrollRevealDirective } from '../../shared/directives/scroll-reveal.directive';
-import type { Testimonial } from '../../core/models/home-content.model';
+import type { StatItem, Testimonial } from '../../core/models/home-content.model';
 import { SeoService } from '../../core/services/seo.service';
-import { AnimationService } from '../../core/services/animation.service';
 import { ContentService } from '../../core/services/content.service';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, SectionHeaderComponent, ScrollRevealDirective, RouterLink],
+  imports: [CommonModule, SectionHeaderComponent, RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HomeComponent implements AfterViewInit {
+export class HomeComponent {
   private readonly seo = inject(SeoService);
-  private readonly animation = inject(AnimationService);
   private readonly content = inject(ContentService);
-
-  @ViewChildren('counter', { read: ElementRef })
-  private counters?: QueryList<ElementRef<HTMLElement>>;
 
   protected readonly home = this.content.homeContent;
   protected readonly heroVideoSrc = computed(() => this.normalizeMediaUrl(this.home().hero.video.src));
@@ -59,30 +43,22 @@ export class HomeComponent implements AfterViewInit {
       description:
         'ObjectCanvas Studios and ZeroProgrammingBD Academy deliver enterprise software, digital marketing, and live technology education for founders, enterprises, and future makers.',
       keywords:
-        'objectcanvas, zeroprogrammingbd, software development Bangladesh, digital marketing, tech academy, angular tailwind lenis',
+        'objectcanvas, zeroprogrammingbd, software development Bangladesh, digital marketing, tech academy, angular tailwind',
       canonical: 'https://www.objectcanvas.com'
-    });
-  }
-
-  ngAfterViewInit(): void {
-    queueMicrotask(() => {
-      const stats = this.statsPool();
-      this.counters?.forEach((counter, index) => {
-        const stat = stats[index];
-        if (!stat) {
-          return;
-        }
-        counter.nativeElement.setAttribute('data-suffix', stat.suffix ?? '');
-        if (stat.decimals != null) {
-          counter.nativeElement.setAttribute('data-decimals', String(stat.decimals));
-        }
-        this.animation.animateCounter(counter.nativeElement, stat.value);
-      });
     });
   }
 
   protected setTestimonialView(view: 'client' | 'student'): void {
     this.testimonialView.set(view);
+  }
+
+  protected formatStatValue(stat: StatItem): string {
+    const decimals = stat.decimals ?? 0;
+    const formatted = Number(stat.value).toLocaleString(undefined, {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals
+    });
+    return `${formatted}${stat.suffix ?? ''}`;
   }
 
   private normalizeMediaUrl(url: string | null | undefined): string {
