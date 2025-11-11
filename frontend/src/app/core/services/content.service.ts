@@ -59,7 +59,7 @@ export class ContentService {
 
   private readonly initialHomeContent: HomeContent = {
     hero: {
-      badge: 'ObjectCanvas × ZeroProgrammingBD Alliance',
+      badge: 'ObjectCanvas Technology',
       title: 'One Alliance. Infinite Digital Outcomes.',
       description:
         'ObjectCanvas engineers mission-critical software and experiences while ZeroProgrammingBD mentors deliver the talent to scale them. Together we help ambitious teams ship faster and learn smarter.',
