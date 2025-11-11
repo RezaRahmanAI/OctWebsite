@@ -1,4 +1,5 @@
-<section class="hero-section relative overflow-hidden section-padding h-[100vh]">
+<section class="hero-section relative overflow-hidden h-[100vh]">
+  <!-- Background video -->
   <div class="hero-video-container" aria-hidden="true">
     <ng-container *ngIf="heroVideoSrc() as videoSrc">
       <video
@@ -15,19 +16,31 @@
       </video>
     </ng-container>
   </div>
+
+  <!-- Overlay layers -->
   <div class="hero-overlay" aria-hidden="true"></div>
-  <div class="absolute inset-0 -z-10 bg-hero-grid hero-grid-overlay" aria-hidden="true"></div>
-  <div class="container-wide">
-    <div class="grid gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+  <div
+    class="absolute inset-0 -z-10 bg-hero-grid hero-grid-overlay"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Centered content -->
+  <div class="container-wide h-full flex items-center">
+    <div class="grid w-full gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+      <!-- Left column: text + CTAs -->
       <div>
-        
-        <h1 class="mt-6 text-4xl font-semibold leading-tight text-accent-300 sm:text-5xl lg:text-6xl">
+        <h1
+          class="mt-6 text-4xl font-semibold leading-tight text-accent-300 sm:text-5xl lg:text-6xl"
+        >
           {{ home().hero.title }}
         </h1>
+
         <p class="mt-6 text-lg text-slate-600 md:text-xl">
           {{ home().hero.description }}
         </p>
+
         <div class="mt-8 flex flex-wrap gap-4">
+          <!-- Primary CTA -->
           <ng-container *ngIf="home().hero.primaryCta as cta">
             <a
               *ngIf="cta.routerLink; else primaryExternal"
@@ -49,6 +62,8 @@
               </a>
             </ng-template>
           </ng-container>
+
+          <!-- Secondary CTA -->
           <ng-container *ngIf="home().hero.secondaryCta as secondary">
             <a
               *ngIf="secondary.routerLink; else secondaryExternal"
@@ -71,17 +86,27 @@
             </ng-template>
           </ng-container>
         </div>
-        
       </div>
-      <!-- <div class="relative">
+
+      <!-- Right column (optional feature panel) -->
+      <!-- Uncomment if you want to use it -->
+      <!--
+      <div class="relative">
         <div class="absolute inset-0 rounded-3xl bg-gradient-to-br from-accent/20 via-emerald/20 to-primary/20 blur-3xl"></div>
         <div class="relative rounded-[32px] border border-white/60 bg-white/90 p-8 shadow-2xl shadow-primary/20 backdrop-blur">
           <div class="flex flex-col gap-6">
             <div>
-              <span class="text-xs font-semibold uppercase tracking-[0.3em] text-accent">{{ home().hero.featurePanel.eyebrow }}</span>
-              <h3 class="mt-3 text-2xl font-semibold text-primary">{{ home().hero.featurePanel.title }}</h3>
-              <p class="mt-4 text-sm leading-relaxed text-slate-600">{{ home().hero.featurePanel.description }}</p>
+              <span class="text-xs font-semibold uppercase tracking-[0.3em] text-accent">
+                {{ home().hero.featurePanel.eyebrow }}
+              </span>
+              <h3 class="mt-3 text-2xl font-semibold text-primary">
+                {{ home().hero.featurePanel.title }}
+              </h3>
+              <p class="mt-4 text-sm leading-relaxed text-slate-600">
+                {{ home().hero.featurePanel.description }}
+              </p>
             </div>
+
             <div class="grid gap-4 sm:grid-cols-2">
               <div
                 *ngFor="let metric of home().hero.featurePanel.metrics"
@@ -100,19 +125,28 @@
                 >
                   {{ metric.label }}
                 </p>
-                <p class="mt-2 text-lg font-semibold text-primary">{{ metric.value }}</p>
+                <p class="mt-2 text-lg font-semibold text-primary">
+                  {{ metric.value }}
+                </p>
               </div>
             </div>
+
             <div class="rounded-2xl border border-primary/10 bg-primary/5 p-4">
-              <p class="text-xs font-semibold uppercase tracking-wide text-primary">{{ home().hero.featurePanel.partner.label }}</p>
-              <p class="mt-3 text-sm text-slate-600">{{ home().hero.featurePanel.partner.description }}</p>
+              <p class="text-xs font-semibold uppercase tracking-wide text-primary">
+                {{ home().hero.featurePanel.partner.label }}
+              </p>
+              <p class="mt-3 text-sm text-slate-600">
+                {{ home().hero.featurePanel.partner.description }}
+              </p>
             </div>
           </div>
         </div>
-      </div> -->
+      </div>
+      -->
     </div>
   </div>
 </section>
+
 
 <section class="section-padding">
   <div class="container-wide">
@@ -419,7 +453,7 @@
   </div>
 </section>
 
-<section class="section-padding">
+<!-- <section class="section-padding">
   <div class="container-wide">
     <app-section-header
       [eyebrow]="home().impact.header.eyebrow"
@@ -439,7 +473,7 @@
       </div>
     </div>
   </div>
-</section>
+</section> -->
 
 <section class="section-padding bg-white">
   <div class="container-wide">
