@@ -8,6 +8,7 @@ import {
   StatItem,
   Testimonial
 } from '../models/home-content.model';
+import { PricingPlanItem } from '../models/pricing-plan.model';
 
 type PageKey =
   | 'services'
@@ -23,6 +24,38 @@ type PageKey =
 @Injectable({ providedIn: 'root' })
 export class ContentService {
   private readonly storageKey = 'objectcanvas-zeroprogramming-home-content';
+  private readonly pricingPlans: PricingPlanItem[] = [
+    {
+      id: 'starter',
+      name: 'Starter Track',
+      duration: '3 Months',
+      features: [
+        'Live classes twice per week',
+        'Weekly project labs',
+        'Parent progress updates'
+      ]
+    },
+    {
+      id: 'growth',
+      name: 'Growth Track',
+      duration: '6 Months',
+      features: [
+        'Everything in Starter',
+        'STEM club membership',
+        'Monthly mentor coaching'
+      ]
+    },
+    {
+      id: 'explorer',
+      name: 'Explorer Track',
+      duration: '12 Months',
+      features: [
+        'Everything in Growth',
+        'Quarterly innovation sprints',
+        'Dedicated learning concierge'
+      ]
+    }
+  ];
 
   private readonly initialHomeContent: HomeContent = {
     hero: {
@@ -719,6 +752,10 @@ export class ContentService {
     const next = this.clone(content);
     this.homeState.set(next);
     this.writeHomeContent(next);
+  }
+
+  getPricingPlans(): Observable<PricingPlanItem[]> {
+    return defer(() => of(this.clone(this.pricingPlans)));
   }
 
   resetHomeContent(): void {
