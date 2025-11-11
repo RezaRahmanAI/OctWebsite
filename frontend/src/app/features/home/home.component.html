@@ -195,7 +195,7 @@
 </section>
 
 <section class="section-padding">
-  <div class="container-wide grid gap-16 lg:grid-cols-2 lg:items-center">
+  <div class="container-wide grid gap-16 lg:grid-cols-2 lg:items-start">
     <div class="order-2 lg:order-1" appScrollReveal>
       <app-section-header
         [eyebrow]="home().differentiators.header.eyebrow"
@@ -203,13 +203,17 @@
         [subtitle]="home().differentiators.header.subtitle"
       ></app-section-header>
       <div class="mt-10 grid gap-6">
-        <div *ngFor="let differentiator of home().differentiators.items" class="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm transition hover:border-accent/40 hover:shadow-lg" appScrollReveal>
-          <h4 class="text-lg font-semibold text-primary">{{ differentiator.title }}</h4>
-          <p class="mt-3 text-sm text-slate-600">{{ differentiator.description }}</p>
+        <div
+          *ngFor="let item of home().differentiators.items"
+          class="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm transition hover:border-accent/40 hover:shadow-lg"
+          appScrollReveal
+        >
+          <h4 class="text-lg font-semibold text-primary">{{ item.title }}</h4>
+          <p class="mt-3 text-sm text-slate-600">{{ item.description }}</p>
         </div>
       </div>
     </div>
-    <div class="order-1 lg:order-2" appScrollReveal>
+    <div class="order-1 lg:order-2 lg:sticky lg:top-0 self-start" appScrollReveal>
       <div class="gradient-border">
         <div class="relative overflow-hidden rounded-[30px] bg-gradient-to-br from-primary via-slate-900 to-slate-800 p-10 text-slate-100 shadow-2xl">
           <div class="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-emerald/30 blur-3xl"></div>
@@ -230,6 +234,7 @@
     </div>
   </div>
 </section>
+
 
 <section class="section-padding bg-white">
   <div class="container-wide">
@@ -286,9 +291,9 @@
 </section>
 
 <section class="section-padding">
-  <div class="container-wide overflow-hidden rounded-[36px] bg-academy-gradient p-10 text-white shadow-2xl" appScrollReveal>
-    <div class="grid gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-      <div>
+  <div class="container-wide rounded-[36px] bg-academy-gradient p-10 text-white shadow-2xl relative overflow-visible" appScrollReveal>
+    <div class="grid gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-start h-full">
+      <div class="lg:sticky lg:top-10 self-start max-h-screen lg:max-h-[calc(100vh-5rem)] overflow-y-auto">
         <app-section-header
           [eyebrow]="home().academy.header.eyebrow"
           [title]="home().academy.header.title"
@@ -300,14 +305,8 @@
           </span>
         </div>
         <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <div *ngFor="let stat of home().academy.stats; let idx = index" class="rounded-3xl bg-white/10 p-6 text-center">
-            <span
-              #counter
-              class="text-3xl font-semibold"
-              [attr.data-index]="idx + home().trust.stats.length"
-            >
-              0
-            </span>
+          <div *ngFor="let stat of home().academy.stats" class="rounded-3xl bg-white/10 p-6 text-center">
+            <span #counter class="text-3xl font-semibold">0</span>
             <p class="mt-2 text-xs font-semibold uppercase tracking-wide text-white/80">{{ stat.label }}</p>
           </div>
         </div>
@@ -320,7 +319,7 @@
           </a>
         </div>
       </div>
-      <div class="space-y-6">
+      <div class="space-y-6 pr-4 lg:pr-0">
         <article *ngFor="let course of home().academy.featuredCourses" class="rounded-3xl border border-white/30 bg-white/10 p-6 shadow-xl backdrop-blur">
           <p class="text-xs font-semibold uppercase tracking-[0.3em] text-white/60">Featured Course</p>
           <h3 class="mt-4 text-2xl font-semibold">{{ course.title }}</h3>
@@ -342,6 +341,7 @@
         </ul>
       </div>
     </div>
+    <div class="absolute inset-0 rounded-[36px] overflow-hidden pointer-events-none"></div>
   </div>
 </section>
 
