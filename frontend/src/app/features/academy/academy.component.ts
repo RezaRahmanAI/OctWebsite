@@ -1,7 +1,6 @@
-import { AfterViewInit, Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import gsap from 'gsap';
 import { PricingComponent } from '../../shared/components/pricing/pricing.component';
 
 interface AcademyFeature {
@@ -24,10 +23,7 @@ interface Track {
   templateUrl: './academy.component.html',
   styleUrl: './academy.component.css',
 })
-export class AcademyComponent implements AfterViewInit {
-  @ViewChildren('interactiveCard', { read: ElementRef })
-  private readonly interactiveCards!: QueryList<ElementRef<HTMLElement>>;
-
+export class AcademyComponent {
   readonly kidsComputingFeatures: AcademyFeature[] = [
     {
       title: 'STEM.org Accredited',
@@ -96,15 +92,4 @@ export class AcademyComponent implements AfterViewInit {
     },
   ];
 
-  ngAfterViewInit(): void {
-    this.interactiveCards.forEach((card, index) => {
-      gsap.from(card.nativeElement, {
-        opacity: 0,
-        y: 30,
-        duration: 0.7,
-        delay: index * 0.1,
-        ease: 'power3.out',
-      });
-    });
-  }
 }

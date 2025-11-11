@@ -25,7 +25,6 @@
         <ul class="flex items-center gap-6 text-sm font-medium text-slate-600">
           <li *ngFor="let link of navLinks()">
             <a
-              #navLink
               [routerLink]="link.path"
               routerLinkActive="text-primary"
               [routerLinkActiveOptions]="{ exact: link.exact ?? false }"
@@ -40,7 +39,6 @@
 
       <div class="flex items-center gap-3 lg:hidden">
         <a
-          #navCta
           routerLink="/contact"
           class="hidden rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:-translate-y-0.5 hover:bg-slate-900 sm:inline-flex"
           (click)="closeMenu()"

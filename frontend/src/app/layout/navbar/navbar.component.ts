@@ -1,24 +1,16 @@
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  ElementRef,
   HostListener,
-  OnDestroy,
-  PLATFORM_ID,
-  QueryList,
-  ViewChildren,
   computed,
   inject,
   signal,
 } from '@angular/core';
-import { animate, style, transition, trigger } from '@angular/animations';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router'; // Ensure RouterModule is included here
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import gsap from 'gsap';
 import { SmoothScrollService } from '../../core/services';
 
 type NavLink = {
@@ -34,32 +26,11 @@ type NavLink = {
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('menuReveal', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(-12px)' }),
-        animate('220ms ease-out', style({ opacity: 1, transform: 'translateY(0)' })),
-      ]),
-      transition(':leave', [
-        animate('180ms ease-in', style({ opacity: 0, transform: 'translateY(-10px)' })),
-      ]),
-    ]),
-  ],
 })
-export class NavbarComponent implements AfterViewInit, OnDestroy {
+export class NavbarComponent {
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
-  private readonly platformId = inject(PLATFORM_ID);
   private readonly smoothScroll = inject(SmoothScrollService);
-  private readonly isBrowser = isPlatformBrowser(this.platformId);
-
-  @ViewChildren('navLink', { read: ElementRef })
-  private navLinkRefs?: QueryList<ElementRef<HTMLElement>>;
-
-  @ViewChildren('navCta', { read: ElementRef })
-  private navCtaRefs?: QueryList<ElementRef<HTMLElement>>;
-
-  private navContext?: gsap.Context;
 
   // Mobile menu state
   private _menuOpen = signal(false);
@@ -82,6 +53,7 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
   navLinks = computed(() => this._links());
 
   constructor() {
+    this.smoothScroll.init();
     // Close the mobile menu after navigation
     this.router.events
       .pipe(
@@ -89,36 +61,6 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(() => this._menuOpen.set(false));
-  }
-
-  ngAfterViewInit(): void {
-    if (!this.isBrowser) {
-      return;
-    }
-
-    this.smoothScroll.init();
-
-    queueMicrotask(() => {
-      const navLinkEls = this.navLinkRefs ? this.navLinkRefs.toArray().map(link => link.nativeElement) : [];
-      const navCtaEls = this.navCtaRefs ? this.navCtaRefs.toArray().map(cta => cta.nativeElement) : [];
-      const elements = [...navLinkEls, ...navCtaEls];
-      if (!elements.length) {
-        return;
-      }
-      this.navContext = gsap.context(() => {
-        gsap.from(elements, {
-          y: -20,
-          opacity: 0,
-          duration: 0.6,
-          ease: 'power2.out',
-          stagger: 0.08,
-        });
-      });
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.navContext?.revert();
   }
 
   toggleMenu(): void {
