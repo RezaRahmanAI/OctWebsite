@@ -1,0 +1,32 @@
+<section class="tech-stack" aria-labelledby="tech-stack-heading">
+  <div class="tech-stack__inner">
+    <div class="tech-stack__intro">
+      <p class="tech-stack__eyebrow">Technology agnostic</p>
+      <h2 id="tech-stack-heading">We thrive across modern stacks.</h2>
+      <p>
+        From enterprise Java to real-time JavaScript, AI copilots, and low-code integrations—Object Canvas Technology assembles
+        the right toolkit for every engagement.
+      </p>
+    </div>
+    <div class="tech-stack__marquees">
+      <div class="marquee-container">
+        <div class="marquee-track marquee-left">
+          <ng-container *ngFor="let tech of techRow1">
+            <div class="marquee-item">
+              <span [class]="tech.color">{{ tech.name }}</span>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <div class="marquee-container">
+        <div class="marquee-track marquee-right">
+          <ng-container *ngFor="let tech of techRow2">
+            <div class="marquee-item">
+              <span [class]="tech.color">{{ tech.name }}</span>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

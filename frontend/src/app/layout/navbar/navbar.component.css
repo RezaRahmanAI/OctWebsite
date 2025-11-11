@@ -3,5 +3,5 @@
 }
 
 header {
-  will-change: background-color, box-shadow;
+  will-change: transform, background-color, box-shadow;
 }

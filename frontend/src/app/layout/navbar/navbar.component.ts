@@ -40,7 +40,13 @@ export class NavbarComponent {
   private _scrolled = signal(false);
   scrolled = computed(() => this._scrolled());
 
-  // Your primary nav items (match your routes config)
+  // 🔥 NEW: hidden state
+  private _hidden = signal(false);
+  hidden = computed(() => this._hidden());
+
+  // Keep track of last scroll position
+  private lastScrollY = 0;
+
   private _links = signal<NavLink[]>([
     { label: 'Home', path: '/', exact: true },
     { label: 'About', path: '/about', exact: true },
@@ -54,7 +60,7 @@ export class NavbarComponent {
 
   constructor() {
     this.smoothScroll.init();
-    // Close the mobile menu after navigation
+
     this.router.events
       .pipe(
         filter((e): e is NavigationEnd => e instanceof NavigationEnd),
@@ -66,18 +72,37 @@ export class NavbarComponent {
   toggleMenu(): void {
     this._menuOpen.update((v) => !v);
   }
+
   closeMenu(): void {
     this._menuOpen.set(false);
   }
 
-  // Update scrolled state (header blur/shadow)
+  // 👇 Scroll listener: handle blur + hide/show
   @HostListener('window:scroll')
   onScroll(): void {
-    // tweak threshold to taste
-    this._scrolled.set(window.scrollY > 8);
+    const currentY = window.scrollY || 0;
+
+    // blur / shadow state
+    this._scrolled.set(currentY > 8);
+
+    const isScrollingDown = currentY > this.lastScrollY + 4;
+    const isScrollingUp = currentY < this.lastScrollY - 4;
+    const nearTop = currentY < 16;
+
+    if (nearTop) {
+      // Always show at the very top
+      this._hidden.set(false);
+    } else if (isScrollingDown) {
+      // Hide when scrolling down
+      this._hidden.set(true);
+    } else if (isScrollingUp) {
+      // Show when scrolling up
+      this._hidden.set(false);
+    }
+
+    this.lastScrollY = currentY;
   }
 
-  // Ensure correct initial scrolled state on first paint
   ngOnInit(): void {
     this.onScroll();
   }

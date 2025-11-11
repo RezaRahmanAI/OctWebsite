@@ -5,11 +5,12 @@ import type { StatItem, Testimonial } from '../../core/models/home-content.model
 import { SeoService } from '../../core/services/seo.service';
 import { ContentService } from '../../core/services/content.service';
 import { RouterLink } from '@angular/router';
+import { TechStackComponent } from "./tech-stack-slider/tech-stack-slider.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, SectionHeaderComponent, RouterLink],
+  imports: [CommonModule, SectionHeaderComponent, RouterLink, TechStackComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
