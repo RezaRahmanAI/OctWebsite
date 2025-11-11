@@ -7,10 +7,7 @@ module.exports = {
       colors: {
         background: '#F8FAFC',
         surface: '#FFFFFF',
-        neutral: {
-          text: '#1e293b',
-          accent: '#475569'
-        },
+        
         secondary: {
           DEFAULT: '#F97316',
           50: '#FFF7ED',

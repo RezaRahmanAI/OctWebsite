@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, ElementRef, QueryList, ViewChildren, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  QueryList,
+  ViewChildren,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import gsap from 'gsap';
 import { signal } from '@angular/core';

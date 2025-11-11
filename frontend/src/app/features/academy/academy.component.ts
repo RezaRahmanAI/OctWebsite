@@ -1,15 +1,7 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  QueryList,
-  ViewChildren,
-  inject,
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
-import { SeoService } from '../../core/services/seo.service';
 import { PricingComponent } from '../../shared/components/pricing/pricing.component';
 
 interface AcademyFeature {
@@ -35,7 +27,6 @@ interface Track {
 export class AcademyComponent implements AfterViewInit {
   @ViewChildren('interactiveCard', { read: ElementRef })
   private readonly interactiveCards!: QueryList<ElementRef<HTMLElement>>;
-  private readonly seo = inject(SeoService);
 
   readonly kidsComputingFeatures: AcademyFeature[] = [
     {
@@ -104,14 +95,6 @@ export class AcademyComponent implements AfterViewInit {
       icon: '📈',
     },
   ];
-
-  constructor() {
-    this.seo.update({
-      title: 'Academy',
-      description:
-        'Dive into Zero Programming Academy courses that ignite creativity, confidence, and future-ready tech skills.',
-    });
-  }
 
   ngAfterViewInit(): void {
     this.interactiveCards.forEach((card, index) => {
