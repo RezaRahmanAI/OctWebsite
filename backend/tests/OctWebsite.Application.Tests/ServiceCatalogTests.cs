@@ -1,10 +1,10 @@
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using OctWebsite.Application;
 using OctWebsite.Application.Abstractions;
 using OctWebsite.Application.DTOs;
 using OctWebsite.Application.Services;
 using OctWebsite.Domain.Entities;
+using Xunit;
 
 namespace OctWebsite.Application.Tests;
 
