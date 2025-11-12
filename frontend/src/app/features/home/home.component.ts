@@ -1,16 +1,40 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { SectionHeaderComponent } from '../../shared/components/section-header/section-header.component';
-import type { StatItem, Testimonial } from '../../core/models/home-content.model';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { TechStackComponent } from './tech-stack-slider/tech-stack-slider.component';
 import { SeoService } from '../../core/services/seo.service';
 import { ContentService } from '../../core/services/content.service';
-import { RouterLink } from '@angular/router';
-import { TechStackComponent } from "./tech-stack-slider/tech-stack-slider.component";
+import { HomeHeroComponent } from './sections/hero/home-hero.component';
+import { HomeTrustComponent } from './sections/trust/home-trust.component';
+import { HomeServicesComponent } from './sections/services/home-services.component';
+import { HomeDifferentiatorsComponent } from './sections/differentiators/home-differentiators.component';
+import { HomeMethodologyComponent } from './sections/methodology/home-methodology.component';
+import { HomeCaseStudiesComponent } from './sections/case-studies/home-case-studies.component';
+import { HomeAcademyComponent } from './sections/academy/home-academy.component';
+import { HomeGlobalPresenceComponent } from './sections/global-presence/home-global-presence.component';
+import { HomeTestimonialsComponent } from './sections/testimonials/home-testimonials.component';
+import { HomeInsightsComponent } from './sections/insights/home-insights.component';
+import { HomeClosingCtasComponent } from './sections/closing-ctas/home-closing-ctas.component';
+import { HomeContactComponent } from './sections/contact/home-contact.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, SectionHeaderComponent, RouterLink, TechStackComponent],
+  imports: [
+    CommonModule,
+    TechStackComponent,
+    HomeHeroComponent,
+    HomeTrustComponent,
+    HomeServicesComponent,
+    HomeDifferentiatorsComponent,
+    HomeMethodologyComponent,
+    HomeCaseStudiesComponent,
+    HomeAcademyComponent,
+    HomeGlobalPresenceComponent,
+    HomeTestimonialsComponent,
+    HomeInsightsComponent,
+    HomeClosingCtasComponent,
+    HomeContactComponent
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -23,21 +47,6 @@ export class HomeComponent {
   protected readonly heroVideoSrc = computed(() => this.normalizeMediaUrl(this.home().hero.video.src));
   protected readonly heroVideoPoster = computed(() => this.normalizeMediaUrl(this.home().hero.video.poster));
 
-  protected readonly testimonialView = signal<'client' | 'student'>('client');
-
-  protected readonly filteredTestimonials = computed(() => {
-    const view = this.testimonialView();
-    return this.home().testimonials.items.filter(
-      (testimonial: Testimonial) => testimonial.type === view
-    );
-  });
-
-  protected readonly statsPool = computed(() => [
-    ...this.home().trust.stats,
-    ...this.home().academy.stats,
-    ...this.home().impact.stats
-  ]);
-
   constructor() {
     this.seo.update({
       title: 'ObjectCanvas × ZeroProgrammingBD | Software Solutions & Tech Academy',
@@ -47,19 +56,6 @@ export class HomeComponent {
         'objectcanvas, zeroprogrammingbd, software development Bangladesh, digital marketing, tech academy, angular tailwind',
       canonical: 'https://www.objectcanvas.com'
     });
-  }
-
-  protected setTestimonialView(view: 'client' | 'student'): void {
-    this.testimonialView.set(view);
-  }
-
-  protected formatStatValue(stat: StatItem): string {
-    const decimals = stat.decimals ?? 0;
-    const formatted = Number(stat.value).toLocaleString(undefined, {
-      minimumFractionDigits: decimals,
-      maximumFractionDigits: decimals
-    });
-    return `${formatted}${stat.suffix ?? ''}`;
   }
 
   private normalizeMediaUrl(url: string | null | undefined): string {

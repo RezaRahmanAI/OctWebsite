@@ -1,0 +1,38 @@
+<section class="section-padding">
+  <div class="container-wide">
+    <app-section-header
+      [eyebrow]="data.header.eyebrow"
+      [title]="data.header.title"
+      [subtitle]="data.header.subtitle"
+      [align]="data.header.align ?? 'center'"
+    ></app-section-header>
+    <div class="mt-12 grid gap-6 md:grid-cols-3">
+      <article
+        *ngFor="let project of data.items"
+        class="rounded-3xl border border-slate-100 bg-white p-8 shadow-glow transition hover:-translate-y-2 hover:shadow-2xl"
+      >
+        <p class="text-xs font-semibold uppercase tracking-[0.3em] text-accent">{{ project.industry }}</p>
+        <h3 class="mt-4 text-2xl font-semibold text-primary">{{ project.client }}</h3>
+        <div class="mt-4 space-y-3 text-sm text-slate-600">
+          <p><span class="font-semibold text-primary">Challenge:</span> {{ project.challenge }}</p>
+          <p><span class="font-semibold text-primary">Solution:</span> {{ project.solution }}</p>
+          <p><span class="font-semibold text-primary">Result:</span> {{ project.result }}</p>
+        </div>
+        <a routerLink="/portfolio" class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary transition hover:translate-x-1">
+          View Case Study
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </article>
+    </div>
+    <div class="mt-10 flex justify-center">
+      <a routerLink="/portfolio" class="inline-flex items-center gap-2 rounded-full border border-primary/20 px-6 py-3 text-sm font-semibold text-primary transition hover:border-primary">
+        View Full Portfolio
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,81 @@
+<section class="hero-section relative overflow-hidden h-[100vh]">
+  <div class="hero-video-container" aria-hidden="true">
+    <ng-container *ngIf="videoSrc as src">
+      <video
+        class="hero-video"
+        autoplay
+        loop
+        muted
+        playsinline
+        preload="auto"
+        [poster]="videoPoster"
+      >
+        <source [src]="src" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </ng-container>
+  </div>
+
+  <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="absolute inset-0 -z-10 bg-hero-grid hero-grid-overlay" aria-hidden="true"></div>
+
+  <div class="container-wide h-full flex items-center">
+    <div class="grid w-full gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+      <div>
+        <h1 class="mt-6 text-4xl font-semibold leading-tight text-accent-300 sm:text-5xl lg:text-6xl">
+          {{ data.title }}
+        </h1>
+
+        <p class="mt-6 text-lg text-slate-600 md:text-xl">
+          {{ data.description }}
+        </p>
+
+        <div class="mt-8 flex flex-wrap gap-4">
+          <ng-container *ngIf="data.primaryCta as cta">
+            <a
+              *ngIf="cta.routerLink; else primaryExternal"
+              [routerLink]="cta.routerLink"
+              [fragment]="cta.fragment"
+              class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:-translate-y-0.5 hover:bg-slate-900"
+            >
+              {{ cta.label }}
+            </a>
+            <ng-template #primaryExternal>
+              <a
+                *ngIf="cta.externalUrl"
+                class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:-translate-y-0.5 hover:bg-slate-900"
+                [href]="cta.externalUrl"
+                target="_blank"
+                rel="noopener"
+              >
+                {{ cta.label }}
+              </a>
+            </ng-template>
+          </ng-container>
+
+          <ng-container *ngIf="data.secondaryCta as secondary">
+            <a
+              *ngIf="secondary.routerLink; else secondaryExternal"
+              [routerLink]="secondary.routerLink"
+              [fragment]="secondary.fragment"
+              class="inline-flex items-center justify-center rounded-full border border-primary/10 bg-white/90 px-6 py-3 text-sm font-semibold text-primary shadow-sm transition hover:-translate-y-0.5 hover:border-primary hover:text-primary"
+            >
+              {{ secondary.label }}
+            </a>
+            <ng-template #secondaryExternal>
+              <a
+                *ngIf="secondary.externalUrl"
+                class="inline-flex items-center justify-center rounded-full border border-primary/10 bg-white/90 px-6 py-3 text-sm font-semibold text-primary shadow-sm transition hover:-translate-y-0.5 hover:border-primary hover:text-primary"
+                [href]="secondary.externalUrl"
+                target="_blank"
+                rel="noopener"
+              >
+                {{ secondary.label }}
+              </a>
+            </ng-template>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

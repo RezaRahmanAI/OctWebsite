@@ -1,0 +1,37 @@
+:host {
+  display: block;
+}
+
+.hero-section {
+  position: relative;
+  color: inherit;
+}
+
+.hero-video-container {
+  position: absolute;
+  inset: 0;
+  z-index: -30;
+  overflow: hidden;
+  background: #020817;
+}
+
+.hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.05) contrast(1.05);
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -20;
+  background: linear-gradient(180deg, rgba(2, 8, 23, 0.65) 0%, rgba(15, 23, 42, 0.35) 45%, rgba(248, 250, 252, 0.85) 100%);
+  backdrop-filter: blur(6px);
+}
+
+.hero-grid-overlay {
+  z-index: -10;
+  opacity: 0.45;
+  mix-blend-mode: overlay;
+}

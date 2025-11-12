@@ -1,0 +1,54 @@
+<section class="section-padding">
+  <div class="container-wide rounded-[36px] bg-academy-gradient p-10 text-white shadow-2xl relative overflow-visible">
+    <div class="grid gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-start h-full">
+      <div class="lg:sticky lg:top-10 self-start max-h-screen lg:max-h-[calc(100vh-5rem)] overflow-y-auto">
+        <app-section-header
+          [eyebrow]="data.header.eyebrow"
+          [title]="data.header.title"
+          [subtitle]="data.header.subtitle"
+        ></app-section-header>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <span *ngFor="let category of data.categories" class="rounded-full bg-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-wide">
+            {{ category }}
+          </span>
+        </div>
+        <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div *ngFor="let stat of data.stats" class="rounded-3xl bg-white/10 p-6 text-center">
+            <span class="text-3xl font-semibold">{{ stat | formatStat }}</span>
+            <p class="mt-2 text-xs font-semibold uppercase tracking-wide text-white/80">{{ stat.label }}</p>
+          </div>
+        </div>
+        <div class="mt-10 flex flex-wrap gap-4">
+          <a routerLink="/academy" class="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-primary shadow-lg shadow-white/20 transition hover:-translate-y-0.5">
+            Browse All Courses
+          </a>
+          <a routerLink="/academy" fragment="demo" class="inline-flex items-center justify-center rounded-full border border-white/60 px-6 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5">
+            Watch Free Demo Class
+          </a>
+        </div>
+      </div>
+      <div class="space-y-6 pr-4 lg:pr-0">
+        <article *ngFor="let course of data.featuredCourses" class="rounded-3xl border border-white/30 bg-white/10 p-6 shadow-xl backdrop-blur">
+          <p class="text-xs font-semibold uppercase tracking-[0.3em] text-white/60">Featured Course</p>
+          <h3 class="mt-4 text-2xl font-semibold">{{ course.title }}</h3>
+          <p class="mt-3 text-sm text-white/80">👨‍🏫 {{ course.instructor }}</p>
+          <p class="mt-2 text-sm text-white/80">⏱️ {{ course.duration }}</p>
+          <p class="mt-2 text-sm text-white/80">⭐ {{ course.rating }}</p>
+          <p class="mt-3 text-base font-semibold text-white">💰 {{ course.price }}</p>
+          <div class="mt-4 flex flex-wrap gap-3">
+            <a routerLink="/academy" class="inline-flex items-center justify-center rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-wide text-primary shadow-lg shadow-white/30 transition hover:-translate-y-0.5">
+              Enroll Now
+            </a>
+            <a routerLink="/academy" fragment="courses" class="inline-flex items-center justify-center rounded-full border border-white/50 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:-translate-y-0.5">
+              View Details
+            </a>
+          </div>
+        </article>
+        <ul class="space-y-3 text-sm text-white/80">
+          <li *ngFor="let benefit of data.benefits" class="flex items-start gap-3"><span class="mt-1 text-lg">✓</span>{{ benefit }}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="absolute inset-0 rounded-[36px] overflow-hidden pointer-events-none"></div>
+  </div>
+</section>
