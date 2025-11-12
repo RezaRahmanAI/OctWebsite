@@ -1,0 +1,139 @@
+<section class="section-padding bg-white" id="contact">
+  <div class="container-wide grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
+    <div>
+      <app-section-header
+        [eyebrow]="data.header.eyebrow"
+        [title]="data.header.title"
+        [subtitle]="data.header.subtitle"
+      ></app-section-header>
+      <div class="mt-8 space-y-6 text-sm text-slate-600">
+        <div>
+          <h4 class="text-lg font-semibold text-primary">🏢 Headquarters</h4>
+          <p class="mt-2">{{ data.headquarters }}</p>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div>
+            <h4 class="text-lg font-semibold text-primary">📞 Phone</h4>
+            <p *ngFor="let phone of data.phones; let i = index" [ngClass]="{ 'mt-2': i > 0 }">
+              {{ phone }}
+            </p>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold text-primary">✉️ Email</h4>
+            <p *ngFor="let email of data.emails" class="mt-2">{{ email.label }}: {{ email.value }}</p>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold text-primary">🕐 Business Hours</h4>
+          <p *ngFor="let hours of data.businessHours" class="mt-2">{{ hours }}</p>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold text-primary">🌐 Follow Us</h4>
+          <div class="mt-3 flex flex-wrap gap-3 text-sm font-semibold text-primary">
+            <a *ngFor="let social of data.socials" [href]="social.url" target="_blank" rel="noopener">{{ social.label }}</a>
+          </div>
+          <ng-container *ngIf="data.consultation as consultation">
+            <a
+              *ngIf="consultation.routerLink; else consultationExternal"
+              [routerLink]="consultation.routerLink"
+              [fragment]="consultation.fragment"
+              class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary underline-offset-4 hover:underline"
+            >
+              {{ consultation.label }}
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+            <ng-template #consultationExternal>
+              <a
+                *ngIf="consultation.externalUrl"
+                [href]="consultation.externalUrl"
+                target="_blank"
+                rel="noopener"
+                class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary underline-offset-4 hover:underline"
+              >
+                {{ consultation.label }}
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            </ng-template>
+          </ng-container>
+          <a
+            [href]="data.profileDownload.url"
+            class="mt-2 inline-flex items-center gap-2 text-sm font-semibold text-primary underline-offset-4 hover:underline"
+          >
+            {{ data.profileDownload.label }}
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="rounded-[32px] border border-slate-100 bg-white p-10 shadow-glow">
+      <form class="grid gap-6">
+        <div class="grid gap-4 md:grid-cols-2">
+          <div>
+            <label for="name" class="text-sm font-semibold text-primary">Name*</label>
+            <input
+              id="name"
+              type="text"
+              class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-accent/40"
+              placeholder="Your full name"
+            />
+          </div>
+          <div>
+            <label for="email" class="text-sm font-semibold text-primary">Email*</label>
+            <input
+              id="email"
+              type="email"
+              class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-accent/40"
+              placeholder="you@company.com"
+            />
+          </div>
+        </div>
+        <div class="grid gap-4 md:grid-cols-2">
+          <div>
+            <label for="phone" class="text-sm font-semibold text-primary">Phone</label>
+            <input
+              id="phone"
+              type="tel"
+              class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-accent/40"
+              placeholder="Optional"
+            />
+          </div>
+          <div>
+            <label for="interest" class="text-sm font-semibold text-primary">I'm interested in</label>
+            <select
+              id="interest"
+              class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-accent/40"
+            >
+              <option>Digital Marketing</option>
+              <option>Software Development</option>
+              <option>Website Building</option>
+              <option>ZeroProgrammingBD Academy Courses</option>
+              <option>General Inquiry</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label for="message" class="text-sm font-semibold text-primary">Project Details / Message*</label>
+          <textarea
+            id="message"
+            rows="4"
+            class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-accent/40"
+            placeholder="Tell us about your goals"
+          ></textarea>
+        </div>
+        <button
+          type="submit"
+          class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:-translate-y-0.5"
+        >
+          Submit
+        </button>
+        <p class="text-xs text-slate-500">By submitting, you agree to our privacy policy and consent to receiving communications.</p>
+      </form>
+    </div>
+  </div>
+</section>

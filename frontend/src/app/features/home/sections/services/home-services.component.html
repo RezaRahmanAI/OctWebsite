@@ -1,0 +1,38 @@
+<section class="section-padding" id="services">
+  <div class="container-wide">
+    <app-section-header
+      [eyebrow]="data.header.eyebrow"
+      [title]="data.header.title"
+      [subtitle]="data.header.subtitle"
+      [align]="data.header.align ?? 'center'"
+    ></app-section-header>
+    <div class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+      <article
+        *ngFor="let service of data.items"
+        class="group relative overflow-hidden rounded-3xl border border-slate-100 bg-white p-8 shadow-glow transition-transform duration-500 hover:-translate-y-2 hover:shadow-2xl"
+        [ngClass]="{ 'ring-2 ring-accent/40': service.featured }"
+      >
+        <div class="flex items-center justify-between">
+          <span class="text-4xl">{{ service.icon }}</span>
+          <span class="rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-accent">
+            {{ service.tagline }}
+          </span>
+        </div>
+        <h3 class="mt-6 text-2xl font-semibold text-primary">{{ service.title }}</h3>
+        <p class="mt-4 text-sm leading-relaxed text-slate-600">{{ service.description }}</p>
+        <ul class="mt-6 space-y-3 text-sm text-slate-600">
+          <li *ngFor="let highlight of service.highlights" class="flex items-start gap-3">
+            <span class="mt-1 h-1.5 w-1.5 rounded-full bg-accent"></span>
+            <span>{{ highlight }}</span>
+          </li>
+        </ul>
+        <a routerLink="/services" class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary transition group-hover:translate-x-1">
+          Learn More
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </article>
+    </div>
+  </div>
+</section>
