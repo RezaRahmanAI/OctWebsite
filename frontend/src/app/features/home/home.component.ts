@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { TechStackComponent } from './tech-stack-slider/tech-stack-slider.component';
 import { SeoService } from '../../core/services/seo.service';
 import { ContentService } from '../../core/services/content.service';
+import { SettingsService } from '../../core/services/settings.service';
 import { HomeHeroComponent } from './sections/hero/home-hero.component';
 import { HomeTrustComponent } from './sections/trust/home-trust.component';
 import { HomeServicesComponent } from './sections/services/home-services.component';
@@ -42,10 +43,16 @@ import { HomeContactComponent } from './sections/contact/home-contact.component'
 export class HomeComponent {
   private readonly seo = inject(SeoService);
   private readonly content = inject(ContentService);
+  private readonly settings = inject(SettingsService);
 
   protected readonly home = this.content.homeContent;
-  protected readonly heroVideoSrc = computed(() => this.normalizeMediaUrl(this.home().hero.video.src));
-  protected readonly heroVideoPoster = computed(() => this.normalizeMediaUrl(this.home().hero.video.poster));
+  private readonly siteSettings = this.settings.settings;
+  protected readonly heroVideoSrc = computed(() =>
+    this.normalizeMediaUrl(this.siteSettings()?.heroVideoUrl ?? this.home().hero.video.src)
+  );
+  protected readonly heroVideoPoster = computed(() =>
+    this.normalizeMediaUrl(this.siteSettings()?.heroVideoPoster ?? this.home().hero.video.poster)
+  );
 
   constructor() {
     this.seo.update({
