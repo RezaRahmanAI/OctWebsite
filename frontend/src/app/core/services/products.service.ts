@@ -50,15 +50,26 @@ export class ProductsService {
     return this.store.getBySlug?.(slug);
   }
 
-  create(product: ProductItem): ProductItem {
-    return this.store.create(product);
+  async create(product: ProductItem): Promise<ProductItem> {
+    const payload = this.toRequest(product);
+    const created = await firstValueFrom(this.http.post<ProductItem>(this.apiUrl, payload));
+    this.store.create(created);
+    return created;
   }
 
-  update(id: string, patch: Partial<ProductItem>): ProductItem | undefined {
-    return this.store.update(id, patch);
+  async update(id: string, patch: Partial<ProductItem>): Promise<ProductItem | undefined> {
+    const current = this.store.getById(id);
+    if (!current) {
+      return undefined;
+    }
+    const payload = this.toRequest({ ...current, ...patch });
+    const updated = await firstValueFrom(this.http.put<ProductItem>(`${this.apiUrl}/${id}`, payload));
+    this.store.update(id, updated);
+    return updated;
   }
 
-  delete(id: string): void {
+  async delete(id: string): Promise<void> {
+    await firstValueFrom(this.http.delete<void>(`${this.apiUrl}/${id}`));
     this.store.delete(id);
   }
 
@@ -90,5 +101,16 @@ export class ProductsService {
         this.loadingPromise = null;
       });
     await this.loadingPromise;
+  }
+
+  private toRequest(product: Partial<ProductItem>): Omit<ProductItem, 'id'> {
+    return {
+      title: product.title ?? '',
+      slug: product.slug ?? '',
+      summary: product.summary ?? '',
+      icon: product.icon ?? '',
+      features: product.features ?? [],
+      active: product.active ?? true,
+    };
   }
 }

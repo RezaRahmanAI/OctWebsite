@@ -46,4 +46,54 @@ internal sealed class ServiceCatalog(
 
         return new ServiceCatalogDto(softwareSolutions.ToArray(), trainingPrograms);
     }
+
+    public async Task<ServiceItemDto> CreateAsync(SaveServiceItemRequest request, CancellationToken cancellationToken = default)
+    {
+        Validate(request);
+        var service = new ServiceItem(
+            Guid.NewGuid(),
+            request.Title.Trim(),
+            request.Slug.Trim().ToLowerInvariant(),
+            request.Summary.Trim(),
+            request.Icon.Trim(),
+            request.Features?.ToArray() ?? Array.Empty<string>(),
+            request.Active);
+
+        var created = await serviceRepository.CreateAsync(service, cancellationToken);
+        return created.ToDto();
+    }
+
+    public async Task<ServiceItemDto?> UpdateAsync(Guid id, SaveServiceItemRequest request, CancellationToken cancellationToken = default)
+    {
+        Validate(request);
+        var existing = await serviceRepository.GetByIdAsync(id, cancellationToken);
+        if (existing is null)
+        {
+            return null;
+        }
+
+        var updated = existing with
+        {
+            Title = request.Title.Trim(),
+            Slug = request.Slug.Trim().ToLowerInvariant(),
+            Summary = request.Summary.Trim(),
+            Icon = request.Icon.Trim(),
+            Features = request.Features?.ToArray() ?? Array.Empty<string>(),
+            Active = request.Active
+        };
+
+        var saved = await serviceRepository.UpdateAsync(updated, cancellationToken);
+        return saved?.ToDto();
+    }
+
+    public Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+        => serviceRepository.DeleteAsync(id, cancellationToken);
+
+    private static void Validate(SaveServiceItemRequest request)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(request.Title);
+        ArgumentException.ThrowIfNullOrWhiteSpace(request.Slug);
+        ArgumentException.ThrowIfNullOrWhiteSpace(request.Summary);
+        ArgumentException.ThrowIfNullOrWhiteSpace(request.Icon);
+    }
 }

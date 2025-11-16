@@ -17,4 +17,55 @@ internal sealed class TeamService(ITeamRepository repository) : ITeamService
         var member = await repository.GetByIdAsync(id, cancellationToken);
         return member?.ToDto();
     }
+
+    public async Task<TeamMemberDto> CreateAsync(SaveTeamMemberRequest request, CancellationToken cancellationToken = default)
+    {
+        Validate(request);
+        var member = new TeamMember(
+            Guid.NewGuid(),
+            request.Name.Trim(),
+            request.Role.Trim(),
+            request.PhotoUrl.Trim(),
+            request.Bio.Trim(),
+            request.Email.Trim(),
+            request.Active);
+
+        var created = await repository.CreateAsync(member, cancellationToken);
+        return created.ToDto();
+    }
+
+    public async Task<TeamMemberDto?> UpdateAsync(Guid id, SaveTeamMemberRequest request, CancellationToken cancellationToken = default)
+    {
+        Validate(request);
+        var existing = await repository.GetByIdAsync(id, cancellationToken);
+        if (existing is null)
+        {
+            return null;
+        }
+
+        var updated = existing with
+        {
+            Name = request.Name.Trim(),
+            Role = request.Role.Trim(),
+            PhotoUrl = request.PhotoUrl.Trim(),
+            Bio = request.Bio.Trim(),
+            Email = request.Email.Trim(),
+            Active = request.Active
+        };
+
+        var saved = await repository.UpdateAsync(updated, cancellationToken);
+        return saved?.ToDto();
+    }
+
+    public Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+        => repository.DeleteAsync(id, cancellationToken);
+
+    private static void Validate(SaveTeamMemberRequest request)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(request.Name);
+        ArgumentException.ThrowIfNullOrWhiteSpace(request.Role);
+        ArgumentException.ThrowIfNullOrWhiteSpace(request.PhotoUrl);
+        ArgumentException.ThrowIfNullOrWhiteSpace(request.Bio);
+        ArgumentException.ThrowIfNullOrWhiteSpace(request.Email);
+    }
 }

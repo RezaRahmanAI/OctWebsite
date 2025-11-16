@@ -30,15 +30,26 @@ export class TeamService {
     return this.store.getById(id);
   }
 
-  create(member: TeamMember): TeamMember {
-    return this.store.create(member);
+  async create(member: TeamMember): Promise<TeamMember> {
+    const payload = this.toRequest(member);
+    const created = await firstValueFrom(this.http.post<TeamMember>(this.apiUrl, payload));
+    this.store.create(created);
+    return created;
   }
 
-  update(id: string, patch: Partial<TeamMember>): TeamMember | undefined {
-    return this.store.update(id, patch);
+  async update(id: string, patch: Partial<TeamMember>): Promise<TeamMember | undefined> {
+    const current = this.store.getById(id);
+    if (!current) {
+      return undefined;
+    }
+    const payload = this.toRequest({ ...current, ...patch });
+    const updated = await firstValueFrom(this.http.put<TeamMember>(`${this.apiUrl}/${id}`, payload));
+    this.store.update(id, updated);
+    return updated;
   }
 
-  delete(id: string): void {
+  async delete(id: string): Promise<void> {
+    await firstValueFrom(this.http.delete<void>(`${this.apiUrl}/${id}`));
     this.store.delete(id);
   }
 
@@ -70,5 +81,16 @@ export class TeamService {
         this.loadingPromise = null;
       });
     await this.loadingPromise;
+  }
+
+  private toRequest(member: Partial<TeamMember>): Omit<TeamMember, 'id'> {
+    return {
+      name: member.name ?? '',
+      role: member.role ?? '',
+      photoUrl: member.photoUrl ?? '',
+      bio: member.bio ?? '',
+      email: member.email ?? '',
+      active: member.active ?? true,
+    };
   }
 }

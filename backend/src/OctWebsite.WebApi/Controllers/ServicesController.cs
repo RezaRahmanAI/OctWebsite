@@ -28,4 +28,25 @@ public sealed class ServicesController(IServiceCatalog serviceCatalog) : Control
         var service = await serviceCatalog.GetBySlugAsync(slug, cancellationToken);
         return service is null ? NotFound() : Ok(service);
     }
+
+    [HttpPost]
+    public async Task<ActionResult<ServiceItemDto>> CreateAsync([FromBody] SaveServiceItemRequest request, CancellationToken cancellationToken)
+    {
+        var created = await serviceCatalog.CreateAsync(request, cancellationToken);
+        return CreatedAtAction(nameof(GetBySlugAsync), new { slug = created.Slug }, created);
+    }
+
+    [HttpPut("{id:guid}")]
+    public async Task<ActionResult<ServiceItemDto>> UpdateAsync(Guid id, [FromBody] SaveServiceItemRequest request, CancellationToken cancellationToken)
+    {
+        var updated = await serviceCatalog.UpdateAsync(id, request, cancellationToken);
+        return updated is null ? NotFound() : Ok(updated);
+    }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var deleted = await serviceCatalog.DeleteAsync(id, cancellationToken);
+        return deleted ? NoContent() : NotFound();
+    }
 }
