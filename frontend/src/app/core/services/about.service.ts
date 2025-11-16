@@ -35,17 +35,35 @@ export class AboutService {
     return this.store.getById(id);
   }
 
-  upsert(entry: CompanyAbout): CompanyAbout {
-    const existing = this.getByKey(entry.key);
+  async upsert(entry: CompanyAbout): Promise<CompanyAbout> {
+    const existing = entry.id ? this.store.getById(entry.id) : this.getByKey(entry.key);
     if (existing) {
-      this.store.update(existing.id, entry);
-      return { ...existing, ...entry };
+      return (await this.update(existing.id, entry)) ?? existing;
     }
-    return this.store.create(entry);
+    return this.create(entry);
   }
 
-  update(id: string, patch: Partial<CompanyAbout>): CompanyAbout | undefined {
-    return this.store.update(id, patch);
+  async create(entry: CompanyAbout): Promise<CompanyAbout> {
+    const payload = this.toRequest(entry);
+    const created = await firstValueFrom(this.http.post<CompanyAbout>(this.apiUrl, payload));
+    this.store.create(created);
+    return created;
+  }
+
+  async update(id: string, patch: Partial<CompanyAbout>): Promise<CompanyAbout | undefined> {
+    const current = this.store.getById(id);
+    if (!current) {
+      return undefined;
+    }
+    const payload = this.toRequest({ ...current, ...patch });
+    const updated = await firstValueFrom(this.http.put<CompanyAbout>(`${this.apiUrl}/${id}`, payload));
+    this.store.update(id, updated);
+    return updated;
+  }
+
+  async delete(id: string): Promise<void> {
+    await firstValueFrom(this.http.delete<void>(`${this.apiUrl}/${id}`));
+    this.store.delete(id);
   }
 
   async refresh(): Promise<void> {
@@ -76,5 +94,12 @@ export class AboutService {
         this.loadingPromise = null;
       });
     await this.loadingPromise;
+  }
+
+  private toRequest(entry: Partial<CompanyAbout>): Omit<CompanyAbout, 'id'> {
+    return {
+      key: (entry.key ?? 'overview') as CompanyAbout['key'],
+      content: entry.content ?? '',
+    };
   }
 }

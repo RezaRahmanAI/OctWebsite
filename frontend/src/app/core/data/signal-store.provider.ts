@@ -10,23 +10,13 @@ import {
   TeamMember,
 } from '../models';
 import { DataProvider, EntityStore } from './data-provider';
-import {
-  aboutSeed,
-  academySeed,
-  blogSeed,
-  leadsSeed,
-  productsSeed,
-  servicesSeed,
-  settingsSeed,
-  teamSeed,
-} from './in-memory.data';
 
 interface StoreOptions<T> {
   slug?: (item: T) => string | undefined;
 }
 
 @Injectable({ providedIn: 'root' })
-export class InMemoryProvider implements DataProvider {
+export class SignalStoreProvider implements DataProvider {
   readonly team = this.createStore<TeamMember>();
   readonly about = this.createStore<CompanyAbout>();
   readonly services = this.createStore<ServiceItem>({
@@ -43,17 +33,6 @@ export class InMemoryProvider implements DataProvider {
   });
   readonly leads = this.createStore<Lead>();
   readonly settings = this.createStore<SiteSettings>();
-
-  constructor() {
-    this.team.replace(teamSeed);
-    this.about.replace(aboutSeed);
-    this.services.replace(servicesSeed);
-    this.products.replace(productsSeed);
-    this.academy.replace(academySeed);
-    this.blog.replace(blogSeed);
-    this.leads.replace(leadsSeed);
-    this.settings.replace(settingsSeed);
-  }
 
   private createStore<T extends { id: string }>(options: StoreOptions<T> = {}): EntityStore<T> {
     const state = signal<T[]>([]);

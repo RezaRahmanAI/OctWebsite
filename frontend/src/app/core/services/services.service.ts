@@ -50,15 +50,26 @@ export class ServicesService {
     return this.store.getBySlug?.(slug);
   }
 
-  create(service: ServiceItem): ServiceItem {
-    return this.store.create(service);
+  async create(service: ServiceItem): Promise<ServiceItem> {
+    const payload = this.toRequest(service);
+    const created = await firstValueFrom(this.http.post<ServiceItem>(this.apiUrl, payload));
+    this.store.create(created);
+    return created;
   }
 
-  update(id: string, patch: Partial<ServiceItem>): ServiceItem | undefined {
-    return this.store.update(id, patch);
+  async update(id: string, patch: Partial<ServiceItem>): Promise<ServiceItem | undefined> {
+    const current = this.store.getById(id);
+    if (!current) {
+      return undefined;
+    }
+    const payload = this.toRequest({ ...current, ...patch });
+    const updated = await firstValueFrom(this.http.put<ServiceItem>(`${this.apiUrl}/${id}`, payload));
+    this.store.update(id, updated);
+    return updated;
   }
 
-  delete(id: string): void {
+  async delete(id: string): Promise<void> {
+    await firstValueFrom(this.http.delete<void>(`${this.apiUrl}/${id}`));
     this.store.delete(id);
   }
 
@@ -90,5 +101,16 @@ export class ServicesService {
         this.loadingPromise = null;
       });
     await this.loadingPromise;
+  }
+
+  private toRequest(service: Partial<ServiceItem>): Omit<ServiceItem, 'id'> {
+    return {
+      title: service.title ?? '',
+      slug: service.slug ?? '',
+      summary: service.summary ?? '',
+      icon: service.icon ?? '',
+      features: service.features ?? [],
+      active: service.active ?? true,
+    };
   }
 }

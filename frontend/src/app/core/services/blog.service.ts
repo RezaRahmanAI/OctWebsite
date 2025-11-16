@@ -60,15 +60,26 @@ export class BlogService {
     return this.store.getBySlug?.(slug);
   }
 
-  create(post: BlogPost): BlogPost {
-    return this.store.create(post);
+  async create(post: BlogPost): Promise<BlogPost> {
+    const payload = this.toRequest(post);
+    const created = await firstValueFrom(this.http.post<BlogPost>(this.apiUrl, payload));
+    this.store.create(created);
+    return created;
   }
 
-  update(id: string, patch: Partial<BlogPost>): BlogPost | undefined {
-    return this.store.update(id, patch);
+  async update(id: string, patch: Partial<BlogPost>): Promise<BlogPost | undefined> {
+    const current = this.store.getById(id);
+    if (!current) {
+      return undefined;
+    }
+    const payload = this.toRequest({ ...current, ...patch });
+    const updated = await firstValueFrom(this.http.put<BlogPost>(`${this.apiUrl}/${id}`, payload));
+    this.store.update(id, updated);
+    return updated;
   }
 
-  delete(id: string): void {
+  async delete(id: string): Promise<void> {
+    await firstValueFrom(this.http.delete<void>(`${this.apiUrl}/${id}`));
     this.store.delete(id);
   }
 
@@ -100,5 +111,18 @@ export class BlogService {
         this.loadingPromise = null;
       });
     await this.loadingPromise;
+  }
+
+  private toRequest(post: Partial<BlogPost>): Omit<BlogPost, 'id'> {
+    return {
+      title: post.title ?? '',
+      slug: post.slug ?? '',
+      excerpt: post.excerpt ?? '',
+      coverUrl: post.coverUrl ?? '',
+      content: post.content ?? '',
+      tags: post.tags ?? [],
+      published: post.published ?? false,
+      publishedAt: post.publishedAt ?? new Date().toISOString(),
+    };
   }
 }

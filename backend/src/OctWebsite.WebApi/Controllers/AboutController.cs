@@ -21,4 +21,25 @@ public sealed class AboutController(IAboutService aboutService) : ControllerBase
         var section = await aboutService.GetByKeyAsync(key, cancellationToken);
         return section is null ? NotFound() : Ok(section);
     }
+
+    [HttpPost]
+    public async Task<ActionResult<CompanyAboutDto>> CreateAsync([FromBody] SaveCompanyAboutRequest request, CancellationToken cancellationToken)
+    {
+        var created = await aboutService.CreateAsync(request, cancellationToken);
+        return CreatedAtAction(nameof(GetByKeyAsync), new { key = created.Key }, created);
+    }
+
+    [HttpPut("{id:guid}")]
+    public async Task<ActionResult<CompanyAboutDto>> UpdateAsync(Guid id, [FromBody] SaveCompanyAboutRequest request, CancellationToken cancellationToken)
+    {
+        var updated = await aboutService.UpdateAsync(id, request, cancellationToken);
+        return updated is null ? NotFound() : Ok(updated);
+    }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var deleted = await aboutService.DeleteAsync(id, cancellationToken);
+        return deleted ? NoContent() : NotFound();
+    }
 }

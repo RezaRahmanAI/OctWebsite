@@ -23,4 +23,35 @@ internal sealed class AboutService(ICompanyAboutRepository repository) : IAboutS
         var section = await repository.GetByKeyAsync(key, cancellationToken);
         return section?.ToDto();
     }
+
+    public async Task<CompanyAboutDto> CreateAsync(SaveCompanyAboutRequest request, CancellationToken cancellationToken = default)
+    {
+        Validate(request);
+        var about = new CompanyAbout(Guid.NewGuid(), request.Key.Trim(), request.Content.Trim());
+        var created = await repository.CreateAsync(about, cancellationToken);
+        return created.ToDto();
+    }
+
+    public async Task<CompanyAboutDto?> UpdateAsync(Guid id, SaveCompanyAboutRequest request, CancellationToken cancellationToken = default)
+    {
+        Validate(request);
+        var existing = await repository.GetByIdAsync(id, cancellationToken);
+        if (existing is null)
+        {
+            return null;
+        }
+
+        var updated = existing with { Key = request.Key.Trim(), Content = request.Content.Trim() };
+        var saved = await repository.UpdateAsync(updated, cancellationToken);
+        return saved?.ToDto();
+    }
+
+    public Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+        => repository.DeleteAsync(id, cancellationToken);
+
+    private static void Validate(SaveCompanyAboutRequest request)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(request.Key);
+        ArgumentException.ThrowIfNullOrWhiteSpace(request.Content);
+    }
 }

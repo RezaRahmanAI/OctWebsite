@@ -6,4 +6,8 @@ public interface IAcademyRepository
 {
     Task<IReadOnlyList<AcademyTrack>> GetAllAsync(CancellationToken cancellationToken = default);
     Task<AcademyTrack?> GetBySlugAsync(string slug, CancellationToken cancellationToken = default);
+    Task<AcademyTrack?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<AcademyTrack> CreateAsync(AcademyTrack track, CancellationToken cancellationToken = default);
+    Task<AcademyTrack?> UpdateAsync(AcademyTrack track, CancellationToken cancellationToken = default);
+    Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
 }
