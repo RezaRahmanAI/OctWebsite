@@ -36,6 +36,7 @@ export interface Testimonial {
   location: string;
   rating: number;
   type: 'client' | 'student';
+  image?: string;
 }
 
 export interface InsightItem {
@@ -43,6 +44,13 @@ export interface InsightItem {
   category: string;
   summary: string;
   readTime: string;
+}
+
+export interface CollaborationItem {
+  order: string;
+  title: string;
+  description: string;
+  cta: CtaLink;
 }
 
 export interface HomeContent {
@@ -77,6 +85,10 @@ export interface HomeContent {
   services: {
     header: SectionHeaderContent;
     items: ServiceCard[];
+  };
+  collaboration: {
+    header: SectionHeaderContent;
+    items: CollaborationItem[];
   };
   differentiators: {
     header: SectionHeaderContent;
