@@ -124,28 +124,28 @@ export class ContentService {
           title: 'Team Augmentation',
           description:
             'Deploy a dedicated tech team that integrates seamlessly with your business. They’ll tackle your project needs with precision.',
-          cta: { label: 'Explore Now', routerLink: '/services', fragment: 'team-augmentation' }
+          cta: { label: 'Explore Now', routerLink: '/methodology', fragment: 'team-augmentation' }
         },
         {
           order: '02',
           title: 'MVP Services',
           description:
             'From idea to launch, we provide the essentials to build your startup’s minimum viable product effectively.',
-          cta: { label: 'Explore Now', routerLink: '/services', fragment: 'mvp-services' }
+          cta: { label: 'Explore Now', routerLink: '/methodology', fragment: 'mvp-development' }
         },
         {
           order: '03',
           title: 'End to End Development',
           description:
             'Comprehensive development services from initial design through deployment and maintenance.',
-          cta: { label: 'Explore Now', routerLink: '/services', fragment: 'end-to-end-development' }
+          cta: { label: 'Explore Now', routerLink: '/methodology', fragment: 'end-to-end-development' }
         },
         {
           order: '04',
           title: 'Offshore Office Expansion',
           description:
             'Grow your presence internationally with our strategic office setup services in key markets around the globe.',
-          cta: { label: 'Explore Now', routerLink: '/services', fragment: 'offshore-office-expansion' }
+          cta: { label: 'Explore Now', routerLink: '/methodology', fragment: 'offshore-development' }
         }
       ]
     },
@@ -749,6 +749,7 @@ export class ContentService {
     navigation: {
       links: [
         { label: 'Services', path: '/services' },
+        { label: 'Methodology', path: '/methodology' },
         { label: 'Academy', path: '/academy' },
         { label: 'Portfolio', path: '/portfolio' },
         { label: 'About', path: '/about' },
@@ -770,6 +771,7 @@ export class ContentService {
       links: [
         { label: 'Home', url: '/' },
         { label: 'Services', url: '/services' },
+        { label: 'Methodology', url: '/methodology' },
         { label: 'Academy', url: '/academy' },
         { label: 'Portfolio', url: '/portfolio' },
         { label: 'About', url: '/about' },
