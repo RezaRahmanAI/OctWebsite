@@ -42,7 +42,8 @@ public sealed class MediaController(IWebHostEnvironment environment) : Controlle
             await file.CopyToAsync(stream, cancellationToken);
         }
 
-        var relativeUrl = $"/uploads/videos/{fileName}";
-        return Ok(new MediaUploadResponse(relativeUrl));
+        var fileUrl = $"{Request.Scheme}://{Request.Host}/uploads/videos/{fileName}";
+
+        return Ok(new MediaUploadResponse(fileUrl));
     }
 }

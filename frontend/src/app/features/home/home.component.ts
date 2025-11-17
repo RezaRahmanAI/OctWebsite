@@ -16,6 +16,7 @@ import { HomeTestimonialsComponent } from './sections/testimonials/home-testimon
 import { HomeInsightsComponent } from './sections/insights/home-insights.component';
 import { HomeClosingCtasComponent } from './sections/closing-ctas/home-closing-ctas.component';
 import { HomeContactComponent } from './sections/contact/home-contact.component';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -73,6 +74,7 @@ export class HomeComponent {
       return url;
     }
     const normalized = url.startsWith('/') ? url : `/${url.replace(/^\/+/, '')}`;
-    return normalized.replace(/\/+$/, '');
+    const apiBase = environment.apiUrl.replace(/\/+$/, '');
+    return `${apiBase}${normalized.replace(/\/+$/, '')}`;
   }
 }
