@@ -39,6 +39,11 @@ export const routes: Routes = [
           import('./features/methodology/methodology.component').then((m) => m.MethodologyComponent),
       },
       {
+        path: 'methodology/:id',
+        loadComponent: () =>
+          import('./features/methodology/methodology-detail.component').then((m) => m.MethodologyDetailComponent),
+      },
+      {
         path: 'product',
         children: [
           {
