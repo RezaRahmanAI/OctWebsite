@@ -19,7 +19,6 @@
           <a
             *ngIf="item.cta as cta"
             [routerLink]="cta.routerLink"
-            [fragment]="cta.fragment"
             class="text-sm font-semibold text-primary underline-offset-4 transition group-hover:underline"
           >
             {{ cta.label }}
@@ -30,7 +29,6 @@
         <a
           *ngIf="item.cta as footerCta"
           [routerLink]="footerCta.routerLink"
-          [fragment]="footerCta.fragment"
           class="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold text-primary transition group-hover:gap-3"
         >
           {{ footerCta.label }}

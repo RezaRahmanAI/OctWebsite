@@ -124,28 +124,28 @@ export class ContentService {
           title: 'Team Augmentation',
           description:
             'Deploy a dedicated tech team that integrates seamlessly with your business. They’ll tackle your project needs with precision.',
-          cta: { label: 'Explore Now', routerLink: '/methodology', fragment: 'team-augmentation' }
+          cta: { label: 'Explore Now', routerLink: '/methodology/team-augmentation' }
         },
         {
           order: '02',
           title: 'MVP Services',
           description:
             'From idea to launch, we provide the essentials to build your startup’s minimum viable product effectively.',
-          cta: { label: 'Explore Now', routerLink: '/methodology', fragment: 'mvp-development' }
+          cta: { label: 'Explore Now', routerLink: '/methodology/mvp-development' }
         },
         {
           order: '03',
           title: 'End to End Development',
           description:
             'Comprehensive development services from initial design through deployment and maintenance.',
-          cta: { label: 'Explore Now', routerLink: '/methodology', fragment: 'end-to-end-development' }
+          cta: { label: 'Explore Now', routerLink: '/methodology/end-to-end-development' }
         },
         {
           order: '04',
           title: 'Offshore Office Expansion',
           description:
             'Grow your presence internationally with our strategic office setup services in key markets around the globe.',
-          cta: { label: 'Explore Now', routerLink: '/methodology', fragment: 'offshore-development' }
+          cta: { label: 'Explore Now', routerLink: '/methodology/offshore-development' }
         }
       ]
     },
