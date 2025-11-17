@@ -1,10 +1,12 @@
 <app-home-hero
-  [data]="home().hero"
+  [data]="heroData()"
   [videoSrc]="heroVideoSrc()"
   [videoPoster]="heroVideoPoster()"
 ></app-home-hero>
 
 <app-home-trust [data]="home().trust"></app-home-trust>
+
+<app-home-collaboration [data]="home().collaboration"></app-home-collaboration>
 
 <app-home-services [data]="home().services"></app-home-services>
 
@@ -28,5 +30,3 @@
 <app-home-insights [data]="home().insights"></app-home-insights>
 
 <app-home-closing-ctas [data]="home().closingCtas"></app-home-closing-ctas>
-
-<app-home-contact [data]="home().contact"></app-home-contact>

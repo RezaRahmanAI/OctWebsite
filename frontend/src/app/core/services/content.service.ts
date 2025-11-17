@@ -111,6 +111,44 @@ export class ContentService {
         { label: 'Years Combined Experience', value: 15, suffix: '+' }
       ]
     },
+    collaboration: {
+      header: {
+        eyebrow: 'Our Methodology',
+        title: 'Our Methodology to Collaboration',
+        subtitle: 'Engagement models tailored to how you want to work—with clear ownership and predictable outcomes.',
+        align: 'center'
+      },
+      items: [
+        {
+          order: '01',
+          title: 'Team Augmentation',
+          description:
+            'Deploy a dedicated tech team that integrates seamlessly with your business. They’ll tackle your project needs with precision.',
+          cta: { label: 'Explore Now', routerLink: '/services', fragment: 'team-augmentation' }
+        },
+        {
+          order: '02',
+          title: 'MVP Services',
+          description:
+            'From idea to launch, we provide the essentials to build your startup’s minimum viable product effectively.',
+          cta: { label: 'Explore Now', routerLink: '/services', fragment: 'mvp-services' }
+        },
+        {
+          order: '03',
+          title: 'End to End Development',
+          description:
+            'Comprehensive development services from initial design through deployment and maintenance.',
+          cta: { label: 'Explore Now', routerLink: '/services', fragment: 'end-to-end-development' }
+        },
+        {
+          order: '04',
+          title: 'Offshore Office Expansion',
+          description:
+            'Grow your presence internationally with our strategic office setup services in key markets around the globe.',
+          cta: { label: 'Explore Now', routerLink: '/services', fragment: 'offshore-office-expansion' }
+        }
+      ]
+    },
     services: {
       header: {
         eyebrow: 'Solutions',
@@ -348,7 +386,8 @@ export class ContentService {
           title: 'Chief Digital Officer, Aarong Global',
           location: 'Dhaka & Dubai',
           rating: 5,
-          type: 'client'
+          type: 'client',
+          image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80'
         },
         {
           quote:
@@ -357,7 +396,8 @@ export class ContentService {
           title: 'VP Product, Velocity Fintech',
           location: 'Singapore',
           rating: 5,
-          type: 'client'
+          type: 'client',
+          image: 'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=200&q=80'
         },
         {
           quote:
@@ -366,7 +406,8 @@ export class ContentService {
           title: 'Cloud Engineer, Sydney',
           location: 'Sydney, Australia',
           rating: 5,
-          type: 'student'
+          type: 'student',
+          image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80'
         },
         {
           quote:
@@ -375,7 +416,8 @@ export class ContentService {
           title: 'Performance Marketer',
           location: 'Toronto, Canada',
           rating: 5,
-          type: 'student'
+          type: 'student',
+          image: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80'
         }
       ]
     },
@@ -818,7 +860,10 @@ export class ContentService {
     }
     try {
       const parsed = JSON.parse(raw) as HomeContent;
-      return this.clone(parsed);
+      return this.clone({
+        ...parsed,
+        collaboration: parsed.collaboration ?? this.initialHomeContent.collaboration
+      });
     } catch {
       return this.clone(this.initialHomeContent);
     }

@@ -38,10 +38,25 @@
           </div>
           <p class="mt-5 text-base leading-relaxed text-slate-600">“{{ testimonial.quote }}”</p>
         </div>
-        <div class="mt-6 border-t border-slate-100 pt-4 text-sm text-slate-500">
-          <p class="font-semibold text-primary">{{ testimonial.name }}</p>
-          <p>{{ testimonial.title }}</p>
-          <p>{{ testimonial.location }}</p>
+        <div class="mt-6 flex items-center gap-4 border-t border-slate-100 pt-4">
+          <ng-container *ngIf="testimonial.image; else initials">
+            <img
+              [src]="testimonial.image"
+              [alt]="testimonial.name"
+              class="h-12 w-12 rounded-full object-cover shadow-sm ring-2 ring-primary/10"
+              loading="lazy"
+            />
+          </ng-container>
+          <ng-template #initials>
+            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-base font-semibold text-primary">
+              {{ testimonial.name.charAt(0) }}
+            </div>
+          </ng-template>
+          <div class="text-sm text-slate-500">
+            <p class="font-semibold text-primary">{{ testimonial.name }}</p>
+            <p>{{ testimonial.title }}</p>
+            <p>{{ testimonial.location }}</p>
+          </div>
         </div>
       </article>
     </div>

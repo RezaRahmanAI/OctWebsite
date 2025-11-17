@@ -15,8 +15,8 @@ import { HomeGlobalPresenceComponent } from './sections/global-presence/home-glo
 import { HomeTestimonialsComponent } from './sections/testimonials/home-testimonials.component';
 import { HomeInsightsComponent } from './sections/insights/home-insights.component';
 import { HomeClosingCtasComponent } from './sections/closing-ctas/home-closing-ctas.component';
-import { HomeContactComponent } from './sections/contact/home-contact.component';
 import { environment } from '../../../environments/environment';
+import { HomeCollaborationComponent } from './sections/collaboration/home-collaboration.component';
 
 @Component({
   selector: 'app-home',
@@ -35,7 +35,7 @@ import { environment } from '../../../environments/environment';
     HomeTestimonialsComponent,
     HomeInsightsComponent,
     HomeClosingCtasComponent,
-    HomeContactComponent
+    HomeCollaborationComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
@@ -48,11 +48,36 @@ export class HomeComponent {
 
   protected readonly home = this.content.homeContent;
   private readonly siteSettings = this.settings.settings;
+  protected readonly heroData = computed(() => {
+    const base = this.home().hero;
+    const settings = this.siteSettings();
+
+    const safeString = (value: string | undefined) => (value && value.trim().length > 0 ? value.trim() : null);
+
+    return {
+      ...base,
+      badge: safeString(settings?.heroMediaBadge) ?? base.badge,
+      title: safeString(settings?.heroTitle) ?? base.title,
+      description: safeString(settings?.heroSubtitle) ?? base.description,
+      primaryCta: {
+        ...base.primaryCta,
+        label: safeString(settings?.primaryCtaLabel) ?? base.primaryCta.label
+      },
+      highlightCard: {
+        ...base.highlightCard,
+        description: safeString(settings?.heroMediaCaption) ?? base.highlightCard.description
+      },
+      video: {
+        src: safeString(settings?.heroVideoUrl) ?? base.video.src,
+        poster: safeString(settings?.heroVideoPoster) ?? base.video.poster
+      }
+    };
+  });
   protected readonly heroVideoSrc = computed(() =>
-    this.normalizeMediaUrl(this.siteSettings()?.heroVideoUrl ?? this.home().hero.video.src)
+    this.normalizeMediaUrl(this.heroData().video.src)
   );
   protected readonly heroVideoPoster = computed(() =>
-    this.normalizeMediaUrl(this.siteSettings()?.heroVideoPoster ?? this.home().hero.video.poster)
+    this.normalizeMediaUrl(this.heroData().video.poster)
   );
 
   constructor() {

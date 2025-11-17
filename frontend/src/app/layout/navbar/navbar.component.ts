@@ -36,6 +36,10 @@ export class NavbarComponent {
   private _menuOpen = signal(false);
   menuOpen = computed(() => this._menuOpen());
 
+  // Services mega menu state
+  private _servicesMenuOpen = signal(false);
+  servicesMenuOpen = computed(() => this._servicesMenuOpen());
+
   // Scroll style state
   private _scrolled = signal(false);
   scrolled = computed(() => this._scrolled());
@@ -50,13 +54,30 @@ export class NavbarComponent {
   private _links = signal<NavLink[]>([
     { label: 'Home', path: '/', exact: true },
     { label: 'About', path: '/about', exact: true },
-    { label: 'Services', path: '/services', exact: false },
     { label: 'Product', path: '/product', exact: false },
     { label: 'Academy', path: '/academy', exact: false },
     { label: 'Blog', path: '/blog', exact: false },
     { label: 'Contact', path: '/contact', exact: true },
   ]);
   navLinks = computed(() => this._links());
+
+  readonly servicesCollaboration = [
+    { label: 'Team Augmentation', fragment: 'team-augmentation' },
+    { label: 'End to End Development', fragment: 'end-to-end-development' },
+    { label: 'MVP Services', fragment: 'mvp-services' },
+    { label: 'Offshore Development', fragment: 'offshore-office-expansion' }
+  ];
+
+  readonly technologies = ['JavaScript', 'C++', 'C#', '.Net', 'Python', 'Java', 'PHP', 'Golang', 'Flutter'];
+
+  readonly hiringLinks = [
+    { label: 'Hire Developers' },
+    { label: 'JavaScript Developers' },
+    { label: 'Python Developers' },
+    { label: 'Java Developers' },
+    { label: 'Golang Developers' },
+    { label: '.NET Developers' }
+  ];
 
   constructor() {
     this.smoothScroll.init();
@@ -66,15 +87,34 @@ export class NavbarComponent {
         filter((e): e is NavigationEnd => e instanceof NavigationEnd),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe(() => this._menuOpen.set(false));
+      .subscribe(() => {
+        this._menuOpen.set(false);
+        this._servicesMenuOpen.set(false);
+      });
   }
 
   toggleMenu(): void {
     this._menuOpen.update((v) => !v);
+    if (this._menuOpen()) {
+      this._servicesMenuOpen.set(false);
+    }
   }
 
   closeMenu(): void {
     this._menuOpen.set(false);
+    this._servicesMenuOpen.set(false);
+  }
+
+  openServicesMenu(): void {
+    this._servicesMenuOpen.set(true);
+  }
+
+  closeServicesMenu(): void {
+    this._servicesMenuOpen.set(false);
+  }
+
+  toggleServicesMenu(): void {
+    this._servicesMenuOpen.update((open) => !open);
   }
 
   // 👇 Scroll listener: handle blur + hide/show
