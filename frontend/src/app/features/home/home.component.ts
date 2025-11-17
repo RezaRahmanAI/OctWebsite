@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { TechStackComponent } from './tech-stack-slider/tech-stack-slider.component';
+import { TechStackComponent } from './sections/tech-stack-slider/tech-stack-slider.component';
 import { SeoService } from '../../core/services/seo.service';
 import { ContentService } from '../../core/services/content.service';
 import { SettingsService } from '../../core/services/settings.service';
@@ -27,7 +27,6 @@ import { HomeCollaborationComponent } from './sections/collaboration/home-collab
     HomeHeroComponent,
     HomeTrustComponent,
     HomeServicesComponent,
-    HomeDifferentiatorsComponent,
     HomeMethodologyComponent,
     HomeCaseStudiesComponent,
     HomeAcademyComponent,
