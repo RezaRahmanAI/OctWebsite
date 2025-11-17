@@ -23,76 +23,7 @@
 
       <div class="hidden items-center gap-8 lg:flex">
         <ul class="flex items-center gap-6 text-sm font-medium text-slate-600">
-          <li
-            class="relative"
-            (mouseenter)="openServicesMenu()"
-            (mouseleave)="closeServicesMenu()"
-          >
-            <button
-              type="button"
-              class="flex items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold text-slate-700 transition hover:text-primary"
-              (click)="toggleServicesMenu()"
-              [attr.aria-expanded]="servicesMenuOpen()"
-            >
-              Services
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition" [class.rotate-180]="servicesMenuOpen()" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 9l6 6 6-6" />
-              </svg>
-            </button>
-
-            <div
-              *ngIf="servicesMenuOpen()"
-              class="absolute left-1/2 top-full mt-4 w-[1100px] -translate-x-1/2 rounded-[28px] border border-slate-100 bg-white p-8 shadow-2xl shadow-slate-900/5"
-            >
-              <div class="flex flex-col gap-6 lg:flex-row">
-                <div class="flex-[1.1] rounded-2xl bg-sky-50 p-6 shadow-inner">
-                  <p class="text-xs font-semibold uppercase tracking-[0.25em] text-primary">Collaboration Models</p>
-                  <ul class="mt-4 space-y-3 text-base font-semibold text-slate-800">
-                    <li *ngFor="let item of servicesCollaboration">
-                      <a
-                        routerLink="/services"
-                        [fragment]="item.fragment"
-                        class="flex items-center justify-between rounded-xl px-3 py-2 transition hover:text-primary"
-                      >
-                        <span>{{ item.label }}</span>
-                        <span aria-hidden="true">→</span>
-                      </a>
-                    </li>
-                  </ul>
-                  <div class="mt-6 rounded-2xl bg-white/80 p-4 shadow-sm">
-                    <p class="text-sm font-semibold text-slate-800">Want to accelerate your software company?</p>
-                    <a
-                      routerLink="/contact"
-                      class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 transition hover:-translate-y-0.5"
-                    >
-                      Hire The Best Team →
-                    </a>
-                  </div>
-                </div>
-
-                <div class="flex-1 space-y-3 rounded-2xl p-4">
-                  <p class="text-sm font-semibold text-slate-900">Technologies</p>
-                  <ul class="space-y-2 text-sm text-slate-600">
-                    <li *ngFor="let tech of technologies">{{ tech }}</li>
-                  </ul>
-                </div>
-
-                <div class="flex-1 space-y-3 rounded-2xl p-4">
-                  <p class="text-sm font-semibold text-slate-900">For Hiring</p>
-                  <ul class="space-y-2 text-sm font-semibold text-blue-600">
-                    <li *ngFor="let hire of hiringLinks">
-                      <a
-                        routerLink="/services"
-                        class="transition hover:underline"
-                      >
-                        {{ hire.label }}
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </li>
+          
           <li *ngFor="let link of navLinks()">
             <a
               [routerLink]="link.path"
@@ -108,7 +39,7 @@
         </ul>
       </div>
 
-      <div class="flex items-center gap-3 lg:hidden">
+      <!-- <div class="flex items-center gap-3 lg:hidden">
         <a
           routerLink="/contact"
           class="hidden rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:-translate-y-0.5 hover:bg-slate-900 sm:inline-flex"
@@ -129,103 +60,9 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 6l12 12M6 18L18 6" />
           </svg>
         </button>
-      </div>
+      </div> -->
     </nav>
   </div>
 
-  <div *ngIf="menuOpen()" @menuReveal class="lg:hidden">
-    <div class="container-wide pb-6">
-      <div class="rounded-3xl border border-slate-100 bg-white/95 p-6 shadow-glow">
-        <div class="rounded-2xl border border-slate-100 bg-sky-50/70 p-4">
-          <button
-            type="button"
-            class="flex w-full items-center justify-between text-left text-sm font-semibold text-slate-800"
-            (click)="toggleServicesMenu()"
-            [attr.aria-expanded]="servicesMenuOpen()"
-          >
-            <span>Mega Services Menu</span>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition" [class.rotate-180]="servicesMenuOpen()" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 9l6 6 6-6" />
-            </svg>
-          </button>
-          <div *ngIf="servicesMenuOpen()" class="mt-4 space-y-6">
-            <div class="rounded-2xl bg-white p-4 shadow-sm">
-              <p class="text-xs font-semibold uppercase tracking-[0.25em] text-primary">Collaboration Models</p>
-              <ul class="mt-3 space-y-2 text-base font-semibold text-slate-800">
-                <li *ngFor="let item of servicesCollaboration">
-                  <a
-                    routerLink="/services"
-                    [fragment]="item.fragment"
-                    class="flex items-center justify-between rounded-xl px-3 py-2 transition hover:text-primary"
-                    (click)="closeMenu()"
-                  >
-                    <span>{{ item.label }}</span>
-                    <span aria-hidden="true">→</span>
-                  </a>
-                </li>
-              </ul>
-              <div class="mt-4 rounded-2xl bg-sky-50 p-3">
-                <p class="text-sm font-semibold text-slate-800">Want to accelerate your software company?</p>
-                <a
-                  routerLink="/contact"
-                  class="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-md shadow-indigo-600/20"
-                  (click)="closeMenu()"
-                >
-                  Hire The Best Team →
-                </a>
-              </div>
-            </div>
-            <div>
-              <p class="text-sm font-semibold text-slate-900">Technologies</p>
-              <ul class="mt-2 flex flex-wrap gap-2 text-sm text-slate-600">
-                <li *ngFor="let tech of technologies" class="rounded-full bg-slate-100 px-3 py-1">{{ tech }}</li>
-              </ul>
-            </div>
-            <div>
-              <p class="text-sm font-semibold text-slate-900">For Hiring</p>
-              <ul class="mt-2 space-y-2 text-sm font-semibold text-blue-600">
-                <li *ngFor="let hire of hiringLinks">
-                  <a routerLink="/services" class="transition hover:underline" (click)="closeMenu()">{{ hire.label }}</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <ul class="mt-6 flex flex-col gap-4 text-base font-medium text-slate-700">
-          <li *ngFor="let link of navLinks()">
-            <a
-              [routerLink]="link.path"
-              routerLinkActive="text-primary"
-              [routerLinkActiveOptions]="{ exact: link.exact ?? false }"
-              class="flex items-center justify-between rounded-xl px-4 py-3 transition hover:bg-slate-50"
-              (click)="closeMenu()"
-            >
-              <span>{{ link.label }}</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
-          </li>
-        </ul>
-
-        <div class="mt-6 flex flex-col gap-3">
-          <a
-            routerLink="/services"
-            class="flex items-center justify-center rounded-full border border-slate-200 px-5 py-3 text-sm font-semibold text-primary transition hover:border-primary hover:text-primary"
-            (click)="closeMenu()"
-          >
-            Explore Services
-          </a>
-          <a
-            routerLink="/academy"
-            class="flex items-center justify-center rounded-full bg-gradient-to-r from-accent via-emerald to-teal px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-accent/30 transition hover:scale-[1.01]"
-            (click)="closeMenu()"
-          >
-            Explore Academy
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
+  
 </header>

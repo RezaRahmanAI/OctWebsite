@@ -53,6 +53,7 @@ export class NavbarComponent {
 
   private _links = signal<NavLink[]>([
     { label: 'Home', path: '/', exact: true },
+    { label: 'Service', path: '/services', exact: true },
     { label: 'About', path: '/about', exact: true },
     { label: 'Product', path: '/product', exact: false },
     { label: 'Academy', path: '/academy', exact: false },
@@ -65,10 +66,20 @@ export class NavbarComponent {
     { label: 'Team Augmentation', fragment: 'team-augmentation' },
     { label: 'End to End Development', fragment: 'end-to-end-development' },
     { label: 'MVP Services', fragment: 'mvp-services' },
-    { label: 'Offshore Development', fragment: 'offshore-office-expansion' }
+    { label: 'Offshore Development', fragment: 'offshore-office-expansion' },
   ];
 
-  readonly technologies = ['JavaScript', 'C++', 'C#', '.Net', 'Python', 'Java', 'PHP', 'Golang', 'Flutter'];
+  readonly technologies = [
+    'JavaScript',
+    'C++',
+    'C#',
+    '.Net',
+    'Python',
+    'Java',
+    'PHP',
+    'Golang',
+    'Flutter',
+  ];
 
   readonly hiringLinks = [
     { label: 'Hire Developers' },
@@ -76,7 +87,7 @@ export class NavbarComponent {
     { label: 'Python Developers' },
     { label: 'Java Developers' },
     { label: 'Golang Developers' },
-    { label: '.NET Developers' }
+    { label: '.NET Developers' },
   ];
 
   constructor() {
