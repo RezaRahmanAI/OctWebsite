@@ -8,7 +8,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router'; // Ensure RouterModule is included here
+import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SmoothScrollService } from '../../core/services';
@@ -22,7 +22,7 @@ type NavLink = {
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, RouterModule], // Ensure RouterModule is included here
+  imports: [CommonModule, RouterLink, RouterLinkActive, RouterModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -44,16 +44,15 @@ export class NavbarComponent {
   private _scrolled = signal(false);
   scrolled = computed(() => this._scrolled());
 
-  // 🔥 NEW: hidden state
+  // Navbar hide/show on scroll
   private _hidden = signal(false);
   hidden = computed(() => this._hidden());
 
-  // Keep track of last scroll position
+  // Track last scroll position
   private lastScrollY = 0;
 
-  private _links = signal<NavLink[]>([
-    { label: 'Home', path: '/', exact: true },
-    { label: 'Service', path: '/services', exact: true },
+  private _links = signal<NavLink[]>([    
+    { label: 'Service', path: '/services', exact: true }, 
     { label: 'About', path: '/about', exact: true },
     { label: 'Product', path: '/product', exact: false },
     { label: 'Academy', path: '/academy', exact: false },
@@ -62,6 +61,7 @@ export class NavbarComponent {
   ]);
   navLinks = computed(() => this._links());
 
+  // Mega menu content
   readonly servicesCollaboration = [
     { label: 'Team Augmentation', fragment: 'team-augmentation' },
     { label: 'End to End Development', fragment: 'end-to-end-development' },
@@ -104,6 +104,7 @@ export class NavbarComponent {
       });
   }
 
+  // Mobile menu
   toggleMenu(): void {
     this._menuOpen.update((v) => !v);
     if (this._menuOpen()) {
@@ -116,6 +117,7 @@ export class NavbarComponent {
     this._servicesMenuOpen.set(false);
   }
 
+  // Services menu
   openServicesMenu(): void {
     this._servicesMenuOpen.set(true);
   }
@@ -128,7 +130,7 @@ export class NavbarComponent {
     this._servicesMenuOpen.update((open) => !open);
   }
 
-  // 👇 Scroll listener: handle blur + hide/show
+  // Scroll listener: blur + hide/show navbar
   @HostListener('window:scroll')
   onScroll(): void {
     const currentY = window.scrollY || 0;
