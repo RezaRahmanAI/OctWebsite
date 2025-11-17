@@ -3,6 +3,7 @@ using OctWebsite.Application;
 using OctWebsite.Infrastructure;
 using OctWebsite.Infrastructure.Data;
 using OctWebsite.WebApi.Security;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,9 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
+var uploadsPath = Path.Combine(app.Environment.ContentRootPath, "uploads");
+Directory.CreateDirectory(uploadsPath);
+
 await using var scope = app.Services.CreateAsyncScope();
 var initializer = scope.ServiceProvider.GetRequiredService<ApplicationDbInitializer>();
 await initializer.InitializeAsync();
@@ -50,6 +54,11 @@ app.UseExceptionHandler();
 app.UseCors(CorsPolicyName);
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(uploadsPath),
+    RequestPath = "/uploads"
+});
 app.MapControllers();
 app.MapGet("/", () => Results.Redirect("/swagger", permanent: false)).ExcludeFromDescription();
 

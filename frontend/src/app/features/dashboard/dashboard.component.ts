@@ -10,6 +10,7 @@ import {
   Testimonial
 } from '../../core/models/home-content.model';
 import { take } from 'rxjs';
+import { MediaService } from '../../core/services/media.service';
 
 interface ServicesPageContent {
   header: {
@@ -137,6 +138,7 @@ interface SitemapContent {
 export class DashboardComponent {
   private readonly content = inject(ContentService);
   private readonly pageContent = inject(ContentService);
+  private readonly media = inject(MediaService);
   protected draft: HomeContent;
   protected readonly sectionNav = [
     { id: 'hero', label: 'Hero Section' },
@@ -182,6 +184,8 @@ export class DashboardComponent {
   protected navigationDraft: NavigationContent | null = null;
   protected footerDraft: FooterContent | null = null;
   protected sitemapDraft: SitemapContent | null = null;
+  protected heroVideoUploadInProgress = false;
+  protected heroVideoUploadError: string | null = null;
 
   constructor() {
     this.draft = this.clone(this.content.homeContent());
@@ -279,6 +283,33 @@ export class DashboardComponent {
 
   protected removeHeroHighlight(index: number): void {
     this.draft.hero.highlightList.splice(index, 1);
+  }
+
+  protected async onHeroVideoSelected(event: Event): Promise<void> {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    this.heroVideoUploadError = null;
+    this.heroVideoUploadInProgress = true;
+
+    this.media
+      .uploadVideo(file)
+      .pipe(take(1))
+      .subscribe({
+        next: (response) => {
+          this.draft.hero.video.src = response.url;
+          this.heroVideoUploadInProgress = false;
+        },
+        error: (error) => {
+          console.error('Failed to upload hero video', error);
+          this.heroVideoUploadError = 'Video upload failed. Please try again.';
+          this.heroVideoUploadInProgress = false;
+        }
+      });
   }
 
   protected addHeroMetric(): void {

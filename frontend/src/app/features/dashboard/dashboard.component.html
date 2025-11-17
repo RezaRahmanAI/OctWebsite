@@ -105,6 +105,22 @@
           </div>
           <div class="grid gap-4 md:grid-cols-2">
             <label class="form-label">
+              <span class="text-sm font-semibold text-primary">Upload Background Video</span>
+              <input
+                type="file"
+                accept="video/*"
+                class="form-input"
+                (change)="onHeroVideoSelected($event)"
+              />
+              <p class="mt-1 text-xs text-slate-500" *ngIf="heroVideoUploadInProgress">Uploading video...</p>
+              <p class="mt-1 text-xs text-red-500" *ngIf="heroVideoUploadError">{{ heroVideoUploadError }}</p>
+              <p class="mt-1 text-xs text-slate-500">
+                The uploaded video URL will automatically populate the Video Source field.
+              </p>
+            </label>
+          </div>
+          <div class="grid gap-4 md:grid-cols-2">
+            <label class="form-label">
               <span class="text-sm font-semibold text-primary">Highlight Card Title</span>
               <input class="form-input" [(ngModel)]="draft.hero.highlightCard.title" name="heroHighlightTitle" />
             </label>
