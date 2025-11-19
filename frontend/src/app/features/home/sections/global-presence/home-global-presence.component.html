@@ -1,11 +1,11 @@
 <section class="section-padding">
   <div class="container-wide grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-    <div class="order-2 lg:order-1">
-      <app-section-header
+    <app-section-header
         [eyebrow]="data.header.eyebrow"
         [title]="data.header.title"
         [subtitle]="data.header.subtitle"
       ></app-section-header>
+    <div class="order-2 lg:order-1">      
       <div class="mt-8 grid gap-4 text-sm text-slate-600">
         <div class="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
           <h4 class="text-lg font-semibold text-primary">{{ data.headquarters.title }}</h4>
@@ -23,6 +23,7 @@
           </div>
         </div>
       </div>
-    </div>    
+    </div>
+        
   </div>
 </section>

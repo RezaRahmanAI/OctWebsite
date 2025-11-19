@@ -14,9 +14,9 @@
         (click)="closeMenu()"
       >
         <span
-          class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-accent/90 via-emerald/80 to-teal text-white font-heading text-xl"
+          class="inline-flex items-center justify-center"
         >
-          OC
+          <img src="/images/logo/oct_logo.png" alt="OC" class="h-16 w-16" />
         </span>
         <span class="hidden flex-col leading-tight sm:flex">
           <span class="font-heading text-xl font-semibold tracking-tight">
@@ -65,11 +65,11 @@
 
             <div
               *ngIf="servicesMenuOpen()"
-              class="absolute left-1/2 top-full w-[1100px] -translate-x-1/2 rounded-[28px] border border-slate-100 bg-white p-8 shadow-2xl shadow-slate-900/5"
+              class="absolute left-1/2 top-full w-[900px] -translate-x-1/2 rounded-xl border border-slate-100 bg-white shadow-2xl shadow-slate-900/5"
             >
               <div class="flex flex-col gap-6 lg:flex-row">
                 <!-- Collaboration Models -->
-                <div class="flex-[1.1] rounded-2xl bg-sky-50 p-6 shadow-inner">
+                <div class="flex-1 rounded-xl bg-sky-50 p-10">
                   <p
                     class="text-xs font-semibold uppercase tracking-[0.25em] text-primary"
                   >
@@ -89,13 +89,13 @@
                       </a>
                     </li>
                   </ul>
-                  <div class="mt-6 rounded-2xl bg-white/80 p-4 shadow-sm">
+                  <div class="mt-6 p-4">
                     <p class="text-sm font-semibold text-slate-800">
                       Want to accelerate your software company?
                     </p>
                     <a
                       routerLink="/contact"
-                      class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 transition hover:-translate-y-0.5"
+                      class="mt-4 inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 transition hover:-translate-y-0.5"
                     >
                       Hire The Best Team →
                     </a>
@@ -103,7 +103,7 @@
                 </div>
 
                 <!-- Technologies -->
-                <div class="flex-1 space-y-3 rounded-2xl p-4">
+                <div class="flex-[0.5] space-y-3 rounded-2xl p-10">
                   <p class="text-sm font-semibold text-slate-900">
                     Technologies
                   </p>
@@ -115,7 +115,7 @@
                 </div>
 
                 <!-- For Hiring -->
-                <div class="flex-1 space-y-3 rounded-2xl p-4">
+                <div class="flex-[0.5] space-y-3 rounded-2xl p-10">
                   <p class="text-sm font-semibold text-slate-900">
                     For Hiring
                   </p>

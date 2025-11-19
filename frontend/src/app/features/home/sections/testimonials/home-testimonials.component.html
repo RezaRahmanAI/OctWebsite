@@ -43,12 +43,12 @@
             <img
               [src]="testimonial.image"
               [alt]="testimonial.name"
-              class="h-12 w-12 rounded-full object-cover shadow-sm ring-2 ring-primary/10"
+              class="h-12 w-12 rounded-xl object-cover shadow-sm ring-2 ring-primary/10"
               loading="lazy"
             />
           </ng-container>
           <ng-template #initials>
-            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-base font-semibold text-primary">
+            <div class="flex h-20 w-20 items-center justify-center rounded-xl bg-primary/10 text-base font-semibold text-primary">
               {{ testimonial.name.charAt(0) }}
             </div>
           </ng-template>
