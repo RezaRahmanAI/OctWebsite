@@ -82,7 +82,7 @@ export class ContentService {
         'Live instructor-led courses with industry experts'
       ],
       video: {
-        src: '/video/hero.mp4',
+        src: '/video/bg.mp4',
         poster: 'https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1600&q=80'
       },
       featurePanel: {
