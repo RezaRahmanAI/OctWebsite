@@ -1,7 +1,3 @@
 :host {
   display: block;
 }
-
-header {
-  will-change: transform, background-color, box-shadow;
-}

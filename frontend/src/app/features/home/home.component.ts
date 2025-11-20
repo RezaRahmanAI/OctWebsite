@@ -7,11 +7,8 @@ import { SettingsService } from '../../core/services/settings.service';
 import { HomeHeroComponent } from './sections/hero/home-hero.component';
 import { HomeTrustComponent } from './sections/trust/home-trust.component';
 import { HomeServicesComponent } from './sections/services/home-services.component';
-import { HomeDifferentiatorsComponent } from './sections/differentiators/home-differentiators.component';
 import { HomeMethodologyComponent } from './sections/methodology/home-methodology.component';
-import { HomeCaseStudiesComponent } from './sections/case-studies/home-case-studies.component';
 import { HomeAcademyComponent } from './sections/academy/home-academy.component';
-import { HomeGlobalPresenceComponent } from './sections/global-presence/home-global-presence.component';
 import { HomeTestimonialsComponent } from './sections/testimonials/home-testimonials.component';
 import { HomeInsightsComponent } from './sections/insights/home-insights.component';
 import { HomeClosingCtasComponent } from './sections/closing-ctas/home-closing-ctas.component';
@@ -28,9 +25,7 @@ import { HomeCollaborationComponent } from './sections/collaboration/home-collab
     HomeTrustComponent,
     HomeServicesComponent,
     HomeMethodologyComponent,
-    HomeCaseStudiesComponent,
     HomeAcademyComponent,
-    HomeGlobalPresenceComponent,
     HomeTestimonialsComponent,
     HomeInsightsComponent,
     HomeClosingCtasComponent,
