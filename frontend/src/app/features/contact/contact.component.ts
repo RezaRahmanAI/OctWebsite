@@ -1,8 +1,8 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 
 import { ContentService } from '../../core/services/content.service';
-import { HomeContactComponent } from "../home/sections/contact/home-contact.component";
+import { HomeContactComponent } from '../home/sections/contact/home-contact.component';
 
 interface ContactPageContent {
   header: {
@@ -24,11 +24,17 @@ interface ContactPageContent {
   imports: [CommonModule, HomeContactComponent],
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContactComponent {
   private readonly content = inject(ContentService);
+  private readonly document = inject(DOCUMENT);
 
   protected readonly contactData = computed(() => this.content.homeContent().contact);
   protected readonly contactPage = this.content.getPageSignal<ContactPageContent>('contact');
+
+  scrollToOffices(): void {
+    const el = this.document.getElementById('offices');
+    el?.scrollIntoView({ behavior: 'smooth' });
+  }
 }
