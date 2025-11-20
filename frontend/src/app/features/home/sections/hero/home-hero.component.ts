@@ -20,7 +20,7 @@ import type { HomeContent } from '../../../../core/models/home-content.model';
 })
 export class HomeHeroComponent implements AfterViewInit {
   @Input({ required: true }) data!: HomeContent['hero'];
-  @Input() videoSrc = 'video/bg.mp4';
+  @Input() videoSrc = '/video/bg.mp4';
   @Input() videoPoster = '';
 
   @ViewChild('heroVideo') heroVideo?: ElementRef<HTMLVideoElement>;

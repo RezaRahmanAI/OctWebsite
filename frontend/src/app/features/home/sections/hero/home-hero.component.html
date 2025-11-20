@@ -1,85 +1,136 @@
-<section class="hero-section relative overflow-hidden h-[100vh]">
+<section class="hero-section relative overflow-hidden">
   <div class="hero-video-container" aria-hidden="true">
-  <video
-    #heroVideo
-    class="hero-video"
-    autoplay
-    loop
-    playsinline
-    [muted]="true"
-    preload="auto"
-  >
-    <source [src]="videoSrc || 'video/bg.mp4'" type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
-</div>
-
+    <video
+      #heroVideo
+      class="hero-video"
+      autoplay
+      loop
+      playsinline
+      [muted]="true"
+      preload="auto"
+      [attr.poster]="videoPoster || null"
+    >
+      <source [src]="videoSrc || '/video/bg.mp4'" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  </div>
 
   <div class="hero-overlay" aria-hidden="true"></div>
   <div class="absolute inset-0 -z-10 bg-hero-grid hero-grid-overlay" aria-hidden="true"></div>
 
-  <!-- CENTERED CONTENT -->
-  <div class="container-wide h-full flex items-center justify-center">
-    <div class="max-w-3xl w-full text-center">
-      
-      <h1 class="mt-6 text-3xl font-semibold leading-tight text-accent-300 sm:text-4xl lg:text-5xl">
-        {{ data.title }}
-      </h1>
+  <div class="container-wide relative z-20 py-20 lg:py-28">
+    <div class="mx-auto max-w-6xl space-y-8">
+      <div class="hero-badge" *ngIf="data.badge">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span class="uppercase tracking-wide">{{ data.badge }}</span>
+      </div>
 
-      <p class="mt-6 text-lg text-slate-600 md:text-xl">
-        {{ data.description }}
-      </p>
+      <div class="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
+        <div class="space-y-6 text-center lg:text-left">
+          <h1 class="text-3xl font-semibold leading-tight text-slate-50 sm:text-4xl lg:text-5xl">
+            {{ data.title }}
+          </h1>
 
-      <div class="mt-8 flex flex-wrap gap-4 justify-center">
-        
-        <!-- Primary CTA -->
-        <ng-container *ngIf="data.primaryCta as cta">
-          <a
-            *ngIf="cta.routerLink; else primaryExternal"
-            [routerLink]="cta.routerLink"
-            [fragment]="cta.fragment"
-            class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:-translate-y-0.5 hover:bg-slate-900"
-          >
-            {{ cta.label }}
-          </a>
+          <p class="text-lg text-slate-200/80 md:text-xl">
+            {{ data.description }}
+          </p>
 
-          <ng-template #primaryExternal>
-            <a
-              *ngIf="cta.externalUrl"
-              [href]="cta.externalUrl"
-              target="_blank"
-              rel="noopener"
-              class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:-translate-y-0.5 hover:bg-slate-900"
-            >
-              {{ cta.label }}
-            </a>
-          </ng-template>
-        </ng-container>
+          <div class="flex flex-wrap items-center justify-center gap-4 lg:justify-start">
+            <ng-container *ngIf="data.primaryCta as cta">
+              <a
+                *ngIf="cta.routerLink; else primaryExternal"
+                [routerLink]="cta.routerLink"
+                [fragment]="cta.fragment"
+                class="cta-button primary"
+              >
+                {{ cta.label }}
+              </a>
 
-        <!-- Secondary CTA -->
-        <ng-container *ngIf="data.secondaryCta as secondary">
-          <a
-            *ngIf="secondary.routerLink; else secondaryExternal"
-            [routerLink]="secondary.routerLink"
-            [fragment]="secondary.fragment"
-            class="inline-flex items-center justify-center rounded-full border border-primary/10 bg-white/90 px-6 py-3 text-sm font-semibold text-primary shadow-sm transition hover:-translate-y-0.5 hover:border-primary hover:text-primary"
-          >
-            {{ secondary.label }}
-          </a>
+              <ng-template #primaryExternal>
+                <a
+                  *ngIf="cta.externalUrl"
+                  [href]="cta.externalUrl"
+                  target="_blank"
+                  rel="noopener"
+                  class="cta-button primary"
+                >
+                  {{ cta.label }}
+                </a>
+              </ng-template>
+            </ng-container>
 
-          <ng-template #secondaryExternal>
-            <a
-              *ngIf="secondary.externalUrl"
-              [href]="secondary.externalUrl"
-              target="_blank"
-              rel="noopener"
-              class="inline-flex items-center justify-center rounded-full border border-primary/10 bg-white/90 px-6 py-3 text-sm font-semibold text-primary shadow-sm transition hover:-translate-y-0.5 hover:border-primary hover:text-primary"
-            >
-              {{ secondary.label }}
-            </a>
-          </ng-template>
-        </ng-container>
+            <ng-container *ngIf="data.secondaryCta as secondary">
+              <a
+                *ngIf="secondary.routerLink; else secondaryExternal"
+                [routerLink]="secondary.routerLink"
+                [fragment]="secondary.fragment"
+                class="cta-button ghost"
+              >
+                {{ secondary.label }}
+              </a>
 
+              <ng-template #secondaryExternal>
+                <a
+                  *ngIf="secondary.externalUrl"
+                  [href]="secondary.externalUrl"
+                  target="_blank"
+                  rel="noopener"
+                  class="cta-button ghost"
+                >
+                  {{ secondary.label }}
+                </a>
+              </ng-template>
+            </ng-container>
+          </div>
+
+          <div class="grid gap-3 md:grid-cols-2" *ngIf="data.highlightList?.length">
+            <div class="highlight-chip" *ngFor="let highlight of data.highlightList">
+              <span class="chip-icon" aria-hidden="true">⦿</span>
+              <span class="chip-text">{{ highlight }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-4 lg:space-y-5">
+          <div class="glass-card" *ngIf="data.highlightCard">
+            <div class="flex items-start gap-3">
+              <span class="glow-pill" aria-hidden="true"></span>
+              <div>
+                <p class="eyebrow">Spotlight</p>
+                <h3 class="card-title">{{ data.highlightCard.title }}</h3>
+                <p class="card-copy">{{ data.highlightCard.description }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card feature-panel" *ngIf="data.featurePanel as panel">
+            <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p class="eyebrow">{{ panel.eyebrow }}</p>
+                <h3 class="card-title">{{ panel.title }}</h3>
+              </div>
+              <span class="pill-accent">Co-created Delivery</span>
+            </div>
+
+            <p class="card-copy">{{ panel.description }}</p>
+
+            <div class="grid gap-3 sm:grid-cols-2" *ngIf="panel.metrics?.length">
+              <div
+                class="metric-card"
+                *ngFor="let metric of panel.metrics"
+                [ngClass]="metric.theme || 'accent'"
+              >
+                <span class="metric-label">{{ metric.label }}</span>
+                <span class="metric-value">{{ metric.value }}</span>
+              </div>
+            </div>
+
+            <div class="partner-card" *ngIf="panel.partner as partner">
+              <p class="partner-label">{{ partner.label }}</p>
+              <p class="partner-copy">{{ partner.description }}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
