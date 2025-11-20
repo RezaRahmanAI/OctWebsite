@@ -190,58 +190,7 @@
         ></iframe>
       </div>
     </div>
-
-    <div class="rounded-3xl border border-slate-200 bg-white p-8 shadow-glow" id="contact-form">
-      <div class="mb-6 space-y-1">
-        <p class="eyebrow">Contact form</p>
-        <h3 class="text-2xl font-semibold text-primary">Tell us about your project</h3>
-        <p class="text-sm text-slate-600">We respond within one business day.</p>
-      </div>
-      <form class="grid gap-5">
-        <div class="grid gap-4 md:grid-cols-2">
-          <div>
-            <label for="name" class="form-label">Full name*</label>
-            <input id="name" type="text" class="form-input" placeholder="Your full name" />
-          </div>
-          <div>
-            <label for="company" class="form-label">Company</label>
-            <input id="company" type="text" class="form-input" placeholder="Where do you work?" />
-          </div>
-        </div>
-        <div class="grid gap-4 md:grid-cols-2">
-          <div>
-            <label for="email" class="form-label">Work email*</label>
-            <input id="email" type="email" class="form-input" placeholder="you@company.com" />
-          </div>
-          <div>
-            <label for="phone" class="form-label">Phone</label>
-            <input id="phone" type="tel" class="form-input" placeholder="Optional" />
-          </div>
-        </div>
-        <div>
-          <label for="interest" class="form-label">I'm interested in</label>
-          <select id="interest" class="form-input">
-            <option *ngFor="let option of contactPage()?.formOptions">{{ option }}</option>
-          </select>
-        </div>
-        <div>
-          <label for="message" class="form-label">Project details / schedule preferences*</label>
-          <textarea
-            id="message"
-            rows="4"
-            class="form-input"
-            placeholder="Share objectives, timeline expectations, or booking needs"
-          ></textarea>
-        </div>
-        <label class="flex items-start gap-3 text-sm text-slate-700">
-          <input type="checkbox" class="mt-1 rounded border-slate-300 text-primary focus:ring-primary" />
-          <span>{{ contactPage()?.ndaLabel }}</span>
-        </label>
-        <div class="flex flex-wrap items-center gap-4">
-          <button type="submit" class="btn btn-primary">Submit request</button>
-          <p class="text-xs text-slate-500">{{ contactPage()?.responseTime }}</p>
-        </div>
-      </form>
-    </div>
   </div>
 </section>
+
+<app-home-contact [data]="contactData()"></app-home-contact>
