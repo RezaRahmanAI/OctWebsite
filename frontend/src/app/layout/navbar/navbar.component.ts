@@ -11,7 +11,7 @@ import {
 import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { SmoothScrollService } from '../../core/services';
+import { SmoothScrollService } from '../../core/services'; // Assuming this service path is correct
 
 type NavLink = {
   label: string;
@@ -19,12 +19,17 @@ type NavLink = {
   exact?: boolean;
 };
 
+type DropdownItem = {
+  title: string;
+  href: string;
+};
+
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive, RouterModule],
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css'],
+  styleUrl: './navbar.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavbarComponent {
@@ -32,36 +37,50 @@ export class NavbarComponent {
   private destroyRef = inject(DestroyRef);
   private readonly smoothScroll = inject(SmoothScrollService);
 
-  // Mobile menu state
+  // Mobile menu state (for hamburger menu)
   private _menuOpen = signal(false);
   menuOpen = computed(() => this._menuOpen());
 
-  // Services mega menu state
+  // Dropdown states for desktop navigation
+  // Note: 'Services' keeps its old mega-menu logic from the original component
   private _servicesMenuOpen = signal(false);
   servicesMenuOpen = computed(() => this._servicesMenuOpen());
 
-  // Scroll style state
+  private _aboutUsMenuOpen = signal(false);
+  aboutUsMenuOpen = computed(() => this._aboutUsMenuOpen());
+
+  private _productMenuOpen = signal(false);
+  productMenuOpen = computed(() => this._productMenuOpen());
+
+  private _academyMenuOpen = signal(false);
+  academyMenuOpen = computed(() => this._academyMenuOpen());
+
+  // Scroll style state (kept from old component)
   private _scrolled = signal(false);
   scrolled = computed(() => this._scrolled());
 
-  // Navbar hide/show on scroll
+  // Navbar hide/show on scroll (kept from old component)
   private _hidden = signal(false);
   hidden = computed(() => this._hidden());
-
-  // Track last scroll position
   private lastScrollY = 0;
 
-  private _links = signal<NavLink[]>([    
-    { label: 'Service', path: '/services', exact: true }, 
-    { label: 'About', path: '/about', exact: true },
-    { label: 'Product', path: '/product', exact: false },
-    { label: 'Academy', path: '/academy', exact: false },
+  // Static links for desktop navigation (excluding dropdowns)
+  private _links = signal<NavLink[]>([
+    { label: 'Home', path: '/', exact: true },
     { label: 'Blog', path: '/blog', exact: false },
     { label: 'Contact', path: '/contact', exact: true },
   ]);
   navLinks = computed(() => this._links());
 
-  // Mega menu content
+  // --- Dropdown Content from React Component ---
+
+  readonly aboutUsItems: DropdownItem[] = [
+    { title: 'Company Overview', href: '/about/overview' },
+    { title: 'Mission', href: '/about/mission' },
+    { title: 'Vision', href: '/about/vision' },
+    { title: 'Team Member', href: '/about/team' },
+  ];
+
   readonly servicesCollaboration = [
     { label: 'Team Augmentation', fragment: 'team-augmentation' },
     { label: 'End to End Development', fragment: 'end-to-end-development' },
@@ -80,7 +99,6 @@ export class NavbarComponent {
     'Golang',
     'Flutter',
   ];
-
   readonly hiringLinks = [
     { label: 'Hire Developers' },
     { label: 'JavaScript Developers' },
@@ -88,6 +106,23 @@ export class NavbarComponent {
     { label: 'Java Developers' },
     { label: 'Golang Developers' },
     { label: '.NET Developers' },
+  ];
+
+  readonly productItems: DropdownItem[] = [
+    { title: 'Accounting -Inventory', href: '/products/accounting-inventory' },
+    { title: 'POS Software', href: '/products/pos-software' },
+    { title: 'Real Estate Management', href: '/products/real-estate-management' },
+    { title: 'Production Management', href: '/products/production-management' },
+    { title: 'Hardware Business', href: '/products/hardware-business' },
+    { title: 'Mobile Shop Management', href: '/products/mobile-shop-management' },
+    { title: 'Electronics Showroom', href: '/products/electronics-showroom' },
+    { title: 'Distribution Management', href: '/products/distribution-management' },
+  ];
+
+  readonly academyItems: DropdownItem[] = [
+    { title: 'Kids Computing', href: '/academy/kids-computing' },
+    { title: 'Zero Programming', href: '/academy/zero-programming' },
+    { title: 'Freelancing', href: '/academy/freelancing' },
   ];
 
   constructor() {
@@ -99,38 +134,103 @@ export class NavbarComponent {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(() => {
-        this._menuOpen.set(false);
-        this._servicesMenuOpen.set(false);
+        // Close all menus on navigation
+        this.closeAllMenus();
       });
   }
 
-  // Mobile menu
+  // Mobile menu functions
   toggleMenu(): void {
     this._menuOpen.update((v) => !v);
     if (this._menuOpen()) {
-      this._servicesMenuOpen.set(false);
+      this.closeAllDropdowns();
     }
   }
 
   closeMenu(): void {
+    this.closeAllMenus();
+  }
+
+  // --- Dropdown Management Functions ---
+
+  closeAllDropdowns(): void {
+    this._servicesMenuOpen.set(false);
+    this._aboutUsMenuOpen.set(false);
+    this._productMenuOpen.set(false);
+    this._academyMenuOpen.set(false);
+  }
+
+  closeAllMenus(): void {
     this._menuOpen.set(false);
-    this._servicesMenuOpen.set(false);
+    this.closeAllDropdowns();
   }
 
-  // Services menu
-  openServicesMenu(): void {
-    this._servicesMenuOpen.set(true);
+  // Generic handler for desktop menu toggling to ensure only one is open
+  toggleDropdown(menu: 'aboutUs' | 'services' | 'product' | 'academy'): void {
+    const currentAbout = this.aboutUsMenuOpen();
+    const currentService = this.servicesMenuOpen();
+    const currentProduct = this.productMenuOpen();
+    const currentAcademy = this.academyMenuOpen();
+
+    this.closeAllDropdowns(); // Close all others first
+
+    switch (menu) {
+      case 'aboutUs':
+        this._aboutUsMenuOpen.set(!currentAbout);
+        break;
+      case 'services':
+        this._servicesMenuOpen.set(!currentService);
+        break;
+      case 'product':
+        this._productMenuOpen.set(!currentProduct);
+        break;
+      case 'academy':
+        this._academyMenuOpen.set(!currentAcademy);
+        break;
+    }
   }
 
-  closeServicesMenu(): void {
-    this._servicesMenuOpen.set(false);
+
+  setDropdownOpen(menu: 'aboutUs' | 'services' | 'product' | 'academy', open: boolean): void {
+    if (!open) {
+
+      setTimeout(() => {
+        switch (menu) {
+          case 'aboutUs':
+            this._aboutUsMenuOpen.set(false);
+            break;
+          case 'services':
+            this._servicesMenuOpen.set(false);
+            break;
+          case 'product':
+            this._productMenuOpen.set(false);
+            break;
+          case 'academy':
+            this._academyMenuOpen.set(false);
+            break;
+        }
+      }, 50); // Small delay
+    } else {
+      // Open on hover, close all others
+      this.closeAllDropdowns();
+      switch (menu) {
+        case 'aboutUs':
+          this._aboutUsMenuOpen.set(true);
+          break;
+        case 'services':
+          this._servicesMenuOpen.set(true);
+          break;
+        case 'product':
+          this._productMenuOpen.set(true);
+          break;
+        case 'academy':
+          this._academyMenuOpen.set(true);
+          break;
+      }
+    }
   }
 
-  toggleServicesMenu(): void {
-    this._servicesMenuOpen.update((open) => !open);
-  }
-
-  // Scroll listener: blur + hide/show navbar
+  // Scroll listener: blur + hide/show navbar (kept from old component)
   @HostListener('window:scroll')
   onScroll(): void {
     const currentY = window.scrollY || 0;
