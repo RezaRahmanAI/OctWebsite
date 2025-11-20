@@ -94,10 +94,17 @@ export class HomeComponent {
     if (!url) {
       return '';
     }
+
     if (/^(https?:)?\/\//.test(url) || url.startsWith('data:')) {
       return url;
     }
+
     const normalized = url.startsWith('/') ? url : `/${url.replace(/^\/+/, '')}`;
+
+    if (normalized.startsWith('/video/') || normalized.startsWith('/images/') || normalized.startsWith('/assets/')) {
+      return normalized;
+    }
+
     const apiBase = environment.apiUrl.replace(/\/+$/, '');
     return `${apiBase}${normalized.replace(/\/+$/, '')}`;
   }
