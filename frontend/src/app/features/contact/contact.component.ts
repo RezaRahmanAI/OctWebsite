@@ -1,18 +1,33 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { HomeContactComponent } from '../home/sections/contact/home-contact.component';
+
 import { ContentService } from '../../core/services/content.service';
+
+interface ContactPageContent {
+  header: {
+    eyebrow: string;
+    title: string;
+    subtitle: string;
+  };
+  consultationOptions: string;
+  regionalSupport: string;
+  emails: string[];
+  formOptions: string[];
+  ndaLabel: string;
+  responseTime: string;
+}
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule, HomeContactComponent],
+  imports: [CommonModule],
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContactComponent {
   private readonly content = inject(ContentService);
 
   protected readonly contactData = computed(() => this.content.homeContent().contact);
+  protected readonly contactPage = this.content.getPageSignal<ContactPageContent>('contact');
 }
