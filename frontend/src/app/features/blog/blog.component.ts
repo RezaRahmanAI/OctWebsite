@@ -2,12 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BlogService } from '../../core/services';
-import { SectionHeadingComponent } from '../../shared/components/section-heading/section-heading.component';
 
 @Component({
   selector: 'app-blog',
   standalone: true,
-  imports: [CommonModule, RouterLink, SectionHeadingComponent],
+  imports: [CommonModule, RouterLink],
   templateUrl: './blog.component.html',
   styleUrls: ['./blog.component.css'],
 })
@@ -27,6 +26,10 @@ export class BlogComponent {
       return matchesTerm && matchesTag;
     });
   });
+
+  readonly featuredPost = computed(() => this.posts()[0] ?? null);
+
+  readonly remainingPosts = computed(() => this.posts().slice(1));
 
   setTag(tag: string | null): void {
     this.activeTag.set(tag);
