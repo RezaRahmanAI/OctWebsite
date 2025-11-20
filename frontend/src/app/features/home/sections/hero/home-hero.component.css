@@ -5,12 +5,13 @@
 .hero-section {
   position: relative;
   color: inherit;
+  isolation: isolate;
 }
 
 .hero-video-container {
   position: absolute;
   inset: 0;
-  z-index: -30;
+  z-index: 0;
   overflow: hidden;
   background: #020817;
 }
@@ -25,13 +26,13 @@
 .hero-overlay {
   position: absolute;
   inset: 0;
-  z-index: -20;
+  z-index: 10;
   background: linear-gradient(180deg, rgba(2, 8, 23, 0.65) 0%, rgba(15, 23, 42, 0.35) 45%, rgba(248, 250, 252, 0.85) 100%);
   backdrop-filter: blur(6px);
 }
 
 .hero-grid-overlay {
-  z-index: -10;
+  z-index: 5;
   opacity: 0.45;
   mix-blend-mode: overlay;
 }
