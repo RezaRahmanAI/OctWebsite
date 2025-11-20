@@ -5,9 +5,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: '#F8FAFC',
+        // Brand-aware neutrals
+        background: '#F3FBFE', // soft blue-tinted background to match logo
         surface: '#FFFFFF',
-        
+
+        // Complementary CTA color (kept from your original palette)
         secondary: {
           DEFAULT: '#F97316',
           50: '#FFF7ED',
@@ -19,34 +21,40 @@ module.exports = {
           600: '#EA580C',
           700: '#C2410C',
           800: '#9A3412',
-          900: '#7C2D12'
+          900: '#7C2D12',
         },
+
+        // PRIMARY = logo blue
         primary: {
-          DEFAULT: '#0F172A',
-          50: '#f8fafc',
-          100: '#edf2f9',
-          200: '#dbe3f3',
-          300: '#b6c7e5',
-          400: '#90a8d2',
-          500: '#637fb6',
-          600: '#425c94',
-          700: '#2b3d6d',
-          800: '#192746',
-          900: '#0f172a'
+          DEFAULT: '#10AFF0', // pulled from logo
+          50: '#E7F7FE',
+          100: '#CFEFFC',
+          200: '#ABE3FA',
+          300: '#88D7F8',
+          400: '#64CBF5',
+          500: '#10AFF0',
+          600: '#1089BE',
+          700: '#106B97',
+          800: '#0F4565',
+          900: '#0F263E',
         },
+
+        // Accent: slightly softer variant of the brand blue for chips, subtle borders, etc.
         accent: {
-          DEFAULT: '#3B82F6',
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
-          900: '#1e3a8a'
+          DEFAULT: '#4EC4F3', // lighter logo blue
+          50: '#EAF8FE',
+          100: '#D5F0FE',
+          200: '#AFE2FC',
+          300: '#89D4FA',
+          400: '#63C7F7',
+          500: '#4EC4F3',
+          600: '#249CD0',
+          700: '#1776A5',
+          800: '#13567A',
+          900: '#0F3650',
         },
+
+        // You can keep these utility colors if you use them for states / alerts.
         emerald: {
           DEFAULT: '#10B981',
           50: '#ecfdf5',
@@ -58,7 +66,7 @@ module.exports = {
           600: '#059669',
           700: '#047857',
           800: '#065f46',
-          900: '#064e3b'
+          900: '#064e3b',
         },
         teal: {
           DEFAULT: '#0D9488',
@@ -71,7 +79,7 @@ module.exports = {
           600: '#0d9488',
           700: '#0f766e',
           800: '#115e59',
-          900: '#134e4a'
+          900: '#134e4a',
         },
         slate: {
           50: '#f8fafc',
@@ -83,23 +91,29 @@ module.exports = {
           600: '#475569',
           700: '#334155',
           800: '#1e293b',
-          900: '#0f172a'
-        }
+          900: '#0f172a',
+        },
       },
+
       fontFamily: {
         sans: ['Inter', ...defaultTheme.fontFamily.sans],
-        heading: ['"Space Grotesk"', 'Inter', ...defaultTheme.fontFamily.sans]
+        heading: ['"Space Grotesk"', 'Inter', ...defaultTheme.fontFamily.sans],
       },
+
       boxShadow: {
         glow: '0 20px 45px rgba(15, 23, 42, 0.12)',
-        card: '0 30px 90px rgba(15, 23, 42, 0.14)'
+        card: '0 30px 90px rgba(15, 23, 42, 0.14)',
       },
+
       backgroundImage: {
-        'academy-gradient': 'linear-gradient(135deg, #6366F1 0%, #A855F7 45%, #F97316 100%)',
+        // Reworked to be brand-blue → brand-blue-light → CTA orange
+        'academy-gradient': 'linear-gradient(135deg, #0F263E 0%, #10AFF0 45%, #F97316 100%)',
+
+        // Grids now use logo blue instead of generic Tailwind blue
         'hero-grid':
-          'radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.35), transparent 55%), radial-gradient(circle at 80% 30%, rgba(16, 185, 129, 0.35), transparent 60%)'
-      }
-    }
+          'radial-gradient(circle at 20% 20%, rgba(16, 175, 240, 0.35), transparent 55%), radial-gradient(circle at 80% 30%, rgba(16, 107, 151, 0.35), transparent 60%)',
+      },
+    },
   },
-  plugins: [require('@tailwindcss/forms')]
+  plugins: [require('@tailwindcss/forms')],
 };

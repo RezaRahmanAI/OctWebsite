@@ -1,66 +1,114 @@
-<section class="academy">
-  <div class="academy__shapes">
-    <span class="shape shape--one"></span>
-    <span class="shape shape--two"></span>
-    <span class="shape shape--three"></span>
+<section
+  class="container-wide overflow-hidden py-16 space-y-16"
+>
+  <!-- Background shapes -->
+  <div class="pointer-events-none absolute inset-0 -z-10">
+    <span
+      class="absolute left-10 top-12 h-64 w-64 rounded-full bg-primary/30 opacity-70 blur-2xl"
+    ></span>
+    <span
+      class="absolute right-10 top-24 h-60 w-60 rounded-full bg-secondary/25 opacity-70 blur-2xl"
+    ></span>
+    <span
+      class="absolute bottom-0 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-primary/15 opacity-70 blur-2xl"
+    ></span>
   </div>
-  <header class="academy__header">
-    <p class="academy__eyebrow">Zero Programming Academy</p>
-    <h1>Ignite imagination with code, creativity, and community.</h1>
-    <p>
-      Our academy fuses vibrant visuals, interactive labs, and compassionate mentorship to empower children, teens, and young
-      professionals to thrive.
+
+  <!-- Header -->
+  <header class="mx-auto max-w-3xl space-y-4 text-center">
+    <p
+      class="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/70 px-4 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-primary"
+    >
+      Zero Programming Academy
+    </p>
+    <h1 class="text-3xl font-bold sm:text-4xl md:text-5xl">
+      Ignite imagination with code, creativity, and community.
+    </h1>
+    <p class="text-sm text-slate-600 md:text-base">
+      Our academy fuses vibrant visuals, interactive labs, and compassionate mentorship to
+      empower children, teens, and young professionals to thrive.
     </p>
   </header>
 
-  <section class="academy__section" id="kids">
-    <h2>Kids Computing</h2>
-    <div class="academy__grid">
+  <!-- Kids Computing -->
+  <section class="space-y-8" id="kids">
+    <h2 class="text-3xl font-semibold">Kids Computing</h2>
+    <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
       <article
         *ngFor="let feature of kidsComputingFeatures"
-        class="academy-card"
+        class="relative overflow-hidden rounded-[2.5rem] border border-white/60 bg-white/90 p-8 shadow-xl transition-transform duration-300 ease-out hover:-translate-y-3 hover:shadow-2xl"
       >
-        <span class="academy-card__icon">{{ feature.icon }}</span>
-        <h3>{{ feature.title }}</h3>
-        <p>{{ feature.description }}</p>
+        <span class="text-3xl">{{ feature.icon }}</span>
+        <h3 class="mt-4 text-xl font-semibold">{{ feature.title }}</h3>
+        <p class="mt-2 text-sm text-slate-600">
+          {{ feature.description }}
+        </p>
       </article>
     </div>
   </section>
 
-  <section class="academy__section" id="zero">
-    <h2>Zero Programming</h2>
-    <div class="tracks">
+  <!-- Zero Programming Tracks -->
+  <section class="space-y-8" id="zero">
+    <h2 class="text-3xl font-semibold">Zero Programming</h2>
+    <div class="grid gap-8 md:grid-cols-3">
       <article
         *ngFor="let track of zeroProgrammingTracks"
-        class="academy-card academy-card--track"
+        class="relative overflow-hidden rounded-[2.5rem] border border-white/60 bg-gradient-to-br from-white to-primary/10 p-8 shadow-xl transition-transform duration-300 ease-out hover:-translate-y-3 hover:shadow-2xl"
       >
-        <h3>{{ track.title }}</h3>
-        <p class="track-age">{{ track.age }}</p>
-        <p>{{ track.description }}</p>
-        <div class="track-actions">
-          <a routerLink="/contact" fragment="trial" class="track-link">Register</a>
-          <button type="button" class="track-button">Access Course</button>
+        <h3 class="text-xl font-semibold">{{ track.title }}</h3>
+        <p
+          class="mt-2 text-xs font-semibold uppercase tracking-[0.35em] text-primary"
+        >
+          {{ track.age }}
+        </p>
+        <p class="mt-2 text-sm text-slate-600">
+          {{ track.description }}
+        </p>
+        <div class="mt-6 flex flex-wrap items-center gap-3">
+          <a
+            routerLink="/contact"
+            fragment="trial"
+            class="rounded-full border border-primary/40 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-primary transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-primary/10"
+          >
+            Register
+          </a>
+          <button
+            type="button"
+            class="text-xs font-semibold uppercase tracking-[0.3em]"
+          >
+            Access Course
+          </button>
         </div>
       </article>
     </div>
   </section>
 
-  <section class="academy__section" id="freelancing">
-    <h2>Freelancing Launchpad</h2>
-    <div class="academy__grid">
+  <!-- Freelancing Launchpad -->
+  <section class="space-y-8" id="freelancing">
+    <h2 class="text-3xl font-semibold">Freelancing Launchpad</h2>
+    <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
       <article
         *ngFor="let course of freelancingCourses"
-        class="academy-card"
+        class="relative overflow-hidden rounded-[2.5rem] border border-white/60 bg-white/90 p-8 shadow-xl transition-transform duration-300 ease-out hover:-translate-y-3 hover:shadow-2xl"
       >
-        <span class="academy-card__icon">{{ course.icon }}</span>
-        <h3>{{ course.title }}</h3>
-        <p>{{ course.description }}</p>
-        <a routerLink="/contact" fragment="quote" class="track-link">Enroll Now</a>
+        <span class="text-3xl">{{ course.icon }}</span>
+        <h3 class="mt-4 text-xl font-semibold">{{ course.title }}</h3>
+        <p class="mt-2 text-sm text-slate-600">
+          {{ course.description }}
+        </p>
+        <a
+          routerLink="/contact"
+          fragment="quote"
+          class="mt-4 inline-flex rounded-full border border-primary/40 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-primary transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-primary/10"
+        >
+          Enroll Now
+        </a>
       </article>
     </div>
   </section>
 
-  <section class="academy__pricing">
+  <!-- Pricing -->
+  <section class="mt-10">
     <app-pricing></app-pricing>
   </section>
 </section>

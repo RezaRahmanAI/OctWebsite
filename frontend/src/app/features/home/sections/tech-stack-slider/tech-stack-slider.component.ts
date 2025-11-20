@@ -19,6 +19,7 @@ export class TechStackComponent {
     { name: 'Laravel', color: 'text-red-500' },
     { name: 'React', color: 'text-blue-500' },
     { name: 'PHP', color: 'text-purple-600' },
+    { name: 'Spring Boot', color: 'text-green-500' },
     { name: 'Java', color: 'text-orange-500' },
     { name: 'Python', color: 'text-yellow-500' },
     { name: 'Vue.js', color: 'text-green-500' },
@@ -32,6 +33,7 @@ export class TechStackComponent {
     { name: 'Laravel', color: 'text-red-500' },
     { name: 'Flutter', color: 'text-blue-400' },
     { name: 'Go', color: 'text-cyan-600' },
+    { name: 'Spring Boot', color: 'text-green-500' },
   ];
 
   // Duplicate for seamless loop
