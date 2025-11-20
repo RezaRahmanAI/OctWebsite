@@ -7,13 +7,13 @@
     <div class="space-y-6">
       <p class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em]">
         <span class="h-2 w-2 rounded-full bg-accent"></span>
-        {{ contactPage()?.header.eyebrow || 'Contact' }}
+        {{ contactPage()?.header?.eyebrow || 'Contact' }}
       </p>
       <h1 class="text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
-        {{ contactPage()?.header.title || "Let's build something amazing together" }}
+        {{ contactPage()?.header?.title || "Let's build something amazing together" }}
       </h1>
       <p class="max-w-2xl text-lg text-slate-100/80">
-        {{ contactPage()?.header.subtitle || 'Share your goals and we will align the right specialists, schedule, and delivery model.' }}
+        {{ contactPage()?.header?.subtitle || 'Share your goals and we will align the right specialists, schedule, and delivery model.' }}
       </p>
       <div class="flex flex-wrap gap-3">
         <span class="badge pill">Service booking & scheduling</span>
