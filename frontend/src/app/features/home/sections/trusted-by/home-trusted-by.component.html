@@ -1,0 +1,33 @@
+<section class="trusted-section">
+  <div class="container-wide">
+    <div class="trusted-card">
+      <div class="trusted-header">
+        <div class="trusted-badge">Trusted by</div>
+        <div class="trusted-line" aria-hidden="true"></div>
+        <p class="trusted-tagline">{{ tagline }}</p>
+      </div>
+
+      <div class="marquee" aria-label="Trusted brands carousel">
+        <div
+          class="marquee-track"
+          [style.animationDuration]="marqueeDuration"
+          role="list"
+        >
+          <ng-container *ngFor="let company of companies; trackBy: trackByName">
+            <div class="logo-chip" role="listitem">
+              <span class="logo-avatar" aria-hidden="true">{{ company[0] }}</span>
+              <span class="logo-name">{{ company }}</span>
+            </div>
+          </ng-container>
+
+          <ng-container *ngFor="let company of companies; trackBy: trackByName">
+            <div class="logo-chip" role="presentation" aria-hidden="true">
+              <span class="logo-avatar">{{ company[0] }}</span>
+              <span class="logo-name">{{ company }}</span>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

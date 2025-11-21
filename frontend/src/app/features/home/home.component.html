@@ -1,4 +1,8 @@
 <app-home-hero [videoSrc]="heroVideoSrc()" [videoPoster]="heroVideoPoster()" />
+<app-home-trusted-by
+  [tagline]="home().trust.tagline"
+  [companies]="home().trust.companies"
+></app-home-trusted-by>
 <app-home-trust [data]="home().trust"></app-home-trust>
 <app-home-methodology [data]="home().methodology" />
 <app-home-collaboration [data]="home().collaboration" />
