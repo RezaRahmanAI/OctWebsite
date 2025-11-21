@@ -1,119 +1,94 @@
-<!-- HERO / CONTACT INTRO -->
-<section class="bg-gradient-to-br from-slate-50 via-white to-sky-50">
-  <div
-    class="container-wide grid gap-12 py-20 lg:grid-cols-[1.1fr,0.9fr] lg:py-28 lg:items-center"
-  >
-    <!-- LEFT: TEXT -->
-    <div class="space-y-8">
-      <!-- Soft pill -->
-      <p
-        class="inline-flex items-center rounded-full bg-amber-100 px-5 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-900 shadow-sm"
-      >
-        {{ contactPage()?.header?.eyebrow || 'Contact Us' }}
-      </p>
-
-      <!-- Main heading -->
-      <h1 class="text-3xl font-bold leading-tight text-slate-900 sm:text-4xl lg:text-5xl">
-        {{
-          contactPage()?.header?.title
-            || 'Empowering connections, resolving challenges'
-        }}
-      </h1>
-
-      <!-- Sub copy -->
-      <p class="max-w-xl text-base leading-relaxed text-slate-600 sm:text-lg">
-        {{
-          contactPage()?.header?.subtitle
-            || 'Looking for a specialist team, training partner, or strategic guidance? Share your goals and we will align the right people, schedule, and delivery model for you.'
-        }}
-      </p>
-
-      <!-- CTA -->
-      <div class="flex flex-wrap items-center gap-4 pt-2">
-        <a
-          class="inline-flex items-center justify-center rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/40 transition hover:translate-y-0.5 hover:bg-primary/90"          
+<!-- CONTACT HERO – styled like Academy header -->
+<section class="container-wide overflow-hidden py-16 space-y-16">
+  <header class="section-padding">
+    <div class="grid items-center gap-10 lg:grid-cols-2">
+      <!-- LEFT: text content (same content, academy styling) -->
+      <div class="space-y-6">
+        <!-- Soft pill (same style as Academy) -->
+        <p
+          class="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/70 px-4 py-1
+                 text-xs font-semibold uppercase tracking-[0.35em] text-primary"
         >
-          Hire Our Team →
-        </a>
+          {{ contactPage()?.header?.eyebrow || 'Contact Us' }}
+        </p>
+
+        <!-- Main heading -->
+        <h1 class="text-3xl font-bold sm:text-4xl md:text-5xl text-slate-900">
+          {{
+            contactPage()?.header?.title
+              || 'Empowering connections, resolving challenges'
+          }}
+        </h1>
+
+        <!-- Sub copy -->
+        <p class="max-w-xl text-sm text-slate-600 md:text-base">
+          {{
+            contactPage()?.header?.subtitle
+              || 'Looking for a specialist team, training partner, or strategic guidance? Share your goals and we will align the right people, schedule, and delivery model for you.'
+          }}
+        </p>
+
+        <!-- CTA (same style, just aligned with new layout) -->
+        <div class="flex flex-wrap items-center gap-4 pt-2">
+          <a
+            class="inline-flex items-center justify-center rounded-xl bg-primary px-6 py-3
+                   text-sm font-semibold text-white shadow-lg shadow-primary/40
+                   transition hover:translate-y-0.5 hover:bg-primary/90"
+          >
+            Hire Our Team →
+          </a>
+        </div>
+
+        <!-- Optional small meta line like “24h response” under text -->
+        <p class="text-xs text-slate-500">
+          {{ contactPage()?.responseTime || 'Most inquiries receive a tailored reply within one business day.' }}
+        </p>
+      </div>
+
+      <!-- RIGHT: video card (same style as Academy/Blog) -->
+      <div class="relative">
+        <div
+          class="group relative overflow-hidden rounded-[2.5rem] shadow-xl"
+        >
+          <div class="relative aspect-[4/3]">
+            <video
+              class="absolute inset-0 h-full w-full object-cover"
+              autoplay
+              loop
+              muted
+              playsinline
+            >
+              <!-- Change path if your video is elsewhere -->
+              <source src="/video/contact.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+
+          <!-- subtle gradient overlay (same as Academy) -->
+          <div
+            class="pointer-events-none absolute inset-0 bg-gradient-to-tr
+                   from-primary/40 via-transparent to-secondary/40
+                   opacity-40 transition-opacity duration-300
+                   group-hover:opacity-20"
+          ></div>
+
+          <!-- Small info strip at bottom of card (replaces old label) -->
+          <div
+            class="absolute inset-x-6 bottom-6 flex items-center justify-between rounded-2xl
+                   bg-white/90 px-4 py-3 text-xs text-slate-700 shadow-lg"
+          >
+            <span>Dhaka · Rajshahi · Remote</span>
+            <span class="inline-flex items-center gap-1">
+              <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+              Live support
+            </span>
+          </div>
+        </div>
       </div>
     </div>
-
-    <!-- RIGHT: CLEAN ILLUSTRATION COLLAGE -->
-    <div
-      class="relative mx-auto max-w-full rounded-[2.25rem] bg-white p-6 shadow-xl shadow-slate-200 ring-1 ring-slate-100"
-    >
-      <div class="grid grid-cols-[1.15fr,1fr] grid-rows-2 gap-4">
-        <!-- Stat tile (left, tall) -->
-        <div
-          class="row-span-2 flex flex-col justify-between rounded-[1.9rem] bg-emerald-50 px-7 py-8"
-        >
-          <div class="space-y-6">
-            <p class="text-sm font-semibold uppercase tracking-[0.22em] text-emerald-700">
-              Response
-            </p>
-            <div>
-              <p class="text-5xl font-semibold text-slate-900">
-                24h
-              </p>
-              <p class="mt-1 text-sm font-medium text-emerald-800">
-                Avg. reply time
-              </p>
-            </div>
-          </div>
-
-          <p class="mt-6 text-xs text-emerald-900/80">
-            {{ contactPage()?.responseTime || 'Most inquiries receive a tailored reply within one business day.' }}
-          </p>
-        </div>
-
-        <!-- Top-right illustration -->
-        <div
-          class="overflow-hidden rounded-[1.5rem] bg-sky-50"
-        >
-          <img
-            src="/images/contact/contact-hero-1.svg"
-            alt="Illustration of people connecting via messages"
-            loading="lazy"
-            class="h-full w-full object-cover"
-          />
-        </div>
-
-        <!-- Bottom-right grid: two smaller illustrations -->
-        <div class="grid gap-4">
-          <div
-            class="overflow-hidden rounded-[1.5rem] bg-indigo-50"
-          >
-            <img
-              src="/images/contact/contact-hero-2.svg"
-              alt="Illustration of a call with a specialist"
-              loading="lazy"
-              class="h-full w-full object-cover"
-            />
-          </div>
-          <div
-            class="overflow-hidden rounded-[1.5rem] bg-rose-50"
-          >
-            <img
-              src="/images/contact/contact-hero-3.svg"
-              alt="Illustration of collaboration and planning"
-              loading="lazy"
-              class="h-full w-full object-cover"
-            />
-          </div>
-        </div>
-      </div>
-
-      <!-- Small label at bottom of card -->
-      <div class="mt-4 flex items-center justify-between text-xs text-slate-500">
-        <span>Dhaka · Rajshahi · Remote</span>
-        <span class="inline-flex items-center gap-1">
-          <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-          Live support
-        </span>
-      </div>
-    </div>
-  </div>
+  </header>
 </section>
+
 
 
 <!-- OFFICES SECTION: CONTENT LEFT, IMAGE RIGHT -->

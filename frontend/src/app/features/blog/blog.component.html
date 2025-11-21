@@ -1,39 +1,32 @@
-<section class="relative overflow-hidden text-white py-16 space-y-16">
-  <!-- Optional soft glow background (like academy vibes) -->
-  <div class="pointer-events-none absolute inset-0 -z-10">
-    <span
-      class="absolute -left-10 top-10 h-64 w-64 rounded-full bg-primary/30 opacity-60 blur-3xl"
-    ></span>
-    <span
-      class="absolute right-0 top-24 h-60 w-60 rounded-full bg-secondary/25 opacity-60 blur-3xl"
-    ></span>
-    <span
-      class="absolute bottom-0 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-primary/15 opacity-60 blur-3xl"
-    ></span>
-  </div>
-
-  <div class="container-wide relative z-10 py-16">
+<!-- BLOG HEADER – styled like Academy header -->
+<section class="container-wide overflow-hidden py-16 space-y-16">
+  <header class="section-padding">
     <div class="grid items-center gap-10 lg:grid-cols-2">
       <!-- LEFT: text + search + email subscribe -->
-      <div class="space-y-6 max-w-3xl">
+      <div class="max-w-3xl space-y-6">
+        <!-- pill, same style as academy -->
         <p
-          class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-wide"
+          class="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/70 px-4 py-1
+                 text-xs font-semibold uppercase tracking-[0.35em] text-primary"
         >
           <span class="h-2 w-2 rounded-full bg-secondary-400"></span>
           Insights & Updates
         </p>
 
+        <!-- title + copy, same scale as academy -->
         <div class="space-y-2">
-          <h1 class="text-4xl font-bold leading-tight md:text-5xl">Stories from the studio</h1>
-          <p class="max-w-2xl text-base text-white/80">
+          <h1 class="text-3xl font-bold sm:text-4xl md:text-5xl">
+            Stories from the studio
+          </h1>
+          <p class="max-w-2xl text-sm text-slate-600 md:text-base">
             Explore lessons from our product experiments, engineering playbooks, and academy
             cohorts. Filter by topic or jump straight into the latest releases.
           </p>
         </div>
 
-        <!-- Email subscribe -->
+        <!-- Email subscribe, academy-style colors -->
         <form
-          class="flex flex-wrap items-center gap-3 text-xs text-white/80"
+          class="flex flex-wrap items-center gap-3 text-xs text-slate-600"
           (submit)="$event.preventDefault()"
         >
           <div class="min-w-[220px] flex-1">
@@ -42,24 +35,28 @@
               id="blog-subscribe-email"
               type="email"
               placeholder="Get new stories in your inbox"
-              class="w-full rounded-full border border-white/30 bg-white/10 px-4 py-2.5 text-xs text-white placeholder:text-white/60 focus:border-white focus:bg-white/15 focus:outline-none"
+              class="w-full rounded-full border border-slate-200 bg-white px-4 py-2.5
+                     text-xs text-slate-800 placeholder:text-slate-400
+                     focus:border-primary focus:outline-none"
             />
           </div>
           <button
             type="submit"
-            class="inline-flex items-center justify-center rounded-full bg-primary-500 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.25em] text-white shadow-md transition hover:bg-primary-400"
+            class="inline-flex items-center justify-center rounded-full bg-primary
+                   px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.25em]
+                   text-white shadow-md transition hover:bg-primary/90"
           >
             Subscribe
           </button>
         </form>
       </div>
 
-      <!-- RIGHT: video  -->
+      <!-- RIGHT: video – same card style as Academy -->
       <div class="relative">
         <div
-          class="group relative overflow-hidden rounded-[2.5rem] border border-white/40 bg-slate-900/80 shadow-xl"
+          class="group relative overflow-hidden rounded-[2.5rem] shadow-xl"
         >
-          <div class="relative aspect-video">
+          <div class="relative aspect-[4/3]">
             <video
               class="absolute inset-0 h-full w-full object-cover"
               autoplay
@@ -67,23 +64,26 @@
               muted
               playsinline
             >
-              <!-- adjust path if your video is elsewhere -->
+              <!-- adjust this path if needed; academy uses a similar pattern -->
               <source src="/video/blog.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
 
-          <!-- gradient overlay like academy -->
+          <!-- same gradient overlay as academy -->
           <div
-            class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-primary/40 via-transparent to-secondary/40 opacity-40 transition-opacity duration-300 group-hover:opacity-20"
+            class="pointer-events-none absolute inset-0 bg-gradient-to-tr
+                   from-primary/40 via-transparent to-secondary/40
+                   opacity-40 transition-opacity duration-300 group-hover:opacity-20"
           ></div>
         </div>
       </div>
     </div>
-  </div>
+  </header>
 </section>
 
-<section class="section-padding bg-background">
+
+<section class="section-padding">
   <div class="container-wide grid gap-10 lg:grid-cols-4">
     <aside class="lg:col-span-1">
       <div class="sticky top-6 space-y-6 rounded-2xl bg-white p-6 shadow-card">
