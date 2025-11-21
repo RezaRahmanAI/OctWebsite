@@ -6,20 +6,7 @@
   @apply rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white/80;
 }
 
-.shape-blur {
-  @apply absolute -left-10 top-0 h-80 w-80 rounded-full bg-white/10 blur-3xl;
-}
 
-.shape-grid {
-  position: absolute;
-  right: 0;
-  bottom: -4rem;
-  height: 20rem;
-  width: 20rem;
-  opacity: 0.4;
-  background-image: radial-gradient(circle at center, rgba(255, 255, 255, 0.12) 2px, transparent 0);
-  background-size: 20px 20px;
-}
 
 .filter-chip {
   @apply rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition duration-200 hover:-translate-y-0.5 hover:border-primary-300 hover:text-primary-700;

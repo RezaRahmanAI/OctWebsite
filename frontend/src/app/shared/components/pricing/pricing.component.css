@@ -1,5 +1,5 @@
 .pricing {
-  @apply relative overflow-hidden rounded-[3rem] border border-white/40 bg-white/95 px-6 py-16 shadow-glow;
+  @apply relative overflow-hidden py-16 ;
 }
 
 .pricing__shapes {

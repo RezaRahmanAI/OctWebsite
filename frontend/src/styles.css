@@ -49,6 +49,20 @@ a:hover {
   border-radius: 23px;
 }
 
+.shape-blur {
+  @apply absolute -left-10 top-0 h-80 w-80 rounded-full bg-white/10 blur-3xl;
+}
+
+.shape-grid {
+  position: absolute;
+  right: 0;
+  bottom: -4rem;
+  height: 20rem;
+  width: 20rem;
+  opacity: 0.4;
+  background-image: radial-gradient(circle at center, rgba(255, 255, 255, 0.12) 2px, transparent 0);
+  background-size: 20px 20px;
+}
 
 @keyframes marquee-left {
   0% {

@@ -1,23 +1,91 @@
-<section class="trusted-section" aria-labelledby="trusted-by-heading">
-  <div class="trusted-card">
-    <div class="trusted-header">
-      <span class="trusted-badge">Trusted by</span>
-      <div class="trusted-line"></div>
-      <p id="trusted-by-heading" class="trusted-tagline">
+<section
+  class="relative -mt-6 md:-mt-10"
+  aria-labelledby="trusted-by-heading"
+>
+  <div
+    class="relative mx-auto max-w-6xl overflow-hidden rounded-3xl
+           border border-white/10
+           bg-[linear-gradient(135deg,#024bf6,#0062ff)]
+           px-5 pt-6 pb-4 sm:px-8 sm:pt-8 sm:pb-6
+           shadow-[0_24px_60px_rgba(15,23,42,0.45)]
+           text-slate-50"
+  >
+    <!-- Glow blobs -->
+    <div
+      class="pointer-events-none absolute -left-24 -top-32 h-72 w-72
+             rounded-full bg-cyan-300/50 blur-3xl"
+    ></div>
+    <div
+      class="pointer-events-none absolute -right-24 -bottom-40 h-72 w-72
+             rounded-full bg-sky-400/40 blur-3xl"
+    ></div>
+
+    <!-- Header -->
+    <div
+      class="relative z-10 mb-5 flex flex-wrap items-center gap-3 text-slate-100"
+    >
+      <span
+        class="inline-flex items-center rounded-full bg-white/10
+               px-4 py-1.5 text-[0.65rem] font-semibold uppercase
+               tracking-[0.35em] text-sky-50/90"
+      >
+        Trusted by
+      </span>
+
+      <div
+        class="hidden h-px flex-1 bg-gradient-to-r from-white/60 to-transparent md:block"
+      ></div>
+
+      <p
+        id="trusted-by-heading"
+        class="text-sm font-medium text-slate-50 sm:text-base"
+      >
         {{ tagline || 'Engineering teams at fast-moving companies' }}
       </p>
-      <p class="trusted-subtext" *ngIf="companies?.length">
+
+      <p
+        *ngIf="companies?.length"
+        class="w-full text-xs text-slate-200/90 md:w-auto"
+      >
         Featuring {{ (companies ?? []).join(' • ') }}
       </p>
     </div>
 
-    <div class="marquee" aria-label="Carousel of partner company logos">
-      <div class="marquee-track" style="animation-duration: 55s">
+    <!-- Marquee -->
+    <div
+      class="relative -mx-2 overflow-hidden px-1 pt-1 pb-5"
+      aria-label="Carousel of partner company logos"
+    >
+      <!-- gradient edges -->
+      <div
+        class="pointer-events-none absolute inset-y-0 left-0 w-24
+               bg-gradient-to-r from-[#012780] to-transparent"
+      ></div>
+      <div
+        class="pointer-events-none absolute inset-y-0 right-0 w-24
+               bg-gradient-to-l from-[#012780] to-transparent"
+      ></div>
+
+      <div
+        class="relative z-10 flex w-max gap-4 px-4 pb-1
+               animate-marquee-left"
+      >
         <ng-container *ngFor="let logo of logoMarquee">
-          <div class="logo-chip" role="img" [attr.aria-label]="logo.name">
-            <div class="logo-image-wrapper">
+          <div
+            class="inline-flex min-w-[9.5rem] items-center justify-center
+                   rounded-2xl bg-white/5 px-5 py-3
+                   text-sm font-semibold tracking-wide text-slate-50/90
+                   ring-1 ring-white/10 shadow-[0_10px_30px_rgba(15,23,42,0.4)]
+                   transition duration-300 ease-out
+                   hover:-translate-y-[2px] hover:bg-white/10
+                   hover:ring-white/40 hover:shadow-[0_18px_45px_rgba(15,23,42,0.7)]"
+            role="img"
+            [attr.aria-label]="logo.name"
+          >
+            <div class="flex h-10 items-center justify-center">
               <img
-                class="logo-image"
+                class="h-8 w-auto object-contain opacity-90
+                       drop-shadow-[0_6px_18px_rgba(0,0,0,0.35)]"
                 loading="lazy"
                 [src]="logo.src"
                 [alt]="logo.name + ' logo'"
