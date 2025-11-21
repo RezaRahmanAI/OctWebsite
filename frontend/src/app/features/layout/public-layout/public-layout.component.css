@@ -22,20 +22,36 @@
 
 .public-layout__shape {
   @apply absolute rounded-full blur-3xl opacity-70;
+  animation: float 16s ease-in-out infinite alternate;
 }
 
 .public-layout__shape--one {
   @apply left-6 top-0 h-[26rem] w-[26rem] bg-primary/25;
+  animation-duration: 18s;
 }
 
 .public-layout__shape--two {
   @apply right-[-3rem] top-24 h-[22rem] w-[22rem] bg-secondary/25;
+  animation-duration: 20s;
 }
 
 .public-layout__shape--three {
   @apply left-1/2 bottom-[-6rem] h-[30rem] w-[30rem] -translate-x-1/2 bg-primary/15;
+  animation-duration: 22s;
 }
 
 main {
   @apply relative;
+}
+
+@keyframes float {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(10px, -12px, 0) scale(1.03);
+  }
+  100% {
+    transform: translate3d(-8px, 10px, 0) scale(0.98);
+  }
 }

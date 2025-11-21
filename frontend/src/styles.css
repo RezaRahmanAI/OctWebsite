@@ -14,6 +14,11 @@ body {
   min-height: 100%;
 }
 
+html,
+body {
+  scroll-behavior: auto;
+}
+
 body::before {
   content: '';
   position: fixed;
@@ -56,6 +61,10 @@ a:hover {
   @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
 }
 
+.container-responsive {
+  @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+}
+
 .gradient-border {
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2));
   padding: 1px;
@@ -96,6 +105,58 @@ a:hover {
   }
   100% {
     transform: translateX(0);
+  }
+}
+
+@keyframes rise-fade {
+  0% {
+    opacity: 0;
+    transform: translateY(22px) scale(0.98);
+    filter: blur(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes soft-glow {
+  0% {
+    box-shadow: 0 25px 60px -40px rgba(15, 23, 42, 0.25), 0 0 0 0 rgba(16, 185, 129, 0.15);
+  }
+  100% {
+    box-shadow: 0 25px 80px -38px rgba(59, 130, 246, 0.35), 0 0 0 20px rgba(16, 185, 129, 0);
+  }
+}
+
+@layer components {
+  main > * {
+    animation: rise-fade 0.8s ease forwards;
+  }
+
+  section {
+    --section-delay: 0.05s;
+    animation: rise-fade 0.9s ease forwards;
+    animation-delay: var(--section-delay);
+    transform-origin: center;
+  }
+
+  .animated-card {
+    animation: rise-fade 0.95s ease forwards;
+    animation-delay: var(--card-delay, 0.08s);
+  }
+
+  .animated-accent {
+    animation: soft-glow 2.6s ease-in-out infinite alternate;
+  }
+
+  .card-surface {
+    @apply rounded-3xl border border-white/60 bg-white/90 backdrop-blur shadow-[0_25px_60px_-40px_rgba(15,23,42,0.25)];
+  }
+
+  .tag-chip {
+    @apply rounded-full bg-primary/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary;
   }
 }
 
