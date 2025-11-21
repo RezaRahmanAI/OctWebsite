@@ -1,4 +1,7 @@
-<div [ngClass]="align === 'center' ? 'text-center mx-auto max-w-3xl' : 'mx-auto max-w-full'">
+<div
+  [ngClass]="align === 'center' ? 'text-center mx-auto max-w-3xl' : 'mx-auto max-w-full'"
+  class="animated-card"
+>
   <!-- Centered layout -->
   <ng-container *ngIf="align === 'center'; else splitLayout">
     <div *ngIf="eyebrow" class="inline-flex items-center gap-2 rounded-full bg-accent/10 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-accent">
