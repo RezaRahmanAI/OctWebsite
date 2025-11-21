@@ -14,7 +14,6 @@ import { HomeInsightsComponent } from './sections/insights/home-insights.compone
 import { HomeClosingCtasComponent } from './sections/closing-ctas/home-closing-ctas.component';
 import { environment } from '../../../environments/environment';
 import { HomeCollaborationComponent } from './sections/collaboration/home-collaboration.component';
-import { HomeTrustedByComponent } from './sections/trusted-by/home-trusted-by.component';
 
 @Component({
   selector: 'app-home',
@@ -30,8 +29,7 @@ import { HomeTrustedByComponent } from './sections/trusted-by/home-trusted-by.co
     HomeTestimonialsComponent,
     HomeInsightsComponent,
     HomeClosingCtasComponent,
-    HomeCollaborationComponent,
-    HomeTrustedByComponent
+    HomeCollaborationComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',

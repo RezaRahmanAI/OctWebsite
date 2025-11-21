@@ -1,15 +1,38 @@
-<section class="hero-section">
+<section
+  class="relative min-h-screen w-full overflow-hidden"
+>
+  <!-- Background video -->
   <video
     #heroVideo
-    class="hero-video"
+    class="absolute inset-0 h-full w-full object-cover"
     autoplay
     loop
     playsinline
     [muted]="true"
     preload="auto"
-    
   >
     <source [src]="'/video/bg.mp4'" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
+
+  <!-- Overlay on top of video -->
+  <div
+    class="absolute inset-0 bg-slate-900/70
+           mix-blend-multiply"
+  ></div>
+
+  <!-- Your hero content -->
+  <div class="relative z-10 flex min-h-screen items-center justify-center">
+    <div class="px-6 text-center text-slate-50">
+      <p class="text-sm uppercase tracking-[0.25em] text-sky-300/80">
+        Trusted by 10,000+ teams
+      </p>
+      <h1 class="mt-4 text-3xl font-semibold sm:text-5xl">
+        Build, ship & scale with confidence
+      </h1>
+      <p class="mt-4 text-sm text-slate-200/80 sm:text-base">
+        Modern engineering workflows, from prototype to production.
+      </p>
+    </div>
+  </div>
 </section>
