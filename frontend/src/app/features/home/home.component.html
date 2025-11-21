@@ -1,10 +1,13 @@
-<app-home-hero [videoSrc]="heroVideoSrc()" [videoPoster]="heroVideoPoster()" />
+<app-home-hero
+  [data]="heroData()"
+  [videoSrc]="heroVideoSrc()"
+  [videoPoster]="heroVideoPoster()"
+/>
 <app-home-trust [data]="home().trust"></app-home-trust>
 <app-home-methodology [data]="home().methodology" />
 <app-home-collaboration [data]="home().collaboration" />
 <app-home-services [data]="home().services" />
 <app-home-academy [data]="home().academy" />
-<app-tech-stack />
 <app-home-testimonials
   [header]="home().testimonials.header"
   [testimonials]="home().testimonials.items"
