@@ -1,38 +1,97 @@
 <section
-  class="relative min-h-screen w-full overflow-hidden"
+  #heroSection
+  class="hero-shell"
 >
-  <!-- Background video -->
   <video
     #heroVideo
-    class="absolute inset-0 h-full w-full object-cover"
+    class="hero-video"
     autoplay
     loop
     playsinline
     [muted]="true"
     preload="auto"
   >
-    <source [src]="'/video/bg.mp4'" type="video/mp4" />
+    <source [src]="hero.video.src || videoSrc" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
 
-  <!-- Overlay on top of video -->
-  <div
-    class="absolute inset-0 bg-slate-900/70
-           mix-blend-multiply"
-  ></div>
+  <div #heroOverlay class="hero-overlay"></div>
 
-  <!-- Your hero content -->
-  <div class="relative z-10 flex min-h-screen items-center justify-center">
-    <div class="px-6 text-center text-slate-50">
-      <p class="text-sm uppercase tracking-[0.25em] text-sky-300/80">
-        Trusted by 10,000+ teams
-      </p>
-      <h1 class="mt-4 text-3xl font-semibold sm:text-5xl">
-        Build, ship & scale with confidence
-      </h1>
-      <p class="mt-4 text-sm text-slate-200/80 sm:text-base">
-        Modern engineering workflows, from prototype to production.
-      </p>
+  <div class="hero-content">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="hero-badge">{{ hero.badge }}</span>
+        <h1 class="hero-title">
+          <span *ngFor="let word of displayTitleWords; let i = index" #titleWord>
+            {{ word }}<ng-container *ngIf="i < displayTitleWords.length - 1"> </ng-container>
+          </span>
+        </h1>
+        <p #heroDescription class="hero-subtitle">
+          {{ hero.description }}
+        </p>
+
+        <div class="hero-ctas">
+          <a
+            *ngIf="hero.primaryCta as primary"
+            #ctaButton
+            [routerLink]="primary.routerLink"
+            class="btn btn-primary"
+          >
+            {{ primary.label }}
+          </a>
+          <a
+            *ngIf="hero.secondaryCta as secondary"
+            #ctaButton
+            [routerLink]="secondary.routerLink"
+            class="btn btn-secondary"
+          >
+            {{ secondary.label }}
+          </a>
+        </div>
+
+        <ul class="hero-bullets">
+          <li *ngFor="let highlight of hero.highlightList" #highlightItem>
+            <span class="dot"></span>
+            <span>{{ highlight }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <div #mediaCard class="hero-media">
+        <div class="media-surface">
+          <div class="media-top">
+            <div>
+              <p class="media-eyebrow">{{ hero.featurePanel.eyebrow }}</p>
+              <h3 class="media-title">{{ hero.featurePanel.title }}</h3>
+              <p class="media-copy">{{ hero.featurePanel.description }}</p>
+            </div>
+            <img
+              #mediaImage
+              class="media-image"
+              [src]="hero.video.poster || videoPoster"
+              [alt]="hero.highlightCard.title"
+              loading="lazy"
+            />
+          </div>
+          <div class="media-meta">
+            <div class="metric" *ngFor="let metric of hero.featurePanel.metrics">
+              <span class="metric-label">{{ metric.label }}</span>
+              <span class="metric-value">{{ metric.value }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="floating-grid">
+          <div class="floating-card" #floatingCard>
+            <p class="floating-label">{{ hero.highlightCard.title }}</p>
+            <p class="floating-text">{{ hero.highlightCard.description }}</p>
+          </div>
+          <div class="floating-card accent" #floatingCard>
+            <p class="floating-label">{{ hero.featurePanel.partner.label }}</p>
+            <p class="floating-text">{{ hero.featurePanel.partner.description }}</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
