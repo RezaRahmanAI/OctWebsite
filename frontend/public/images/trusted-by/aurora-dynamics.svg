@@ -1,0 +1,15 @@
+<svg width="180" height="56" viewBox="0 0 180 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="auroraGradient" x1="10" y1="6" x2="170" y2="50" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7C3AED" />
+      <stop offset="1" stop-color="#0EA5E9" />
+    </linearGradient>
+  </defs>
+  <rect x="0.75" y="0.75" width="178.5" height="54.5" rx="14.25" fill="#0B1221" stroke="url(#auroraGradient)" stroke-width="1.5" />
+  <path d="M30 38c9-6.5 20-6.5 29 0" stroke="#22D3EE" stroke-width="3" stroke-linecap="round" />
+  <path d="M34 29.5c7-5.5 15-5.5 22 0" stroke="#A855F7" stroke-width="3" stroke-linecap="round" />
+  <path d="M38 22c4-3.5 9-3.5 13 0" stroke="#F472B6" stroke-width="3" stroke-linecap="round" />
+  <text x="78" y="33" fill="#E2E8F0" font-family="'Inter','Segoe UI',sans-serif" font-size="16" font-weight="700">Aurora</text>
+  <text x="78" y="46" fill="#A5B4FC" font-family="'Inter','Segoe UI',sans-serif" font-size="12" font-weight="600">Dynamics</text>
+  <circle cx="48" cy="28" r="15" fill="url(#auroraGradient)" opacity="0.12" />
+</svg>
