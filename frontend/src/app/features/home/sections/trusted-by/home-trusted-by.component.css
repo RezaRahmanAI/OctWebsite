@@ -1,0 +1,173 @@
+:host {
+  display: block;
+}
+
+.trusted-section {
+  position: relative;
+  margin-top: -4rem;
+}
+
+.trusted-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.92));
+  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(6px);
+  padding: 28px 28px 8px;
+}
+
+.trusted-card::before,
+.trusted-card::after {
+  content: '';
+  position: absolute;
+  inset: -40% auto auto -10%;
+  width: 320px;
+  height: 320px;
+  border-radius: 999px;
+  filter: blur(60px);
+  opacity: 0.25;
+  z-index: 0;
+}
+
+.trusted-card::before {
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.4), transparent 60%);
+}
+
+.trusted-card::after {
+  inset: auto -18% -45% auto;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.35), transparent 60%);
+}
+
+.trusted-header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  color: #e2e8f0;
+}
+
+.trusted-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.1);
+  color: #34d399;
+  font-size: 12px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.trusted-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0.1), rgba(255, 255, 255, 0));
+}
+
+.trusted-tagline {
+  font-size: 18px;
+  font-weight: 600;
+  color: #f8fafc;
+  margin: 0;
+}
+
+.marquee {
+  position: relative;
+  overflow: hidden;
+  margin: 0 -8px;
+  padding: 10px 4px 26px;
+}
+
+.marquee::before,
+.marquee::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.marquee::before {
+  left: 0;
+  background: linear-gradient(90deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0));
+}
+
+.marquee::after {
+  right: 0;
+  background: linear-gradient(270deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0));
+}
+
+.marquee-track {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 14px;
+  width: max-content;
+  padding: 0 12px 6px;
+  animation: marquee-left linear infinite;
+  will-change: transform;
+}
+
+.logo-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.logo-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.16), rgba(59, 130, 246, 0.2));
+  color: #a5b4fc;
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.logo-name {
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .trusted-section {
+    margin-top: -2rem;
+  }
+
+  .trusted-card {
+    padding: 22px 20px 6px;
+  }
+
+  .trusted-badge {
+    letter-spacing: 0.18em;
+    font-size: 11px;
+  }
+
+  .trusted-tagline {
+    font-size: 16px;
+  }
+
+  .marquee::before,
+  .marquee::after {
+    width: 72px;
+  }
+}
