@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-interface TechLogo {
+interface TrustedLogo {
   name: string;
-  color: string;
+  src: string;
+  width?: number;
 }
 
 @Component({
@@ -15,17 +16,19 @@ interface TechLogo {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeTrustedByComponent {
-  row1: TechLogo[] = [
-    { name: 'Go', color: 'text-cyan-600' },
-    { name: 'Laravel', color: 'text-red-500' },
-    { name: 'React', color: 'text-blue-500' },
-    { name: 'PHP', color: 'text-purple-600' },
-    { name: 'Spring Boot', color: 'text-green-500' },
-    { name: 'Java', color: 'text-orange-500' },
-    { name: 'Python', color: 'text-yellow-500' },
-    { name: 'Vue.js', color: 'text-green-500' },
+  @Input({ required: false }) tagline?: string;
+  @Input({ required: false }) companies: string[] | null = null;
+
+  logos: TrustedLogo[] = [
+    { name: 'Aurora Dynamics', src: '/images/trusted-by/aurora-dynamics.svg', width: 154 },
+    { name: 'Crescent Labs', src: '/images/trusted-by/crescent-labs.svg', width: 150 },
+    { name: 'Northwind Energy', src: '/images/trusted-by/northwind-energy.svg', width: 160 },
+    { name: 'Summit Partners', src: '/images/trusted-by/summit-partners.svg', width: 152 },
+    { name: 'Lumen Health', src: '/images/trusted-by/lumen-health.svg', width: 148 },
+    { name: 'Silverline Finance', src: '/images/trusted-by/silverline-finance.svg', width: 164 },
+    { name: 'Terra Logistics', src: '/images/trusted-by/terra-logistics.svg', width: 154 },
+    { name: 'Horizon Networks', src: '/images/trusted-by/horizon-networks.svg', width: 160 },
   ];
 
-  // Duplicate for seamless loop
-  techRow1 = [...this.row1, ...this.row1];
+  logoMarquee = [...this.logos, ...this.logos];
 }
