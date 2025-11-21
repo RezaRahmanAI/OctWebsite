@@ -67,6 +67,8 @@ export class NavbarComponent {
   // Static links for desktop navigation (excluding dropdowns)
   private _links = signal<NavLink[]>([
     { label: 'Home', path: '/', exact: true },
+    { label: 'About', path: '/about', exact: true },
+    { label: 'Academy', path: '/academy', exact: true },
     { label: 'Blog', path: '/blog', exact: false },
     { label: 'Contact', path: '/contact', exact: true },
   ]);
@@ -166,47 +168,31 @@ export class NavbarComponent {
   }
 
   // Generic handler for desktop menu toggling to ensure only one is open
-  toggleDropdown(menu: 'aboutUs' | 'services' | 'product' | 'academy'): void {
-    const currentAbout = this.aboutUsMenuOpen();
+  toggleDropdown(menu: 'services' | 'product'): void {
     const currentService = this.servicesMenuOpen();
     const currentProduct = this.productMenuOpen();
-    const currentAcademy = this.academyMenuOpen();
 
     this.closeAllDropdowns(); // Close all others first
 
     switch (menu) {
-      case 'aboutUs':
-        this._aboutUsMenuOpen.set(!currentAbout);
-        break;
       case 'services':
         this._servicesMenuOpen.set(!currentService);
         break;
       case 'product':
         this._productMenuOpen.set(!currentProduct);
         break;
-      case 'academy':
-        this._academyMenuOpen.set(!currentAcademy);
-        break;
     }
   }
 
-
-  setDropdownOpen(menu: 'aboutUs' | 'services' | 'product' | 'academy', open: boolean): void {
+  setDropdownOpen(menu: 'services' | 'product', open: boolean): void {
     if (!open) {
-
       setTimeout(() => {
         switch (menu) {
-          case 'aboutUs':
-            this._aboutUsMenuOpen.set(false);
-            break;
           case 'services':
             this._servicesMenuOpen.set(false);
             break;
           case 'product':
             this._productMenuOpen.set(false);
-            break;
-          case 'academy':
-            this._academyMenuOpen.set(false);
             break;
         }
       }, 50); // Small delay
@@ -214,17 +200,11 @@ export class NavbarComponent {
       // Open on hover, close all others
       this.closeAllDropdowns();
       switch (menu) {
-        case 'aboutUs':
-          this._aboutUsMenuOpen.set(true);
-          break;
         case 'services':
           this._servicesMenuOpen.set(true);
           break;
         case 'product':
           this._productMenuOpen.set(true);
-          break;
-        case 'academy':
-          this._academyMenuOpen.set(true);
           break;
       }
     }

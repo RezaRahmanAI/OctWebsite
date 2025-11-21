@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { PricingComponent } from '../../shared/components/pricing/pricing.component';
@@ -24,6 +24,24 @@ interface Track {
   styleUrl: './academy.component.css',
 })
 export class AcademyComponent {
+  @ViewChild('academyVideo', { static: false })
+  academyVideo?: ElementRef<HTMLVideoElement>;
+
+  ngAfterViewInit(): void {
+    const video = this.academyVideo?.nativeElement;
+    if (!video) return;
+
+    video.muted = true; // ensure muted for autoplay policies
+
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(err => {
+        // Autoplay might still be blocked until user interaction
+        console.warn('Autoplay prevented by browser:', err);
+      });
+    }}
+
+
   readonly kidsComputingFeatures: AcademyFeature[] = [
     {
       title: 'STEM.org Accredited',
@@ -91,5 +109,4 @@ export class AcademyComponent {
       icon: '📈',
     },
   ];
-
 }

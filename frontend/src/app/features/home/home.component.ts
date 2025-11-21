@@ -14,6 +14,7 @@ import { HomeInsightsComponent } from './sections/insights/home-insights.compone
 import { HomeClosingCtasComponent } from './sections/closing-ctas/home-closing-ctas.component';
 import { environment } from '../../../environments/environment';
 import { HomeCollaborationComponent } from './sections/collaboration/home-collaboration.component';
+import { ServicesComponent } from "../services/services.component";
 
 @Component({
   selector: 'app-home',
@@ -22,15 +23,15 @@ import { HomeCollaborationComponent } from './sections/collaboration/home-collab
     CommonModule,
     TechStackComponent,
     HomeHeroComponent,
-    HomeTrustComponent,
     HomeServicesComponent,
     HomeMethodologyComponent,
     HomeAcademyComponent,
     HomeTestimonialsComponent,
     HomeInsightsComponent,
     HomeClosingCtasComponent,
-    HomeCollaborationComponent
-  ],
+    HomeCollaborationComponent,
+
+],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush

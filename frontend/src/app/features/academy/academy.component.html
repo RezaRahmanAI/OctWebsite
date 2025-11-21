@@ -1,35 +1,56 @@
 <section
   class="container-wide overflow-hidden py-16 space-y-16"
 >
-  <!-- Background shapes -->
-  <div class="pointer-events-none absolute inset-0 -z-10">
-    <span
-      class="absolute left-10 top-12 h-64 w-64 rounded-full bg-primary/30 opacity-70 blur-2xl"
-    ></span>
-    <span
-      class="absolute right-10 top-24 h-60 w-60 rounded-full bg-secondary/25 opacity-70 blur-2xl"
-    ></span>
-    <span
-      class="absolute bottom-0 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-primary/15 opacity-70 blur-2xl"
-    ></span>
-  </div>
 
   <!-- Header -->
-  <header class="container-wide section-padding ">
-    <p
-      class="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/70 px-4 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-primary"
-    >
-      Zero Programming Academy
-    </p>
-    <h1 class="text-3xl font-bold sm:text-4xl md:text-5xl">
-      Ignite imagination with code, creativity, and community.
-    </h1>
-    <p class="text-sm text-slate-600 md:text-base">
-      Our academy fuses vibrant visuals, interactive labs, and compassionate mentorship to
-      empower children, teens, and young professionals to thrive.
-    </p>
-    
-  </header>
+<header class="section-padding">
+  <div class="grid items-center gap-10 lg:grid-cols-2">
+    <!-- Left: text content -->
+    <div class="space-y-4">
+      <p
+        class="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/70 px-4 py-1
+               text-xs font-semibold uppercase tracking-[0.35em] text-primary"
+      >
+        Zero Programming Academy
+      </p>
+      <h1 class="text-3xl font-bold sm:text-4xl md:text-5xl">
+        Ignite imagination with code, creativity, and community.
+      </h1>
+      <p class="text-sm text-slate-600 md:text-base">
+        Our academy fuses vibrant visuals, interactive labs, and compassionate mentorship
+        to empower children, teens, and young professionals to thrive.
+      </p>
+    </div>
+
+    <!-- Right: video -->
+    <div class="relative">
+      <div
+        class="group relative overflow-hidden rounded-[2.5rem] border border-white/60
+               bg-slate-900/80 shadow-xl"
+      >
+        <div class="relative aspect-video">
+          <video
+            class="absolute inset-0 h-full w-full object-cover"
+            autoplay
+            loop
+            muted
+            playsinline
+          >
+            <source src="/video/academy.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <!-- subtle gradient + overlay for readability / vibe -->
+        <div
+          class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-primary/40 via-transparent to-secondary/40
+                 opacity-40 transition-opacity duration-300 group-hover:opacity-20"
+        ></div>
+      </div>
+    </div>
+  </div>
+</header>
+
 
   <!-- Kids Computing -->
   <section class="space-y-8" id="kids">
