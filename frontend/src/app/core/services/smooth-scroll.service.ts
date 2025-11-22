@@ -69,9 +69,8 @@ export class SmoothScrollService implements OnDestroy {
   private initializeLenis(): void {
     this.lenis = new Lenis({
       duration: 1.1,
-      easing: (t) => 1 - Math.pow(1 - t, 3),
+      easing: (t: number) => 1 - Math.pow(1 - t, 3),
       smoothWheel: true,
-      smoothTouch: false,
       gestureOrientation: 'vertical'
     });
 
