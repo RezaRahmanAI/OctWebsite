@@ -165,39 +165,41 @@ internal static class SeedData
     [
         new AcademyTrack(
             Guid.Parse("c8502826-f7c5-4b77-8584-60c9fb73ef2d"),
-            "Kids Computing",
-            "kids-computing",
-            "Age 8-12",
-            "16 weeks",
-            "৳8,500",
+            "Track 1 · Little Programmer",
+            "track-1-little-programmer",
+            "Ages 7-8",
+            "9 months",
+            "Free trial + monthly plan",
             [
-                new AcademyTrackLevel("Discover", new[] { "Scratch", "Micro:bit" }, new[] { "Fundamental logic skills", "Confidence with creative coding" }),
-                new AcademyTrackLevel("Build", new[] { "Thunkable", "TinkerCAD" }, new[] { "Prototype hardware projects", "Story-driven games" })
+                new AcademyTrackLevel("ScratchJr Foundations", new[] { "ScratchJr" }, new[] { "Sequences", "Animated stories" }),
+                new AcademyTrackLevel("Scratch Adventures", new[] { "Scratch" }, new[] { "Loops and variables", "Game design" }),
+                new AcademyTrackLevel("Wix Website", new[] { "Wix" }, new[] { "Website basics", "Forms and galleries" })
             ],
             true),
         new AcademyTrack(
             Guid.Parse("9c8141b2-6539-44b3-9c1f-d9bca6f1e77a"),
-            "Zero Programing",
-            "zero-programing",
-            "Age 13+",
-            "20 weeks",
-            "৳12,500",
+            "Track 2 · Young Builder",
+            "track-2-young-builder",
+            "Ages 9-12",
+            "9 months",
+            "Free trial + monthly plan",
             [
-                new AcademyTrackLevel("No-Code Foundations", new[] { "Notion", "Zapier", "Bubble" }, new[] { "Ship workflows visually", "Launch MVPs without code" }),
-                new AcademyTrackLevel("Automation Studio", new[] { "Make.com", "Airtable" }, new[] { "Automate business ops", "Build client-ready templates" }),
-                new AcademyTrackLevel("Launchpad", new[] { "Webflow", "Figma" }, new[] { "Design to deploy landing pages", "Portfolio-ready case studies" })
+                new AcademyTrackLevel("Creative Coding Lab", new[] { "Scratch", "micro:bit" }, new[] { "Sensor-driven games", "Event orchestration" }),
+                new AcademyTrackLevel("Python Playgrounds", new[] { "Python", "Turtle", "Pygame Zero" }, new[] { "Functions", "Debugging", "Math visuals" }),
+                new AcademyTrackLevel("Interactive Web Stories", new[] { "HTML", "CSS", "Canva" }, new[] { "Responsive layouts", "Accessible forms" })
             ],
             true),
         new AcademyTrack(
             Guid.Parse("7e8151fe-d683-4580-bf24-0d8257393d3b"),
-            "Freelanching",
-            "freelanching",
-            null,
-            "12 weeks",
-            "৳9,500",
+            "Track 3 · Future Founder",
+            "track-3-future-founder",
+            "Ages 12-16",
+            "10 months",
+            "Free trial + mentorship",
             [
-                new AcademyTrackLevel("Profile Sprint", new[] { "Upwork", "Fiverr", "Behance" }, new[] { "Story-driven gig positioning", "Proposal frameworks that convert" }),
-                new AcademyTrackLevel("Delivery Excellence", new[] { "ClickUp", "Loom" }, new[] { "Client communication playbook", "Repeat business strategies" })
+                new AcademyTrackLevel("Frontend Foundations", new[] { "HTML", "CSS", "JavaScript", "Tailwind" }, new[] { "Responsive UI", "Reusable components" }),
+                new AcademyTrackLevel("Product Studio", new[] { "Figma", "Webflow", "Bubble" }, new[] { "UX prototyping", "CMS builds" }),
+                new AcademyTrackLevel("Freelance Launchpad", new[] { "GitHub", "Notion", "Upwork" }, new[] { "Portfolio storytelling", "Proposal frameworks" })
             ],
             true)
     ];

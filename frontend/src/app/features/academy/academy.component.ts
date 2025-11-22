@@ -14,6 +14,7 @@ interface Track {
   title: string;
   age: string;
   description: string;
+  slug: string;
 }
 
 @Component({
@@ -76,12 +77,14 @@ export class AcademyComponent {
       title: 'Track-1',
       age: 'For ages 7-8',
       description: 'Kickstart logical thinking and playful coding through visual storytelling.',
+      slug: 'track-1-little-programmer',
     },
     {
       id: 'track-2',
       title: 'Track-2',
       age: 'For ages 9-10',
       description: 'Level up with interactive projects, block-based programming, and robotics.',
+      slug: 'track-2-young-builder',
     },
     {
       id: 'track-3',
@@ -89,6 +92,7 @@ export class AcademyComponent {
       age: 'For ages 11-16',
       description:
         'Transition into real code, build apps, and explore design-led entrepreneurship.',
+      slug: 'track-3-future-founder',
     },
   ];
 

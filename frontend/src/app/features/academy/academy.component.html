@@ -92,12 +92,12 @@
           >
             Register
           </a>
-          <button
-            type="button"
-            class="text-xs font-semibold uppercase tracking-[0.3em]"
+          <a
+            [routerLink]="['/academy', track.slug]"
+            class="text-xs font-semibold uppercase tracking-[0.3em] text-primary transition hover:text-primary/80"
           >
-            Access Course
-          </button>
+            View Details →
+          </a>
         </div>
       </article>
     </div>
