@@ -3,7 +3,7 @@ import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs/operators';
-import { AcademyService } from '../../core/services';
+import { trackDetails } from './academy-track.data';
 
 @Component({
   selector: 'app-academy-detail',
@@ -14,8 +14,10 @@ import { AcademyService } from '../../core/services';
 })
 export class AcademyDetailComponent {
   private readonly route = inject(ActivatedRoute);
-  private readonly academyService = inject(AcademyService);
 
   private readonly slug = toSignal(this.route.paramMap.pipe(map(params => params.get('slug'))));
-  readonly track = computed(() => (this.slug() ? this.academyService.getBySlug(this.slug()!) : undefined));
+  readonly track = computed(() => {
+    const slug = this.slug();
+    return slug ? trackDetails.find(track => track.slug === slug) : undefined;
+  });
 }
