@@ -18,6 +18,7 @@ interface Product {
   imports: [NgFor, NgClass, SectionHeaderComponent],
 })
 export class ProductShowcaseComponent {
+  public sectionName = 'Product Showcase';
   public sectionTitle = 'Our Custom Software Development Products';
   public sectionSubtitle =
     'We build robust, scalable, and efficient software products tailored to your business.';
