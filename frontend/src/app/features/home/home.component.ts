@@ -15,6 +15,7 @@ import { HomeClosingCtasComponent } from './sections/closing-ctas/home-closing-c
 import { environment } from '../../../environments/environment';
 import { HomeCollaborationComponent } from './sections/collaboration/home-collaboration.component';
 import { ProductShowcaseComponent } from "./sections/product-showcase/product-showcase";
+import { BlogService } from '../../core/services/blog.service';
 
 @Component({
   selector: 'app-home',
@@ -42,6 +43,7 @@ export class HomeComponent {
   private readonly content = inject(ContentService);
   private readonly settings = inject(SettingsService);
   private readonly document = inject(DOCUMENT, { optional: true });
+  private readonly blogService = inject(BlogService);
 
   protected readonly home = this.content.homeContent;
   private readonly siteSettings = this.settings.settings;
@@ -76,6 +78,12 @@ export class HomeComponent {
   protected readonly heroVideoPoster = computed(() =>
     this.normalizeMediaUrl(this.heroData().video.poster)
   );
+
+  protected readonly featuredPosts = computed(() => {
+    return [...this.blogService.posts()]
+      .sort((a, b) => (new Date(b.publishedAt ?? '').getTime() || 0) - (new Date(a.publishedAt ?? '').getTime() || 0))
+      .slice(0, 3);
+  });
 
   constructor() {
     this.seo.update({
