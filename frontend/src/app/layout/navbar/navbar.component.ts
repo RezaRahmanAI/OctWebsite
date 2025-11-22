@@ -70,7 +70,6 @@ export class NavbarComponent {
   private readonly navigation = this.contentService.navigationContent;
   private readonly defaultBrand: NavigationContent['brand'] = {
     name: 'ObjectCanvas Technology',
-    tagline: '× ZeroProgrammingBD',
     logo: '/images/logo/oct_logo.png',
     link: '/',
   };
