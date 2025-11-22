@@ -101,18 +101,25 @@ export class HomeComponent {
     }
 
     const normalized = url.startsWith('/') ? url.replace(/^\/+/, '') : url;
+    const strippedPublic = normalized.startsWith('public/')
+      ? normalized.replace(/^public\//, '')
+      : normalized;
 
-    if (normalized.startsWith('video/') || normalized.startsWith('images/') || normalized.startsWith('assets/')) {
+    if (
+      strippedPublic.startsWith('video/') ||
+      strippedPublic.startsWith('images/') ||
+      strippedPublic.startsWith('assets/')
+    ) {
       const baseHref = this.document?.baseURI ?? (typeof location !== 'undefined' ? location.href : '/');
       try {
-        const resolved = new URL(normalized, baseHref);
+        const resolved = new URL(strippedPublic, baseHref);
         return `${resolved.pathname}${resolved.search}${resolved.hash}`;
       } catch {
-        return `/${normalized}`;
+        return `/${strippedPublic}`;
       }
     }
 
     const apiBase = environment.apiUrl.replace(/\/+$/, '');
-    return `${apiBase}/${normalized.replace(/\/+$/, '')}`;
+    return `${apiBase}/${strippedPublic.replace(/\/+$/, '')}`;
   }
 }

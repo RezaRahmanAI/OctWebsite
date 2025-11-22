@@ -21,12 +21,16 @@ export class AssetUrlPipe implements PipeTransform {
 
     const baseHref = this.document?.baseURI ?? (typeof location !== 'undefined' ? location.href : '/');
     const normalizedPath = value.replace(/^\/+/, '');
+    const strippedPublicPath = normalizedPath.startsWith('public/')
+      ? normalizedPath.replace(/^public\//, '')
+      : normalizedPath;
 
     try {
-      const url = new URL(normalizedPath, baseHref);
+      const url = new URL(strippedPublicPath, baseHref);
       return `${url.pathname}${url.search}${url.hash}`;
     } catch {
-      return value.startsWith('/') ? value : `/${value}`;
+      const fallbackPath = strippedPublicPath || normalizedPath;
+      return fallbackPath.startsWith('/') ? fallbackPath : `/${fallbackPath}`;
     }
   }
 }
