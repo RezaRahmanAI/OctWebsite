@@ -1,6 +1,6 @@
 .hero-section {
   position: relative;
-  min-height: 100vh; /* or 100vh for full screen */
+  min-height: 100vh;
   width: 100%;
   overflow: hidden;
 }
@@ -10,5 +10,15 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* fill area like a background image */
+  object-fit: cover;
+}
+
+.glow-ring {
+  box-shadow: 0 25px 80px -35px rgba(56, 189, 248, 0.5);
+}
+
+@media (max-width: 768px) {
+  :host ::ng-deep .hero-badge {
+    font-size: 0.7rem;
+  }
 }
