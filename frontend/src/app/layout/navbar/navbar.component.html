@@ -284,7 +284,7 @@
           <div>
             <p class="text-xs font-semibold text-slate-900">Technologies</p>
             <div class="mt-1 flex flex-wrap gap-1 text-[11px] text-slate-600">
-              <span *ngFor="let tech of technologies" class="rounded-full bg-white px-2 py-0.5">
+              <span *ngFor="let tech of technologies()" class="rounded-full bg-white px-2 py-0.5">
                 {{ tech }}
               </span>
             </div>
