@@ -37,12 +37,15 @@ export class NavbarComponent {
   private destroyRef = inject(DestroyRef);
   private readonly smoothScroll = inject(SmoothScrollService);
 
+  // Scroll thresholds for navbar background
+  private readonly SCROLL_ACTIVATE = 120; // when to turn bg/blur on
+  private readonly SCROLL_RESET = 40; // when to turn bg/blur off
+
   // Mobile menu state (for hamburger menu)
   private _menuOpen = signal(false);
   menuOpen = computed(() => this._menuOpen());
 
   // Dropdown states for desktop navigation
-  // Note: 'Services' keeps its old mega-menu logic from the original component
   private _servicesMenuOpen = signal(false);
   servicesMenuOpen = computed(() => this._servicesMenuOpen());
 
@@ -55,11 +58,11 @@ export class NavbarComponent {
   private _academyMenuOpen = signal(false);
   academyMenuOpen = computed(() => this._academyMenuOpen());
 
-  // Scroll style state (kept from old component)
+  // Scroll style state
   private _scrolled = signal(false);
   scrolled = computed(() => this._scrolled());
 
-  // Navbar hide/show on scroll (kept from old component)
+  // Navbar hide/show on scroll
   private _hidden = signal(false);
   hidden = computed(() => this._hidden());
   private lastScrollY = 0;
@@ -75,7 +78,7 @@ export class NavbarComponent {
   ]);
   navLinks = computed(() => this._links());
 
-  // --- Dropdown Content from React Component ---
+  // --- Dropdown Content ---
 
   readonly aboutUsItems: DropdownItem[] = [
     { title: 'Company Overview', href: '/about/overview' },
@@ -102,6 +105,7 @@ export class NavbarComponent {
     'Golang',
     'Flutter',
   ];
+
   readonly hiringLinks = [
     { label: 'Hire Developers' },
     { label: 'JavaScript Developers' },
@@ -165,7 +169,6 @@ export class NavbarComponent {
   // Generic handler for desktop menu toggling to ensure only one is open
   toggleDropdown(menu: 'services'): void {
     const currentService = this.servicesMenuOpen();
-    const currentProduct = this.productMenuOpen();
 
     this.closeAllDropdowns(); // Close all others first
 
@@ -196,16 +199,26 @@ export class NavbarComponent {
     }
   }
 
-  // Scroll listener: blur + hide/show navbar (kept from old component)
+  // Scroll listener: blur + hide/show navbar
   @HostListener('window:scroll')
   onScroll(): void {
     const currentY = window.scrollY || 0;
 
-    // blur / shadow state
-    this._scrolled.set(currentY > 8);
+    // --- Background / blur state with hysteresis ---
+    const wasScrolled = this._scrolled();
 
-    const isScrollingDown = currentY > this.lastScrollY + 4;
-    const isScrollingUp = currentY < this.lastScrollY - 4;
+    if (currentY > this.SCROLL_ACTIVATE && !wasScrolled) {
+      // Only activate once we've really scrolled down
+      this._scrolled.set(true);
+    } else if (currentY < this.SCROLL_RESET && wasScrolled) {
+      // Only remove bg when we’re clearly near the top again
+      this._scrolled.set(false);
+    }
+    // Between SCROLL_RESET–SCROLL_ACTIVATE, we keep previous state (no flicker)
+
+    // --- Hide / show navbar ---
+    const isScrollingDown = currentY > this.lastScrollY + 10;
+    const isScrollingUp = currentY < this.lastScrollY - 10;
     const nearTop = currentY < 16;
 
     if (nearTop) {
