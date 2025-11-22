@@ -9,6 +9,9 @@ module.exports = {
         background: '#F3FBFE', // soft blue-tinted background to match logo
         surface: '#FFFFFF',
 
+        // Title / heading color
+        title: '#00156a',
+
         // Complementary CTA color (kept from your original palette)
         secondary: {
           DEFAULT: '#F97316',
