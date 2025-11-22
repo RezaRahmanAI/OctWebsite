@@ -1,10 +1,18 @@
 <section class="section-padding bg-white" id="services" appScrollReveal>
   <div class="container-wide">
-    <app-section-header
-      [eyebrow]="data.header.eyebrow"
-      [title]="data.header.title"
-      [subtitle]="data.header.subtitle"
-    ></app-section-header>
+    <div class="section-header-row">
+      <app-section-header
+        [eyebrow]="data.header.eyebrow"
+        [title]="data.header.title"
+        [subtitle]="data.header.subtitle"
+      ></app-section-header>
+      <a routerLink="/services" class="view-all">
+        View all services
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
     <div class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
       <article
         *ngFor="let service of data.items; let i = index"

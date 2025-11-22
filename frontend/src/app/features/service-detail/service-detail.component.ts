@@ -18,4 +18,9 @@ export class ServiceDetailComponent {
 
   private readonly slug = toSignal(this.route.paramMap.pipe(map(params => params.get('slug'))));
   readonly service = computed(() => (this.slug() ? this.servicesService.getBySlug(this.slug()!) : undefined));
+  readonly relatedServices = computed(() =>
+    (this.servicesService.all() || [])
+      .filter(item => item.slug !== this.service()?.slug)
+      .slice(0, 3),
+  );
 }

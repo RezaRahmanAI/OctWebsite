@@ -1,32 +1,100 @@
-<section class="section-padding">
-  <div class="container-responsive" *ngIf="service() as service; else notFound">
-    <div class="space-y-6">
-      <a routerLink="/services" class="text-sm font-semibold text-primary-600">← Back to services</a>
-      <h1 class="text-4xl font-bold text-slate-900">{{ service.title }}</h1>
-      <p class="text-lg text-slate-600">{{ service.summary }}</p>
-      <div class="grid gap-4 md:grid-cols-2">
-        <div class="space-y-3">
-          <h2 class="text-xl font-semibold text-slate-800">Why teams choose this</h2>
-          <ul class="list-disc space-y-2 pl-5 text-sm text-slate-600">
-            <li *ngFor="let feature of service.features">{{ feature }}</li>
+<section class="section-padding service-detail" *ngIf="service() as service; else notFound">
+  <div class="container-wide">
+    <div class="detail-hero">
+      <div class="detail-breadcrumb">
+        <a routerLink="/services">Services</a>
+        <span>/</span>
+        <span>{{ service.title }}</span>
+      </div>
+      <div class="detail-header">
+        <div>
+          <p class="detail-eyebrow">Built for measurable outcomes</p>
+          <h1>{{ service.title }}</h1>
+          <p class="detail-summary">{{ service.summary }}</p>
+          <div class="detail-actions">
+            <a routerLink="/contact" class="btn-primary">Plan this engagement</a>
+            <a routerLink="/services" class="btn-ghost">Back to all services</a>
+          </div>
+        </div>
+        <div class="detail-metrics">
+          <div class="metric-card">
+            <p class="metric-label">Engagement Style</p>
+            <p class="metric-value">Pods • Squads • Outsourcing</p>
+            <p class="metric-helper">We match staffing to the risk profile of your initiative.</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-label">Delivery Rhythm</p>
+            <p class="metric-value">Strategy → Build → Run</p>
+            <p class="metric-helper">Transparent sprints, demos, and KPI reviews.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-grid">
+      <div class="detail-card">
+        <h2>What we deliver</h2>
+        <p class="detail-description">
+          Each engagement follows our house playbooks for research, design, engineering, security, and rollout. We align to your
+          internal teams and bring the right mix of specialists and apprentices.
+        </p>
+        <ul class="detail-features">
+          <li *ngFor="let feature of service.features">
+            <span class="dot"></span>
+            <span>{{ feature }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="detail-card detail-card--accent">
+        <h2>Engagement snapshot</h2>
+        <ul class="snapshot">
+          <li>
+            <span>Alignment</span>
+            <p>Discovery, co-planning, and a shared backlog tailored to your governance.</p>
+          </li>
+          <li>
+            <span>Execution</span>
+            <p>Multi-disciplinary pods with quality gates, observability, and security baked in.</p>
+          </li>
+          <li>
+            <span>Outcomes</span>
+            <p>Measurable KPIs—uptime, conversions, adoption, or operational savings.</p>
+          </li>
+        </ul>
+        <a routerLink="/contact" class="btn-primary btn-primary--light">Book a discovery call</a>
+      </div>
+    </div>
+
+    <div class="related" *ngIf="relatedServices().length > 0">
+      <div class="related-header">
+        <h3>Related services</h3>
+        <a routerLink="/services" class="tile-link">See full catalog</a>
+      </div>
+      <div class="service-grid">
+        <article *ngFor="let related of relatedServices()" class="service-tile">
+          <div class="tile-header">
+            <div class="tile-icon" *ngIf="related.icon">{{ related.icon }}</div>
+            <div>
+              <h3>{{ related.title }}</h3>
+              <p>{{ related.summary }}</p>
+            </div>
+          </div>
+          <ul class="tile-features">
+            <li *ngFor="let feature of related.features | slice: 0: 2">
+              <span class="dot"></span>
+              <span>{{ feature }}</span>
+            </li>
           </ul>
-        </div>
-        <div class="card-surface p-5 text-sm text-slate-600">
-          <p>
-            Ready to plan a roadmap? Our delivery squad will co-design a sprint-based engagement aligned to your KPIs, then bring
-            in academy apprentices to support ongoing experimentation.
-          </p>
-          <a routerLink="/contact" class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary-600">
-            Talk to us
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-          </a>
-        </div>
+          <div class="tile-actions">
+            <a [routerLink]="['/services', related.slug]" class="tile-link">View details</a>
+          </div>
+        </article>
       </div>
     </div>
   </div>
 </section>
+
 <ng-template #notFound>
   <div class="section-padding">
     <div class="container-responsive text-center">
