@@ -1,38 +1,137 @@
 <section
-  class="relative min-h-screen w-full overflow-hidden"
+  #heroSection
+  class="hero-section relative overflow-hidden bg-slate-900 text-slate-50"
 >
-  <!-- Background video -->
+  <!-- Background media -->
   <video
     #heroVideo
-    class="absolute inset-0 h-full w-full object-cover"
+    class="absolute inset-0 h-full w-full object-cover opacity-70"
     autoplay
     loop
     playsinline
     [muted]="true"
     preload="auto"
   >
-    <source [src]="'/video/bg.mp4'" type="video/mp4" />
+    <source [src]="videoSrc || hero.video.src" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
 
-  <!-- Overlay on top of video -->
+  <!-- Overlay -->
   <div
-    class="absolute inset-0 bg-slate-900/70
-           mix-blend-multiply"
+    #heroOverlay
+    class="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-slate-900/70 to-sky-900/70"
   ></div>
 
-  <!-- Your hero content -->
-  <div class="relative z-10 flex min-h-screen items-center justify-center">
-    <div class="px-6 text-center text-slate-50">
-      <p class="text-sm uppercase tracking-[0.25em] text-sky-300/80">
-        Trusted by 10,000+ teams
-      </p>
-      <h1 class="mt-4 text-3xl font-semibold sm:text-5xl">
-        Build, ship & scale with confidence
-      </h1>
-      <p class="mt-4 text-sm text-slate-200/80 sm:text-base">
-        Modern engineering workflows, from prototype to production.
-      </p>
+  <!-- Decorative blur shapes -->
+  <div class="pointer-events-none absolute -left-16 top-10 h-64 w-64 rounded-full bg-sky-400/30 blur-3xl"></div>
+  <div class="pointer-events-none absolute bottom-10 right-0 h-72 w-72 rounded-full bg-emerald-400/20 blur-3xl"></div>
+
+  <div class="relative z-10">
+    <div class="container-wide grid min-h-[calc(100vh-4rem)] items-center gap-12 py-16 md:grid-cols-[1.25fr_1fr]">
+      <div class="space-y-6">
+        <div class="flex items-center gap-3">
+          <span class="hero-badge inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-sky-200 ring-1 ring-white/10">
+            <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+            {{ hero.badge }}
+          </span>
+          <span class="rounded-full border border-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-100">
+            {{ hero.featurePanel.eyebrow }}
+          </span>
+        </div>
+
+        <h1 class="text-3xl font-semibold leading-tight sm:text-5xl lg:text-6xl">
+          <ng-container *ngFor="let word of displayTitleWords">
+            <span
+              #titleWord
+              class="inline-block rounded-md bg-white/5 px-2 py-1 sm:px-3"
+            >
+              {{ word }}
+            </span>
+            <span class="inline-block" aria-hidden="true"> </span>
+          </ng-container>
+        </h1>
+
+        <p
+          #heroDescription
+          class="max-w-3xl text-base leading-relaxed text-slate-200/90 sm:text-lg"
+        >
+          {{ hero.description }}
+        </p>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <a
+            #ctaButton
+            class="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-sky-400 to-emerald-400 px-6 py-3 text-sm font-semibold text-slate-900 shadow-xl shadow-sky-500/25 transition hover:translate-y-[-2px] hover:shadow-2xl"
+            [routerLink]="hero.primaryCta.routerLink"
+          >
+            {{ hero.primaryCta.label }}
+            <span aria-hidden="true">↗</span>
+          </a>
+          <a
+            #ctaButton
+            class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-3 text-sm font-semibold text-white/90 backdrop-blur transition hover:border-white/40 hover:bg-white/10"
+            [routerLink]="hero.secondaryCta.routerLink"
+          >
+            {{ hero.secondaryCta.label }}
+          </a>
+        </div>
+
+        <ul class="grid gap-3 sm:grid-cols-2">
+          <li
+            *ngFor="let highlight of hero.highlightList"
+            #highlightItem
+            class="group flex items-start gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-slate-100/90 backdrop-blur transition hover:border-emerald-300/60 hover:bg-white/10"
+          >
+            <span class="mt-1 inline-flex h-3 w-3 shrink-0 rounded-full bg-emerald-400/80 transition group-hover:scale-125"></span>
+            <span class="leading-relaxed">{{ highlight }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="relative">
+        <div
+          #mediaCard
+          class="group relative overflow-hidden rounded-[28px] border border-white/10 bg-white/10 p-2 shadow-[0_25px_60px_-40px_rgba(14,165,233,0.5)] backdrop-blur"
+        >
+          <div class="relative overflow-hidden rounded-2xl bg-slate-950/40">
+            <img
+              #mediaImage
+              class="h-full w-full object-cover opacity-95"
+              [src]="videoPoster || hero.video.poster"
+              [attr.alt]="hero.title"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/30 to-transparent"></div>
+            <div class="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-white">
+              Live Delivery
+              <span class="inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400"></span>
+            </div>
+            <div class="absolute bottom-4 left-4 right-4 rounded-2xl border border-white/10 bg-white/10 p-4 text-sm text-white shadow-lg backdrop-blur">
+              <p class="font-semibold text-slate-100">{{ hero.highlightCard.title }}</p>
+              <p class="mt-1 text-slate-200/85">{{ hero.highlightCard.description }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="absolute -left-6 top-4 space-y-3">
+          <div
+            *ngFor="let metric of hero.featurePanel.metrics; let i = index"
+            #floatingCard
+            class="rounded-2xl border border-white/20 bg-white/15 px-4 py-3 text-sm text-white shadow-lg backdrop-blur"
+            [style.marginLeft.px]="i * 12"
+          >
+            <p class="text-[11px] uppercase tracking-[0.2em] text-slate-200">{{ metric.label }}</p>
+            <p class="text-lg font-semibold">{{ metric.value }}</p>
+          </div>
+        </div>
+
+        <div
+          #floatingCard
+          class="absolute -bottom-10 right-2 w-64 rounded-2xl border border-white/15 bg-gradient-to-br from-emerald-400/20 via-sky-400/15 to-white/5 p-4 text-white shadow-2xl backdrop-blur"
+        >
+          <p class="text-xs uppercase tracking-[0.18em] text-slate-100/90">{{ hero.featurePanel.partner.label }}</p>
+          <p class="mt-2 text-sm leading-relaxed text-slate-50/90">{{ hero.featurePanel.partner.description }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>

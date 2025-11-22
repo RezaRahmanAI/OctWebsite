@@ -1,11 +1,20 @@
-<section class="section-padding">
+<section class="section-padding" appScrollReveal [revealOffset]="40">
   <div class="container-wide">
-    <div class="rounded-3xl border border-slate-200/70 bg-white/80 p-8 shadow-glow">
-      <div class="flex flex-wrap items-center justify-between gap-6">        
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <div *ngFor="let stat of data.stats" class="rounded-2xl bg-slate-50 p-4 text-center shadow-sm">
+    <div class="relative overflow-hidden rounded-3xl border border-slate-200/70 bg-gradient-to-br from-white/80 via-sky-50/70 to-emerald-50/70 p-8 shadow-glow">
+      <div class="pointer-events-none absolute -right-10 top-0 h-56 w-56 rounded-full bg-sky-300/20 blur-3xl"></div>
+      <div class="pointer-events-none absolute -bottom-14 left-6 h-44 w-44 rounded-full bg-emerald-300/25 blur-3xl"></div>
+
+      <div class="flex flex-wrap items-center justify-between gap-6">
+        <div class="grid w-full gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div
+            *ngFor="let stat of data.stats; let i = index"
+            class="rounded-2xl bg-white/80 p-4 text-center shadow-md backdrop-blur"
+            appScrollReveal
+            [revealDelay]="i * 0.08"
+            [revealOffset]="32"
+          >
             <span class="text-3xl font-semibold text-primary">{{ stat | formatStat }}</span>
-            <p class="mt-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <p class="mt-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
               {{ stat.label }}
             </p>
           </div>
