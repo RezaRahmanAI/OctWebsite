@@ -13,24 +13,14 @@ import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SmoothScrollService } from '../../core/services'; // Assuming this service path is correct
 import { ServicesService } from '../../core/services/services.service';
-import { ServiceItem } from '../../core/models';
-
-type NavLink = {
-  label: string;
-  path: string | string[];
-  exact?: boolean;
-};
-
-type DropdownItem = {
-  title: string;
-  href: string;
-};
-
-type MethodologyLink = {
-  label: string;
-  slug: string;
-  summary: string;
-};
+import {
+  DropdownItem,
+  MethodologyLink,
+  NavLink,
+  NavigationContent,
+  ServiceItem,
+} from '../../core/models';
+import { ContentService } from '../../core/services/content.service';
 
 @Component({
   selector: 'app-navbar',
@@ -45,6 +35,7 @@ export class NavbarComponent {
   private destroyRef = inject(DestroyRef);
   private readonly smoothScroll = inject(SmoothScrollService);
   private readonly servicesService = inject(ServicesService);
+  private readonly contentService = inject(ContentService);
 
   // Scroll thresholds for navbar background
   private readonly SCROLL_ACTIVATE = 120; // when to turn bg/blur on
@@ -76,82 +67,23 @@ export class NavbarComponent {
   hidden = computed(() => this._hidden());
   private lastScrollY = 0;
 
-  // Static links for desktop navigation (excluding dropdowns)
-  private _links = signal<NavLink[]>([
-    { label: 'Home', path: '/', exact: true },
-    { label: 'About', path: '/about', exact: true },
-    { label: 'Product', path: '/product', exact: true },
-    { label: 'Academy', path: '/academy', exact: true },
-    { label: 'Blog', path: '/blog', exact: false },
-    { label: 'Contact', path: '/contact', exact: true },
-  ]);
-  navLinks = computed(() => this._links());
+  private readonly navigation = this.contentService.navigationContent;
+  private readonly defaultBrand: NavigationContent['brand'] = {
+    name: 'ObjectCanvas Technology',
+    tagline: '× ZeroProgrammingBD',
+    logo: '/images/logo/oct_logo.png',
+    link: '/',
+  };
 
-  // --- Dropdown Content ---
-
-  readonly aboutUsItems: DropdownItem[] = [
-    { title: 'Company Overview', href: '/about/overview' },
-    { title: 'Mission', href: '/about/mission' },
-    { title: 'Vision', href: '/about/vision' },
-    { title: 'Team Member', href: '/about/team' },
-  ];
-
-  readonly servicesCollaboration: MethodologyLink[] = [
-    {
-      label: 'Team Augmentation',
-      slug: 'team-augmentation',
-      summary: 'Embed elite engineers directly into your teams with rapid onboarding.',
-    },
-    {
-      label: 'End-to-End Development',
-      slug: 'end-to-end-development',
-      summary: 'Full lifecycle builds from discovery to launch with cohesive teams.',
-    },
-    {
-      label: 'MVP Development',
-      slug: 'mvp-development',
-      summary: 'Lean experiments and fast iterations to validate the right product.',
-    },
-    {
-      label: 'Offshore Development',
-      slug: 'offshore-development',
-      summary: 'Build and scale cost-effectively with dedicated offshore squads.',
-    },
-  ];
-
-  readonly technologies = [
-    'JavaScript',
-    'C++',
-    'C#',
-    '.Net',
-    'Python',
-    'Java',
-    'PHP',
-    'Golang',
-    'Flutter',
-  ];
-
-  readonly hiringLinks = [
-    { label: 'Hire Developers' },
-    { label: 'JavaScript Developers' },
-    { label: 'Python Developers' },
-    { label: 'Java Developers' },
-    { label: 'Golang Developers' },
-    { label: '.NET Developers' },
-  ];
+  readonly brand = computed(() => this.navigation()?.brand ?? this.defaultBrand);
+  readonly navLinks = computed<NavLink[]>(() => this.navigation()?.primaryLinks ?? []);
+  readonly aboutUsItems = computed<DropdownItem[]>(() => this.navigation()?.aboutMenu ?? []);
+  readonly servicesCollaboration = computed<MethodologyLink[]>(() => this.navigation()?.collaborationMenu ?? []);
+  readonly technologies = computed<string[]>(() => this.navigation()?.technologies ?? []);
+  readonly hiringLinks = computed(() => this.navigation()?.hiringLinks ?? []);
+  readonly productItems = computed<DropdownItem[]>(() => this.navigation()?.productMenu ?? []);
 
   readonly featuredServices = computed<ServiceItem[]>(() => this.servicesService.services().slice(0, 9));
-
-  readonly productItems: DropdownItem[] = [
-    { title: 'Accounting -Inventory', href: '/products/accounting-inventory' },
-    { title: 'POS Software', href: '/products/pos-software' },
-    { title: 'Real Estate Management', href: '/products/real-estate-management' },
-    { title: 'Production Management', href: '/products/production-management' },
-    { title: 'Hardware Business', href: '/products/hardware-business' },
-    { title: 'Mobile Shop Management', href: '/products/mobile-shop-management' },
-    { title: 'Electronics Showroom', href: '/products/electronics-showroom' },
-    { title: 'Distribution Management', href: '/products/distribution-management' },
-  ];
 
   constructor() {
     this.smoothScroll.init();

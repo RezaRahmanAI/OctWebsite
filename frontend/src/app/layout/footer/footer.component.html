@@ -3,105 +3,70 @@
     <div class="grid gap-12 lg:grid-cols-6">
       <div class="lg:col-span-2">
         <div class="flex items-center gap-3">
-          <img src="/images/logo/oct_logo.png" alt="Object Canvas Technology Logo" class="h-10 w-10" />
+          <img
+            [src]="footer().brand.logo || '/images/logo/oct_logo.png'"
+            [alt]="(footer().brand.name || 'ObjectCanvas') + ' Logo'"
+            class="h-10 w-10"
+          />
           <div class="flex flex-col">
-            <span class="font-heading text-2xl font-semibold text-white">ObjectCanvas</span>
-            <span class="text-sm text-slate-300">× ZeroProgrammingBD</span>
+            <span class="font-heading text-2xl font-semibold text-white">{{ footer().brand.name || 'ObjectCanvas' }}</span>
+            <span class="text-sm text-slate-300" *ngIf="footer().brand.partner">{{ footer().brand.partner }}</span>
           </div>
         </div>
         <p class="mt-6 text-sm leading-relaxed text-slate-300">
-          ObjectCanvas Studios and ZeroProgrammingBD Academy unite to deliver transformative platforms and future-proof skills for founders, enterprises, and learners worldwide.
+          {{ footer().brand.description }}
         </p>
         <div class="mt-6 flex flex-wrap items-center gap-3">
-          <!-- <a
-            *ngFor="let social of socialLinks()"
-            [href]="social.url"
+          <a
+            *ngFor="let social of footer().socialLinks; trackBy: trackByLabel"
+            [href]="social.externalUrl"
             target="_blank"
             rel="noopener"
             class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-100 transition hover:-translate-y-0.5 hover:bg-white hover:text-primary"
             [attr.aria-label]="social.label"
           >
             <span class="text-xs font-semibold">{{ social.label[0] }}</span>
-          </a> -->
+          </a>
         </div>
         <a
-          routerLink="/contact"
+          *ngIf="footer().brand.consultationCta.label"
+          [routerLink]="footer().brand.consultationCta.routerLink"
+          [fragment]="footer().brand.consultationCta.fragment"
           class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-white underline-offset-4 hover:underline"
         >
-          Schedule a Free Consultation
+          {{ footer().brand.consultationCta.label }}
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14m-7-7l7 7-7 7" />
           </svg>
         </a>
       </div>
 
-      <div class="space-y-4">
-        <h3 class="text-lg font-semibold text-white">Our Services</h3>
-        <ul class="space-y-2 text-sm text-slate-300">
-          <li><a routerLink="/services" class="transition hover:text-white">Digital Marketing</a></li>
-          <li><a routerLink="/services" class="transition hover:text-white">Software Development</a></li>
-          <li><a routerLink="/services" class="transition hover:text-white">Website Building</a></li>
-          <li><a routerLink="/contact" class="transition hover:text-white">Consultation</a></li>
-          <li><a routerLink="/portfolio" class="transition hover:text-white">Portfolio</a></li>
-        </ul>
-      </div>
-
-      <div class="space-y-4">
-        <h3 class="text-lg font-semibold text-white">ZeroProgrammingBD Academy</h3>
-        <ul class="space-y-2 text-sm text-slate-300">
-          <li><a routerLink="/academy" class="transition hover:text-white">Browse Courses</a></li>
-          <li><a routerLink="/academy" class="transition hover:text-white">Become an Instructor</a></li>
-          <li><a routerLink="/academy" class="transition hover:text-white">Student Success Stories</a></li>
-          <li><a routerLink="/academy" class="transition hover:text-white">Free Resources</a></li>
-          <li><a routerLink="/academy" class="transition hover:text-white">Course Calendar</a></li>
-        </ul>
-      </div>
-
-      <div class="space-y-4">
-        <h3 class="text-lg font-semibold text-white">Company</h3>
-        <ul class="space-y-2 text-sm text-slate-300">
-          <li><a routerLink="/about" class="transition hover:text-white">About Us</a></li>
-          <li><a routerLink="/about" fragment="team" class="transition hover:text-white">Our Team</a></li>
-          <li><a routerLink="/portfolio" class="transition hover:text-white">Portfolio</a></li>
-          <li><a routerLink="/about" fragment="careers" class="transition hover:text-white">Careers</a></li>
-          <li><a routerLink="/insights" class="transition hover:text-white">Blog &amp; Press</a></li>
-        </ul>
-      </div>
-
-      <div class="space-y-4">
-        <h3 class="text-lg font-semibold text-white">Support</h3>
-        <ul class="space-y-2 text-sm text-slate-300">
-          <li><a routerLink="/contact" class="transition hover:text-white">Contact Us</a></li>
-          <li><a routerLink="/contact" fragment="faq" class="transition hover:text-white">FAQ</a></li>
-          <li><a routerLink="/contact" class="transition hover:text-white">Support Center</a></li>
-          <li><a routerLink="/legal/privacy" class="transition hover:text-white">Privacy Policy</a></li>
-          <li><a routerLink="/legal/terms" class="transition hover:text-white">Terms of Service</a></li>
-          <li><a routerLink="/legal/refund" class="transition hover:text-white">Refund Policy</a></li>
-        </ul>
-      </div>
-
-      <!-- <div class="space-y-4">
-        <h3 class="text-lg font-semibold text-white">Newsletter</h3>
-        <p class="text-sm text-slate-300">
-          Get weekly insights, course updates, and exclusive offers directly in your inbox.
-        </p>
-        <form class="flex flex-col gap-3">
-          <label class="sr-only" for="newsletter-email">Email</label>
-          <input
-            id="newsletter-email"
-            type="email"
-            placeholder="you@company.com"
-            class="w-full rounded-full border-0 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-300 focus:ring-2 focus:ring-accent"
-          />
-          <button
-            type="submit"
-            class="inline-flex items-center justify-center rounded-full bg-accent px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald"
-          >
-            Subscribe
-          </button>
-          <span class="text-xs text-slate-400">We respect your privacy. Unsubscribe anytime.</span>
-        </form>
-      </div> -->
+      <ng-container *ngFor="let section of footer().sections">
+        <div class="space-y-4">
+          <h3 class="text-lg font-semibold text-white">{{ section.title }}</h3>
+          <ul class="space-y-2 text-sm text-slate-300">
+            <li *ngFor="let link of section.links; trackBy: trackByLabel">
+              <a
+                *ngIf="!isExternal(link)"
+                [routerLink]="link.routerLink"
+                [fragment]="link.fragment"
+                class="transition hover:text-white"
+              >
+                {{ link.label }}
+              </a>
+              <a
+                *ngIf="isExternal(link)"
+                [href]="link.externalUrl"
+                target="_blank"
+                rel="noopener"
+                class="transition hover:text-white"
+              >
+                {{ link.label }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </ng-container>
     </div>
   </div>
 
@@ -109,10 +74,33 @@
     <div class="container-wide flex flex-col items-center justify-between gap-4 md:flex-row">
       <p>© {{ currentYear }} ObjectCanvas × ZeroProgrammingBD. All rights reserved. | Proudly Made in Bangladesh 🇧🇩</p>
       <div class="flex flex-wrap items-center gap-4">
-        <a routerLink="/legal/privacy" class="hover:text-white">Privacy Policy</a>
-        <a routerLink="/legal/terms" class="hover:text-white">Terms</a>
-        <a routerLink="/sitemap" class="hover:text-white">Sitemap</a>
-        <a href="https://objectcanvas.com/company-profile.pdf" target="_blank" rel="noopener" class="hover:text-white">Download Company Profile</a>
+        <ng-container *ngFor="let legal of footer().legalLinks; trackBy: trackByLabel">
+          <a
+            *ngIf="!isExternal(legal)"
+            [routerLink]="legal.routerLink"
+            class="hover:text-white"
+          >
+            {{ legal.label }}
+          </a>
+          <a
+            *ngIf="isExternal(legal)"
+            [href]="legal.externalUrl"
+            target="_blank"
+            rel="noopener"
+            class="hover:text-white"
+          >
+            {{ legal.label }}
+          </a>
+        </ng-container>
+        <a
+          *ngIf="footer().profileDownload"
+          [href]="footer().profileDownload?.externalUrl"
+          target="_blank"
+          rel="noopener"
+          class="hover:text-white"
+        >
+          {{ footer().profileDownload?.label }}
+        </a>
       </div>
     </div>
   </div>
