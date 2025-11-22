@@ -68,6 +68,7 @@ export class NavbarComponent {
   private _links = signal<NavLink[]>([
     { label: 'Home', path: '/', exact: true },
     { label: 'About', path: '/about', exact: true },
+    { label: 'Project', path: '/project', exact: true },
     { label: 'Academy', path: '/academy', exact: true },
     { label: 'Blog', path: '/blog', exact: false },
     { label: 'Contact', path: '/contact', exact: true },
@@ -121,12 +122,6 @@ export class NavbarComponent {
     { title: 'Distribution Management', href: '/products/distribution-management' },
   ];
 
-  readonly academyItems: DropdownItem[] = [
-    { title: 'Kids Computing', href: '/academy/kids-computing' },
-    { title: 'Zero Programming', href: '/academy/zero-programming' },
-    { title: 'Freelancing', href: '/academy/freelancing' },
-  ];
-
   constructor() {
     this.smoothScroll.init();
 
@@ -168,7 +163,7 @@ export class NavbarComponent {
   }
 
   // Generic handler for desktop menu toggling to ensure only one is open
-  toggleDropdown(menu: 'services' | 'product'): void {
+  toggleDropdown(menu: 'services'): void {
     const currentService = this.servicesMenuOpen();
     const currentProduct = this.productMenuOpen();
 
@@ -178,21 +173,15 @@ export class NavbarComponent {
       case 'services':
         this._servicesMenuOpen.set(!currentService);
         break;
-      case 'product':
-        this._productMenuOpen.set(!currentProduct);
-        break;
     }
   }
 
-  setDropdownOpen(menu: 'services' | 'product', open: boolean): void {
+  setDropdownOpen(menu: 'services', open: boolean): void {
     if (!open) {
       setTimeout(() => {
         switch (menu) {
           case 'services':
             this._servicesMenuOpen.set(false);
-            break;
-          case 'product':
-            this._productMenuOpen.set(false);
             break;
         }
       }, 50); // Small delay
@@ -202,9 +191,6 @@ export class NavbarComponent {
       switch (menu) {
         case 'services':
           this._servicesMenuOpen.set(true);
-          break;
-        case 'product':
-          this._productMenuOpen.set(true);
           break;
       }
     }

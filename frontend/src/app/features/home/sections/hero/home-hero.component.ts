@@ -17,7 +17,7 @@ import { getGsap, getScrollTrigger } from '../../../../shared/animations/gsap-he
 @Component({
   selector: 'app-home-hero',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './home-hero.component.html',
   styleUrl: './home-hero.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
