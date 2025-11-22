@@ -15,6 +15,8 @@ import { HomeClosingCtasComponent } from './sections/closing-ctas/home-closing-c
 import { environment } from '../../../environments/environment';
 import { HomeCollaborationComponent } from './sections/collaboration/home-collaboration.component';
 import { ServicesComponent } from "../services/services.component";
+import { HomeDifferentiatorsComponent } from "./sections/differentiators/home-differentiators.component";
+import { ProductShowcaseComponent } from "./sections/product-showcase/product-showcase";
 
 @Component({
   selector: 'app-home',
@@ -30,7 +32,9 @@ import { ServicesComponent } from "../services/services.component";
     HomeInsightsComponent,
     HomeClosingCtasComponent,
     HomeCollaborationComponent,
-    HomeTrustComponent
+    HomeTrustComponent,
+    HomeDifferentiatorsComponent,
+    ProductShowcaseComponent
 ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
