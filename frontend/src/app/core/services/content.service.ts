@@ -96,7 +96,7 @@ export class ContentService {
     },
     trust: {
       tagline: 'Trusted by teams at',
-      companies: ['Anthropic', 'Stripe', 'Vercel', 'Linear'],
+      companies: ['Walton', 'Tricon', 'Arian', 'Ashaven'],
       stats: [
         { label: 'Projects Delivered', value: 500, suffix: '+' },
         { label: 'Countries Served', value: 50, suffix: '+' },
