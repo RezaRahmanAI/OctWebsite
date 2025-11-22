@@ -977,6 +977,10 @@ export class ContentService {
   readonly navigationContent = this.getPageSignal<NavigationContent>('navigation');
   readonly footerContent = this.getPageSignal<FooterContent>('footer');
 
+  getDefaultNavigation(): NavigationContent {
+    return this.clone(this.defaultNavigation);
+  }
+
   setHomeContent(content: HomeContent): void {
     const next = this.clone(content);
     this.homeState.set(next);
