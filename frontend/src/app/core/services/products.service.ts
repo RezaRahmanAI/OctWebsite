@@ -4,6 +4,7 @@ import { firstValueFrom } from 'rxjs';
 import { DATA_PROVIDER } from '../data';
 import { ProductItem } from '../models';
 import { environment } from '../../../environments/environment';
+import { STATIC_PRODUCTS } from '../data/static-products';
 
 @Injectable({ providedIn: 'root' })
 export class ProductsService {
@@ -16,6 +17,7 @@ export class ProductsService {
   private readonly query = signal('');
 
   constructor() {
+    this.seedFromStatic();
     void this.ensureLoaded();
   }
 
@@ -91,16 +93,28 @@ export class ProductsService {
     }
     this.loadingPromise = firstValueFrom(this.http.get<ProductItem[]>(this.apiUrl))
       .then(items => {
+        if (items.length === 0) {
+          this.seedFromStatic(true);
+          return;
+        }
         this.store.replace(items);
         this.hasLoadedFromApi = true;
       })
       .catch(error => {
         console.error('Failed to load products from API', error);
+        this.seedFromStatic(true);
       })
       .finally(() => {
         this.loadingPromise = null;
       });
     await this.loadingPromise;
+  }
+
+  private seedFromStatic(force = false): void {
+    if (!force && this.store.list().length > 0) {
+      return;
+    }
+    this.store.replace(STATIC_PRODUCTS);
   }
 
   private toRequest(product: Partial<ProductItem>): Omit<ProductItem, 'id'> {

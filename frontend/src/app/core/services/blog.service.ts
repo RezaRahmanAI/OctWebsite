@@ -4,6 +4,7 @@ import { firstValueFrom } from 'rxjs';
 import { DATA_PROVIDER } from '../data';
 import { BlogPost } from '../models';
 import { environment } from '../../../environments/environment';
+import { STATIC_BLOG_POSTS } from '../data/static-blog-posts';
 
 @Injectable({ providedIn: 'root' })
 export class BlogService {
@@ -17,6 +18,7 @@ export class BlogService {
   private readonly tagFilter = signal<string | null>(null);
 
   constructor() {
+    this.seedFromStatic();
     void this.ensureLoaded();
   }
 
@@ -101,16 +103,28 @@ export class BlogService {
     }
     this.loadingPromise = firstValueFrom(this.http.get<BlogPost[]>(this.apiUrl))
       .then(items => {
+        if (items.length === 0) {
+          this.seedFromStatic(true);
+          return;
+        }
         this.store.replace(items);
         this.hasLoadedFromApi = true;
       })
       .catch(error => {
         console.error('Failed to load blog posts from API', error);
+        this.seedFromStatic(true);
       })
       .finally(() => {
         this.loadingPromise = null;
       });
     await this.loadingPromise;
+  }
+
+  private seedFromStatic(force = false): void {
+    if (!force && this.store.list().length > 0) {
+      return;
+    }
+    this.store.replace(STATIC_BLOG_POSTS);
   }
 
   private toRequest(post: Partial<BlogPost>): Omit<BlogPost, 'id'> {
