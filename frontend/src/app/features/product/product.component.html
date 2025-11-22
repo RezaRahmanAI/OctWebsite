@@ -1,23 +1,79 @@
 <section class="section-padding">
-  <div class="container-responsive space-y-8">
-    <app-section-heading eyebrow="Product" title="ZeroProgrammingBD industry solutions" subtitle="Configured platforms ready to deploy for your vertical." align="center"></app-section-heading>
-    <div class="flex justify-center">
-      <input
-        type="search"
-        placeholder="Search products"
-        class="w-full max-w-md rounded-full border border-slate-200 px-4 py-2 text-sm focus:border-primary-500 focus:outline-none"
-        (input)="query.set($any($event.target).value)"
-      />
+  <div class="container-responsive space-y-12">
+    <div class="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+      <div class="space-y-6">
+        <app-section-heading
+          eyebrow="Product"
+          title="ZeroProgrammingBD industry solutions"
+          subtitle="Configured platforms ready to deploy for your vertical."
+          align="left"
+        ></app-section-heading>
+        <p class="max-w-2xl text-sm text-slate-600 md:text-base">
+          Browse pre-built accelerators for commerce, finance, and the public sector, then tailor them with our delivery teams to launch faster.
+        </p>
+        <div class="flex flex-wrap items-center gap-3">
+          <a
+            routerLink="/contact"
+            class="inline-flex items-center justify-center rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition hover:translate-y-0.5 hover:bg-primary/90"
+          >
+            Talk to product team →
+          </a>
+          <a
+            routerLink="/blog"
+            class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+          >
+            See recent launches
+          </a>
+        </div>
+        <div class="flex w-full max-w-lg items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 shadow-sm focus-within:border-primary/80">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="11" cy="11" r="7" />
+            <path d="m16.65 16.65 4.35 4.35" stroke-linecap="round" />
+          </svg>
+          <input
+            type="search"
+            placeholder="Search products"
+            class="w-full rounded-full px-2 py-2 text-sm text-slate-700 focus:outline-none"
+            (input)="query.set($any($event.target).value)"
+          />
+        </div>
+      </div>
+      <div class="product-video-wrapper">
+        <video
+          class="product-video"
+          src="/video/project/project.mp4"
+          autoplay
+          loop
+          muted
+          playsinline
+          controls
+        ></video>
+        <div class="product-video-overlay">
+          <div class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-white">
+            Product showreel
+          </div>
+          <p class="text-sm text-white/90">
+            Highlights from shipped industry accelerators and tailored deployments.
+          </p>
+        </div>
+      </div>
     </div>
-    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-      <app-card
-        *ngFor="let product of products()"
-        [title]="product.title"
-        [description]="product.summary"
-        [link]="['/product', product.slug]"
-      >
-        
-      </app-card>
+
+    <div class="space-y-6">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <h2 class="text-lg font-semibold text-slate-900">All solutions</h2>
+        <span class="text-sm text-slate-500">Showing {{ products().length }} offers</span>
+      </div>
+      <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        <app-card
+          *ngFor="let product of products()"
+          [title]="product.title"
+          [description]="product.summary"
+          [link]="['/product', product.slug]"
+        >
+
+        </app-card>
+      </div>
     </div>
   </div>
 </section>
