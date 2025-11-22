@@ -11,9 +11,9 @@
     loop
     playsinline
     preload="auto"
-    [attr.poster]="hero.video.poster || null"
+    [attr.poster]="(hero.video.poster || videoPoster || null) | assetUrl"
   >
-    <source [src]="hero.video.src || videoSrc" type="video/mp4" />
+    <source [src]="(hero.video.src || videoSrc) | assetUrl" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
 
@@ -114,7 +114,7 @@
           <img
             #mediaImage
             class="h-12 w-12 flex-none rounded-full object-cover"
-            [src]="hero.video.poster || '/img/partner.jpg'"
+            [src]="(hero.video.poster || '/img/partner.jpg') | assetUrl"
             [alt]="hero.featurePanel.partner.label || 'Partner'"
             loading="lazy"
           />

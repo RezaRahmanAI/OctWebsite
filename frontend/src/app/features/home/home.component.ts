@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { TechStackComponent } from './sections/tech-stack-slider/tech-stack-slider.component';
 import { SeoService } from '../../core/services/seo.service';
@@ -44,6 +44,7 @@ export class HomeComponent {
   private readonly seo = inject(SeoService);
   private readonly content = inject(ContentService);
   private readonly settings = inject(SettingsService);
+  private readonly document = inject(DOCUMENT, { optional: true });
 
   protected readonly home = this.content.homeContent;
   private readonly siteSettings = this.settings.settings;
@@ -99,13 +100,19 @@ export class HomeComponent {
       return url;
     }
 
-    const normalized = url.startsWith('/') ? url : `/${url.replace(/^\/+/, '')}`;
+    const normalized = url.startsWith('/') ? url.replace(/^\/+/, '') : url;
 
-    if (normalized.startsWith('/video/') || normalized.startsWith('/images/') || normalized.startsWith('/assets/')) {
-      return normalized;
+    if (normalized.startsWith('video/') || normalized.startsWith('images/') || normalized.startsWith('assets/')) {
+      const baseHref = this.document?.baseURI ?? (typeof location !== 'undefined' ? location.href : '/');
+      try {
+        const resolved = new URL(normalized, baseHref);
+        return `${resolved.pathname}${resolved.search}${resolved.hash}`;
+      } catch {
+        return `/${normalized}`;
+      }
     }
 
     const apiBase = environment.apiUrl.replace(/\/+$/, '');
-    return `${apiBase}${normalized.replace(/\/+$/, '')}`;
+    return `${apiBase}/${normalized.replace(/\/+$/, '')}`;
   }
 }
