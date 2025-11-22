@@ -12,6 +12,8 @@ import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterModule } fro
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SmoothScrollService } from '../../core/services'; // Assuming this service path is correct
+import { ServicesService } from '../../core/services/services.service';
+import { ServiceItem } from '../../core/models';
 
 type NavLink = {
   label: string;
@@ -22,6 +24,12 @@ type NavLink = {
 type DropdownItem = {
   title: string;
   href: string;
+};
+
+type MethodologyLink = {
+  label: string;
+  slug: string;
+  summary: string;
 };
 
 @Component({
@@ -36,6 +44,7 @@ export class NavbarComponent {
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
   private readonly smoothScroll = inject(SmoothScrollService);
+  private readonly servicesService = inject(ServicesService);
 
   // Scroll thresholds for navbar background
   private readonly SCROLL_ACTIVATE = 120; // when to turn bg/blur on
@@ -87,11 +96,27 @@ export class NavbarComponent {
     { title: 'Team Member', href: '/about/team' },
   ];
 
-  readonly servicesCollaboration = [
-    { label: 'Team Augmentation', fragment: 'team-augmentation' },
-    { label: 'End to End Development', fragment: 'end-to-end-development' },
-    { label: 'MVP Services', fragment: 'mvp-services' },
-    { label: 'Offshore Development', fragment: 'offshore-office-expansion' },
+  readonly servicesCollaboration: MethodologyLink[] = [
+    {
+      label: 'Team Augmentation',
+      slug: 'team-augmentation',
+      summary: 'Embed elite engineers directly into your teams with rapid onboarding.',
+    },
+    {
+      label: 'End-to-End Development',
+      slug: 'end-to-end-development',
+      summary: 'Full lifecycle builds from discovery to launch with cohesive teams.',
+    },
+    {
+      label: 'MVP Development',
+      slug: 'mvp-development',
+      summary: 'Lean experiments and fast iterations to validate the right product.',
+    },
+    {
+      label: 'Offshore Development',
+      slug: 'offshore-development',
+      summary: 'Build and scale cost-effectively with dedicated offshore squads.',
+    },
   ];
 
   readonly technologies = [
@@ -114,6 +139,8 @@ export class NavbarComponent {
     { label: 'Golang Developers' },
     { label: '.NET Developers' },
   ];
+
+  readonly featuredServices = computed<ServiceItem[]>(() => this.servicesService.services().slice(0, 9));
 
   readonly productItems: DropdownItem[] = [
     { title: 'Accounting -Inventory', href: '/products/accounting-inventory' },
