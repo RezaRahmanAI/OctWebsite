@@ -20,11 +20,8 @@
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              { "glob": "**/*", "input": "public", "output": "/" },
-              { "glob": "**/*", "input": "public/images", "output": "images" },
-              { "glob": "**/*", "input": "public/video", "output": "video" }
-            ],
+            "assets": [{ "glob": "**/*", "input": "public", "output": "/" }],
+
             "styles": ["src/styles.css"]
           },
           "configurations": {

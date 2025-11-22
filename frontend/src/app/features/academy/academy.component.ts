@@ -21,7 +21,7 @@ interface Track {
 @Component({
   selector: 'app-academy',
   standalone: true,
-  imports: [CommonModule, RouterLink, PricingComponent, AssetUrlPipe],
+  imports: [CommonModule, RouterLink, PricingComponent],
   templateUrl: './academy.component.html',
   styleUrl: './academy.component.css',
 })
