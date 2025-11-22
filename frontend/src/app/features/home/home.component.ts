@@ -14,8 +14,6 @@ import { HomeInsightsComponent } from './sections/insights/home-insights.compone
 import { HomeClosingCtasComponent } from './sections/closing-ctas/home-closing-ctas.component';
 import { environment } from '../../../environments/environment';
 import { HomeCollaborationComponent } from './sections/collaboration/home-collaboration.component';
-import { ServicesComponent } from "../services/services.component";
-import { HomeDifferentiatorsComponent } from "./sections/differentiators/home-differentiators.component";
 import { ProductShowcaseComponent } from "./sections/product-showcase/product-showcase";
 
 @Component({
@@ -33,7 +31,6 @@ import { ProductShowcaseComponent } from "./sections/product-showcase/product-sh
     HomeClosingCtasComponent,
     HomeCollaborationComponent,
     HomeTrustComponent,
-    HomeDifferentiatorsComponent,
     ProductShowcaseComponent
 ],
   templateUrl: './home.component.html',

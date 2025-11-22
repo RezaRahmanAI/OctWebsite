@@ -25,7 +25,7 @@ import { AssetUrlPipe } from '../../../../core/pipes/asset-url.pipe';
 })
 export class HomeHeroComponent implements AfterViewInit, OnDestroy {
   @Input({ required: true }) hero!: HomeContent['hero'];
-  @Input() videoSrc = '/video/bg.mp4';
+  @Input() videoSrc = '/video/hero.mp4';
   @Input() videoPoster = '';
 
   @ViewChild('heroVideo') heroVideo?: ElementRef<HTMLVideoElement>;
