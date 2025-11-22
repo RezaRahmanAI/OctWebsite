@@ -68,13 +68,9 @@ export class NavbarComponent {
   private lastScrollY = 0;
 
   private readonly navigation = this.contentService.navigationContent;
-  private readonly defaultBrand: NavigationContent['brand'] = {
-    name: 'ObjectCanvas Technology',
-    logo: '/images/logo/oct_logo.png',
-    link: '/',
-  };
+  private readonly defaultNavigation = this.contentService.getDefaultNavigation();
 
-  readonly brand = computed(() => this.navigation()?.brand ?? this.defaultBrand);
+  readonly brand = computed(() => this.navigation()?.brand ?? this.defaultNavigation.brand);
   readonly navLinks = computed<NavLink[]>(
     () => this.navigation()?.primaryLinks ?? this.defaultNavigation.primaryLinks
   );
