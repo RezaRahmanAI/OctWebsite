@@ -68,7 +68,7 @@ export class NavbarComponent {
   private _links = signal<NavLink[]>([
     { label: 'Home', path: '/', exact: true },
     { label: 'About', path: '/about', exact: true },
-    { label: 'Project', path: '/project', exact: true },
+    { label: 'Product', path: '/product', exact: true },
     { label: 'Academy', path: '/academy', exact: true },
     { label: 'Blog', path: '/blog', exact: false },
     { label: 'Contact', path: '/contact', exact: true },

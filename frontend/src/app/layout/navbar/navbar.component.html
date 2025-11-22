@@ -32,7 +32,7 @@
             </li>
           </ng-container>
 
-          <!-- MIDDLE: DROPDOWNS (unchanged) -->
+          <!-- MIDDLE: DROPDOWNS -->
           <li
             class="relative"
             (mouseenter)="setDropdownOpen('services', true)"
@@ -40,7 +40,7 @@
           >
             <button
               type="button"
-              class="flex items-center gap-1 rounded-full px-3 py-2 text-sm font-semibold text-slate-700 transition hover:text-primary"
+              class="flex items-center gap-1 rounded-full px-3 py-2 text-sm font-semibold text-primary transition hover:text-primary"
               (click)="toggleDropdown('services')"
               [attr.aria-expanded]="servicesMenuOpen()"
             >
@@ -63,7 +63,7 @@
             </button>
             <div
               *ngIf="servicesMenuOpen()"
-              class="absolute left-1/2 top-full w-[900px] -translate-x-1/2 rounded-xl border border-slate-100 bg-white shadow-2xl shadow-slate-900/5 mt-2"
+              class="absolute left-1/2 top-full w-[1280px] -translate-x-1/2 rounded-xl border border-slate-100 bg-white shadow-2xl shadow-slate-900/5 mt-2"
             >
               <div class="flex flex-col gap-6 lg:flex-row">
                 <div class="flex-1 rounded-xl bg-sky-50 p-10">
@@ -129,7 +129,7 @@
           <!-- RIGHT: Blog + Contact at the end -->
           <ng-container *ngFor="let link of navLinks()">
             <li
-              *ngIf="link.label === 'Academy' || link.label === 'Academy' || link.label === 'Blog' || link.label === 'Contact'"
+              *ngIf="link.label === 'Product' || link.label === 'Academy' || link.label === 'Blog' || link.label === 'Contact'"
             >
               <a
                 [routerLink]="link.path"
@@ -241,21 +241,10 @@
           </div>
         </div>
 
-        <div class="space-y-1">
-          <div class="text-sm font-semibold py-2 px-3 text-slate-900">Product</div>
-          <li *ngFor="let item of productItems">
-            <a
-              [routerLink]="item.href"
-              class="block rounded-lg px-6 py-2 transition hover:bg-slate-50 text-slate-600"
-              (click)="closeMenu()"
-            >
-              {{ item.title }}
-            </a>
-          </li>
-        </div>
+        
 
         <ng-container *ngFor="let link of navLinks()">
-          <li *ngIf="link.label === 'Academy' || link.label === 'Blog' || link.label === 'Contact'">
+          <li *ngIf="link.label === 'Product' ||link.label === 'Academy' || link.label === 'Blog' || link.label === 'Contact'">
             <a
               [routerLink]="link.path"
               routerLinkActive="text-primary"

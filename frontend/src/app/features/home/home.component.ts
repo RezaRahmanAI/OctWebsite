@@ -30,7 +30,7 @@ import { ServicesComponent } from "../services/services.component";
     HomeInsightsComponent,
     HomeClosingCtasComponent,
     HomeCollaborationComponent,
-
+    HomeTrustComponent
 ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
