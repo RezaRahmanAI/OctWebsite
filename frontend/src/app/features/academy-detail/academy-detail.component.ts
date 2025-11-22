@@ -4,11 +4,12 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs/operators';
 import { trackDetails } from './academy-track.data';
+import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
 
 @Component({
   selector: 'app-academy-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, AssetUrlPipe],
   templateUrl: './academy-detail.component.html',
   styleUrls: ['./academy-detail.component.css'],
 })

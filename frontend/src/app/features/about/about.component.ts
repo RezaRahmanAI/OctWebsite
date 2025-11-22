@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SectionHeaderComponent } from '../../shared/components/section-header/section-header.component';
+import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
 
 interface ValueItem {
   title: string;
@@ -65,7 +66,7 @@ interface AboutPageContent {
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, AssetUrlPipe],
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BlogService } from '../../core/services';
+import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
 
 @Component({
   selector: 'app-blog',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, AssetUrlPipe],
   templateUrl: './blog.component.html',
   styleUrls: ['./blog.component.css'],
 })

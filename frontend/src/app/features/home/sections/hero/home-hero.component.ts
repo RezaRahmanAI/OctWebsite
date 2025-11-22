@@ -13,11 +13,12 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { HomeContent } from '../../../../core/models/home-content.model';
 import { getGsap, getScrollTrigger } from '../../../../shared/animations/gsap-helpers';
+import { AssetUrlPipe } from '../../../../core/pipes/asset-url.pipe';
 
 @Component({
   selector: 'app-home-hero',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, AssetUrlPipe],
   templateUrl: './home-hero.component.html',
   styleUrl: './home-hero.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

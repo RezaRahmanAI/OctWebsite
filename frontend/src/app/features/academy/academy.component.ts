@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { PricingComponent } from '../../shared/components/pricing/pricing.component';
+import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
 
 interface AcademyFeature {
   title: string;
@@ -20,7 +21,7 @@ interface Track {
 @Component({
   selector: 'app-academy',
   standalone: true,
-  imports: [CommonModule, RouterLink, PricingComponent],
+  imports: [CommonModule, RouterLink, PricingComponent, AssetUrlPipe],
   templateUrl: './academy.component.html',
   styleUrl: './academy.component.css',
 })
