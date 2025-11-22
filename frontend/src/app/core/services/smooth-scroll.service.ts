@@ -3,6 +3,7 @@ import { Injectable, OnDestroy, inject } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import Lenis from 'lenis';
 
 interface ScrollOptions {
   offset?: number;
@@ -15,12 +16,15 @@ export class SmoothScrollService implements OnDestroy {
   private readonly document = inject(DOCUMENT);
   private initialized = false;
   private routerSub?: Subscription;
+  private lenis?: Lenis;
+  private rafId?: number;
 
   init(): void {
     if (this.initialized || typeof window === 'undefined') {
       return;
     }
     this.initialized = true;
+    this.initializeLenis();
     this.routerSub = this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
       .subscribe(() => {
@@ -38,6 +42,11 @@ export class SmoothScrollService implements OnDestroy {
   }
 
   scrollTo(target: number | HTMLElement, options: ScrollOptions = {}): void {
+    if (this.lenis) {
+      this.lenis.scrollTo(target, { offset: options.offset, immediate: options.immediate });
+      return;
+    }
+
     const view = this.document.defaultView;
     if (!view) {
       return;
@@ -56,8 +65,30 @@ export class SmoothScrollService implements OnDestroy {
       this.scrollTo(element, options);
     }
   }
+
+  private initializeLenis(): void {
+    this.lenis = new Lenis({
+      duration: 1.1,
+      easing: (t) => 1 - Math.pow(1 - t, 3),
+      smoothWheel: true,
+      smoothTouch: false,
+      gestureOrientation: 'vertical'
+    });
+
+    const raf = (time: number) => {
+      this.lenis?.raf(time);
+      this.rafId = requestAnimationFrame(raf);
+    };
+
+    this.rafId = requestAnimationFrame(raf);
+  }
+
   ngOnDestroy(): void {
     this.routerSub?.unsubscribe();
     this.initialized = false;
+    if (this.rafId) {
+      cancelAnimationFrame(this.rafId);
+    }
+    this.lenis?.destroy();
   }
 }
