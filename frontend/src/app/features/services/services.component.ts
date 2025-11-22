@@ -1,81 +1,91 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { SectionHeaderComponent } from '../../shared/components/section-header/section-header.component';
+import { RouterLink } from '@angular/router';
+import { ServicesService } from '../../core/services';
+import { ServiceItem } from '../../core/models';
 
-interface ServiceDetail {
-  name: string;
+interface ServiceGroup {
+  title: string;
   description: string;
-  deliverables: string[];
-  outcomes: string[];
-}
-
-interface ServicesPageContent {
-  header: {
-    eyebrow: string;
-    title: string;
-    subtitle: string;
-  };
-  categories: ServiceDetail[];
+  highlight: string;
+  slugs: string[];
 }
 
 @Component({
   selector: 'app-services',
   standalone: true,
-  imports: [CommonModule, SectionHeaderComponent],
+  imports: [CommonModule, SectionHeaderComponent, RouterLink],
   templateUrl: './services.component.html',
   styleUrls: ['./services.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ServicesComponent {
-  // Hardcoded example content (replace this with actual API call if needed)
-  private _servicesContent = signal<ServicesPageContent>({
-    header: {
-      eyebrow: 'Our Expertise',
-      title: 'Services We Offer',
-      subtitle: 'We provide comprehensive, tailor-made solutions for businesses of all sizes.',
+  private readonly servicesService = inject(ServicesService);
+
+  private readonly groups: ServiceGroup[] = [
+    {
+      title: 'Digital Products & Platforms',
+      description: 'Experiences engineered for every screen with resilient, cloud-ready foundations.',
+      highlight: 'Web, mobile, and desktop builds stay on-brand and production-ready.',
+      slugs: ['web-platform', 'windows', 'mobile-platform', 'apple', 'android', 'mobile'],
     },
-    categories: [
-      {
-        name: 'Digital Marketing',
-        description:
-          'Grow your online presence with performance-driven marketing strategies and tools.',
-        deliverables: [
-          'SEO & Content Strategy',
-          'Paid Media Campaigns',
-          'Brand Development',
-          'Analytics & Conversion Optimization',
-        ],
-        outcomes: ['Improved ROI', 'Brand Awareness', 'Higher Conversion Rates'],
-      },
-      {
-        name: 'Software Development',
-        description:
-          'Custom software development for scalable, resilient solutions tailored to your needs.',
-        deliverables: [
-          'Custom Web and Mobile Apps',
-          'Cloud-Based Solutions',
-          'API Integrations',
-          'DevOps and Automation',
-        ],
-        outcomes: ['Scalable Solutions', 'Increased Efficiency', 'Reduced Operational Costs'],
-      },
-      {
-        name: 'UI/UX Design',
-        description: 'Creating seamless and user-friendly interfaces that enhance user experience.',
-        deliverables: [
-          'Wireframes & Prototypes',
-          'User-Centric Designs',
-          'UI Kit Development',
-          'Usability Testing',
-        ],
-        outcomes: ['Enhanced User Satisfaction', 'Higher Engagement Rates', 'Reduced Bounce Rates'],
-      },
-    ],
-  });
+    {
+      title: 'Cloud, Security & Experience',
+      description: 'Keep your stack secure, discoverable, and ready for scale with reliable operations.',
+      highlight: 'From cloud landing zones to SEO and creative delivery, we keep you visible and protected.',
+      slugs: [
+        'cloud-service',
+        'system-integration',
+        'cyber-security-services',
+        'enterprise-content-management',
+        'search-engine-optimization-seo',
+        'graphic-design',
+        'web-listing',
+      ],
+    },
+    {
+      title: 'Data, Content & GIS',
+      description: 'Data-rich storytelling with governance for every channel and geography.',
+      highlight: 'Content, GIS, and document practices that keep insights flowing safely.',
+      slugs: [
+        'content-provider-mobile-web-voice',
+        'geographic-information-services-gis',
+        'document-process-outsourcing-dpo',
+        'knowledge-process-outsourcing-kpo',
+        'data-entry',
+        'it-enabled-services',
+      ],
+    },
+    {
+      title: 'Outsourcing & Operations',
+      description: 'Specialized teams that plug into your business with measurable SLAs.',
+      highlight: 'From contact centers to finance, we deliver governed processes and transparent metrics.',
+      slugs: [
+        'crm-outsourcing',
+        'sales-marketing-outsourcing',
+        'engineering-services-outsourcing-eso',
+        'contact-call-centers',
+        'facilities-management-outsourcing-fmo',
+        'procurement-process-outsourcing',
+        'legal-process-outsourcing-lpo',
+        'human-resources-outsourcing-hro',
+        'finance-accounting-outsourcing-fao',
+        'business-process-outsourcing-bpo',
+      ],
+    },
+  ];
 
-  // Computed properties for dynamic access
-  readonly header = computed(() => this._servicesContent().header);
-  readonly categories = computed(() => this._servicesContent().categories);
+  readonly services = this.servicesService.services;
 
-  constructor() {}
+  readonly groupedServices = computed(() =>
+    this.groups
+      .map(group => ({
+        ...group,
+        services: group.slugs
+          .map(slug => this.services().find(service => service.slug === slug))
+          .filter(Boolean) as ServiceItem[],
+      }))
+      .filter(group => group.services.length > 0),
+  );
 }
