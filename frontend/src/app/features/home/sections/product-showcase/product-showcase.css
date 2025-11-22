@@ -1,0 +1,20 @@
+/* Enable continuous sliding for the product cards */
+.card-marquee {
+  animation: product-marquee 22s linear infinite;
+  will-change: transform;
+}
+
+@keyframes product-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-marquee {
+    animation-play-state: paused;
+  }
+}
