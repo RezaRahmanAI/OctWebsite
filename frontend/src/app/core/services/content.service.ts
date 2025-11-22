@@ -6,9 +6,10 @@ import {
   InsightItem,
   ServiceCard,
   StatItem,
-  Testimonial
+  Testimonial,
 } from '../models/home-content.model';
 import { PricingPlanItem } from '../models/pricing-plan.model';
+import { FooterContent, NavigationContent } from '../models/site-content.model';
 
 type PageKey =
   | 'services'
@@ -48,6 +49,70 @@ export class ContentService {
       ],
     },
   ];
+
+  private readonly defaultNavigation: NavigationContent = {
+    brand: {
+      name: 'ObjectCanvas Technology',
+      tagline: '× ZeroProgrammingBD',
+      logo: '/images/logo/oct_logo.png',
+      link: '/',
+    },
+    primaryLinks: [
+      { label: 'Home', path: '/', exact: true },
+      { label: 'About', path: '/about', exact: true },
+      { label: 'Product', path: '/product', exact: true },
+      { label: 'Academy', path: '/academy', exact: true },
+      { label: 'Blog', path: '/blog', exact: false },
+      { label: 'Contact', path: '/contact', exact: true },
+    ],
+    aboutMenu: [
+      { title: 'Company Overview', href: '/about/overview' },
+      { title: 'Mission', href: '/about/mission' },
+      { title: 'Vision', href: '/about/vision' },
+      { title: 'Team Member', href: '/about/team' },
+    ],
+    collaborationMenu: [
+      {
+        label: 'Team Augmentation',
+        slug: 'team-augmentation',
+        summary: 'Embed elite engineers directly into your teams with rapid onboarding.',
+      },
+      {
+        label: 'End-to-End Development',
+        slug: 'end-to-end-development',
+        summary: 'Full lifecycle builds from discovery to launch with cohesive teams.',
+      },
+      {
+        label: 'MVP Development',
+        slug: 'mvp-development',
+        summary: 'Lean experiments and fast iterations to validate the right product.',
+      },
+      {
+        label: 'Offshore Development',
+        slug: 'offshore-development',
+        summary: 'Build and scale cost-effectively with dedicated offshore squads.',
+      },
+    ],
+    technologies: ['JavaScript', 'C++', 'C#', '.Net', 'Python', 'Java', 'PHP', 'Golang', 'Flutter'],
+    hiringLinks: [
+      { label: 'Hire Developers', href: '/services' },
+      { label: 'JavaScript Developers', href: '/services' },
+      { label: 'Python Developers', href: '/services' },
+      { label: 'Java Developers', href: '/services' },
+      { label: 'Golang Developers', href: '/services' },
+      { label: '.NET Developers', href: '/services' },
+    ],
+    productMenu: [
+      { title: 'Accounting -Inventory', href: '/products/accounting-inventory' },
+      { title: 'POS Software', href: '/products/pos-software' },
+      { title: 'Real Estate Management', href: '/products/real-estate-management' },
+      { title: 'Production Management', href: '/products/production-management' },
+      { title: 'Hardware Business', href: '/products/hardware-business' },
+      { title: 'Mobile Shop Management', href: '/products/mobile-shop-management' },
+      { title: 'Electronics Showroom', href: '/products/electronics-showroom' },
+      { title: 'Distribution Management', href: '/products/distribution-management' },
+    ],
+  };
 
   private readonly initialHomeContent: HomeContent = {
     hero: {
@@ -549,6 +614,80 @@ export class ContentService {
     },
   };
 
+  private readonly defaultFooter: FooterContent = {
+    brand: {
+      name: 'ObjectCanvas',
+      partner: '× ZeroProgrammingBD',
+      logo: '/images/logo/oct_logo.png',
+      description:
+        'ObjectCanvas Studios and ZeroProgrammingBD Academy unite to deliver transformative platforms and future-proof skills for founders, enterprises, and learners worldwide.',
+      consultationCta: {
+        label: 'Schedule a Free Consultation',
+        routerLink: '/contact',
+      },
+    },
+    sections: [
+      {
+        title: 'Our Services',
+        links: [
+          { label: 'Digital Marketing', routerLink: '/services' },
+          { label: 'Software Development', routerLink: '/services' },
+          { label: 'Website Building', routerLink: '/services' },
+          { label: 'Consultation', routerLink: '/contact' },
+          { label: 'Portfolio', routerLink: '/portfolio' },
+        ],
+      },
+      {
+        title: 'ZeroProgrammingBD Academy',
+        links: [
+          { label: 'Browse Courses', routerLink: '/academy' },
+          { label: 'Become an Instructor', routerLink: '/academy' },
+          { label: 'Student Success Stories', routerLink: '/academy' },
+          { label: 'Free Resources', routerLink: '/academy' },
+          { label: 'Course Calendar', routerLink: '/academy' },
+        ],
+      },
+      {
+        title: 'Company',
+        links: [
+          { label: 'About Us', routerLink: '/about' },
+          { label: 'Our Team', routerLink: '/about', fragment: 'team' },
+          { label: 'Portfolio', routerLink: '/portfolio' },
+          { label: 'Careers', routerLink: '/about', fragment: 'careers' },
+          { label: 'Blog & Press', routerLink: '/insights' },
+        ],
+      },
+      {
+        title: 'Support',
+        links: [
+          { label: 'Contact Us', routerLink: '/contact' },
+          { label: 'FAQ', routerLink: '/contact', fragment: 'faq' },
+          { label: 'Support Center', routerLink: '/contact' },
+          { label: 'Privacy Policy', routerLink: '/legal/privacy' },
+          { label: 'Terms of Service', routerLink: '/legal/terms' },
+          { label: 'Refund Policy', routerLink: '/legal/refund' },
+        ],
+      },
+    ],
+    socialLinks: [
+      { label: 'LinkedIn', externalUrl: 'https://www.linkedin.com/company/objectcanvas' },
+      { label: 'Facebook', externalUrl: 'https://www.facebook.com/objectcanvas' },
+      { label: 'Twitter', externalUrl: 'https://twitter.com/objectcanvas' },
+      { label: 'Instagram', externalUrl: 'https://www.instagram.com/objectcanvas' },
+      { label: 'YouTube', externalUrl: 'https://www.youtube.com/@zeroprogrammingbd' },
+      { label: 'GitHub', externalUrl: 'https://github.com/objectcanvas' },
+    ],
+    legalLinks: [
+      { label: 'Privacy Policy', routerLink: '/legal/privacy' },
+      { label: 'Terms', routerLink: '/legal/terms' },
+      { label: 'Sitemap', routerLink: '/sitemap' },
+    ],
+    profileDownload: {
+      label: 'Download Company Profile',
+      externalUrl: 'https://objectcanvas.com/company-profile.pdf',
+    },
+  };
+
   private readonly homeState = signal<HomeContent>(this.loadHomeContent());
   private readonly pageStorageKeyPrefix = 'objectcanvas-zeroprogramming-page-';
 
@@ -809,27 +948,8 @@ export class ContentService {
       responseTime:
         'We respond within 24 business hours. For urgent queries, call +880 1315-220077.',
     },
-    navigation: {
-      links: [
-        { label: 'Services', path: '/services' },
-        { label: 'Methodology', path: '/methodology' },
-        { label: 'Academy', path: '/academy' },
-        { label: 'Portfolio', path: '/portfolio' },
-        { label: 'About', path: '/about' },
-        { label: 'Contact', path: '/contact' },
-        { label: 'Dashboard', path: '/dashboard' },
-      ],
-    },
-    footer: {
-      socialLinks: [
-        { label: 'LinkedIn', url: 'https://www.linkedin.com/company/objectcanvas' },
-        { label: 'Facebook', url: 'https://www.facebook.com/objectcanvas' },
-        { label: 'Twitter', url: 'https://twitter.com/objectcanvas' },
-        { label: 'Instagram', url: 'https://www.instagram.com/objectcanvas' },
-        { label: 'YouTube', url: 'https://www.youtube.com/@zeroprogrammingbd' },
-        { label: 'GitHub', url: 'https://github.com/objectcanvas' },
-      ],
-    },
+    navigation: this.defaultNavigation,
+    footer: this.defaultFooter,
     sitemap: {
       links: [
         { label: 'Home', url: '/' },
@@ -854,11 +974,21 @@ export class ContentService {
   }
 
   readonly homeContent = computed(() => this.homeState());
+  readonly navigationContent = this.getPageSignal<NavigationContent>('navigation');
+  readonly footerContent = this.getPageSignal<FooterContent>('footer');
 
   setHomeContent(content: HomeContent): void {
     const next = this.clone(content);
     this.homeState.set(next);
     this.writeHomeContent(next);
+  }
+
+  setNavigationContent(content: NavigationContent): void {
+    this.setPageContent('navigation', content);
+  }
+
+  setFooterContent(content: FooterContent): void {
+    this.setPageContent('footer', content);
   }
 
   getPricingPlans(): Observable<PricingPlanItem[]> {
@@ -896,6 +1026,13 @@ export class ContentService {
       this.writePageToStorage(key, next);
       return of(next);
     });
+  }
+
+  private setPageContent<T>(key: PageKey, content: T): void {
+    const next = this.clone(content);
+    const pageSignal = this.ensurePageSignal<T>(key);
+    pageSignal.set(next);
+    this.writePageToStorage(key, next);
   }
 
   resetPage<T>(key: PageKey): void {
