@@ -75,12 +75,22 @@ export class NavbarComponent {
   };
 
   readonly brand = computed(() => this.navigation()?.brand ?? this.defaultBrand);
-  readonly navLinks = computed<NavLink[]>(() => this.navigation()?.primaryLinks ?? []);
-  readonly aboutUsItems = computed<DropdownItem[]>(() => this.navigation()?.aboutMenu ?? []);
-  readonly servicesCollaboration = computed<MethodologyLink[]>(() => this.navigation()?.collaborationMenu ?? []);
-  readonly technologies = computed<string[]>(() => this.navigation()?.technologies ?? []);
-  readonly hiringLinks = computed(() => this.navigation()?.hiringLinks ?? []);
-  readonly productItems = computed<DropdownItem[]>(() => this.navigation()?.productMenu ?? []);
+  readonly navLinks = computed<NavLink[]>(
+    () => this.navigation()?.primaryLinks ?? this.defaultNavigation.primaryLinks
+  );
+  readonly aboutUsItems = computed<DropdownItem[]>(
+    () => this.navigation()?.aboutMenu ?? this.defaultNavigation.aboutMenu
+  );
+  readonly servicesCollaboration = computed<MethodologyLink[]>(
+    () => this.navigation()?.collaborationMenu ?? this.defaultNavigation.collaborationMenu
+  );
+  readonly technologies = computed<string[]>(
+    () => this.navigation()?.technologies ?? this.defaultNavigation.technologies
+  );
+  readonly hiringLinks = computed(() => this.navigation()?.hiringLinks ?? this.defaultNavigation.hiringLinks);
+  readonly productItems = computed<DropdownItem[]>(
+    () => this.navigation()?.productMenu ?? this.defaultNavigation.productMenu
+  );
 
   readonly featuredServices = computed<ServiceItem[]>(() => this.servicesService.services().slice(0, 9));
 
