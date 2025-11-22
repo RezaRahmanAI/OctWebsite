@@ -1,5 +1,5 @@
 <section class="section-padding">
-  <div class="container-responsive space-y-12">
+  <div class="container-wide space-y-12">
     <div class="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
       <div class="space-y-6">
         <app-section-heading
@@ -25,18 +25,7 @@
             See recent launches
           </a>
         </div>
-        <div class="flex w-full max-w-lg items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 shadow-sm focus-within:border-primary/80">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <circle cx="11" cy="11" r="7" />
-            <path d="m16.65 16.65 4.35 4.35" stroke-linecap="round" />
-          </svg>
-          <input
-            type="search"
-            placeholder="Search products"
-            class="w-full rounded-full px-2 py-2 text-sm text-slate-700 focus:outline-none"
-            (input)="query.set($any($event.target).value)"
-          />
-        </div>
+        
       </div>
       <div class="product-video-wrapper">
         <video
@@ -48,14 +37,6 @@
           playsinline
           controls
         ></video>
-        <div class="product-video-overlay">
-          <div class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-white">
-            Product showreel
-          </div>
-          <p class="text-sm text-white/90">
-            Highlights from shipped industry accelerators and tailored deployments.
-          </p>
-        </div>
       </div>
     </div>
 
