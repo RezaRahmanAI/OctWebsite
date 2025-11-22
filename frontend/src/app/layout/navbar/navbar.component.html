@@ -19,9 +19,10 @@
         </span>
       </a>
 
-      <div class="hidden items-center gap-8 lg:flex">
-        <ul class="flex items-center gap-6 text-sm font-medium text-slate-600">
-          <!-- LEFT: Home -->
+      <!-- DESKTOP NAV -->
+      <div class="hidden items-center lg:flex">
+        <ul class="flex items-center gap-7 text-sm font-medium text-slate-600">
+          <!-- LEFT: Home + About -->
           <ng-container *ngFor="let link of navLinks()">
             <li *ngIf="link.label === 'Home' || link.label === 'About'">
               <a
@@ -36,131 +37,144 @@
             </li>
           </ng-container>
 
-          <!-- MIDDLE: DROPDOWNS -->
+          <!-- MIDDLE: SERVICES DROPDOWN -->
           <li
-            class="relative"
-            (mouseenter)="setDropdownOpen('services', true)"
-            (mouseleave)="setDropdownOpen('services', false)"
-          >
-            <button
-              type="button"
-              class="flex items-center gap-1 rounded-full px-3 py-2 text-sm font-semibold text-primary transition hover:text-primary"
-              (click)="toggleDropdown('services')"
-              [attr.aria-expanded]="servicesMenuOpen()"
-            >
-              Services
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 transition"
-                [class.rotate-180]="servicesMenuOpen()"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+  class="relative"
+  (mouseenter)="setDropdownOpen('services', true)"
+  (mouseleave)="setDropdownOpen('services', false)"
+>
+  <button
+    type="button"
+    class="inline-flex items-center gap-1 text-sm font-semibold text-primary transition hover:text-primary"
+    (click)="toggleDropdown('services')"
+    [attr.aria-expanded]="servicesMenuOpen()"
+  >
+    <span>Services</span>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-4 w-4 transition"
+      [class.rotate-180]="servicesMenuOpen()"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="1.5"
+        d="M6 9l6 6 6-6"
+      />
+    </svg>
+  </button>
+
+  <!-- FULL-VIEWPORT DROPDOWN -->
+  <div
+    *ngIf="servicesMenuOpen()"
+    class="fixed inset-x-0 z-40 border-y border-slate-100 bg-white shadow-2xl shadow-slate-900/5"
+  >
+    <!-- inner container centered, but you can widen/narrow max-w-* -->
+    <div class="mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
+      <div class="grid gap-4 py-6 md:grid-cols-4 md:gap-6 md:py-8">
+        <!-- 1️⃣ Collaboration Models -->
+        <div class="space-y-4 rounded-2xl bg-sky-50/70 p-5">
+          <p class="text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+            Collaboration Models
+          </p>
+          <ul class="space-y-3 text-sm text-slate-800">
+            <li *ngFor="let item of servicesCollaboration">
+              <a
+                [routerLink]="['/methodology', item.slug]"
+                class="block rounded-xl px-3 py-2 transition hover:bg-white hover:text-primary"
+                (click)="closeAllMenus()"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1.5"
-                  d="M6 9l6 6 6-6"
-                />
-              </svg>
-            </button>
-            <div
-              *ngIf="servicesMenuOpen()"
-              class="absolute left-1/2 top-full w-screen -translate-x-1/2 rounded-none border-y border-slate-100 bg-white shadow-2xl shadow-slate-900/5 mt-2"
+                <div class="flex items-center justify-between text-sm font-semibold">
+                  <span>{{ item.label }}</span>
+                  <span aria-hidden="true">→</span>
+                </div>
+                <p class="mt-1 text-xs text-slate-600">{{ item.summary }}</p>
+              </a>
+            </li>
+          </ul>
+          <div class="rounded-xl bg-white/90 p-4 shadow-sm shadow-primary/10">
+            <p class="text-sm font-semibold text-slate-800">
+              Want to accelerate your software company?
+            </p>
+            <a
+              routerLink="/contact"
+              class="mt-3 inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 transition hover:-translate-y-0.5"
+              (click)="closeAllMenus()"
             >
-              <div class="grid gap-4 p-6 lg:grid-cols-4 lg:gap-6 lg:p-10">
-                <div class="space-y-4 rounded-2xl bg-sky-50 p-6">
-                  <p class="text-xs font-semibold uppercase tracking-[0.25em] text-primary">
-                    Collaboration Models
-                  </p>
-                  <ul class="space-y-3 text-sm text-slate-800">
-                    <li *ngFor="let item of servicesCollaboration">
-                      <a
-                        [routerLink]="['/methodology', item.slug]"
-                        class="block rounded-xl px-3 py-2 transition hover:bg-white hover:text-primary"
-                        (click)="closeAllMenus()"
-                      >
-                        <div class="flex items-center justify-between text-base font-semibold">
-                          <span>{{ item.label }}</span>
-                          <span aria-hidden="true">→</span>
-                        </div>
-                        <p class="mt-1 text-xs text-slate-600">{{ item.summary }}</p>
-                      </a>
-                    </li>
-                  </ul>
-                  <div class="rounded-xl bg-white/80 p-4 shadow-sm shadow-primary/10">
-                    <p class="text-sm font-semibold text-slate-800">
-                      Want to accelerate your software company?
-                    </p>
-                    <a
-                      routerLink="/contact"
-                      class="mt-3 inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 transition hover:-translate-y-0.5"
-                      (click)="closeAllMenus()"
-                    >
-                      Hire The Best Team →
-                    </a>
-                  </div>
-                </div>
+              Hire The Best Team →
+            </a>
+          </div>
+        </div>
 
-                <div class="space-y-3 rounded-2xl bg-white p-6 ring-1 ring-slate-100">
-                  <p class="text-sm font-semibold text-slate-900">Technologies</p>
-                  <ul class="space-y-2 text-sm text-slate-600">
-                    <li *ngFor="let tech of technologies">
-                      {{ tech }}
-                    </li>
-                  </ul>
-                </div>
+        <!-- 2️⃣ All Services -->
+        <div class="space-y-3 rounded-2xl bg-white p-5 ring-1 ring-slate-100">
+          <div class="flex items-center justify-between">
+            <p class="text-sm font-semibold text-slate-900">All Services</p>
+            <a
+              routerLink="/services"
+              class="text-[11px] font-semibold uppercase tracking-[0.25em] text-primary transition hover:text-primary/80"
+              (click)="closeAllMenus()"
+            >
+              View All
+            </a>
+          </div>
+          <ul class="divide-y divide-slate-100 text-sm text-slate-700">
+            <li *ngFor="let service of featuredServices()" class="py-2 first:pt-0 last:pb-0">
+              <a
+                [routerLink]="['/services', service.slug]"
+                class="flex items-center justify-between gap-2 rounded-lg px-2 py-1 transition hover:bg-slate-50 hover:text-primary"
+                (click)="closeAllMenus()"
+              >
+                <span class="flex-1">{{ service.title }}</span>
+                <span class="text-xs text-slate-400" aria-hidden="true">→</span>
+              </a>
+            </li>
+          </ul>
+        </div>
 
-                <div class="space-y-3 rounded-2xl bg-white p-6 ring-1 ring-slate-100">
-                  <p class="text-sm font-semibold text-slate-900">For Hiring</p>
-                  <ul class="space-y-2 text-sm font-semibold text-blue-600">
-                    <li *ngFor="let hire of hiringLinks">
-                      <a
-                        routerLink="/services"
-                        class="transition hover:underline"
-                        (click)="closeAllMenus()"
-                      >
-                        {{ hire.label }}
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+        <!-- 3️⃣ Technologies -->
+        <div class="space-y-3 rounded-2xl bg-white p-5 ring-1 ring-slate-100">
+          <p class="text-sm font-semibold text-slate-900">Technologies</p>
+          <ul class="space-y-2 text-sm text-slate-600">
+            <li *ngFor="let tech of technologies">
+              {{ tech }}
+            </li>
+          </ul>
+        </div>
 
-                <div class="space-y-3 rounded-2xl bg-white p-6 ring-1 ring-slate-100">
-                  <div class="flex items-center justify-between">
-                    <p class="text-sm font-semibold text-slate-900">All Services</p>
-                    <a
-                      routerLink="/services"
-                      class="text-xs font-semibold uppercase tracking-[0.25em] text-primary transition hover:text-primary/80"
-                      (click)="closeAllMenus()"
-                    >
-                      View All
-                    </a>
-                  </div>
-                  <ul class="divide-y divide-slate-100 text-sm text-slate-700">
-                    <li *ngFor="let service of featuredServices()" class="py-2 first:pt-0 last:pb-0">
-                      <a
-                        [routerLink]="['/services', service.slug]"
-                        class="flex items-center justify-between gap-2 rounded-lg px-2 py-1 transition hover:bg-slate-50 hover:text-primary"
-                        (click)="closeAllMenus()"
-                      >
-                        <span class="flex-1">{{ service.title }}</span>
-                        <span class="text-xs text-slate-400" aria-hidden="true">→</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </li>
+        <!-- 4️⃣ For Hiring -->
+        <div class="space-y-3 rounded-2xl bg-white p-5 ring-1 ring-slate-100">
+          <p class="text-sm font-semibold text-slate-900">For Hiring</p>
+          <ul class="space-y-2 text-sm font-semibold text-blue-600">
+            <li *ngFor="let hire of hiringLinks">
+              <a
+                routerLink="/services"
+                class="transition hover:underline"
+                (click)="closeAllMenus()"
+              >
+                {{ hire.label }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</li>
 
-         
 
-          <!-- RIGHT: Blog + Contact at the end -->
+          <!-- RIGHT: Product, Academy, Blog, Contact -->
           <ng-container *ngFor="let link of navLinks()">
             <li
-              *ngIf="link.label === 'Product' || link.label === 'Academy' || link.label === 'Blog' || link.label === 'Contact'"
+              *ngIf="
+                link.label === 'Product' ||
+                link.label === 'Academy' ||
+                link.label === 'Blog' ||
+                link.label === 'Contact'
+              "
             >
               <a
                 [routerLink]="link.path"
@@ -176,6 +190,7 @@
         </ul>
       </div>
 
+      <!-- MOBILE TOGGLE -->
       <button
         type="button"
         class="inline-flex items-center justify-center rounded-full border border-slate-200 p-2 text-slate-700 lg:hidden"
@@ -216,6 +231,7 @@
     </nav>
   </div>
 
+  <!-- MOBILE MENU (unchanged except your existing content) -->
   <div
     class="border-t border-slate-200 bg-white lg:hidden max-h-[80vh] overflow-y-auto"
     *ngIf="menuOpen()"
@@ -287,10 +303,15 @@
           </div>
         </div>
 
-        
-
         <ng-container *ngFor="let link of navLinks()">
-          <li *ngIf="link.label === 'Product' ||link.label === 'Academy' || link.label === 'Blog' || link.label === 'Contact'">
+          <li
+            *ngIf="
+              link.label === 'Product' ||
+              link.label === 'Academy' ||
+              link.label === 'Blog' ||
+              link.label === 'Contact'
+            "
+          >
             <a
               [routerLink]="link.path"
               routerLinkActive="text-primary"
