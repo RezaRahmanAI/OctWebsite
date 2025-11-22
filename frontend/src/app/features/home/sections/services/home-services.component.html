@@ -17,9 +17,7 @@
         *ngFor="let service of data.items; let i = index"
         class="service-card group"
         [ngClass]="['service-card-' + i, service.featured ? 'ring-2 ring-accent/40' : '']"
-        appScrollReveal
-        [revealDelay]="i * 0.08"
-        [revealOffset]="40"
+        [appScrollReveal]="{ delay: i * 0.08, y: 40 }"
       >
         <div class="service-overlay" aria-hidden="true"></div>
         <div class="service-content">

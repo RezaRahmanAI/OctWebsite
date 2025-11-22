@@ -7,5 +7,6 @@ export * from './blog.service';
 export * from './leads.service';
 export * from './settings.service';
 export * from './toast.service';
+export * from './animation.service';
 export * from './smooth-scroll.service';
 export * from './theme.service';

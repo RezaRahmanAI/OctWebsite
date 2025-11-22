@@ -6,7 +6,11 @@
       [subtitle]="data.header.subtitle"
     ></app-section-header>
     <div class="mt-12 grid gap-6 md:grid-cols-3">
-      <article *ngFor="let insight of data.items; let i = index" class="flex h-full flex-col justify-between rounded-3xl border border-slate-100 bg-white p-8 shadow-glow transition hover:-translate-y-2 hover:shadow-2xl" appScrollReveal [revealDelay]="i * 0.08" [revealOffset]="36">
+      <article
+        *ngFor="let insight of data.items; let i = index"
+        class="flex h-full flex-col justify-between rounded-3xl border border-slate-100 bg-white p-8 shadow-glow transition hover:-translate-y-2 hover:shadow-2xl"
+        [appScrollReveal]="{ delay: i * 0.08, y: 36 }"
+      >
         <div>
           <span class="text-xs font-semibold uppercase tracking-[0.3em] text-accent">{{ insight.category }}</span>
           <h3 class="mt-4 text-2xl font-semibold text-primary">{{ insight.title }}</h3>
