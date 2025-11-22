@@ -1,26 +1,23 @@
 <section class="section-padding">
   <div class="container-wide">
     <div
-      class="relative overflow-hidden rounded-3xl border border-slate-200/70 bg-gradient-to-br from-white via-primary/5 to-white shadow-glow"
+      class="relative overflow-hidden"
     >
-      <div class="absolute -left-10 -top-10 h-40 w-40 rounded-full bg-primary/10 blur-3xl"></div>
-      <div class="absolute -bottom-16 -right-6 h-48 w-48 rounded-full bg-secondary/20 blur-3xl"></div>
 
-      <div class="relative space-y-10 px-6 py-10 sm:px-10 lg:px-14">
+
+      <div class="relative space-y-10 py-10 ">
         <div class="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
           <div class="max-w-3xl space-y-4">
             <p
-              class="inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-secondary ring-1 ring-secondary/20"
+              class="inline-flex items-center gap-2 rounded-full bg-accent/10 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-accent"
             >
+            <span class="h-2 w-2 rounded-full bg-accent"></span>
+          
               {{ data.tagline }}
             </p>
             <h2 class="text-3xl font-semibold text-slate-900 sm:text-4xl">
               Delivery teams that enterprises and innovators rely on.
-            </h2>
-            <p class="text-base text-slate-600 sm:text-lg">
-              The same rigor we apply to our technology stack fuels how we build trust—with secure delivery, consistent
-              communication, and measurable impact.
-            </p>
+            </h2>            
           </div>
 
           <div class="grid w-full max-w-xl grid-cols-2 gap-3 sm:grid-cols-4">
@@ -47,7 +44,7 @@
               <div class="flex w-max gap-6 animate-[marquee-left_45s_linear_infinite]">
                 <ng-container *ngFor="let company of marqueeRowOne">
                   <div
-                    class="flex h-24 w-52 items-center justify-center rounded-2xl bg-white/80 px-6 shadow-glow ring-1 ring-slate-100"
+                    class="flex h-24 w-52 items-center justify-center "
                   >
                     <img
                       [src]="company.src"
@@ -60,22 +57,6 @@
               </div>
             </div>
 
-            <div class="relative w-full overflow-hidden">
-              <div class="flex w-max gap-6 animate-[marquee-right_45s_linear_infinite]">
-                <ng-container *ngFor="let company of marqueeRowTwo">
-                  <div
-                    class="flex h-24 w-52 items-center justify-center rounded-2xl bg-white/80 px-6 shadow-glow ring-1 ring-slate-100"
-                  >
-                    <img
-                      [src]="company.src"
-                      [alt]="company.name + ' logo'"
-                      class="max-h-12 w-auto object-contain brightness-95"
-                      loading="lazy"
-                    />
-                  </div>
-                </ng-container>
-              </div>
-            </div>
           </div>
         </div>
       </div>

@@ -27,5 +27,4 @@ export class HomeTrustComponent {
   ];
 
   marqueeRowOne = [...this.trustedLogos, ...this.trustedLogos];
-  marqueeRowTwo = [...this.trustedLogos.slice().reverse(), ...this.trustedLogos.slice().reverse()];
 }

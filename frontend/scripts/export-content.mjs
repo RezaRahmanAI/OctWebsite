@@ -65,7 +65,7 @@ const homeContent = {
   services: {
     header: {
       eyebrow: 'Solutions',
-      title: 'Comprehensive Technology Solutions',
+      title: 'Technology Solutions',
       subtitle: 'Strategy, delivery, and enablement crafted for ambitious brands and fast-scaling ventures.',
       align: 'center'
     },
