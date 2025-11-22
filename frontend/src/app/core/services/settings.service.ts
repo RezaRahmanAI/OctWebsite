@@ -1,20 +1,15 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, computed, inject, signal } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { Injectable, computed, signal } from '@angular/core';
 import { SiteSettings } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class SettingsService {
-  private readonly http = inject(HttpClient);
   private readonly settingsSignal = signal<SiteSettings | null>(null);
-  private readonly apiUrl = `${environment.apiUrl}/api/settings`;
-  private loadingPromise: Promise<SiteSettings | null> | null = null;
+  private readonly defaultSettings: SiteSettings | null = null;
 
   readonly settings = computed(() => this.settingsSignal());
 
   constructor() {
-    void this.ensureLoaded();
+    this.settingsSignal.set(this.defaultSettings);
   }
 
   list(): SiteSettings[] {
@@ -28,26 +23,21 @@ export class SettingsService {
   }
 
   async ensureLoaded(): Promise<SiteSettings | null> {
-    if (this.settingsSignal()) {
-      return this.settingsSignal();
+    if (!this.settingsSignal() && this.defaultSettings) {
+      this.settingsSignal.set(this.defaultSettings);
     }
-    if (this.loadingPromise) {
-      return this.loadingPromise;
-    }
-    this.loadingPromise = this.fetchSettings();
-    const result = await this.loadingPromise;
-    this.loadingPromise = null;
-    return result;
+    return Promise.resolve(this.settingsSignal());
   }
 
   async refresh(): Promise<SiteSettings | null> {
-    return this.fetchSettings();
+    this.settingsSignal.set(this.defaultSettings);
+    return Promise.resolve(this.settingsSignal());
   }
 
   async save(settings: SiteSettings): Promise<SiteSettings> {
     const payload: SiteSettings = {
       ...settings,
-      id: settings.id ?? '',
+      id: settings.id ?? this.generateId(),
       siteTitle: settings.siteTitle ?? '',
       tagline: settings.tagline ?? '',
       heroTitle: settings.heroTitle ?? '',
@@ -62,24 +52,14 @@ export class SettingsService {
       heroBackgroundVideoId: settings.heroBackgroundVideoId ?? '',
     };
 
-    const saved = await firstValueFrom(
-      this.http.put<SiteSettings>(this.apiUrl, payload),
-    );
-    this.settingsSignal.set(saved);
-    return saved;
+    this.settingsSignal.set(payload);
+    return Promise.resolve(payload);
   }
 
-  private async fetchSettings(): Promise<SiteSettings | null> {
-    try {
-      const settings = await firstValueFrom(
-        this.http.get<SiteSettings>(this.apiUrl),
-      );
-      this.settingsSignal.set(settings);
-      return settings;
-    } catch (error) {
-      console.error('Failed to load site settings', error);
-      this.settingsSignal.set(null);
-      return null;
+  private generateId(): string {
+    if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
+      return crypto.randomUUID();
     }
+    return Math.random().toString(36).slice(2);
   }
 }

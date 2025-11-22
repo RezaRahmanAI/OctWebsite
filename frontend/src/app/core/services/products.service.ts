@@ -1,24 +1,16 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
 import { DATA_PROVIDER } from '../data';
 import { ProductItem } from '../models';
-import { environment } from '../../../environments/environment';
 import { STATIC_PRODUCTS } from '../data/static-products';
 
 @Injectable({ providedIn: 'root' })
 export class ProductsService {
   private readonly provider = inject(DATA_PROVIDER);
   private readonly store = this.provider.products;
-  private readonly http = inject(HttpClient);
-  private readonly apiUrl = `${environment.apiUrl}/api/products`;
-  private loadingPromise: Promise<void> | null = null;
-  private hasLoadedFromApi = false;
   private readonly query = signal('');
 
   constructor() {
     this.seedFromStatic();
-    void this.ensureLoaded();
   }
 
   readonly products = computed(() => {
@@ -53,10 +45,9 @@ export class ProductsService {
   }
 
   async create(product: ProductItem): Promise<ProductItem> {
-    const payload = this.toRequest(product);
-    const created = await firstValueFrom(this.http.post<ProductItem>(this.apiUrl, payload));
+    const created = { ...product, id: product.id ?? this.generateId() };
     this.store.create(created);
-    return created;
+    return Promise.resolve(created);
   }
 
   async update(id: string, patch: Partial<ProductItem>): Promise<ProductItem | undefined> {
@@ -64,50 +55,22 @@ export class ProductsService {
     if (!current) {
       return undefined;
     }
-    const payload = this.toRequest({ ...current, ...patch });
-    const updated = await firstValueFrom(this.http.put<ProductItem>(`${this.apiUrl}/${id}`, payload));
+    const updated = { ...current, ...patch } as ProductItem;
     this.store.update(id, updated);
-    return updated;
+    return Promise.resolve(updated);
   }
 
   async delete(id: string): Promise<void> {
-    await firstValueFrom(this.http.delete<void>(`${this.apiUrl}/${id}`));
     this.store.delete(id);
+    return Promise.resolve();
   }
 
   async refresh(): Promise<void> {
-    await this.loadFromApi(true);
+    this.seedFromStatic(true);
   }
 
   async ensureLoaded(): Promise<void> {
-    await this.loadFromApi();
-  }
-
-  private async loadFromApi(force = false): Promise<void> {
-    if (this.loadingPromise) {
-      await this.loadingPromise;
-      return;
-    }
-    if (!force && this.hasLoadedFromApi) {
-      return;
-    }
-    this.loadingPromise = firstValueFrom(this.http.get<ProductItem[]>(this.apiUrl))
-      .then(items => {
-        if (items.length === 0) {
-          this.seedFromStatic(true);
-          return;
-        }
-        this.store.replace(items);
-        this.hasLoadedFromApi = true;
-      })
-      .catch(error => {
-        console.error('Failed to load products from API', error);
-        this.seedFromStatic(true);
-      })
-      .finally(() => {
-        this.loadingPromise = null;
-      });
-    await this.loadingPromise;
+    this.seedFromStatic(true);
   }
 
   private seedFromStatic(force = false): void {
@@ -117,14 +80,10 @@ export class ProductsService {
     this.store.replace(STATIC_PRODUCTS);
   }
 
-  private toRequest(product: Partial<ProductItem>): Omit<ProductItem, 'id'> {
-    return {
-      title: product.title ?? '',
-      slug: product.slug ?? '',
-      summary: product.summary ?? '',
-      icon: product.icon ?? '',
-      features: product.features ?? [],
-      active: product.active ?? true,
-    };
+  private generateId(): string {
+    if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
+      return crypto.randomUUID();
+    }
+    return Math.random().toString(36).slice(2);
   }
 }
