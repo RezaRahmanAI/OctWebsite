@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Injectable, OnDestroy, inject } from '@angular/core';
+import { Injectable, NgZone, OnDestroy, inject } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -14,6 +14,7 @@ interface ScrollOptions {
 export class SmoothScrollService implements OnDestroy {
   private readonly router = inject(Router);
   private readonly document = inject(DOCUMENT);
+  private readonly zone = inject(NgZone);
   private initialized = false;
   private routerSub?: Subscription;
   private lenis?: Lenis;
@@ -74,12 +75,14 @@ export class SmoothScrollService implements OnDestroy {
       gestureOrientation: 'vertical'
     });
 
-    const raf = (time: number) => {
-      this.lenis?.raf(time);
-      this.rafId = requestAnimationFrame(raf);
-    };
+    this.zone.runOutsideAngular(() => {
+      const raf = (time: number) => {
+        this.lenis?.raf(time);
+        this.rafId = requestAnimationFrame(raf);
+      };
 
-    this.rafId = requestAnimationFrame(raf);
+      this.rafId = requestAnimationFrame(raf);
+    });
   }
 
   ngOnDestroy(): void {
