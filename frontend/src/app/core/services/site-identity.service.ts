@@ -9,7 +9,7 @@ export class SiteIdentityService {
       { label: 'Facebook', url: 'https://www.facebook.com/objectcanvas' },
       { label: 'Twitter', url: 'https://twitter.com/objectcanvas' },
       { label: 'Instagram', url: 'https://www.instagram.com/objectcanvas' },
-      { label: 'YouTube', url: 'https://www.youtube.com/@zeroprogrammingbd' },
+      { label: 'YouTube', url: 'https://www.youtube.com/@' },
       { label: 'GitHub', url: 'https://github.com/objectcanvas' },
     ],
     phoneNumbers: {
@@ -36,37 +36,43 @@ export class SiteIdentityService {
     home: {
       page: 'home',
       src: '/video/bg.mp4',
-      poster: 'https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1600&q=80',
+      poster:
+        'https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1600&q=80',
       caption: 'Hero background video used across the site.',
     },
     services: {
       page: 'services',
       src: '/video/bg.mp4',
-      poster: 'https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1600&q=80',
+      poster:
+        'https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1600&q=80',
       caption: 'Services hero background media.',
     },
     product: {
       page: 'product',
       src: '/video/bg.mp4',
-      poster: 'https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1600&q=80',
+      poster:
+        'https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1600&q=80',
       caption: 'Product overview hero media.',
     },
     academy: {
       page: 'academy',
       src: '/video/bg.mp4',
-      poster: 'https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1600&q=80',
+      poster:
+        'https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1600&q=80',
       caption: 'Academy hero background video.',
     },
     blog: {
       page: 'blog',
       src: '/video/bg.mp4',
-      poster: 'https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1600&q=80',
+      poster:
+        'https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1600&q=80',
       caption: 'Insights and blog hero media.',
     },
     contact: {
       page: 'contact',
       src: '/video/bg.mp4',
-      poster: 'https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1600&q=80',
+      poster:
+        'https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1600&q=80',
       caption: 'Contact page hero background.',
     },
   });

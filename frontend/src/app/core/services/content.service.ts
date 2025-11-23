@@ -120,7 +120,7 @@ export class ContentService {
       badge: 'ObjectCanvas Technology',
       title: 'One Alliance. Infinite Digital Outcomes.',
       description:
-        'ObjectCanvas engineers mission-critical software and experiences while ZeroProgrammingBD mentors deliver the talent to scale them. Together we help ambitious teams ship faster and learn smarter.',
+        'ObjectCanvas engineers mission-critical software and experiences while  mentors deliver the talent to scale them. Together we help ambitious teams ship faster and learn smarter.',
       primaryCta: {
         label: 'Start Your Project',
         routerLink: '/contact',
@@ -149,7 +149,7 @@ export class ContentService {
         eyebrow: 'Global Delivery Model',
         title: 'Product squads meet academy mentors',
         description:
-          'ObjectCanvas product strategists, engineers, and designers partner with ZeroProgrammingBD instructors to align delivery rituals, documentation, and enablement from day one.',
+          'ObjectCanvas product strategists, engineers, and designers partner with  instructors to align delivery rituals, documentation, and enablement from day one.',
         metrics: [
           { label: 'Timezone aligned', value: 'Asia · EU · NA', theme: 'accent' },
           { label: 'Delivery Velocity', value: '2x faster GTM', theme: 'emerald' },
@@ -157,7 +157,7 @@ export class ContentService {
         partner: {
           label: 'Trusted technology & academy partner',
           description:
-            'Align business outcomes with skill transformation—ZeroProgrammingBD Academy trains your teams to own and scale every solution we deploy.',
+            'Align business outcomes with skill transformation—ObjectCanvas Academy trains your teams to own and scale every solution we deploy.',
         },
       },
     },
@@ -211,69 +211,121 @@ export class ContentService {
       ],
     },
     services: {
-      header: {
-        eyebrow: 'Solutions',
-        title: 'Comprehensive Technology Solutions',        
-      },
-      items: [
-        {
-          title: 'Digital Marketing',
-          icon: '🎯',
-          description:
-            'Grow your global visibility with performance-driven campaigns and storytelling that resonates.',
-          highlights: [
-            'SEO & multi-language content strategy',
-            'Full-funnel paid media management',
-            'Brand development & identity systems',
-            'Data-driven analytics and conversion optimization',
-          ],
-          tagline: 'Grow Your Digital Presence Globally',
-        },
-        {
-          title: 'Software Development',
-          icon: '💻',
-          description:
-            'Build resilient platforms across web, mobile, and cloud with modern engineering practices.',
-          highlights: [
-            'Custom enterprise applications',
-            'Mobile experiences for iOS and Android',
-            'API integrations & automation',
-            'Cloud architecture, DevOps & observability',
-          ],
-          tagline: 'Building Scalable Solutions',
-        },
-        {
-          title: 'Website Building',
-          icon: '🌐',
-          description:
-            'Design pixel-perfect digital homes that translate your brand into immersive customer journeys.',
-          highlights: [
-            'Responsive corporate and e-commerce sites',
-            'Conversion-optimized landing pages',
-            'WordPress & headless CMS implementations',
-            'Continuous support and performance tuning',
-          ],
-          tagline: 'Your Digital Home, Perfected',
-        },
-        {
-          title: 'ZeroProgrammingBD Academy',
-          icon: '🎓',
-          description:
-            'Future-ready tech education with live cohorts, real-world projects, and mentorship from industry leaders.',
-          highlights: [
-            'Live interactive bootcamps and micro-courses',
-            'Industry-recognized certificates',
-            'Career coaching & placement support',
-            'Hands-on projects reviewed by senior engineers',
-          ],
-          tagline: 'Learn From the Best, Become the Best',
-          featured: true,
-        },
+  header: {
+    eyebrow: 'Solutions',
+    title: 'Comprehensive Technology Solutions',
+  },
+  items: [
+    {
+      title: 'Software Development',
+      icon: '💻',
+      description:
+        'Build resilient platforms across web, mobile, and cloud with modern engineering practices.',
+      highlights: [
+        'Custom enterprise applications',
+        'Mobile experiences for iOS and Android',
+        'API integrations & automation',
+        'Cloud architecture, DevOps & observability',
       ],
+      tagline: 'Building Scalable Solutions',
     },
+    {
+      title: 'Website Building',
+      icon: '🌐',
+      description:
+        'Design pixel-perfect digital homes that translate your brand into immersive customer journeys.',
+      highlights: [
+        'Responsive corporate and e-commerce sites',
+        'Conversion-optimized landing pages',
+        'WordPress & headless CMS implementations',
+        'Continuous support and performance tuning',
+      ],
+      tagline: 'Your Digital Home, Perfected',
+    },
+    {
+      title: 'Digital Marketing',
+      icon: '🎯',
+      description:
+        'Grow your global visibility with performance-driven campaigns and storytelling that resonates.',
+      highlights: [
+        'SEO & multi-language content strategy',
+        'Full-funnel paid media management',
+        'Brand development & identity systems',
+        'Data-driven analytics and conversion optimization',
+      ],
+      tagline: 'Grow Your Digital Presence Globally',
+    },
+    {
+      title: 'UI/UX Design',
+      icon: '🎨',
+      description:
+        'Craft intuitive, conversion-focused experiences that feel natural on every screen.',
+      highlights: [
+        'User research & journey mapping',
+        'Wireframes, prototypes & design systems',
+        'Mobile-first and responsive design',
+        'Usability testing & UX audits',
+      ],
+      tagline: 'Designs That Users Love',
+    },
+    {
+      title: 'Cross-Platform Mobile Apps',
+      icon: '📱',
+      description:
+        'Ship polished apps for iOS and Android from a single, maintainable codebase.',
+      highlights: [
+        'Flutter, React Native & hybrid stacks',
+        'Consistent UI across devices',
+        'Offline-first and sync strategies',
+        'App Store & Play Store deployment support',
+      ],
+      tagline: 'One Codebase, Every Device',
+    },
+    {
+      title: 'Software Quality Assurance (SQA)',
+      icon: '✅',
+      description:
+        'Ensure every release is stable, secure, and ready for real users before it ships.',
+      highlights: [
+        'Manual & automated test suites',
+        'Functional, regression & smoke testing',
+        'Performance and load testing',
+        'Bug reporting, triage & quality gates',
+      ],
+      tagline: 'Ship with Confidence',
+    },
+    {
+      title: 'Database & DBMS Solutions',
+      icon: '🗄️',
+      description:
+        'Design and optimize data architectures that scale with your business, not against it.',
+      highlights: [
+        'Relational & NoSQL database design',
+        'Query optimization & indexing',
+        'Data migration & backup strategies',
+        'High availability & replication setups',
+      ],
+      tagline: 'Data You Can Rely On',
+    },
+    {
+      title: 'Cloud Infrastructure & Services',
+      icon: '☁️',
+      description:
+        'Leverage AWS, Azure, and GCP to build secure, scalable, and cost-efficient platforms.',
+      highlights: [
+        'Cloud architecture & cost optimization',
+        'Containerization with Docker & Kubernetes',
+        'CI/CD pipelines & DevOps practices',
+        'Monitoring, logging & incident response',
+      ],
+      tagline: 'Scale Faster, Spend Smarter',
+    }
+  ],
+},
+
     differentiators: {
       header: {
-        eyebrow: 'Why ObjectCanvas × ZeroProgrammingBD',
+        eyebrow: 'Why ObjectCanvas ',
         title: 'Why Leading Companies Choose Us',
         subtitle:
           'End-to-end partnership, measurable outcomes, and a commitment to the teams who rely on our solutions every day.',
@@ -307,14 +359,14 @@ export class ContentService {
         {
           title: 'Beyond Delivery',
           description:
-            'We empower your team with upskilling and internal enablement through ZeroProgrammingBD Academy programs.',
+            'We empower your team with upskilling and internal enablement through ObjectCanvas Academy programs.',
         },
       ],
       partnershipPanel: {
         eyebrow: 'Partnership DNA',
         title: 'Strategy, build, enablement and continuous optimization—one integrated team.',
         description:
-          'We embed with your teams, align KPIs, and share knowledge through ZeroProgrammingBD Academy so you stay in control long after launch.',
+          'We embed with your teams, align KPIs, and share knowledge through ObjectCanvas Academy so you stay in control long after launch.',
         highlights: [
           { label: 'Dedicated PMO', value: 'Weekly sprints & dashboards' },
           { label: 'Academy Enablement', value: 'Workshops & certifications' },
@@ -387,8 +439,8 @@ export class ContentService {
     },
     academy: {
       header: {
-        eyebrow: 'ZeroProgrammingBD Academy',
-        title: 'ZeroProgrammingBD Academy: Learn Technology, Build Careers',
+        eyebrow: 'ObjectCanvas Academy',
+        title: 'ObjectCanvas Academy: Learn Technology, Build Careers',
         subtitle: 'Live online courses taught by industry experts. From beginner to professional.',
       },
       categories: [
@@ -489,7 +541,7 @@ export class ContentService {
         },
         {
           quote:
-            'ZeroProgrammingBD Academy’s DevOps bootcamp helped me transition from support engineer to cloud engineer in under six months with real mentorship.',
+            'ObjectCanvas Academy’s DevOps bootcamp helped me transition from support engineer to cloud engineer in under six months with real mentorship.',
           name: 'Mahim Islam',
           title: 'Cloud Engineer, Sydney',
           location: 'Sydney, Australia',
@@ -571,7 +623,7 @@ export class ContentService {
       academy: {
         title: 'Ready to Advance Your Career?',
         description:
-          'Enroll in ZeroProgrammingBD Academy programs to upgrade your skills with mentorship from industry practitioners.',
+          'Enroll in ObjectCanvas Academy programs to upgrade your skills with mentorship from industry practitioners.',
         cta: {
           label: 'Browse Courses',
           routerLink: '/academy',
@@ -585,12 +637,9 @@ export class ContentService {
         subtitle: 'Tell us about your goals and we will curate a dedicated team for you.',
       },
       headquarters:
-        'ObjectCanvas Studios & ZeroProgrammingBD Academy, 12/2 Innovation Avenue, Tejgaon, Dhaka 1207',
+        'ObjectCanvas Studios & ObjectCanvas Academy, 12/2 Innovation Avenue, Tejgaon, Dhaka 1207',
       phones: this.buildContactPhones(),
-      emails: [
-        ...this.buildContactEmails(),
-        { label: 'Academy', value: 'admissions@zeroprogrammingbd.com' },
-      ],
+      emails: [...this.buildContactEmails(), { label: 'Academy', value: 'admissions@.com' }],
       businessHours: ['Sun-Thu: 9:00 AM - 6:00 PM (GMT+6)', 'Fri-Sat: Closed'],
       socials: this.buildSocialLinks(),
       consultation: {
@@ -604,8 +653,6 @@ export class ContentService {
       },
     },
   };
-
- 
 
   private readonly homeState = signal<HomeContent>(this.loadHomeContent());
   private readonly pageStorageKeyPrefix = 'objectcanvas-zeroprogramming-page-';
@@ -648,7 +695,7 @@ export class ContentService {
           outcomes: [
             'Accelerated launches with agile delivery and automation',
             'Battle-tested architecture prepared for scale and compliance',
-            'Knowledge transfer to internal teams via ZeroProgrammingBD Academy enablement',
+            'Knowledge transfer to internal teams via ObjectCanvas Academy enablement',
           ],
         },
         {
@@ -774,10 +821,10 @@ export class ContentService {
         eyebrow: 'About',
         title: 'Human-centered innovation from Bangladesh to the world',
         subtitle:
-          'ObjectCanvas Studios and ZeroProgrammingBD Academy partner to ship resilient products while upskilling future talent.',
+          'ObjectCanvas Studios and ObjectCanvas Academy partner to ship resilient products while upskilling future talent.',
       },
       intro:
-        'ObjectCanvas product strategists, engineers, data scientists, digital marketers, and ZeroProgrammingBD educators collaborate as one team. Delivery excellence and capability building move in lockstep, so every engagement ships solutions and skills together.',
+        'ObjectCanvas product strategists, engineers, data scientists, digital marketers, and  educators collaborate as one team. Delivery excellence and capability building move in lockstep, so every engagement ships solutions and skills together.',
       values: [
         {
           title: 'Human First Innovation',
@@ -834,7 +881,7 @@ export class ContentService {
           readTime: '6 min read',
         },
         {
-          title: 'Upskilling Product Teams with ZeroProgrammingBD Academy',
+          title: 'Upskilling Product Teams with ObjectCanvas Academy',
           category: 'Learning',
           excerpt:
             'Playbooks for aligning training roadmaps with product delivery to reduce onboarding time and talent gaps.',
@@ -845,7 +892,7 @@ export class ContentService {
     contact: {
       header: {
         eyebrow: 'Contact',
-        title: 'Partner with ObjectCanvas × ZeroProgrammingBD',
+        title: 'Partner with ObjectCanvas × ',
         subtitle:
           'Share your goals and we will prepare a tailored action plan, timeline, and resourcing model.',
       },
@@ -853,14 +900,14 @@ export class ContentService {
       regionalSupport: 'Dhaka · Singapore · Dubai · London · Toronto',
       emails: [
         this.siteIdentity.contactChannels().businessEmail,
-        'admissions@zeroprogrammingbd.com',
+        'admissions@.com',
         this.siteIdentity.contactChannels().supportEmail,
       ],
       formOptions: [
         'Digital Marketing',
         'Software Development',
         'Website Building',
-        'ZeroProgrammingBD Academy Programs',
+        'ObjectCanvas Academy Programs',
         'General Inquiry',
       ],
       ndaLabel: 'I would like to sign an NDA prior to sharing sensitive information.',

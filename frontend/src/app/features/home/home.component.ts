@@ -15,7 +15,7 @@ import { HomeInsightsComponent } from './sections/insights/home-insights.compone
 import { HomeClosingCtasComponent } from './sections/closing-ctas/home-closing-ctas.component';
 import { environment } from '../../../environments/environment';
 import { HomeCollaborationComponent } from './sections/collaboration/home-collaboration.component';
-import { ProductShowcaseComponent } from "./sections/product-showcase/product-showcase";
+import { ProductShowcaseComponent } from './sections/product-showcase/product-showcase';
 import { BlogService } from '../../core/services/blog.service';
 
 @Component({
@@ -33,11 +33,11 @@ import { BlogService } from '../../core/services/blog.service';
     HomeClosingCtasComponent,
     HomeCollaborationComponent,
     HomeTrustComponent,
-    ProductShowcaseComponent
-],
+    ProductShowcaseComponent,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {
   private readonly seo = inject(SeoService);
@@ -54,7 +54,8 @@ export class HomeComponent {
     const settings = this.siteSettings();
     const heroVideo = this.siteIdentity.getHeroVideo('home');
 
-    const safeString = (value: string | undefined) => (value && value.trim().length > 0 ? value.trim() : null);
+    const safeString = (value: string | undefined) =>
+      value && value.trim().length > 0 ? value.trim() : null;
 
     return {
       ...base,
@@ -63,16 +64,16 @@ export class HomeComponent {
       description: safeString(settings?.heroSubtitle) ?? base.description,
       primaryCta: {
         ...base.primaryCta,
-        label: safeString(settings?.primaryCtaLabel) ?? base.primaryCta.label
+        label: safeString(settings?.primaryCtaLabel) ?? base.primaryCta.label,
       },
       highlightCard: {
         ...base.highlightCard,
-        description: safeString(settings?.heroMediaCaption) ?? base.highlightCard.description
+        description: safeString(settings?.heroMediaCaption) ?? base.highlightCard.description,
       },
       video: {
         src: heroVideo?.src ?? safeString(settings?.heroVideoUrl) ?? base.video.src,
-        poster: heroVideo?.poster ?? safeString(settings?.heroVideoPoster) ?? base.video.poster
-      }
+        poster: heroVideo?.poster ?? safeString(settings?.heroVideoPoster) ?? base.video.poster,
+      },
     };
   });
   protected readonly heroVideoSrc = computed(() =>
@@ -84,18 +85,22 @@ export class HomeComponent {
 
   protected readonly featuredPosts = computed(() => {
     return [...this.blogService.posts()]
-      .sort((a, b) => (new Date(b.publishedAt ?? '').getTime() || 0) - (new Date(a.publishedAt ?? '').getTime() || 0))
+      .sort(
+        (a, b) =>
+          (new Date(b.publishedAt ?? '').getTime() || 0) -
+          (new Date(a.publishedAt ?? '').getTime() || 0)
+      )
       .slice(0, 3);
   });
 
   constructor() {
     this.seo.update({
-      title: 'ObjectCanvas × ZeroProgrammingBD | Software Solutions & Tech Academy',
+      title: 'ObjectCanvas | Software Solutions & Tech Academy',
       description:
-        'ObjectCanvas Studios and ZeroProgrammingBD Academy deliver enterprise software, digital marketing, and live technology education for founders, enterprises, and future makers.',
+        'ObjectCanvas Studios and ObjectCanvas Academy deliver enterprise software, digital marketing, and live technology education for founders, enterprises, and future makers.',
       keywords:
-        'objectcanvas, zeroprogrammingbd, software development Bangladesh, digital marketing, tech academy, angular tailwind',
-      canonical: 'https://www.objectcanvas.com'
+        'objectcanvas, software development Bangladesh, digital marketing, tech academy, angular tailwind',
+      canonical: 'https://www.objectcanvas.com',
     });
   }
 
@@ -118,7 +123,8 @@ export class HomeComponent {
       strippedPublic.startsWith('images/') ||
       strippedPublic.startsWith('assets/')
     ) {
-      const baseHref = this.document?.baseURI ?? (typeof location !== 'undefined' ? location.href : '/');
+      const baseHref =
+        this.document?.baseURI ?? (typeof location !== 'undefined' ? location.href : '/');
       try {
         const resolved = new URL(strippedPublic, baseHref);
         return `${resolved.pathname}${resolved.search}${resolved.hash}`;

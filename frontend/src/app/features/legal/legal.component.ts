@@ -13,36 +13,32 @@ const LEGAL_CONTENT: Record<string, LegalCopy> = {
   privacy: {
     title: 'Privacy Policy',
     intro:
-      'We respect your privacy and comply with global data protection regulations. This summary outlines how ObjectCanvas and ZeroProgrammingBD collect, process, and safeguard information.',
+      'We respect your privacy and comply with global data protection regulations. This summary outlines how ObjectCanvas and  collect, process, and safeguard information.',
     sections: [
       {
         heading: 'Data Collection & Usage',
-        body:
-          'We collect necessary data for project delivery, academy enrollment, and marketing communications. Data is never sold and is retained only for legitimate business purposes.'
+        body: 'We collect necessary data for project delivery, academy enrollment, and marketing communications. Data is never sold and is retained only for legitimate business purposes.',
       },
       {
         heading: 'Security & Compliance',
-        body:
-          'Our infrastructure follows ISO27001-aligned controls with encryption at rest and in transit. Regional compliance (GDPR, CCPA, PDPA) is supported when required.'
-      }
-    ]
+        body: 'Our infrastructure follows ISO27001-aligned controls with encryption at rest and in transit. Regional compliance (GDPR, CCPA, PDPA) is supported when required.',
+      },
+    ],
   },
   terms: {
     title: 'Terms of Service',
     intro:
-      'By partnering with ObjectCanvas Studios and ZeroProgrammingBD Academy, you agree to the following terms governing engagements, intellectual property, and payment schedules.',
+      'By partnering with ObjectCanvas Studios and ObjectCanvas Academy, you agree to the following terms governing engagements, intellectual property, and payment schedules.',
     sections: [
       {
         heading: 'Engagement Model',
-        body:
-          'Statements of Work define scope, milestones, and deliverables. Additional requests are handled through change requests or managed services retainers.'
+        body: 'Statements of Work define scope, milestones, and deliverables. Additional requests are handled through change requests or managed services retainers.',
       },
       {
         heading: 'Intellectual Property',
-        body:
-          'Upon full payment, all custom work product is transferred to the client. ObjectCanvas retains rights to internal tooling and accelerators used in delivery while ZeroProgrammingBD safeguards curriculum IP.'
-      }
-    ]
+        body: 'Upon full payment, all custom work product is transferred to the client. ObjectCanvas retains rights to internal tooling and accelerators used in delivery while  safeguards curriculum IP.',
+      },
+    ],
   },
   refund: {
     title: 'Refund Policy',
@@ -51,16 +47,14 @@ const LEGAL_CONTENT: Record<string, LegalCopy> = {
     sections: [
       {
         heading: 'Services',
-        body:
-          'Professional service engagements follow the terms defined in the statement of work. Deposits and completed milestones are non-refundable.'
+        body: 'Professional service engagements follow the terms defined in the statement of work. Deposits and completed milestones are non-refundable.',
       },
       {
         heading: 'Academy Programs',
-        body:
-          'Course fees are refundable up to 7 days before cohort start. Prorated credits are available for exceptional circumstances with documentation.'
-      }
-    ]
-  }
+        body: 'Course fees are refundable up to 7 days before cohort start. Prorated credits are available for exceptional circumstances with documentation.',
+      },
+    ],
+  },
 };
 
 @Component({
@@ -69,7 +63,7 @@ const LEGAL_CONTENT: Record<string, LegalCopy> = {
   imports: [CommonModule, SectionHeaderComponent],
   templateUrl: './legal.component.html',
   styleUrl: './legal.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LegalComponent {
   private readonly route = inject(ActivatedRoute);

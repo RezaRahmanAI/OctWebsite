@@ -10,7 +10,7 @@ export const STATIC_BLOG_POSTS: BlogPost[] = [
     coverUrl:
       'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80',
     content:
-      '<p>Our dual-engine model creates a feedback loop between client projects and the academy. We share playbooks, tooling, and retrospectives with our learners so they build market-ready confidence.</p><p>Every sprint uncovers new teaching moments that shape ZeroProgrammingBD curriculum updates.</p>',
+      '<p>Our dual-engine model creates a feedback loop between client projects and the academy. We share playbooks, tooling, and retrospectives with our learners so they build market-ready confidence.</p><p>Every sprint uncovers new teaching moments that shape  curriculum updates.</p>',
     tags: ['Culture', 'Academy'],
     published: true,
     publishedAt: '2025-01-10T09:00:00.000Z',
