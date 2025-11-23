@@ -1,7 +1,11 @@
 <section class="section-padding bg-academy-gradient" appScrollReveal>
   <div class="container-wide relative p-10 text-white">
-    <div class="academy-grid grid gap-16 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-12 h-full">
-      <div class="academy-left self-center lg:max-w-xl" appScrollReveal [revealOffset]="28">
+    <div class="grid gap-16 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-12 h-full">
+      <div
+        class="self-center lg:sticky lg:top-1/2 lg:-translate-y-1/2 lg:max-w-xl"
+        appScrollReveal
+        [revealOffset]="28"
+      >
         <app-section-header
           [eyebrow]="data.header.eyebrow"
           [title]="data.header.title"
@@ -26,7 +30,7 @@
           </a>
         </div>
       </div>
-      <div class="academy-right space-y-6 pr-4 lg:pr-2 lg:pb-28">
+      <div class="space-y-6 pr-4 lg:pr-2">
         <article
           *ngFor="let program of programCards; let i = index"
           class="group relative overflow-hidden rounded-3xl border border-white/25 bg-white/10 p-6 shadow-xl backdrop-blur"
