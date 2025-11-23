@@ -1,4 +1,4 @@
-<section class="section-padding bg-white" id="services" appScrollReveal>
+<section class="section-padding" id="services" appScrollReveal>
   <div class="container-wide">
     <div class="section-header-row">
       <app-section-header
@@ -24,16 +24,7 @@
         <div class="service-overlay" aria-hidden="true"></div>
         <div class="service-content">
           <h3 class="service-title">{{ service.title }}</h3>
-          <a
-            routerLink="/services"
-            class="service-explore"
-            [attr.aria-label]="'Explore ' + service.title + ' details'"
-          >
-            Explore
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
-            </svg>
-          </a>
+          <p class="service-summary">{{ service.description }}</p>
         </div>
       </article>
     </div>

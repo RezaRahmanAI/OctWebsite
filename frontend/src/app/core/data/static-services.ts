@@ -3,7 +3,7 @@ import { ServiceItem } from '../models';
 export const STATIC_SERVICES: ServiceItem[] = [
   {
     id: 'svc-web-platform',
-    title: 'Web Platform Engineering',
+    title: 'Web Application ',
     slug: 'web-platform',
     summary: 'Enterprise-ready web platforms with resilient architectures, design systems, and conversion-focused experiences.',
     icon: '🌐',
@@ -28,19 +28,6 @@ export const STATIC_SERVICES: ServiceItem[] = [
     active: true,
   },
   {
-    id: 'svc-mobile-platform',
-    title: 'Mobile Platform Strategy',
-    slug: 'mobile-platform',
-    summary: 'Cohesive mobile ecosystems that unify design, analytics, and release management across devices.',
-    icon: '📱',
-    features: [
-      'Shared component libraries for iOS and Android',
-      'Secure API gateways and offline-first data flows',
-      'In-app analytics, experimentation, and feature flags',
-    ],
-    active: true,
-  },
-  {
     id: 'svc-apple',
     title: 'Apple Development',
     slug: 'apple',
@@ -55,7 +42,7 @@ export const STATIC_SERVICES: ServiceItem[] = [
   },
   {
     id: 'svc-android',
-    title: 'Android Engineering',
+    title: 'Android Development',
     slug: 'android',
     summary: 'High-performance Android applications with modern Kotlin stacks and reliable release trains.',
     icon: '🤖',
@@ -63,19 +50,6 @@ export const STATIC_SERVICES: ServiceItem[] = [
       'Compose-driven UI with Material You theming',
       'Edge-to-cloud security with biometrics and encrypted storage',
       'Play Store optimization, testing, and staged rollouts',
-    ],
-    active: true,
-  },
-  {
-    id: 'svc-mobile',
-    title: 'Cross-Platform Mobile',
-    slug: 'mobile',
-    summary: 'Shared codebases using Flutter and React Native for rapid delivery without sacrificing native polish.',
-    icon: '📲',
-    features: [
-      'Reusable design tokens and component kits',
-      'Native module bridges for sensors, payments, and media',
-      'Continuous delivery with automated quality gates',
     ],
     active: true,
   },

@@ -9,7 +9,7 @@ import {
   Testimonial,
 } from '../models/home-content.model';
 import { PricingPlanItem } from '../models/pricing-plan.model';
-import { FooterContent, NavigationContent } from '../models/site-content.model';
+import { NavigationContent } from '../models/site-content.model';
 import { SiteIdentityService } from './site-identity.service';
 
 type PageKey =
@@ -20,7 +20,6 @@ type PageKey =
   | 'insights'
   | 'contact'
   | 'navigation'
-  | 'footer'
   | 'sitemap';
 
 @Injectable({ providedIn: 'root' })
@@ -54,7 +53,7 @@ export class ContentService {
   private readonly defaultNavigation: NavigationContent = {
     brand: {
       name: 'ObjectCanvas Technology',
-      tagline: '× ZeroProgrammingBD',
+      tagline: '',
       logo: '/images/logo/oct_logo.png',
       link: '/',
     },
@@ -94,14 +93,13 @@ export class ContentService {
         summary: 'Build and scale cost-effectively with dedicated offshore squads.',
       },
     ],
-    technologies: ['JavaScript', 'C++', 'C#', '.Net', 'Python', 'Java', 'PHP', 'Golang', 'Flutter'],
+    technologies: ['C#', '.Net', 'JavaScript', 'C++', 'Python', 'Java', 'PHP', 'Golang', 'Flutter'],
     hiringLinks: [
-      { label: 'Hire Developers', href: '/services' },
+      { label: '.NET Developers', href: '/services' },
       { label: 'JavaScript Developers', href: '/services' },
       { label: 'Python Developers', href: '/services' },
       { label: 'Java Developers', href: '/services' },
       { label: 'Golang Developers', href: '/services' },
-      { label: '.NET Developers', href: '/services' },
     ],
     productMenu: [
       { title: 'Accounting -Inventory', href: '/products/accounting-inventory' },
@@ -215,10 +213,7 @@ export class ContentService {
     services: {
       header: {
         eyebrow: 'Solutions',
-        title: 'Comprehensive Technology Solutions',
-        subtitle:
-          'Strategy, delivery, and enablement crafted for ambitious brands and fast-scaling ventures.',
-        align: 'center',
+        title: 'Comprehensive Technology Solutions',        
       },
       items: [
         {
@@ -610,75 +605,7 @@ export class ContentService {
     },
   };
 
-  private readonly defaultFooter: FooterContent = {
-    brand: {
-      name: 'ObjectCanvas',
-      partner: '× ZeroProgrammingBD',
-      logo: '/images/logo/oct_logo.png',
-      description:
-        'ObjectCanvas Studios and ZeroProgrammingBD Academy unite to deliver transformative platforms and future-proof skills for founders, enterprises, and learners worldwide.',
-      consultationCta: {
-        label: 'Schedule a Free Consultation',
-        routerLink: '/contact',
-      },
-    },
-    sections: [
-      {
-        title: 'Our Services',
-        links: [
-          { label: 'Digital Marketing', routerLink: '/services' },
-          { label: 'Software Development', routerLink: '/services' },
-          { label: 'Website Building', routerLink: '/services' },
-          { label: 'Consultation', routerLink: '/contact' },
-          { label: 'Portfolio', routerLink: '/portfolio' },
-        ],
-      },
-      {
-        title: 'ZeroProgrammingBD Academy',
-        links: [
-          { label: 'Browse Courses', routerLink: '/academy' },
-          { label: 'Become an Instructor', routerLink: '/academy' },
-          { label: 'Student Success Stories', routerLink: '/academy' },
-          { label: 'Free Resources', routerLink: '/academy' },
-          { label: 'Course Calendar', routerLink: '/academy' },
-        ],
-      },
-      {
-        title: 'Company',
-        links: [
-          { label: 'About Us', routerLink: '/about' },
-          { label: 'Our Team', routerLink: '/about', fragment: 'team' },
-          { label: 'Portfolio', routerLink: '/portfolio' },
-          { label: 'Careers', routerLink: '/about', fragment: 'careers' },
-          { label: 'Blog & Press', routerLink: '/insights' },
-        ],
-      },
-      {
-        title: 'Support',
-        links: [
-          { label: 'Contact Us', routerLink: '/contact' },
-          { label: 'FAQ', routerLink: '/contact', fragment: 'faq' },
-          { label: 'Support Center', routerLink: '/contact' },
-          { label: 'Privacy Policy', routerLink: '/legal/privacy' },
-          { label: 'Terms of Service', routerLink: '/legal/terms' },
-          { label: 'Refund Policy', routerLink: '/legal/refund' },
-        ],
-      },
-    ],
-    socialLinks: this.buildSocialLinks().map((link) => ({
-      label: link.label,
-      externalUrl: link.url,
-    })),
-    legalLinks: [
-      { label: 'Privacy Policy', routerLink: '/legal/privacy' },
-      { label: 'Terms', routerLink: '/legal/terms' },
-      { label: 'Sitemap', routerLink: '/sitemap' },
-    ],
-    profileDownload: {
-      label: 'Download Company Profile',
-      externalUrl: 'https://objectcanvas.com/company-profile.pdf',
-    },
-  };
+ 
 
   private readonly homeState = signal<HomeContent>(this.loadHomeContent());
   private readonly pageStorageKeyPrefix = 'objectcanvas-zeroprogramming-page-';
@@ -937,11 +864,11 @@ export class ContentService {
         'General Inquiry',
       ],
       ndaLabel: 'I would like to sign an NDA prior to sharing sensitive information.',
-      responseTime:
-        `We respond within 24 business hours. For urgent queries, call ${this.siteIdentity.contactChannels().phoneNumbers.local}.`,
+      responseTime: `We respond within 24 business hours. For urgent queries, call ${
+        this.siteIdentity.contactChannels().phoneNumbers.local
+      }.`,
     },
     navigation: this.defaultNavigation,
-    footer: this.defaultFooter,
     sitemap: {
       links: [
         { label: 'Home', url: '/' },
@@ -967,7 +894,6 @@ export class ContentService {
 
   readonly homeContent = computed(() => this.homeState());
   readonly navigationContent = this.getPageSignal<NavigationContent>('navigation');
-  readonly footerContent = this.getPageSignal<FooterContent>('footer');
 
   getDefaultNavigation(): NavigationContent {
     return this.clone(this.defaultNavigation);
@@ -981,10 +907,6 @@ export class ContentService {
 
   setNavigationContent(content: NavigationContent): void {
     this.setPageContent('navigation', content);
-  }
-
-  setFooterContent(content: FooterContent): void {
-    this.setPageContent('footer', content);
   }
 
   getPricingPlans(): Observable<PricingPlanItem[]> {

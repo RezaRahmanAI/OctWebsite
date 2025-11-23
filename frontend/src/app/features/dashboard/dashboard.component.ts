@@ -113,12 +113,7 @@ interface NavigationContent {
   }[];
 }
 
-interface FooterContent {
-  socialLinks: {
-    label: string;
-    url: string;
-  }[];
-}
+
 
 interface SitemapContent {
   links: {
@@ -161,7 +156,6 @@ export class DashboardComponent {
     { id: 'page-insights', label: 'Insights Page' },
     { id: 'page-contact', label: 'Contact Page' },
     { id: 'page-navigation', label: 'Navigation Links' },
-    { id: 'page-footer', label: 'Footer Socials' },
     { id: 'page-sitemap', label: 'Sitemap Links' }
   ];
 
@@ -172,7 +166,6 @@ export class DashboardComponent {
   private readonly insightsContentSignal = this.pageContent.getPageSignal<InsightsPageContent>('insights');
   private readonly contactContentSignal = this.pageContent.getPageSignal<ContactPageContent>('contact');
   private readonly navigationContentSignal = this.pageContent.getPageSignal<NavigationContent>('navigation');
-  private readonly footerContentSignal = this.pageContent.getPageSignal<FooterContent>('footer');
   private readonly sitemapContentSignal = this.pageContent.getPageSignal<SitemapContent>('sitemap');
 
   protected servicesDraft: ServicesPageContent | null = null;
@@ -182,7 +175,6 @@ export class DashboardComponent {
   protected insightsDraft: InsightsPageContent | null = null;
   protected contactDraft: ContactPageContent | null = null;
   protected navigationDraft: NavigationContent | null = null;
-  protected footerDraft: FooterContent | null = null;
   protected sitemapDraft: SitemapContent | null = null;
   protected heroVideoUploadInProgress = false;
   protected heroVideoUploadError: string | null = null;
@@ -242,12 +234,7 @@ export class DashboardComponent {
       }
     });
 
-    effect(() => {
-      const content = this.footerContentSignal();
-      if (content) {
-        this.footerDraft = this.clone(content);
-      }
-    });
+
 
     effect(() => {
       const content = this.sitemapContentSignal();
@@ -263,7 +250,6 @@ export class DashboardComponent {
     this.pageContent.loadPage<InsightsPageContent>('insights').pipe(take(1)).subscribe();
     this.pageContent.loadPage<ContactPageContent>('contact').pipe(take(1)).subscribe();
     this.pageContent.loadPage<NavigationContent>('navigation').pipe(take(1)).subscribe();
-    this.pageContent.loadPage<FooterContent>('footer').pipe(take(1)).subscribe();
     this.pageContent.loadPage<SitemapContent>('sitemap').pipe(take(1)).subscribe();
   }
 
@@ -767,32 +753,7 @@ export class DashboardComponent {
     }
   }
 
-  protected addFooterSocial(): void {
-    this.footerDraft?.socialLinks.push({ label: '', url: '' });
-  }
 
-  protected removeFooterSocial(index: number): void {
-    this.footerDraft?.socialLinks.splice(index, 1);
-  }
-
-  protected saveFooterSocials(): void {
-    if (!this.footerDraft) {
-      return;
-    }
-    this.pageContent
-      .savePage('footer', this.clone(this.footerDraft))
-      .pipe(take(1))
-      .subscribe({
-        error: (error) => console.error('Failed to save footer socials', error)
-      });
-  }
-
-  protected resetFooterSocials(): void {
-    const current = this.footerContentSignal();
-    if (current) {
-      this.footerDraft = this.clone(current);
-    }
-  }
 
   protected addSitemapLink(): void {
     this.sitemapDraft?.links.push({ label: '', url: '' });
