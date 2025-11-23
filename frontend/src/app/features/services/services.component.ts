@@ -38,46 +38,45 @@ export class ServicesComponent {
         'cloud-service',
         'system-integration',
         'cyber-security-services',
-        'enterprise-content-management',
+        // 'enterprise-content-management',
         'search-engine-optimization-seo',
         'graphic-design',
         'web-listing',
       ],
     },
-    {
-      title: 'Data, Content & GIS',
-      description: 'Data-rich storytelling with governance for every channel and geography.',
-      highlight: 'Content, GIS, and document practices that keep insights flowing safely.',
-      slugs: [
-        'content-provider-mobile-web-voice',
-        'geographic-information-services-gis',
-        'document-process-outsourcing-dpo',
-        'knowledge-process-outsourcing-kpo',
-        'data-entry',
-        'it-enabled-services',
-      ],
-    },
-    {
-      title: 'Outsourcing & Operations',
-      description: 'Specialized teams that plug into your business with measurable SLAs.',
-      highlight: 'From contact centers to finance, we deliver governed processes and transparent metrics.',
-      slugs: [
-        'crm-outsourcing',
-        'sales-marketing-outsourcing',
-        'engineering-services-outsourcing-eso',
-        'contact-call-centers',
-        'facilities-management-outsourcing-fmo',
-        'procurement-process-outsourcing',
-        'legal-process-outsourcing-lpo',
-        'human-resources-outsourcing-hro',
-        'finance-accounting-outsourcing-fao',
-        'business-process-outsourcing-bpo',
-      ],
-    },
+    // {
+    //   title: 'Data, Content & GIS',
+    //   description: 'Data-rich storytelling with governance for every channel and geography.',
+    //   highlight: 'Content, GIS, and document practices that keep insights flowing safely.',
+    //   slugs: [
+    //     'content-provider-mobile-web-voice',
+    //     'geographic-information-services-gis',
+    //     'document-process-outsourcing-dpo',
+    //     'knowledge-process-outsourcing-kpo',
+    //     'data-entry',
+    //     'it-enabled-services',
+    //   ],
+    // },
+    // {
+    //   title: 'Outsourcing & Operations',
+    //   description: 'Specialized teams that plug into your business with measurable SLAs.',
+    //   highlight: 'From contact centers to finance, we deliver governed processes and transparent metrics.',
+    //   slugs: [
+    //     'crm-outsourcing',
+    //     'sales-marketing-outsourcing',
+    //     'engineering-services-outsourcing-eso',
+    //     'contact-call-centers',
+    //     'facilities-management-outsourcing-fmo',
+    //     'procurement-process-outsourcing',
+    //     'legal-process-outsourcing-lpo',
+    //     'human-resources-outsourcing-hro',
+    //     'finance-accounting-outsourcing-fao',
+    //     'business-process-outsourcing-bpo',
+    //   ],
+    // },
   ];
 
   readonly services = this.servicesService.services;
-
   readonly groupedServices = computed(() =>
     this.groups
       .map(group => ({
