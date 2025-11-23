@@ -4,6 +4,7 @@ import { TechStackComponent } from './sections/tech-stack-slider/tech-stack-slid
 import { SeoService } from '../../core/services/seo.service';
 import { ContentService } from '../../core/services/content.service';
 import { SettingsService } from '../../core/services/settings.service';
+import { SiteIdentityService } from '../../core/services/site-identity.service';
 import { HomeHeroComponent } from './sections/hero/home-hero.component';
 import { HomeTrustComponent } from './sections/trust/home-trust.component';
 import { HomeServicesComponent } from './sections/services/home-services.component';
@@ -42,6 +43,7 @@ export class HomeComponent {
   private readonly seo = inject(SeoService);
   private readonly content = inject(ContentService);
   private readonly settings = inject(SettingsService);
+  private readonly siteIdentity = inject(SiteIdentityService);
   private readonly document = inject(DOCUMENT, { optional: true });
   private readonly blogService = inject(BlogService);
 
@@ -50,6 +52,7 @@ export class HomeComponent {
   protected readonly heroData = computed(() => {
     const base = this.home().hero;
     const settings = this.siteSettings();
+    const heroVideo = this.siteIdentity.getHeroVideo('home');
 
     const safeString = (value: string | undefined) => (value && value.trim().length > 0 ? value.trim() : null);
 
@@ -67,8 +70,8 @@ export class HomeComponent {
         description: safeString(settings?.heroMediaCaption) ?? base.highlightCard.description
       },
       video: {
-        src: safeString(settings?.heroVideoUrl) ?? base.video.src,
-        poster: safeString(settings?.heroVideoPoster) ?? base.video.poster
+        src: heroVideo?.src ?? safeString(settings?.heroVideoUrl) ?? base.video.src,
+        poster: heroVideo?.poster ?? safeString(settings?.heroVideoPoster) ?? base.video.poster
       }
     };
   });

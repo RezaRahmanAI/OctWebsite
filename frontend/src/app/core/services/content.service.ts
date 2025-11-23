@@ -1,4 +1,4 @@
-import { Injectable, Signal, WritableSignal, computed, signal } from '@angular/core';
+import { Injectable, Signal, WritableSignal, computed, inject, signal } from '@angular/core';
 import { Observable, defer, of } from 'rxjs';
 
 import {
@@ -10,6 +10,7 @@ import {
 } from '../models/home-content.model';
 import { PricingPlanItem } from '../models/pricing-plan.model';
 import { FooterContent, NavigationContent } from '../models/site-content.model';
+import { SiteIdentityService } from './site-identity.service';
 
 type PageKey =
   | 'services'
@@ -114,6 +115,8 @@ export class ContentService {
     ],
   };
 
+  private readonly siteIdentity = inject(SiteIdentityService);
+
   private readonly initialHomeContent: HomeContent = {
     hero: {
       badge: 'ObjectCanvas Technology',
@@ -139,8 +142,9 @@ export class ContentService {
         'Live instructor-led courses with industry experts',
       ],
       video: {
-        src: '/video/bg.mp4',
+        src: this.siteIdentity.getHeroVideo('home')?.src ?? '/video/bg.mp4',
         poster:
+          this.siteIdentity.getHeroVideo('home')?.poster ??
           'https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1600&q=80',
       },
       featurePanel: {
@@ -587,21 +591,13 @@ export class ContentService {
       },
       headquarters:
         'ObjectCanvas Studios & ZeroProgrammingBD Academy, 12/2 Innovation Avenue, Tejgaon, Dhaka 1207',
-      phones: ['Bangladesh: +880 1315-220077', 'International: +1 415-915-0198'],
+      phones: this.buildContactPhones(),
       emails: [
-        { label: 'Business', value: 'partnerships@objectcanvas.com' },
+        ...this.buildContactEmails(),
         { label: 'Academy', value: 'admissions@zeroprogrammingbd.com' },
-        { label: 'Support', value: 'support@objectcanvas.com' },
       ],
       businessHours: ['Sun-Thu: 9:00 AM - 6:00 PM (GMT+6)', 'Fri-Sat: Closed'],
-      socials: [
-        { label: 'LinkedIn', url: 'https://www.linkedin.com/company/objectcanvas' },
-        { label: 'Facebook', url: 'https://www.facebook.com/objectcanvas' },
-        { label: 'Twitter', url: 'https://twitter.com/objectcanvas' },
-        { label: 'Instagram', url: 'https://www.instagram.com/objectcanvas' },
-        { label: 'YouTube', url: 'https://www.youtube.com/@zeroprogrammingbd' },
-        { label: 'GitHub', url: 'https://github.com/objectcanvas' },
-      ],
+      socials: this.buildSocialLinks(),
       consultation: {
         label: 'Schedule a Free Consultation',
         routerLink: '/contact',
@@ -669,14 +665,10 @@ export class ContentService {
         ],
       },
     ],
-    socialLinks: [
-      { label: 'LinkedIn', externalUrl: 'https://www.linkedin.com/company/objectcanvas' },
-      { label: 'Facebook', externalUrl: 'https://www.facebook.com/objectcanvas' },
-      { label: 'Twitter', externalUrl: 'https://twitter.com/objectcanvas' },
-      { label: 'Instagram', externalUrl: 'https://www.instagram.com/objectcanvas' },
-      { label: 'YouTube', externalUrl: 'https://www.youtube.com/@zeroprogrammingbd' },
-      { label: 'GitHub', externalUrl: 'https://github.com/objectcanvas' },
-    ],
+    socialLinks: this.buildSocialLinks().map((link) => ({
+      label: link.label,
+      externalUrl: link.url,
+    })),
     legalLinks: [
       { label: 'Privacy Policy', routerLink: '/legal/privacy' },
       { label: 'Terms', routerLink: '/legal/terms' },
@@ -933,9 +925,9 @@ export class ContentService {
       consultationOptions: 'Schedule a discovery call, request a proposal, or invite us to an RFP.',
       regionalSupport: 'Dhaka · Singapore · Dubai · London · Toronto',
       emails: [
-        'partnerships@objectcanvas.com',
+        this.siteIdentity.contactChannels().businessEmail,
         'admissions@zeroprogrammingbd.com',
-        'support@objectcanvas.com',
+        this.siteIdentity.contactChannels().supportEmail,
       ],
       formOptions: [
         'Digital Marketing',
@@ -946,7 +938,7 @@ export class ContentService {
       ],
       ndaLabel: 'I would like to sign an NDA prior to sharing sensitive information.',
       responseTime:
-        'We respond within 24 business hours. For urgent queries, call +880 1315-220077.',
+        `We respond within 24 business hours. For urgent queries, call ${this.siteIdentity.contactChannels().phoneNumbers.local}.`,
     },
     navigation: this.defaultNavigation,
     footer: this.defaultFooter,
@@ -1045,6 +1037,29 @@ export class ContentService {
     const value = fallback ? this.clone(fallback) : null;
     pageSignal.set(value);
     this.removePageFromStorage(key);
+  }
+
+  private buildContactPhones(): string[] {
+    const channels = this.siteIdentity.contactChannels();
+    return [
+      `Local: ${channels.phoneNumbers.local}`,
+      `International: ${channels.phoneNumbers.international}`,
+      `${channels.whatsapp.local.label}: ${channels.whatsapp.local.number}`,
+      `${channels.whatsapp.international.label}: ${channels.whatsapp.international.number}`,
+    ];
+  }
+
+  private buildContactEmails(): { label: string; value: string }[] {
+    const channels = this.siteIdentity.contactChannels();
+    return [
+      { label: 'Business', value: channels.businessEmail },
+      { label: 'Support', value: channels.supportEmail },
+    ];
+  }
+
+  private buildSocialLinks(): { label: string; url: string }[] {
+    const channels = this.siteIdentity.contactChannels();
+    return channels.socialLinks.map((link) => ({ ...link }));
   }
 
   private initializePageSignals(): void {
