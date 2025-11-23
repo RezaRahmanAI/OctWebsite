@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ContentService } from '../../core/services/content.service';
-import { CtaLink, FooterContent } from '../../core/models';
 
 @Component({
   selector: 'app-footer',
@@ -13,29 +11,14 @@ import { CtaLink, FooterContent } from '../../core/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FooterComponent {
-  private readonly contentService = inject(ContentService);
   protected readonly currentYear = new Date().getFullYear();
 
-  private readonly emptyFooter: FooterContent = {
-    brand: {
-      name: '',
-      partner: '',
-      logo: '',
-      description: '',
-      consultationCta: { label: '', routerLink: '/' },
-    },
-    sections: [],
-    socialLinks: [],
-    legalLinks: [],
-  };
-
-  protected readonly footer = computed(() => this.contentService.footerContent() ?? this.emptyFooter);
-
-  protected isExternal(link: CtaLink): boolean {
-    return !!link.externalUrl;
-  }
-
-  protected trackByLabel(_: number, item: CtaLink): string {
-    return item.label;
-  }
+  protected readonly socialLinks = [
+    { label: 'LinkedIn', url: '' },
+    { label: 'Facebook', url: '' },
+    { label: 'Twitter', url: '' },
+    { label: 'Instagram', url: '' },
+    { label: 'YouTube', url: '' },
+    { label: 'GitHub', url: '' }
+  ];
 }
