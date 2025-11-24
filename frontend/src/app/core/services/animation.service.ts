@@ -1,7 +1,6 @@
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import gsap from 'gsap';
-import ScrollTrigger from 'gsap/ScrollTrigger';
+import { getGsap, getScrollTrigger } from '../../shared/animations/gsap-helpers';
 
 export interface ScrollRevealOptions {
   duration?: number;
@@ -18,16 +17,12 @@ export interface ScrollRevealOptions {
 export class AnimationService {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
-  private readonly contexts = new Map<Element, gsap.Context>();
-
-  constructor() {
-    if (this.isBrowser) {
-      gsap.registerPlugin(ScrollTrigger);
-    }
-  }
+  private readonly contexts = new Map<Element, { revert: () => void }>();
+  private scrollTriggerRegistered = false;
 
   registerReveal(element: Element, options: ScrollRevealOptions = {}): void {
-    if (!this.isBrowser || this.contexts.has(element)) {
+    const gsap = this.getGsap();
+    if (!gsap || this.contexts.has(element)) {
       return;
     }
 
@@ -63,7 +58,8 @@ export class AnimationService {
   }
 
   animateCounter(element: Element, endValue: number): void {
-    if (!this.isBrowser) {
+    const gsap = this.getGsap();
+    if (!gsap) {
       return;
     }
 
@@ -92,6 +88,26 @@ export class AnimationService {
     }, element);
 
     this.contexts.set(element, context);
+  }
+
+  private getGsap(): any | null {
+    if (!this.isBrowser) {
+      return null;
+    }
+
+    const gsap = getGsap();
+    const scrollTrigger = getScrollTrigger();
+
+    if (!gsap) {
+      return null;
+    }
+
+    if (scrollTrigger && !this.scrollTriggerRegistered) {
+      gsap.registerPlugin(scrollTrigger);
+      this.scrollTriggerRegistered = true;
+    }
+
+    return gsap;
   }
 
   destroy(element: Element): void {
