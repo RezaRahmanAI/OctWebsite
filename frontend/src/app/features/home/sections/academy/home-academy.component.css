@@ -1,19 +1,10 @@
 :host {
   display: block;
+  animation: none !important;
+  transform: none !important;
 }
 
-@media (min-width: 1024px) {
-  .academy-grid {
-    min-height: 160vh;
-  }
-
-  .academy-left {
-    position: sticky;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
-  .academy-right {
-    position: relative;
-  }
+.academy-section {
+  animation: none !important;
+  transform: none !important;
 }

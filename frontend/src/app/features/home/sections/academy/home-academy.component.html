@@ -1,36 +1,34 @@
-<section class="section-padding bg-academy-gradient" appScrollReveal>
+<section class="section-padding bg-academy-gradient academy-section">
   <div class="container-wide relative p-10 text-white">
-    <div class="grid gap-16 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-12 h-full">
-      <div
-        class="self-center lg:sticky lg:top-1/2 lg:-translate-y-1/2 lg:max-w-xl"
-        appScrollReveal
-        [revealOffset]="28"
-      >
-        <app-section-header
-          [eyebrow]="data.header.eyebrow"
-          [title]="data.header.title"
-        ></app-section-header>
-        <div class="mt-8 flex flex-wrap gap-3">
-          <span *ngFor="let category of data.categories" class="rounded-full bg-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-wide">
-            {{ category }}
-          </span>
-        </div>
-        <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <div *ngFor="let stat of data.stats; let i = index" class="rounded-3xl bg-white/10 p-6 text-center" appScrollReveal [revealDelay]="i * 0.04" [revealOffset]="26">
-            <span class="text-3xl font-semibold">{{ stat | formatStat }}</span>
-            <p class="mt-2 text-xs font-semibold uppercase tracking-wide text-white/80">{{ stat.label }}</p>
+    <div class="grid gap-16 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-16 xl:gap-20 lg:pb-12">
+      <div class="lg:sticky lg:top-16 lg:self-start lg:max-w-xl">
+        <div appScrollReveal [revealOffset]="28" class="lg:pt-2">
+          <app-section-header
+            [eyebrow]="data.header.eyebrow"
+            [title]="data.header.title"
+          ></app-section-header>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <span *ngFor="let category of data.categories" class="rounded-full bg-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-wide">
+              {{ category }}
+            </span>
+          </div>
+          <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div *ngFor="let stat of data.stats; let i = index" class="rounded-3xl bg-white/10 p-6 text-center" appScrollReveal [revealDelay]="i * 0.04" [revealOffset]="26">
+              <span class="text-3xl font-semibold">{{ stat | formatStat }}</span>
+              <p class="mt-2 text-xs font-semibold uppercase tracking-wide text-white/80">{{ stat.label }}</p>
+            </div>
+          </div>
+          <div class="mt-10 flex flex-wrap gap-4">
+            <a routerLink="/academy" class="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-primary shadow-lg shadow-white/20 transition hover:-translate-y-0.5">
+              Browse All Courses
+            </a>
+            <a routerLink="/academy" fragment="demo" class="inline-flex items-center justify-center rounded-full border border-white/60 px-6 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5">
+              Watch Free Demo Class
+            </a>
           </div>
         </div>
-        <div class="mt-10 flex flex-wrap gap-4">
-          <a routerLink="/academy" class="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-primary shadow-lg shadow-white/20 transition hover:-translate-y-0.5">
-            Browse All Courses
-          </a>
-          <a routerLink="/academy" fragment="demo" class="inline-flex items-center justify-center rounded-full border border-white/60 px-6 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5">
-            Watch Free Demo Class
-          </a>
-        </div>
       </div>
-      <div class="space-y-6 pr-4 lg:pr-2">
+      <div class="space-y-6 pr-4 lg:pr-4 lg:pt-6">
         <article
           *ngFor="let program of programCards; let i = index"
           class="group relative overflow-hidden rounded-3xl border border-white/25 bg-white/10 p-6 shadow-xl backdrop-blur"
