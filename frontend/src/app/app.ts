@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, AfterViewInit, NgZone, OnDestroy } 
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from './layout/footer/footer.component';
 import { NavbarComponent } from './layout/navbar/navbar.component';
-import Lenis from 'lenis';
+import { SmoothScroller } from './core/services/smooth-scroller';
 
 @Component({
   selector: 'app-root',
@@ -13,22 +13,21 @@ import Lenis from 'lenis';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class App implements AfterViewInit, OnDestroy {
-
-  private lenis?: Lenis;
+  private scroller?: SmoothScroller;
   private animationFrameId?: number;
 
   constructor(private readonly ngZone: NgZone) {}
 
   ngAfterViewInit(): void {
     this.ngZone.runOutsideAngular(() => {
-      this.lenis = new Lenis({
+      this.scroller = new SmoothScroller({
         smoothWheel: true,
         smoothTouch: false,
         duration: 1.1
       });
 
       const onFrame = (time: number) => {
-        this.lenis?.raf(time);
+        this.scroller?.raf(time);
         this.animationFrameId = requestAnimationFrame(onFrame);
       };
 
@@ -40,6 +39,6 @@ export class App implements AfterViewInit, OnDestroy {
     if (this.animationFrameId) {
       cancelAnimationFrame(this.animationFrameId);
     }
-    this.lenis?.destroy();
+    this.scroller?.destroy();
   }
 }
