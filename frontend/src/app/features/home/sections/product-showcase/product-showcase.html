@@ -1,7 +1,7 @@
-<section class="section-padding">
+<section class="section-padding" appScrollReveal>
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <!-- Section header -->
-    <div class="mb-12 text-center">
+    <div class="mb-12 text-center" appScrollReveal>
       <app-section-header
         [eyebrow]="sectionName"
         [title]="sectionTitle"
@@ -15,10 +15,15 @@
       <div
         #cardTrack
         class="flex w-max gap-12"
+        appScrollReveal
+        [revealOffset]="24"
       >
         <div
-          *ngFor="let product of marqueeProducts"
+          *ngFor="let product of marqueeProducts; let i = index"
           class="flex-shrink-0 w-[360px]"
+          appScrollReveal
+          [revealDelay]="i * 0.06"
+          [revealOffset]="32"
         >
           <div
             [ngClass]="product.backgroundColor"

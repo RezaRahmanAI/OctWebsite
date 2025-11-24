@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ScrollRevealDirective } from '../../../../shared/directives/scroll-reveal.directive';
 
 interface TechLogo {
   name: string;
@@ -9,7 +10,7 @@ interface TechLogo {
 @Component({
   selector: 'app-tech-stack',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ScrollRevealDirective],
   templateUrl: './tech-stack-slider.component.html',
   styleUrl: './tech-stack-slider.component.css',
 })
