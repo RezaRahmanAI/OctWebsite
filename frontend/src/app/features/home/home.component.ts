@@ -1,5 +1,13 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { TechStackComponent } from './sections/tech-stack-slider/tech-stack-slider.component';
 import { SeoService } from '../../core/services/seo.service';
 import { ContentService } from '../../core/services/content.service';
@@ -46,9 +54,11 @@ export class HomeComponent {
   private readonly siteIdentity = inject(SiteIdentityService);
   private readonly document = inject(DOCUMENT, { optional: true });
   private readonly blogService = inject(BlogService);
+  private readonly destroyRef = inject(DestroyRef);
 
   protected readonly home = this.content.homeContent;
   private readonly siteSettings = this.settings.settings;
+  protected readonly snapEnabled = signal(false);
   protected readonly heroData = computed(() => {
     const base = this.home().hero;
     const settings = this.siteSettings();
@@ -102,6 +112,10 @@ export class HomeComponent {
         'objectcanvas, software development Bangladesh, digital marketing, tech academy, angular tailwind',
       canonical: 'https://www.objectcanvas.com',
     });
+
+    this.updateSnapMode();
+    this.registerResizeListener();
+    this.setupBodySnapClass();
   }
 
   private normalizeMediaUrl(url: string | null | undefined): string {
@@ -135,5 +149,50 @@ export class HomeComponent {
 
     const apiBase = environment.apiUrl.replace(/\/+$/, '');
     return `${apiBase}/${strippedPublic.replace(/\/+$/, '')}`;
+  }
+
+  private setupBodySnapClass(): void {
+    const runner = effect(() => {
+      const enabled = this.snapEnabled();
+      const body = this.document?.body;
+
+      if (!body) {
+        return;
+      }
+
+      body.classList.toggle('home-snap-enabled', enabled);
+    });
+
+    this.destroyRef.onDestroy(() => {
+      runner.destroy();
+      this.document?.body?.classList.remove('home-snap-enabled');
+    });
+  }
+
+  private registerResizeListener(): void {
+    const win = this.document?.defaultView;
+
+    if (!win) {
+      return;
+    }
+
+    const resizeHandler = () => this.updateSnapMode();
+    win.addEventListener('resize', resizeHandler, { passive: true });
+
+    this.destroyRef.onDestroy(() =>
+      win.removeEventListener('resize', resizeHandler)
+    );
+  }
+
+  private updateSnapMode(): void {
+    const win = this.document?.defaultView;
+
+    if (!win) {
+      this.snapEnabled.set(false);
+      return;
+    }
+
+    const shouldEnable = win.innerWidth >= 768 && win.innerHeight >= 700;
+    this.snapEnabled.set(shouldEnable);
   }
 }
