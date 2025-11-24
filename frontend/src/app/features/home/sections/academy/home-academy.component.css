@@ -18,8 +18,13 @@
   }
 
   .academy-sidebar {
+    align-self: stretch;
+  }
+
+  .academy-sidebar-inner {
     position: sticky;
     top: 4.5rem;
+    max-height: calc(100vh - 4.5rem);
     align-self: flex-start;
   }
 }
