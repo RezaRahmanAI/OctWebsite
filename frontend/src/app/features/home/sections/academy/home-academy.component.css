@@ -2,3 +2,30 @@
   display: block;
 }
 
+.academy-shell {
+  position: relative;
+  isolation: isolate;
+}
+
+.academy-overlay {
+  z-index: -1;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0));
+}
+
+@media (min-width: 1024px) {
+  .academy-grid {
+    align-items: flex-start;
+  }
+
+  .academy-sidebar {
+    align-self: stretch;
+  }
+
+  .academy-sidebar-inner {
+    position: sticky;
+    top: 4.5rem;
+    max-height: calc(100vh - 4.5rem);
+    align-self: flex-start;
+  }
+}
+
