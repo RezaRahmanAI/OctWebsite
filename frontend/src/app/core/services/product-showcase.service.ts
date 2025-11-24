@@ -32,7 +32,7 @@ const STATIC_SHOWCASE_PRODUCTS: ProductShowcaseItem[] = [
     description:
       'A software for electronics showrooms that gives you account settlement, stock, cash sales, hire sales, installment reminders, and more—becoming a core part of your showroom management.',
     imageUrl: 'https://placehold.co/60x60/22c55e/ffffff.png?text=EZ',
-    backgroundColor: 'bg-[#7ec287]',
+    backgroundColor: 'bg-[#0d85ba]',
     projectScreenshotUrl: '/images/project/ezone.png',
   },
   {
@@ -40,7 +40,7 @@ const STATIC_SHOWCASE_PRODUCTS: ProductShowcaseItem[] = [
     description:
       'Software for real estate businesses with accounts, project-wise estimates, flat booking, installment date reminders, and more—making your real estate operations much easier.',
     imageUrl: 'https://placehold.co/60x60/22c55e/ffffff.png?text=RE',
-    backgroundColor: 'bg-[#FFEFD5]', // soft peach
+    backgroundColor: 'bg-[#9d7a54]', // soft peach
     projectScreenshotUrl: '/images/project/realstate.jpg',
   },
 ];
