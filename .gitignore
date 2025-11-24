@@ -7,3 +7,4 @@
 
 # Node modules are already ignored inside project-specific .gitignore
 /backend/.vs
+/frontend/.vs
