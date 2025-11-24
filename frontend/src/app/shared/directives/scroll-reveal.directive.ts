@@ -7,6 +7,8 @@ import { AnimationService, ScrollRevealOptions } from '../../core/services/anima
 })
 export class ScrollRevealDirective implements AfterViewInit, OnDestroy {
   @Input('appScrollReveal') options: ScrollRevealOptions | '' = {};
+  @Input() revealDelay?: number;
+  @Input() revealOffset?: number;
 
   constructor(
     private readonly elementRef: ElementRef<HTMLElement>,
@@ -17,7 +19,17 @@ export class ScrollRevealDirective implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => {
-        this.animationService.registerReveal(this.elementRef.nativeElement, this.normalizeOptions(this.options));
+        const normalizedOptions = this.normalizeOptions(this.options);
+
+        if (this.revealDelay != null) {
+          normalizedOptions.delay = this.revealDelay;
+        }
+
+        if (this.revealOffset != null) {
+          normalizedOptions.start = `top bottom-=${this.revealOffset}`;
+        }
+
+        this.animationService.registerReveal(this.elementRef.nativeElement, normalizedOptions);
       });
     });
   }
