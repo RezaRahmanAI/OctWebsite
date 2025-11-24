@@ -4,8 +4,4 @@
   will-change: transform;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .card-marquee {
-    animation-play-state: paused;
-  }
-}
+
