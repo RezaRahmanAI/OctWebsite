@@ -1,4 +1,10 @@
 :host {
   display: block;
+  animation: none !important;
+  transform: none !important;
 }
 
+.academy-section {
+  animation: none !important;
+  transform: none !important;
+}
