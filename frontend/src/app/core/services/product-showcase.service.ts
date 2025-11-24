@@ -63,10 +63,6 @@ export class ProductShowcaseService {
     this.productsSignal.set(products);
   }
 
-  /**
-   * Load showcase products from an API endpoint. This is ready for future integrations
-   * and falls back to static content if the request fails.
-   */
   async loadFromApi(endpoint: string): Promise<void> {
     try {
       const products = await firstValueFrom(
