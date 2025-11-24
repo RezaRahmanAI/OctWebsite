@@ -3,7 +3,7 @@
 /* wrapper sizing */
 .method-wrap { min-height: 40rem; } /* fallback for small screens */
 @media (min-width: 768px) {
-  .method-wrap { height: 100vh; } /* full viewport on desktop */
+  .method-wrap { height: 80vh; } /* full viewport on desktop */
 }
 
 /* connector path styling */
