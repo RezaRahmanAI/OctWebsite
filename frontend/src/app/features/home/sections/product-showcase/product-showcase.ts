@@ -1,14 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { NgFor, NgClass } from '@angular/common';
-import { SectionHeaderComponent } from "../../../../shared/components/section-header/section-header.component";
+import { SectionHeaderComponent } from '../../../../shared/components/section-header/section-header.component';
+import { ProductShowcaseService } from '../../../../core/services/product-showcase.service';
+import type { ProductShowcaseItem } from '../../../../core/services/product-showcase.service';
 
-interface Product {
-  name: string;
-  description: string;
-  imageUrl: string;
-  backgroundColor: string; // Tailwind background classes
-  projectScreenshotUrl: string; // Image shown in the card
-}
+const CARD_WIDTH = 360;
+const CARD_GAP = 48;
+const SLIDE_DISTANCE = CARD_WIDTH + CARD_GAP;
 
 @Component({
   selector: 'app-product-showcase',
@@ -17,49 +15,84 @@ interface Product {
   styleUrls: ['./product-showcase.css'],
   imports: [NgFor, NgClass, SectionHeaderComponent],
 })
-export class ProductShowcaseComponent {
+export class ProductShowcaseComponent implements AfterViewInit, OnDestroy {
+  @ViewChild('cardTrack') cardTrack!: ElementRef<HTMLDivElement>;
+
+  private readonly showcaseService = inject(ProductShowcaseService);
+
+  // Section texts
   public sectionName = 'Product Showcase';
   public sectionTitle = 'Our Custom Software Development Products';
   public sectionSubtitle =
     'We build robust, scalable, and efficient software products tailored to your business.';
 
-  public products: Product[] = [
-    {
-      name: 'DMS',
-      description:
-        'DMS is a smart Distribution Business Management System that provides accounting, purchase, sales, SR control, and stock management via mobile app or website so you can fully control your products.',
-      imageUrl: 'https://placehold.co/60x60/0ea5e9/ffffff.png?text=DMS',
-      backgroundColor: 'bg-[#06ac30]', // soft mint
-      projectScreenshotUrl: '/images/project/dms.jpg',
-    },
-    {
-      name: 'Ebike',
-      description:
-        'Ebike is software for motorcycle showrooms, covering account settlement, stock, sales, purchases, and registration document preparation—an essential part of your showroom management.',
-      imageUrl: 'https://placehold.co/60x60/22c55e/ffffff.png?text=EB',
-      backgroundColor: 'bg-[#8b0101]', // soft blue
-      projectScreenshotUrl: '/images/project/ebike.jpg',
-    },
-    {
-      name: 'Ezone',
-      description:
-        'A software for electronics showrooms that gives you account settlement, stock, cash sales, hire sales, installment reminders, and more—becoming a core part of your showroom management.',
-      imageUrl: 'https://placehold.co/60x60/22c55e/ffffff.png?text=EZ',
-      backgroundColor: 'bg-[#7ec287]',
-      projectScreenshotUrl: '/images/project/ezone.png',
-    },
-    {
-      name: 'Real Estate Management',
-      description:
-        'Software for real estate businesses with accounts, project-wise estimates, flat booking, installment date reminders, and more—making your real estate operations much easier.',
-      imageUrl: 'https://placehold.co/60x60/22c55e/ffffff.png?text=RE',
-      backgroundColor: 'bg-[#FFEFD5]', // soft peach
-      projectScreenshotUrl: '/images/project/realstate.jpg',
-    },
-  ];
+  // Data
+  public products: ProductShowcaseItem[] = this.showcaseService.products();
 
-  // Duplicate products so the marquee can loop seamlessly
-  get marqueeProducts(): Product[] {
-    return [...this.products, ...this.products];
+  // Duplicate products so the carousel can loop seamlessly
+  public marqueeProducts: ProductShowcaseItem[] = [...this.products, ...this.products];
+
+  // Animation config
+  private carouselTimeoutId: any;
+  private readonly animationDuration = 600; // ms for slide animation
+  private readonly minPause = 1000; // 1s
+  private readonly maxPause = 3000; // 3s
+  private currentIndex = 0;
+
+  ngAfterViewInit(): void {
+    const track = this.cardTrack?.nativeElement;
+    if (!track) return;
+
+    // Initial state
+    track.style.transform = 'translateX(0)';
+    track.style.transition = 'none';
+
+    this.scheduleNextSlide();
+  }
+
+  ngOnDestroy(): void {
+    if (this.carouselTimeoutId) {
+      clearTimeout(this.carouselTimeoutId);
+    }
+  }
+
+  /** Slide by one card: leftmost moves out of view, new one enters from right */
+  private slideOnce(): void {
+    const track = this.cardTrack?.nativeElement;
+    if (!track) return;
+
+    const baseLength = this.products.length;
+    if (baseLength === 0) return;
+
+    // Move to next card
+    this.currentIndex += 1;
+
+    // Animate the track
+    track.style.transition = `transform ${this.animationDuration}ms ease-in-out`;
+    track.style.transform = `translateX(-${this.currentIndex * SLIDE_DISTANCE}px)`;
+
+    // After animation: if we've gone past the first copy, jump back by baseLength
+    setTimeout(() => {
+      if (this.currentIndex >= baseLength) {
+        this.currentIndex = this.currentIndex - baseLength;
+
+        // Jump back with no animation -> visually seamless because list is duplicated
+        track.style.transition = 'none';
+        track.style.transform = `translateX(-${this.currentIndex * SLIDE_DISTANCE}px)`;
+      }
+    }, this.animationDuration);
+  }
+
+  /** Schedule continuous sliding with 1–3s pause between slides */
+  private scheduleNextSlide(): void {
+    const pause = this.minPause + Math.random() * (this.maxPause - this.maxPause);
+
+    // Actually we want: min + random * (max - min)
+    const fixedPause = this.minPause + Math.random() * (this.maxPause - this.minPause);
+
+    this.carouselTimeoutId = setTimeout(() => {
+      this.slideOnce();
+      this.scheduleNextSlide(); // loop forever
+    }, fixedPause + this.animationDuration);
   }
 }

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SectionHeaderComponent } from '../../shared/components/section-header/section-header.component';
+import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
 
 interface ValueItem {
   title: string;
@@ -65,7 +66,7 @@ interface AboutPageContent {
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, AssetUrlPipe],
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -79,7 +80,7 @@ export class AboutComponent {
         'Engineering teams, educators, and strategists building products and people together.',
     },
     intro:
-      'ObjectCanvas engineers, product strategists, data practitioners, and ZeroProgrammingBD educators work as one integrated team. We combine delivery excellence with capability building so every engagement ships both outcomes and skills.',
+      'ObjectCanvas engineers, product strategists, data practitioners, and  educators work as one integrated team. We combine delivery excellence with capability building so every engagement ships both outcomes and skills.',
     mission:
       'To help ambitious teams design, build, and scale digital products while growing the next generation of engineers and creators across Bangladesh and beyond.',
     story:
@@ -176,7 +177,7 @@ export class AboutComponent {
         },
         {
           name: 'Academy Lead',
-          role: 'ZeroProgrammingBD',
+          role: '',
           focus: 'Curriculum design, cohort facilitation, and mentorship',
           location: 'Rajshahi, Bangladesh',
           avatarUrl: '/images/team/team.jpg',

@@ -1,9 +1,10 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { TechStackComponent } from './sections/tech-stack-slider/tech-stack-slider.component';
 import { SeoService } from '../../core/services/seo.service';
 import { ContentService } from '../../core/services/content.service';
 import { SettingsService } from '../../core/services/settings.service';
+import { SiteIdentityService } from '../../core/services/site-identity.service';
 import { HomeHeroComponent } from './sections/hero/home-hero.component';
 import { HomeTrustComponent } from './sections/trust/home-trust.component';
 import { HomeServicesComponent } from './sections/services/home-services.component';
@@ -14,9 +15,8 @@ import { HomeInsightsComponent } from './sections/insights/home-insights.compone
 import { HomeClosingCtasComponent } from './sections/closing-ctas/home-closing-ctas.component';
 import { environment } from '../../../environments/environment';
 import { HomeCollaborationComponent } from './sections/collaboration/home-collaboration.component';
-import { ServicesComponent } from "../services/services.component";
-import { HomeDifferentiatorsComponent } from "./sections/differentiators/home-differentiators.component";
-import { ProductShowcaseComponent } from "./sections/product-showcase/product-showcase";
+import { ProductShowcaseComponent } from './sections/product-showcase/product-showcase';
+import { BlogService } from '../../core/services/blog.service';
 
 @Component({
   selector: 'app-home',
@@ -33,25 +33,29 @@ import { ProductShowcaseComponent } from "./sections/product-showcase/product-sh
     HomeClosingCtasComponent,
     HomeCollaborationComponent,
     HomeTrustComponent,
-    HomeDifferentiatorsComponent,
-    ProductShowcaseComponent
-],
+    ProductShowcaseComponent,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {
   private readonly seo = inject(SeoService);
   private readonly content = inject(ContentService);
   private readonly settings = inject(SettingsService);
+  private readonly siteIdentity = inject(SiteIdentityService);
+  private readonly document = inject(DOCUMENT, { optional: true });
+  private readonly blogService = inject(BlogService);
 
   protected readonly home = this.content.homeContent;
   private readonly siteSettings = this.settings.settings;
   protected readonly heroData = computed(() => {
     const base = this.home().hero;
     const settings = this.siteSettings();
+    const heroVideo = this.siteIdentity.getHeroVideo('home');
 
-    const safeString = (value: string | undefined) => (value && value.trim().length > 0 ? value.trim() : null);
+    const safeString = (value: string | undefined) =>
+      value && value.trim().length > 0 ? value.trim() : null;
 
     return {
       ...base,
@@ -60,16 +64,16 @@ export class HomeComponent {
       description: safeString(settings?.heroSubtitle) ?? base.description,
       primaryCta: {
         ...base.primaryCta,
-        label: safeString(settings?.primaryCtaLabel) ?? base.primaryCta.label
+        label: safeString(settings?.primaryCtaLabel) ?? base.primaryCta.label,
       },
       highlightCard: {
         ...base.highlightCard,
-        description: safeString(settings?.heroMediaCaption) ?? base.highlightCard.description
+        description: safeString(settings?.heroMediaCaption) ?? base.highlightCard.description,
       },
       video: {
-        src: safeString(settings?.heroVideoUrl) ?? base.video.src,
-        poster: safeString(settings?.heroVideoPoster) ?? base.video.poster
-      }
+        src: heroVideo?.src ?? safeString(settings?.heroVideoUrl) ?? base.video.src,
+        poster: heroVideo?.poster ?? safeString(settings?.heroVideoPoster) ?? base.video.poster,
+      },
     };
   });
   protected readonly heroVideoSrc = computed(() =>
@@ -79,14 +83,24 @@ export class HomeComponent {
     this.normalizeMediaUrl(this.heroData().video.poster)
   );
 
+  protected readonly featuredPosts = computed(() => {
+    return [...this.blogService.posts()]
+      .sort(
+        (a, b) =>
+          (new Date(b.publishedAt ?? '').getTime() || 0) -
+          (new Date(a.publishedAt ?? '').getTime() || 0)
+      )
+      .slice(0, 3);
+  });
+
   constructor() {
     this.seo.update({
-      title: 'ObjectCanvas × ZeroProgrammingBD | Software Solutions & Tech Academy',
+      title: 'ObjectCanvas | Software Solutions & Tech Academy',
       description:
-        'ObjectCanvas Studios and ZeroProgrammingBD Academy deliver enterprise software, digital marketing, and live technology education for founders, enterprises, and future makers.',
+        'ObjectCanvas Studios and ObjectCanvas Academy deliver enterprise software, digital marketing, and live technology education for founders, enterprises, and future makers.',
       keywords:
-        'objectcanvas, zeroprogrammingbd, software development Bangladesh, digital marketing, tech academy, angular tailwind',
-      canonical: 'https://www.objectcanvas.com'
+        'objectcanvas, software development Bangladesh, digital marketing, tech academy, angular tailwind',
+      canonical: 'https://www.objectcanvas.com',
     });
   }
 
@@ -99,13 +113,27 @@ export class HomeComponent {
       return url;
     }
 
-    const normalized = url.startsWith('/') ? url : `/${url.replace(/^\/+/, '')}`;
+    const normalized = url.startsWith('/') ? url.replace(/^\/+/, '') : url;
+    const strippedPublic = normalized.startsWith('public/')
+      ? normalized.replace(/^public\//, '')
+      : normalized;
 
-    if (normalized.startsWith('/video/') || normalized.startsWith('/images/') || normalized.startsWith('/assets/')) {
-      return normalized;
+    if (
+      strippedPublic.startsWith('video/') ||
+      strippedPublic.startsWith('images/') ||
+      strippedPublic.startsWith('assets/')
+    ) {
+      const baseHref =
+        this.document?.baseURI ?? (typeof location !== 'undefined' ? location.href : '/');
+      try {
+        const resolved = new URL(strippedPublic, baseHref);
+        return `${resolved.pathname}${resolved.search}${resolved.hash}`;
+      } catch {
+        return `/${strippedPublic}`;
+      }
     }
 
     const apiBase = environment.apiUrl.replace(/\/+$/, '');
-    return `${apiBase}${normalized.replace(/\/+$/, '')}`;
+    return `${apiBase}/${strippedPublic.replace(/\/+$/, '')}`;
   }
 }

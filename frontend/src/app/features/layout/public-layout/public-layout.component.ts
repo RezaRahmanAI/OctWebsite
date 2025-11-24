@@ -1,17 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, inject } from '@angular/core';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { Subscription, filter } from 'rxjs';
-import { FooterComponent } from '../../../layout/footer/footer.component';
-import { NavbarComponent } from '../../../layout/navbar/navbar.component';
-import { ScrollAnimationService } from '../../../core/services/scroll-animation.service';
-
-
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-public-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, NavbarComponent, FooterComponent],
+  imports: [CommonModule, RouterOutlet],
   templateUrl: './public-layout.component.html',
   styleUrls: ['./public-layout.component.css'],
 })

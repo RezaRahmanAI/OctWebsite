@@ -11,3 +11,4 @@ export * from './animation.service';
 export * from './scroll-animation.service';
 export * from './smooth-scroll.service';
 export * from './theme.service';
+export * from './site-identity.service';

@@ -1,23 +1,17 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
 import { DATA_PROVIDER } from '../data';
 import { BlogPost } from '../models';
-import { environment } from '../../../environments/environment';
+import { STATIC_BLOG_POSTS } from '../data/static-blog-posts';
 
 @Injectable({ providedIn: 'root' })
 export class BlogService {
   private readonly provider = inject(DATA_PROVIDER);
   private readonly store = this.provider.blog;
-  private readonly http = inject(HttpClient);
-  private readonly apiUrl = `${environment.apiUrl}/api/blog`;
-  private loadingPromise: Promise<void> | null = null;
-  private hasLoadedFromApi = false;
   private readonly query = signal('');
   private readonly tagFilter = signal<string | null>(null);
 
   constructor() {
-    void this.ensureLoaded();
+    this.seedFromStatic();
   }
 
   readonly posts = computed(() => {
@@ -61,10 +55,9 @@ export class BlogService {
   }
 
   async create(post: BlogPost): Promise<BlogPost> {
-    const payload = this.toRequest(post);
-    const created = await firstValueFrom(this.http.post<BlogPost>(this.apiUrl, payload));
+    const created = { ...post, id: post.id ?? this.generateId() };
     this.store.create(created);
-    return created;
+    return Promise.resolve(created);
   }
 
   async update(id: string, patch: Partial<BlogPost>): Promise<BlogPost | undefined> {
@@ -72,57 +65,35 @@ export class BlogService {
     if (!current) {
       return undefined;
     }
-    const payload = this.toRequest({ ...current, ...patch });
-    const updated = await firstValueFrom(this.http.put<BlogPost>(`${this.apiUrl}/${id}`, payload));
+    const updated = { ...current, ...patch } as BlogPost;
     this.store.update(id, updated);
-    return updated;
+    return Promise.resolve(updated);
   }
 
   async delete(id: string): Promise<void> {
-    await firstValueFrom(this.http.delete<void>(`${this.apiUrl}/${id}`));
     this.store.delete(id);
+    return Promise.resolve();
   }
 
   async refresh(): Promise<void> {
-    await this.loadFromApi(true);
+    this.seedFromStatic(true);
   }
 
   async ensureLoaded(): Promise<void> {
-    await this.loadFromApi();
+    this.seedFromStatic(true);
   }
 
-  private async loadFromApi(force = false): Promise<void> {
-    if (this.loadingPromise) {
-      await this.loadingPromise;
+  private seedFromStatic(force = false): void {
+    if (!force && this.store.list().length > 0) {
       return;
     }
-    if (!force && this.hasLoadedFromApi) {
-      return;
-    }
-    this.loadingPromise = firstValueFrom(this.http.get<BlogPost[]>(this.apiUrl))
-      .then(items => {
-        this.store.replace(items);
-        this.hasLoadedFromApi = true;
-      })
-      .catch(error => {
-        console.error('Failed to load blog posts from API', error);
-      })
-      .finally(() => {
-        this.loadingPromise = null;
-      });
-    await this.loadingPromise;
+    this.store.replace(STATIC_BLOG_POSTS);
   }
 
-  private toRequest(post: Partial<BlogPost>): Omit<BlogPost, 'id'> {
-    return {
-      title: post.title ?? '',
-      slug: post.slug ?? '',
-      excerpt: post.excerpt ?? '',
-      coverUrl: post.coverUrl ?? '',
-      content: post.content ?? '',
-      tags: post.tags ?? [],
-      published: post.published ?? false,
-      publishedAt: post.publishedAt ?? new Date().toISOString(),
-    };
+  private generateId(): string {
+    if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
+      return crypto.randomUUID();
+    }
+    return Math.random().toString(36).slice(2);
   }
 }

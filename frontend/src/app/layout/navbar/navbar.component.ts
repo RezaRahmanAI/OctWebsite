@@ -12,17 +12,15 @@ import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterModule } fro
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SmoothScrollService } from '../../core/services'; // Assuming this service path is correct
-
-type NavLink = {
-  label: string;
-  path: string | string[];
-  exact?: boolean;
-};
-
-type DropdownItem = {
-  title: string;
-  href: string;
-};
+import { ServicesService } from '../../core/services/services.service';
+import {
+  DropdownItem,
+  MethodologyLink,
+  NavLink,
+  NavigationContent,
+  ServiceItem,
+} from '../../core/models';
+import { ContentService } from '../../core/services/content.service';
 
 @Component({
   selector: 'app-navbar',
@@ -36,13 +34,18 @@ export class NavbarComponent {
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
   private readonly smoothScroll = inject(SmoothScrollService);
+  private readonly servicesService = inject(ServicesService);
+  private readonly contentService = inject(ContentService);
+
+  // Scroll thresholds for navbar background
+  private readonly SCROLL_ACTIVATE = 120; // when to turn bg/blur on
+  private readonly SCROLL_RESET = 40; // when to turn bg/blur off
 
   // Mobile menu state (for hamburger menu)
   private _menuOpen = signal(false);
   menuOpen = computed(() => this._menuOpen());
 
   // Dropdown states for desktop navigation
-  // Note: 'Services' keeps its old mega-menu logic from the original component
   private _servicesMenuOpen = signal(false);
   servicesMenuOpen = computed(() => this._servicesMenuOpen());
 
@@ -55,72 +58,37 @@ export class NavbarComponent {
   private _academyMenuOpen = signal(false);
   academyMenuOpen = computed(() => this._academyMenuOpen());
 
-  // Scroll style state (kept from old component)
+  // Scroll style state
   private _scrolled = signal(false);
   scrolled = computed(() => this._scrolled());
 
-  // Navbar hide/show on scroll (kept from old component)
+  // Navbar hide/show on scroll
   private _hidden = signal(false);
   hidden = computed(() => this._hidden());
   private lastScrollY = 0;
 
-  // Static links for desktop navigation (excluding dropdowns)
-  private _links = signal<NavLink[]>([
-    { label: 'Home', path: '/', exact: true },
-    { label: 'About', path: '/about', exact: true },
-    { label: 'Product', path: '/product', exact: true },
-    { label: 'Academy', path: '/academy', exact: true },
-    { label: 'Blog', path: '/blog', exact: false },
-    { label: 'Contact', path: '/contact', exact: true },
-  ]);
-  navLinks = computed(() => this._links());
+  private readonly navigation = this.contentService.navigationContent;
+  private readonly defaultNavigation = this.contentService.getDefaultNavigation();
 
-  // --- Dropdown Content from React Component ---
+  readonly brand = computed(() => this.navigation()?.brand ?? this.defaultNavigation.brand);
+  readonly navLinks = computed<NavLink[]>(
+    () => this.navigation()?.primaryLinks ?? this.defaultNavigation.primaryLinks
+  );
+  readonly aboutUsItems = computed<DropdownItem[]>(
+    () => this.navigation()?.aboutMenu ?? this.defaultNavigation.aboutMenu
+  );
+  readonly servicesCollaboration = computed<MethodologyLink[]>(
+    () => this.navigation()?.collaborationMenu ?? this.defaultNavigation.collaborationMenu
+  );
+  readonly technologies = computed<string[]>(
+    () => this.navigation()?.technologies ?? this.defaultNavigation.technologies
+  );
+  readonly hiringLinks = computed(() => this.navigation()?.hiringLinks ?? this.defaultNavigation.hiringLinks);
+  readonly productItems = computed<DropdownItem[]>(
+    () => this.navigation()?.productMenu ?? this.defaultNavigation.productMenu
+  );
 
-  readonly aboutUsItems: DropdownItem[] = [
-    { title: 'Company Overview', href: '/about/overview' },
-    { title: 'Mission', href: '/about/mission' },
-    { title: 'Vision', href: '/about/vision' },
-    { title: 'Team Member', href: '/about/team' },
-  ];
-
-  readonly servicesCollaboration = [
-    { label: 'Team Augmentation', fragment: 'team-augmentation' },
-    { label: 'End to End Development', fragment: 'end-to-end-development' },
-    { label: 'MVP Services', fragment: 'mvp-services' },
-    { label: 'Offshore Development', fragment: 'offshore-office-expansion' },
-  ];
-
-  readonly technologies = [
-    'JavaScript',
-    'C++',
-    'C#',
-    '.Net',
-    'Python',
-    'Java',
-    'PHP',
-    'Golang',
-    'Flutter',
-  ];
-  readonly hiringLinks = [
-    { label: 'Hire Developers' },
-    { label: 'JavaScript Developers' },
-    { label: 'Python Developers' },
-    { label: 'Java Developers' },
-    { label: 'Golang Developers' },
-    { label: '.NET Developers' },
-  ];
-
-  readonly productItems: DropdownItem[] = [
-    { title: 'Accounting -Inventory', href: '/products/accounting-inventory' },
-    { title: 'POS Software', href: '/products/pos-software' },
-    { title: 'Real Estate Management', href: '/products/real-estate-management' },
-    { title: 'Production Management', href: '/products/production-management' },
-    { title: 'Hardware Business', href: '/products/hardware-business' },
-    { title: 'Mobile Shop Management', href: '/products/mobile-shop-management' },
-    { title: 'Electronics Showroom', href: '/products/electronics-showroom' },
-    { title: 'Distribution Management', href: '/products/distribution-management' },
-  ];
+  readonly featuredServices = computed<ServiceItem[]>(() => this.servicesService.services().slice(0, 9));
 
   constructor() {
     this.smoothScroll.init();
@@ -165,7 +133,6 @@ export class NavbarComponent {
   // Generic handler for desktop menu toggling to ensure only one is open
   toggleDropdown(menu: 'services'): void {
     const currentService = this.servicesMenuOpen();
-    const currentProduct = this.productMenuOpen();
 
     this.closeAllDropdowns(); // Close all others first
 
@@ -196,16 +163,26 @@ export class NavbarComponent {
     }
   }
 
-  // Scroll listener: blur + hide/show navbar (kept from old component)
+  // Scroll listener: blur + hide/show navbar
   @HostListener('window:scroll')
   onScroll(): void {
     const currentY = window.scrollY || 0;
 
-    // blur / shadow state
-    this._scrolled.set(currentY > 8);
+    // --- Background / blur state with hysteresis ---
+    const wasScrolled = this._scrolled();
 
-    const isScrollingDown = currentY > this.lastScrollY + 4;
-    const isScrollingUp = currentY < this.lastScrollY - 4;
+    if (currentY > this.SCROLL_ACTIVATE && !wasScrolled) {
+      // Only activate once we've really scrolled down
+      this._scrolled.set(true);
+    } else if (currentY < this.SCROLL_RESET && wasScrolled) {
+      // Only remove bg when we’re clearly near the top again
+      this._scrolled.set(false);
+    }
+    // Between SCROLL_RESET–SCROLL_ACTIVATE, we keep previous state (no flicker)
+
+    // --- Hide / show navbar ---
+    const isScrollingDown = currentY > this.lastScrollY + 10;
+    const isScrollingUp = currentY < this.lastScrollY - 10;
     const nearTop = currentY < 16;
 
     if (nearTop) {

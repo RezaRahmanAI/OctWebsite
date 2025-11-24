@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 
 import { ContentService } from '../../core/services/content.service';
 import { HomeContactComponent } from '../home/sections/contact/home-contact.component';
+import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
 
 interface ContactPageContent {
   header: {
@@ -21,7 +22,7 @@ interface ContactPageContent {
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule, HomeContactComponent],
+  imports: [CommonModule, HomeContactComponent, AssetUrlPipe],
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

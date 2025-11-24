@@ -1,4 +1,4 @@
-# ObjectCanvas × ZeroProgrammingBD
+# ObjectCanvas ×
 
 Premium joint technology studio and academy experience built with Angular 18, Tailwind CSS, GSAP, and Lenis.
 
@@ -40,4 +40,4 @@ src/
 
 ## License
 
-Copyright © 2024 ObjectCanvas × ZeroProgrammingBD.
+Copyright © 2024 ObjectCanvas × .

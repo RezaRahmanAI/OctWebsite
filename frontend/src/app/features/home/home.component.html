@@ -10,8 +10,7 @@
   [header]="home().testimonials.header"
   [testimonials]="home().testimonials.items"
 />
-<app-home-insights [data]="home().insights" />
+<app-home-insights [data]="home().insights" [posts]="featuredPosts()" />
 <app-home-closing-ctas [data]="home().closingCtas" />
 
 
-<app-home-differentiators [data]="home().differentiators"></app-home-differentiators>

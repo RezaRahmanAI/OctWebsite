@@ -6,3 +6,7 @@ export * from './academy-track.model';
 export * from './blog-post.model';
 export * from './lead.model';
 export * from './site-settings.model';
+export * from './home-content.model';
+export * from './pricing-plan.model';
+export * from './site-content.model';
+export * from './site-identity.model';

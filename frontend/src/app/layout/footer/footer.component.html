@@ -1,20 +1,21 @@
-<footer class="bg-slate-800 text-slate-100">
+<footer class="bg-slate-900 text-slate-100">
   <div class="container-wide section-padding">
     <div class="grid gap-12 lg:grid-cols-6">
       <div class="lg:col-span-2">
         <div class="flex items-center gap-3">
-          <img src="/images/logo/oct_logo.png" alt="Object Canvas Technology Logo" class="h-10 w-10" />
+          <span class="inline-flex items-center justify-center ">
+            <img src="images/logo/oct_logo.png" alt="ObjectCanvas Technology Logo" class="h-full w-full" />
+          </span>
           <div class="flex flex-col">
-            <span class="font-heading text-2xl font-semibold text-white">ObjectCanvas</span>
-            <span class="text-sm text-slate-300">× ZeroProgrammingBD</span>
+            <span class="font-heading text-2xl font-semibold text-white">ObjectCanvas Technology</span>
           </div>
         </div>
         <p class="mt-6 text-sm leading-relaxed text-slate-300">
-          ObjectCanvas Studios and ZeroProgrammingBD Academy unite to deliver transformative platforms and future-proof skills for founders, enterprises, and learners worldwide.
+          Empowering businesses and careers through transformative technology solutions and world-class education.
         </p>
         <div class="mt-6 flex flex-wrap items-center gap-3">
-          <!-- <a
-            *ngFor="let social of socialLinks()"
+          <a
+            *ngFor="let social of socialLinks"
             [href]="social.url"
             target="_blank"
             rel="noopener"
@@ -22,7 +23,7 @@
             [attr.aria-label]="social.label"
           >
             <span class="text-xs font-semibold">{{ social.label[0] }}</span>
-          </a> -->
+          </a>
         </div>
         <a
           routerLink="/contact"
@@ -47,7 +48,7 @@
       </div>
 
       <div class="space-y-4">
-        <h3 class="text-lg font-semibold text-white">ZeroProgrammingBD Academy</h3>
+        <h3 class="text-lg font-semibold text-white">ObjectCanvas Academy</h3>
         <ul class="space-y-2 text-sm text-slate-300">
           <li><a routerLink="/academy" class="transition hover:text-white">Browse Courses</a></li>
           <li><a routerLink="/academy" class="transition hover:text-white">Become an Instructor</a></li>
@@ -79,40 +80,17 @@
           <li><a routerLink="/legal/refund" class="transition hover:text-white">Refund Policy</a></li>
         </ul>
       </div>
-
-      <!-- <div class="space-y-4">
-        <h3 class="text-lg font-semibold text-white">Newsletter</h3>
-        <p class="text-sm text-slate-300">
-          Get weekly insights, course updates, and exclusive offers directly in your inbox.
-        </p>
-        <form class="flex flex-col gap-3">
-          <label class="sr-only" for="newsletter-email">Email</label>
-          <input
-            id="newsletter-email"
-            type="email"
-            placeholder="you@company.com"
-            class="w-full rounded-full border-0 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-300 focus:ring-2 focus:ring-accent"
-          />
-          <button
-            type="submit"
-            class="inline-flex items-center justify-center rounded-full bg-accent px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald"
-          >
-            Subscribe
-          </button>
-          <span class="text-xs text-slate-400">We respect your privacy. Unsubscribe anytime.</span>
-        </form>
-      </div> -->
     </div>
   </div>
 
-  <div class="border-t border-white/10 bg-slate-900 py-6 text-sm text-slate-300">
+  <div class="border-t border-white/10 bg-slate-950 py-6 text-sm text-slate-300">
     <div class="container-wide flex flex-col items-center justify-between gap-4 md:flex-row">
-      <p>© {{ currentYear }} ObjectCanvas × ZeroProgrammingBD. All rights reserved. | Proudly Made in Bangladesh 🇧🇩</p>
+      <p>© {{ currentYear }} Hum Tech &amp; Academy. All rights reserved. | Proudly Made in Bangladesh 🇧🇩</p>
       <div class="flex flex-wrap items-center gap-4">
         <a routerLink="/legal/privacy" class="hover:text-white">Privacy Policy</a>
         <a routerLink="/legal/terms" class="hover:text-white">Terms</a>
         <a routerLink="/sitemap" class="hover:text-white">Sitemap</a>
-        <a href="https://objectcanvas.com/company-profile.pdf" target="_blank" rel="noopener" class="hover:text-white">Download Company Profile</a>
+        <a href="https://www.humtech.academy/assets/company-profile.pdf" target="_blank" rel="noopener" class="hover:text-white">Download Company Profile</a>
       </div>
     </div>
   </div>

@@ -1,21 +1,15 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable, computed, inject } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
 import { DATA_PROVIDER } from '../data';
 import { AcademyTrack } from '../models';
-import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AcademyService {
   private readonly provider = inject(DATA_PROVIDER);
   private readonly store = this.provider.academy;
-  private readonly http = inject(HttpClient);
-  private readonly apiUrl = `${environment.apiUrl}/api/academy/tracks`;
-  private loadingPromise: Promise<void> | null = null;
-  private hasLoadedFromApi = false;
+  private readonly defaultTracks: AcademyTrack[] = [];
 
   constructor() {
-    void this.ensureLoaded();
+    this.seedDefaults();
   }
 
   readonly tracks = computed(() => this.store.list().filter(track => track.active));
@@ -34,10 +28,9 @@ export class AcademyService {
   }
 
   async create(track: AcademyTrack): Promise<AcademyTrack> {
-    const payload = this.toRequest(track);
-    const created = await firstValueFrom(this.http.post<AcademyTrack>(this.apiUrl, payload));
+    const created: AcademyTrack = { ...track, id: track.id ?? this.generateId() };
     this.store.create(created);
-    return created;
+    return Promise.resolve(created);
   }
 
   async update(id: string, patch: Partial<AcademyTrack>): Promise<AcademyTrack | undefined> {
@@ -45,56 +38,35 @@ export class AcademyService {
     if (!current) {
       return undefined;
     }
-    const payload = this.toRequest({ ...current, ...patch });
-    const updated = await firstValueFrom(this.http.put<AcademyTrack>(`${this.apiUrl}/${id}`, payload));
+    const updated: AcademyTrack = { ...current, ...patch } as AcademyTrack;
     this.store.update(id, updated);
-    return updated;
+    return Promise.resolve(updated);
   }
 
   async delete(id: string): Promise<void> {
-    await firstValueFrom(this.http.delete<void>(`${this.apiUrl}/${id}`));
     this.store.delete(id);
+    return Promise.resolve();
   }
 
   async refresh(): Promise<void> {
-    await this.loadFromApi(true);
+    this.seedDefaults(true);
   }
 
   async ensureLoaded(): Promise<void> {
-    await this.loadFromApi();
+    this.seedDefaults(true);
   }
 
-  private async loadFromApi(force = false): Promise<void> {
-    if (this.loadingPromise) {
-      await this.loadingPromise;
+  private seedDefaults(force = false): void {
+    if (!force && this.store.list().length > 0) {
       return;
     }
-    if (!force && this.hasLoadedFromApi) {
-      return;
-    }
-    this.loadingPromise = firstValueFrom(this.http.get<AcademyTrack[]>(this.apiUrl))
-      .then(items => {
-        this.store.replace(items);
-        this.hasLoadedFromApi = true;
-      })
-      .catch(error => {
-        console.error('Failed to load academy tracks from API', error);
-      })
-      .finally(() => {
-        this.loadingPromise = null;
-      });
-    await this.loadingPromise;
+    this.store.replace(this.defaultTracks);
   }
 
-  private toRequest(track: Partial<AcademyTrack>): Omit<AcademyTrack, 'id'> {
-    return {
-      title: track.title ?? '',
-      slug: track.slug ?? '',
-      ageRange: track.ageRange,
-      duration: track.duration ?? '',
-      priceLabel: track.priceLabel ?? '',
-      levels: track.levels ?? [],
-      active: track.active ?? true,
-    };
+  private generateId(): string {
+    if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
+      return crypto.randomUUID();
+    }
+    return Math.random().toString(36).slice(2);
   }
 }

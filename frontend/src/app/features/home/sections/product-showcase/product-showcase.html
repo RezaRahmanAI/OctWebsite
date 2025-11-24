@@ -1,4 +1,4 @@
-<section class="section-padding bg-white">
+<section class="section-padding">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <!-- Section header -->
     <div class="mb-12 text-center">
@@ -7,13 +7,15 @@
         [title]="sectionTitle"
         [subtitle]="sectionSubtitle"
       ></app-section-header>
-      
     </div>
 
     <!-- Auto-sliding cards -->
-    <div class="relative mt-10 overflow-hidden">
+    <div class="relative mt-10 mx-auto overflow-hidden carousel-viewport">
       <!-- track -->
-      <div class="flex w-max gap-12 card-marquee">
+      <div
+        #cardTrack
+        class="flex w-max gap-12"
+      >
         <div
           *ngFor="let product of marqueeProducts"
           class="flex-shrink-0 w-[360px]"
@@ -33,9 +35,8 @@
               </p>
             </div>
 
-            <!-- Floating screenshot (same size for all) -->
+            <!-- Floating screenshot -->
             <div class="relative mt-10 h-[210px]">
-              <!-- soft shadow behind image -->
               <div
                 class="absolute bottom-6 left-1/2 h-32 w-[280px] -translate-x-1/2 rounded-3xl bg-black/10 blur-xl"
                 aria-hidden="true"
