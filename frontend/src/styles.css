@@ -14,11 +14,6 @@ body {
   min-height: 100%;
 }
 
-html,
-body {
-  scroll-behavior: auto;
-}
-
 body::before {
   content: '';
   position: fixed;
@@ -130,18 +125,24 @@ a:hover {
   }
 }
 
+.scroll-animate {
+  opacity: 0;
+  transform: translateY(24px);
+  filter: blur(6px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease,
+    filter 0.8s ease;
+  transition-delay: var(--scroll-animate-delay, 0ms);
+}
+
+.scroll-animate.scroll-animate--visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
 @layer components {
-  main > * {
-    animation: rise-fade 0.8s ease forwards;
-  }
-
-  section {
-    --section-delay: 0.05s;
-    animation: rise-fade 0.9s ease forwards;
-    animation-delay: var(--section-delay);
-    transform-origin: center;
-  }
-
   .animated-card {
     animation: rise-fade 0.95s ease forwards;
     animation-delay: var(--card-delay, 0.08s);

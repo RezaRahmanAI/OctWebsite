@@ -1,49 +1,36 @@
-import { AfterViewInit, Directive, ElementRef, Input, OnDestroy } from '@angular/core';
-import { getGsap, getScrollTrigger } from '../animations/gsap-helpers';
+import { Directive, ElementRef, Input, NgZone, OnDestroy, AfterViewInit } from '@angular/core';
+import { AnimationService, ScrollRevealOptions } from '../../core/services/animation.service';
 
 @Directive({
   selector: '[appScrollReveal]',
-  standalone: true,
+  standalone: true
 })
 export class ScrollRevealDirective implements AfterViewInit, OnDestroy {
-  @Input() revealDelay = 0;
-  @Input() revealOffset = 60;
-  @Input() revealStagger = 0;
+  @Input('appScrollReveal') options: ScrollRevealOptions | '' = {};
 
-  private tween?: any;
-
-  constructor(private readonly elementRef: ElementRef<HTMLElement>) {}
+  constructor(
+    private readonly elementRef: ElementRef<HTMLElement>,
+    private readonly animationService: AnimationService,
+    private readonly ngZone: NgZone
+  ) {}
 
   ngAfterViewInit(): void {
-    const gsap = getGsap();
-    if (!gsap) {
-      console.warn('GSAP is not available for scroll animations.');
-      return;
-    }
-
-    const ScrollTrigger = getScrollTrigger();
-    if (ScrollTrigger) {
-      gsap.registerPlugin(ScrollTrigger);
-    }
-
-    this.tween = gsap.from(this.elementRef.nativeElement, {
-      opacity: 0,
-      y: this.revealOffset,
-      duration: 1,
-      delay: this.revealDelay,
-      ease: 'power3.out',
-      stagger: this.revealStagger,
-      scrollTrigger: {
-        trigger: this.elementRef.nativeElement,
-        start: 'top 78%',
-        once: false,
-        toggleActions: 'play none none reverse',
-      },
+    this.ngZone.runOutsideAngular(() => {
+      requestAnimationFrame(() => {
+        this.animationService.registerReveal(this.elementRef.nativeElement, this.normalizeOptions(this.options));
+      });
     });
   }
 
   ngOnDestroy(): void {
-    this.tween?.scrollTrigger?.kill?.();
-    this.tween?.kill?.();
+    this.animationService.destroy(this.elementRef.nativeElement);
+  }
+
+  private normalizeOptions(options: ScrollRevealOptions | ''): ScrollRevealOptions {
+    if (options === '' || options == null) {
+      return {};
+    }
+
+    return options;
   }
 }

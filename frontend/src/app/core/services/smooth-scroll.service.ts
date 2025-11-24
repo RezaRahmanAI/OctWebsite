@@ -47,7 +47,7 @@ export class SmoothScrollService implements OnDestroy {
         ? target
         : target.getBoundingClientRect().top + view.scrollY;
     const finalTop = baseTop + (options.offset ?? 0);
-    view.scrollTo({ top: finalTop, behavior: 'auto' });
+    view.scrollTo({ top: finalTop, behavior: options.immediate ? 'auto' : 'smooth' });
   }
 
   scrollToSelector(selector: string, options: ScrollOptions = {}): void {
@@ -56,6 +56,7 @@ export class SmoothScrollService implements OnDestroy {
       this.scrollTo(element, options);
     }
   }
+
   ngOnDestroy(): void {
     this.routerSub?.unsubscribe();
     this.initialized = false;

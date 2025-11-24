@@ -9,4 +9,28 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './public-layout.component.html',
   styleUrls: ['./public-layout.component.css'],
 })
-export class PublicLayoutComponent {}
+export class PublicLayoutComponent implements AfterViewInit, OnDestroy {
+  @ViewChild('mainContainer', { static: true }) mainContainer?: ElementRef<HTMLElement>;
+
+  private readonly router = inject(Router);
+  private readonly scrollAnimation = inject(ScrollAnimationService);
+  private navigationSub?: Subscription;
+
+  ngAfterViewInit(): void {
+    const mainElement = this.mainContainer?.nativeElement;
+    if (!mainElement) {
+      return;
+    }
+
+    this.scrollAnimation.init(mainElement);
+
+    this.navigationSub = this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe(() => this.scrollAnimation.refresh(mainElement));
+  }
+
+  ngOnDestroy(): void {
+    this.navigationSub?.unsubscribe();
+    this.scrollAnimation.destroy();
+  }
+}
