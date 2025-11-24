@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import type { HomeContent } from '../../../../core/models/home-content.model';
 import { FormatStatPipe } from '../../../../shared/pipes/format-stat.pipe';
+import { ScrollRevealDirective } from '../../../../shared/directives/scroll-reveal.directive';
 
 interface TrustedLogo {
   name: string;
@@ -11,7 +12,7 @@ interface TrustedLogo {
 @Component({
   selector: 'app-home-trust',
   standalone: true,
-  imports: [CommonModule, FormatStatPipe],
+  imports: [CommonModule, FormatStatPipe, ScrollRevealDirective],
   templateUrl: './home-trust.component.html',
   styleUrl: './home-trust.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -3,6 +3,7 @@ import { NgFor, NgClass } from '@angular/common';
 import { SectionHeaderComponent } from '../../../../shared/components/section-header/section-header.component';
 import { ProductShowcaseService } from '../../../../core/services/product-showcase.service';
 import type { ProductShowcaseItem } from '../../../../core/services/product-showcase.service';
+import { ScrollRevealDirective } from '../../../../shared/directives/scroll-reveal.directive';
 
 const CARD_WIDTH = 360;
 const CARD_GAP = 48;
@@ -13,7 +14,7 @@ const SLIDE_DISTANCE = CARD_WIDTH + CARD_GAP;
   standalone: true,
   templateUrl: './product-showcase.html',
   styleUrls: ['./product-showcase.css'],
-  imports: [NgFor, NgClass, SectionHeaderComponent],
+  imports: [NgFor, NgClass, SectionHeaderComponent, ScrollRevealDirective],
 })
 export class ProductShowcaseComponent implements AfterViewInit, OnDestroy {
   @ViewChild('cardTrack') cardTrack!: ElementRef<HTMLDivElement>;
