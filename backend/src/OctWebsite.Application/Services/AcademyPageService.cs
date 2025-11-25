@@ -1,3 +1,4 @@
+using System;
 using System.Text.Json;
 using OctWebsite.Application.Abstractions;
 using OctWebsite.Application.DTOs;
@@ -13,11 +14,8 @@ internal sealed class AcademyPageService(ICompanyAboutRepository repository, IAc
 
     public async Task<AcademyPageDto> GetAsync(CancellationToken cancellationToken = default)
     {
-        var stored = await repository.GetByKeyAsync(StorageKey, cancellationToken);
-        if (stored is null)
-        {
-            return await SeedDefaultAsync(cancellationToken);
-        }
+        var stored = await repository.GetByKeyAsync(StorageKey, cancellationToken)
+            ?? throw new InvalidOperationException("Academy page content has not been initialized.");
 
         return await DeserializeAsync(stored.Content, stored.Id, cancellationToken);
     }
@@ -38,32 +36,6 @@ internal sealed class AcademyPageService(ICompanyAboutRepository repository, IAc
         var updated = existing with { Content = serialized };
         await repository.UpdateAsync(updated, cancellationToken);
         return await DeserializeAsync(updated.Content, updated.Id, cancellationToken);
-    }
-
-    private async Task<AcademyPageDto> SeedDefaultAsync(CancellationToken cancellationToken)
-    {
-        var defaultRequest = new SaveAcademyPageRequest(
-            "Zero Programming Academy",
-            "Ignite imagination with code, creativity, and community.",
-            "Our academy fuses vibrant visuals, interactive labs, and compassionate mentorship to empower children, teens, and young professionals to thrive.",
-            "Our academy fuses vibrant visuals, interactive labs, and compassionate mentorship to empower children, teens, and young professionals to thrive.",
-            null,
-            new[]
-            {
-                new AcademyFeatureDto("STEM.org Accredited", "Dolor sit am Provide Ipsum learning tailored for young innovators.", "🎓"),
-                new AcademyFeatureDto("Project Based Learning", "Build games, animations, and inventions that spark curiosity.", "🧠"),
-                new AcademyFeatureDto("Skilled Instructors", "Mentors who translate complex topics into playful experiences.", "👩‍🏫"),
-                new AcademyFeatureDto("Comprehensive Curriculum", "Progressive modules covering coding, robotics, and creativity.", "📘"),
-                new AcademyFeatureDto("Small Batch Size", "Maximum 10 students to ensure every child receives attention.", "🤝")
-            },
-            new[]
-            {
-                new FreelancingCourseDto("Web Development", "Modern stacks, responsive design, and client collaboration skills.", "💻"),
-                new FreelancingCourseDto("Graphics & Branding", "Logo design, brand systems, and storytelling with visuals.", "🎨"),
-                new FreelancingCourseDto("Digital Marketing", "Learn funnels, SEO, and automation for online success.", "📈")
-            });
-
-        return await UpsertAsync(defaultRequest, cancellationToken);
     }
 
     private static void Validate(SaveAcademyPageRequest request)
