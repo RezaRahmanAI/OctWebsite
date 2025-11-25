@@ -1,6 +1,7 @@
 using System.Text.Json;
 using OctWebsite.Application.Abstractions;
 using OctWebsite.Application.DTOs;
+using OctWebsite.Domain.Entities;
 
 namespace OctWebsite.Application.Services;
 
