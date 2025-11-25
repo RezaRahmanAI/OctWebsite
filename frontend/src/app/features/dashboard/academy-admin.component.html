@@ -1,0 +1,86 @@
+<div class="card">
+  <h2>Academy Page</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-6">
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <label class="form-control">
+        <span>Header eyebrow</span>
+        <input formControlName="headerEyebrow" />
+      </label>
+      <label class="form-control">
+        <span>Header title</span>
+        <input formControlName="headerTitle" />
+      </label>
+      <label class="form-control md:col-span-2">
+        <span>Header subtitle</span>
+        <input formControlName="headerSubtitle" />
+      </label>
+      <label class="form-control md:col-span-2">
+        <span>Intro</span>
+        <textarea formControlName="intro" rows="3"></textarea>
+      </label>
+      <label class="form-control md:col-span-2">
+        <span>Hero video file/url</span>
+        <input formControlName="heroVideoFileName" />
+      </label>
+    </div>
+
+    <div class="divider">Kids features</div>
+    <div class="space-y-4">
+      <div class="grid gap-4 md:grid-cols-2" formArrayName="kidsFeatures">
+        <ng-container *ngFor="let feature of kidsFeatures.controls; let i = index" [formGroupName]="i">
+          <div class="card space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="text-base font-semibold">Feature {{ i + 1 }}</h3>
+              <button type="button" class="text-sm text-red-500" (click)="removeFeature(i)">Remove</button>
+            </div>
+            <label class="form-control">
+              <span>Title</span>
+              <input formControlName="title" />
+            </label>
+            <label class="form-control">
+              <span>Description</span>
+              <textarea formControlName="description" rows="2"></textarea>
+            </label>
+            <label class="form-control">
+              <span>Icon</span>
+              <input formControlName="icon" />
+            </label>
+          </div>
+        </ng-container>
+      </div>
+      <button type="button" class="btn" (click)="addFeature()">Add feature</button>
+    </div>
+
+    <div class="divider">Freelancing courses</div>
+    <div class="space-y-4" formArrayName="freelancingCourses">
+      <div class="grid gap-4 md:grid-cols-2">
+        <ng-container *ngFor="let course of freelancingCourses.controls; let i = index" [formGroupName]="i">
+          <div class="card space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="text-base font-semibold">Course {{ i + 1 }}</h3>
+              <button type="button" class="text-sm text-red-500" (click)="removeCourse(i)">Remove</button>
+            </div>
+            <label class="form-control">
+              <span>Title</span>
+              <input formControlName="title" />
+            </label>
+            <label class="form-control">
+              <span>Description</span>
+              <textarea formControlName="description" rows="2"></textarea>
+            </label>
+            <label class="form-control">
+              <span>Icon</span>
+              <input formControlName="icon" />
+            </label>
+          </div>
+        </ng-container>
+      </div>
+      <button type="button" class="btn" (click)="addCourse()">Add course</button>
+    </div>
+
+    <div class="flex justify-end">
+      <button type="submit" class="btn" [disabled]="loading()">Save Academy Page</button>
+    </div>
+  </form>
+</div>
