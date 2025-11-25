@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OctWebsite.Domain.Entities;
 using OctWebsite.Infrastructure.Identity;
-
 namespace OctWebsite.Infrastructure.Data;
 
 public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -31,3 +30,4 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
         });
     }
 }
+
