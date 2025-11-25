@@ -26,9 +26,11 @@
 
     <div class="grid gap-4 md:grid-cols-2">
       <label class="form-field">
-        <span>Hero video file name</span>
-        <input type="text" formControlName="heroVideoFileName" placeholder="uploads/general/video.mp4" />
-        <small>Leave blank to keep the existing video.</small>
+        <span>Hero video</span>
+        <input type="file" accept="video/*" (change)="onHeroVideoSelected($event)" />
+        <input type="hidden" formControlName="heroVideoFileName" />
+        <small *ngIf="form.value.heroVideoFileName; else noHeroVideo">Current: {{ form.value.heroVideoFileName }}</small>
+        <ng-template #noHeroVideo><small>Leave blank to keep the existing video.</small></ng-template>
       </label>
       <label class="form-field">
         <span>Intro text</span>
@@ -57,12 +59,18 @@
 
     <div class="grid gap-4 md:grid-cols-2">
       <label class="form-field">
-        <span>Mission image file name</span>
-        <input type="text" formControlName="missionImageFileName" placeholder="uploads/general/mission.jpg" />
+        <span>Mission image</span>
+        <input type="file" accept="image/*" (change)="onMissionImageSelected($event)" />
+        <input type="hidden" formControlName="missionImageFileName" />
+        <small *ngIf="form.value.missionImageFileName; else noMissionImage">Current: {{ form.value.missionImageFileName }}</small>
+        <ng-template #noMissionImage><small>Leave blank to keep the existing image.</small></ng-template>
       </label>
       <label class="form-field">
-        <span>Story image file name</span>
-        <input type="text" formControlName="storyImageFileName" placeholder="uploads/general/story.jpg" />
+        <span>Story image</span>
+        <input type="file" accept="image/*" (change)="onStoryImageSelected($event)" />
+        <input type="hidden" formControlName="storyImageFileName" />
+        <small *ngIf="form.value.storyImageFileName; else noStoryImage">Current: {{ form.value.storyImageFileName }}</small>
+        <ng-template #noStoryImage><small>Leave blank to keep the existing image.</small></ng-template>
       </label>
       <label class="form-field md:col-span-2">
         <span>Story title</span>
@@ -110,8 +118,11 @@
                 <textarea rows="2" formControlName="description"></textarea>
               </label>
               <label class="form-field md:col-span-2">
-                <span>Value video file name</span>
-                <input type="text" formControlName="videoFileName" placeholder="uploads/values/value.mp4" />
+                <span>Value video</span>
+                <input type="file" accept="video/*" (change)="onValueVideoSelected(i, $event)" />
+                <input type="hidden" formControlName="videoFileName" />
+                <small *ngIf="value.value.videoFileName; else noValueVideo">Current: {{ value.value.videoFileName }}</small>
+                <ng-template #noValueVideo><small>Leave blank to keep the existing video.</small></ng-template>
               </label>
             </div>
             <button type="button" class="text-sm text-rose-600" (click)="removeValue(i)">Remove</button>
