@@ -21,6 +21,11 @@ export class AboutAdminComponent implements OnInit {
   private readonly api = inject(AboutPageApiService);
   private readonly toast = inject(ToastService);
 
+  private heroVideoFile: File | null = null;
+  private missionImageFile: File | null = null;
+  private storyImageFile: File | null = null;
+  private valueVideoFiles: (File | null)[] = [];
+
   readonly loading = signal(false);
   readonly form = this.fb.group({
     headerEyebrow: ['', Validators.required],
@@ -58,10 +63,12 @@ export class AboutAdminComponent implements OnInit {
         videoFileName: [value?.videoFileName ?? ''],
       })
     );
+    this.valueVideoFiles.push(null);
   }
 
   removeValue(index: number): void {
     this.values.removeAt(index);
+    this.valueVideoFiles.splice(index, 1);
   }
 
   submit(): void {
@@ -118,6 +125,11 @@ export class AboutAdminComponent implements OnInit {
       teamNote: page.teamNote ?? '',
     });
 
+    this.heroVideoFile = null;
+    this.missionImageFile = null;
+    this.storyImageFile = null;
+    this.valueVideoFiles = [];
+
     this.values.clear();
     page.values.forEach(value =>
       this.addValue({
@@ -128,6 +140,26 @@ export class AboutAdminComponent implements OnInit {
     );
   }
 
+  onHeroVideoSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0] ?? null;
+    this.heroVideoFile = file;
+  }
+
+  onMissionImageSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0] ?? null;
+    this.missionImageFile = file;
+  }
+
+  onStoryImageSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0] ?? null;
+    this.storyImageFile = file;
+  }
+
+  onValueVideoSelected(index: number, event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0] ?? null;
+    this.valueVideoFiles[index] = file;
+  }
+
   private toRequest(): SaveAboutPageRequest {
     const raw = this.form.value;
     return {
@@ -135,20 +167,24 @@ export class AboutAdminComponent implements OnInit {
       headerTitle: raw.headerTitle ?? '',
       headerSubtitle: raw.headerSubtitle ?? '',
       heroVideoFileName: raw.heroVideoFileName || null,
+      heroVideoFile: this.heroVideoFile,
       intro: raw.intro ?? '',
       missionTitle: raw.missionTitle ?? '',
       missionDescription: raw.missionDescription ?? '',
       visionTitle: raw.visionTitle ?? '',
       visionDescription: raw.visionDescription ?? '',
       missionImageFileName: raw.missionImageFileName || null,
-      values: this.values.controls.map(control => ({
+      missionImageFile: this.missionImageFile,
+      values: this.values.controls.map((control, index) => ({
         title: control.value.title ?? '',
         description: control.value.description ?? '',
         videoFileName: control.value.videoFileName || null,
+        videoFile: this.valueVideoFiles[index] ?? null,
       })),
       storyTitle: raw.storyTitle ?? '',
       storyDescription: raw.storyDescription ?? '',
       storyImageFileName: raw.storyImageFileName || null,
+      storyImageFile: this.storyImageFile,
       teamTitle: raw.teamTitle ?? '',
       teamSubtitle: raw.teamSubtitle ?? '',
       teamNote: raw.teamNote || null,
