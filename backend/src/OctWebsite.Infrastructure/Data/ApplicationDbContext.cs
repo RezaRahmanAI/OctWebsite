@@ -1,5 +1,9 @@
+using System;
+using System.Linq;
+using System.Text.Json;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OctWebsite.Domain.Entities;
 using OctWebsite.Infrastructure.Identity;
 namespace OctWebsite.Infrastructure.Data;
@@ -9,6 +13,9 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
 {
     public DbSet<TeamMember> TeamMembers => Set<TeamMember>();
     public DbSet<CompanyAbout> CompanyAboutEntries => Set<CompanyAbout>();
+    public DbSet<AcademyTrack> AcademyTracks => Set<AcademyTrack>();
+    public DbSet<AcademyTrackLevel> AcademyTrackLevels => Set<AcademyTrackLevel>();
+    public DbSet<AdmissionStep> AdmissionSteps => Set<AdmissionStep>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -27,6 +34,82 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
             entity.HasKey(about => about.Id);
             entity.Property(about => about.Id).ValueGeneratedNever();
             entity.HasIndex(about => about.Key).IsUnique();
+        });
+
+        modelBuilder.Entity<AcademyTrack>(entity =>
+        {
+            entity.ToTable("AcademyTracks");
+            entity.HasKey(track => track.Id);
+            entity.Property(track => track.Id).ValueGeneratedNever();
+            entity.Property(track => track.Title).IsRequired();
+            entity.Property(track => track.Slug).IsRequired();
+            entity.HasIndex(track => track.Slug).IsUnique();
+            entity.Property(track => track.AgeRange).IsRequired();
+            entity.Property(track => track.Duration).IsRequired();
+            entity.Property(track => track.PriceLabel).IsRequired();
+            entity.Property(track => track.Audience).IsRequired();
+            entity.Property(track => track.Format).IsRequired();
+            entity.Property(track => track.Summary).IsRequired();
+            entity.Property(track => track.CallToActionLabel).IsRequired();
+
+            var stringListConverter = new ValueConverter<List<string>, string>(
+                list => JsonSerializer.Serialize(list, JsonSerializerOptions.Default),
+                json => JsonSerializer.Deserialize<List<string>>(json, JsonSerializerOptions.Default) ?? []);
+            var stringListComparer = new ValueComparer<List<string>>(
+                (left, right) => left.SequenceEqual(right),
+                list => list.Aggregate(0, (hash, value) => HashCode.Combine(hash, value.GetHashCode())),
+                list => list.ToList());
+
+            entity.Property(track => track.Highlights)
+                .HasConversion(stringListConverter)
+                .Metadata.SetValueComparer(stringListComparer);
+            entity.Property(track => track.LearningOutcomes)
+                .HasConversion(stringListConverter)
+                .Metadata.SetValueComparer(stringListComparer);
+        });
+
+        modelBuilder.Entity<AdmissionStep>(entity =>
+        {
+            entity.ToTable("AdmissionSteps");
+            entity.HasKey(step => step.Id);
+            entity.Property(step => step.Id).ValueGeneratedNever();
+            entity.Property(step => step.Title).IsRequired();
+            entity.Property(step => step.Description).IsRequired();
+            entity.HasOne(step => step.Track)
+                .WithMany(track => track.AdmissionSteps)
+                .HasForeignKey(step => step.TrackId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<AcademyTrackLevel>(entity =>
+        {
+            entity.ToTable("AcademyTrackLevels");
+            entity.HasKey(level => level.Id);
+            entity.Property(level => level.Id).ValueGeneratedNever();
+            entity.Property(level => level.Title).IsRequired();
+            entity.Property(level => level.Duration).IsRequired();
+            entity.Property(level => level.Description).IsRequired();
+            entity.Property(level => level.Project).IsRequired();
+            entity.Property(level => level.Image).IsRequired();
+            entity.HasOne(level => level.Track)
+                .WithMany(track => track.Levels)
+                .HasForeignKey(level => level.TrackId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            var stringListConverter = new ValueConverter<List<string>, string>(
+                list => JsonSerializer.Serialize(list, JsonSerializerOptions.Default),
+                json => JsonSerializer.Deserialize<List<string>>(json, JsonSerializerOptions.Default) ?? []);
+            var stringListComparer = new ValueComparer<List<string>>(
+                (left, right) => left.SequenceEqual(right),
+                list => list.Aggregate(0, (hash, value) => HashCode.Combine(hash, value.GetHashCode())),
+                list => list.ToList());
+
+            entity.Property(level => level.Tools)
+                .HasConversion(stringListConverter)
+                .Metadata.SetValueComparer(stringListComparer);
+            entity.Property(level => level.Outcomes)
+                .HasConversion(stringListConverter)
+                .Metadata.SetValueComparer(stringListComparer);
         });
     }
 }
