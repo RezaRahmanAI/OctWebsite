@@ -31,6 +31,7 @@ public static class DependencyInjection
 
         services.AddScoped<ITeamRepository, EfTeamRepository>();
         services.AddScoped<ICompanyAboutRepository, EfCompanyAboutRepository>();
+        services.AddScoped<IAcademyTrackRepository, EfAcademyTrackRepository>();
 
         return services;
     }

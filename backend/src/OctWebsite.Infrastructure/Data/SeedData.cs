@@ -9,7 +9,6 @@ internal static class SeedData
 {
     private const string AboutStorageKey = "about-page";
     private const string AcademyPageStorageKey = "academy-page";
-    private const string AcademyTracksStorageKey = "academy-tracks";
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
 
     public static IReadOnlyList<TeamMember> TeamMembers { get; } =
@@ -61,13 +60,10 @@ internal static class SeedData
         AcademyPageStorageKey,
         Serialize(DefaultAcademyPageRequest));
 
-    public static CompanyAbout AcademyTracks { get; } = new(
-        Guid.Parse("c7b21e81-6bec-4d66-b2a6-3438aeaa52d7"),
-        AcademyTracksStorageKey,
-        Serialize(DefaultAcademyTracks));
-
     public static IReadOnlyList<CompanyAbout> CompanyAboutEntries { get; } =
-        About.Append(AcademyPage).Append(AcademyTracks).ToArray();
+        About.Append(AcademyPage).ToArray();
+
+    public static IReadOnlyList<AcademyTrack> AcademyTracks { get; } = DefaultAcademyTracks;
 
     private static SaveAboutPageRequest DefaultAboutRequest => new(
         "About Us",
@@ -122,7 +118,7 @@ internal static class SeedData
             new FreelancingCourseDto("Digital Marketing", "Learn funnels, SEO, and automation for online success.", "📈")
         });
 
-    private static IReadOnlyList<AcademyTrackDto> DefaultAcademyTracks =>
+    private static IReadOnlyList<AcademyTrack> DefaultAcademyTracks =>
     [
         Map(Guid.Parse("2b3cba73-77cb-4459-b18d-47fc63df872d"),
             new SaveAcademyTrackRequest(
@@ -315,45 +311,46 @@ internal static class SeedData
     private static string Serialize(SaveAcademyPageRequest request)
         => JsonSerializer.Serialize(request, JsonOptions);
 
-    private static string Serialize(IReadOnlyList<AcademyTrackDto> tracks)
-        => JsonSerializer.Serialize(tracks, JsonOptions);
-
-    private static AcademyTrackDto Map(Guid id, SaveAcademyTrackRequest request)
+    private static AcademyTrack Map(Guid id, SaveAcademyTrackRequest request)
     {
-        return new AcademyTrackDto(
-            id,
-            request.Title,
-            request.Slug,
-            request.AgeRange,
-            request.Duration,
-            request.PriceLabel,
-            request.Audience,
-            request.Format,
-            request.Summary,
-            CreateMedia(request.HeroVideoFileName),
-            CreateMedia(request.HeroPosterFileName),
-            request.Highlights.ToArray(),
-            request.LearningOutcomes.ToArray(),
-            request.Levels.Select(level => new AcademyTrackLevelDto(
-                level.Title,
-                level.Duration,
-                level.Description,
-                level.Tools.ToArray(),
-                level.Outcomes.ToArray(),
-                level.Project,
-                level.Image)).ToArray(),
-            request.AdmissionSteps.Select(step => new AdmissionStepDto(step.Title, step.Description)).ToArray(),
-            request.CallToActionLabel,
-            request.Active);
-    }
-
-    private static MediaResourceDto? CreateMedia(string? fileName)
-    {
-        if (string.IsNullOrWhiteSpace(fileName))
+        return new AcademyTrack
         {
-            return null;
-        }
-
-        return new MediaResourceDto(fileName, null);
+            Id = id,
+            Title = request.Title,
+            Slug = request.Slug,
+            AgeRange = request.AgeRange,
+            Duration = request.Duration,
+            PriceLabel = request.PriceLabel,
+            Audience = request.Audience,
+            Format = request.Format,
+            Summary = request.Summary,
+            HeroVideoFileName = request.HeroVideoFileName,
+            HeroPosterFileName = request.HeroPosterFileName,
+            Highlights = request.Highlights.ToList(),
+            LearningOutcomes = request.LearningOutcomes.ToList(),
+            Levels = request.Levels.Select((level, index) => new AcademyTrackLevel
+            {
+                Id = Guid.NewGuid(),
+                TrackId = id,
+                Title = level.Title,
+                Duration = level.Duration,
+                Description = level.Description,
+                Tools = level.Tools.ToList(),
+                Outcomes = level.Outcomes.ToList(),
+                Project = level.Project,
+                Image = level.Image,
+                Order = index
+            }).ToList(),
+            AdmissionSteps = request.AdmissionSteps.Select((step, index) => new AdmissionStep
+            {
+                Id = Guid.NewGuid(),
+                TrackId = id,
+                Title = step.Title,
+                Description = step.Description,
+                Order = index
+            }).ToList(),
+            CallToActionLabel = request.CallToActionLabel,
+            Active = request.Active
+        };
     }
 }
