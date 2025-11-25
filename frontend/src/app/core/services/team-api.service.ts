@@ -7,7 +7,8 @@ import { Observable } from 'rxjs';
 export interface SaveTeamMemberRequest {
   name: string;
   role: string;
-  photoUrl: string;
+  photo?: File | null;
+  photoFileName?: string | null;
   bio: string;
   email: string;
   active: boolean;
@@ -23,14 +24,35 @@ export class TeamApiService {
   }
 
   create(request: SaveTeamMemberRequest): Observable<TeamMember> {
-    return this.http.post<TeamMember>(`${this.baseUrl}/api/team`, request);
+    const formData = this.buildFormData(request);
+    return this.http.post<TeamMember>(`${this.baseUrl}/api/team`, formData);
   }
 
   update(id: string, request: SaveTeamMemberRequest): Observable<TeamMember> {
-    return this.http.put<TeamMember>(`${this.baseUrl}/api/team/${id}`, request);
+    const formData = this.buildFormData(request);
+    return this.http.put<TeamMember>(`${this.baseUrl}/api/team/${id}`, formData);
   }
 
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/api/team/${id}`);
+  }
+
+  private buildFormData(request: SaveTeamMemberRequest): FormData {
+    const formData = new FormData();
+    formData.append('name', request.name);
+    formData.append('role', request.role);
+    formData.append('bio', request.bio);
+    formData.append('email', request.email);
+    formData.append('active', String(request.active));
+
+    if (request.photo) {
+      formData.append('photo', request.photo, request.photo.name);
+    }
+
+    if (request.photoFileName) {
+      formData.append('photoFileName', request.photoFileName);
+    }
+
+    return formData;
   }
 }

@@ -20,11 +20,12 @@ export class TeamAdminComponent implements OnInit {
   readonly members = signal<TeamMember[]>([]);
   readonly editingId = signal<string | null>(null);
   readonly loading = signal(false);
+  readonly photoName = signal<string | null>(null);
+  private selectedPhoto: File | null = null;
 
   readonly form = this.fb.group({
     name: ['', Validators.required],
     role: ['', Validators.required],
-    photoUrl: [''],
     bio: [''],
     email: ['', Validators.email],
     active: [true],
@@ -37,10 +38,11 @@ export class TeamAdminComponent implements OnInit {
 
   edit(member: TeamMember): void {
     this.editingId.set(member.id);
+    this.selectedPhoto = null;
+    this.photoName.set(member.photoFileName ?? member.photoUrl ?? null);
     this.form.setValue({
       name: member.name,
       role: member.role,
-      photoUrl: member.photoUrl ?? '',
       bio: member.bio ?? '',
       email: member.email ?? '',
       active: member.active,
@@ -49,6 +51,8 @@ export class TeamAdminComponent implements OnInit {
 
   reset(): void {
     this.editingId.set(null);
+    this.selectedPhoto = null;
+    this.photoName.set(null);
     this.form.reset({ active: true });
   }
 
@@ -57,14 +61,20 @@ export class TeamAdminComponent implements OnInit {
       this.form.markAllAsTouched();
       return;
     }
+
+    if (!this.editingId() && !this.selectedPhoto) {
+      this.toast.show('Please upload a profile photo', 'error');
+      return;
+    }
     this.loading.set(true);
     const payload: SaveTeamMemberRequest = {
       name: this.form.value.name ?? '',
       role: this.form.value.role ?? '',
-      photoUrl: this.form.value.photoUrl ?? '',
       bio: this.form.value.bio ?? '',
       email: this.form.value.email ?? '',
       active: this.form.value.active ?? false,
+      photo: this.selectedPhoto,
+      photoFileName: this.photoName(),
     };
 
     const request$ = this.editingId()
@@ -82,6 +92,13 @@ export class TeamAdminComponent implements OnInit {
         this.loading.set(false);
       },
     });
+  }
+
+  onPhotoSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0] ?? null;
+    this.selectedPhoto = file;
+    this.photoName.set(file?.name ?? this.photoName());
   }
 
   delete(id: string): void {
