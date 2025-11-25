@@ -35,7 +35,7 @@
             muted
             playsinline
           >
-            <source [src]="heroVideoSource()" type="video/mp4" />
+            <source src="video/academy.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>
@@ -55,7 +55,7 @@
     <h2 class="text-3xl font-semibold">Kids Computing</h2>
     <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
       <article
-        *ngFor="let feature of kidsComputingFeatures()"
+        *ngFor="let feature of kidsComputingFeatures"
         class="relative overflow-hidden rounded-[2.5rem] border border-white/60 bg-white/90 p-8 shadow-xl transition-transform duration-300 ease-out hover:-translate-y-3 hover:shadow-2xl"
       >
         <span class="text-3xl">{{ feature.icon }}</span>
@@ -72,7 +72,7 @@
     <h2 class="text-3xl font-semibold">Zero Programming</h2>
     <div class="grid gap-8 md:grid-cols-3">
       <article
-        *ngFor="let track of zeroProgrammingTracks()"
+        *ngFor="let track of zeroProgrammingTracks"
         class="relative overflow-hidden rounded-[2.5rem] border border-white/60 bg-gradient-to-br from-white to-primary/10 p-8 shadow-xl transition-transform duration-300 ease-out hover:-translate-y-3 hover:shadow-2xl"
       >
         <h3 class="text-xl font-semibold">{{ track.title }}</h3>
@@ -108,7 +108,7 @@
     <h2 class="text-3xl font-semibold">Freelancing Launchpad</h2>
     <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
       <article
-        *ngFor="let course of freelancingCourses()"
+        *ngFor="let course of freelancingCourses"
         class="relative overflow-hidden rounded-[2.5rem] border border-white/60 bg-white/90 p-8 shadow-xl transition-transform duration-300 ease-out hover:-translate-y-3 hover:shadow-2xl"
       >
         <span class="text-3xl">{{ course.icon }}</span>

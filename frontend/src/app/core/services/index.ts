@@ -3,7 +3,6 @@ export * from './about.service';
 export * from './services.service';
 export * from './products.service';
 export * from './academy.service';
-export * from './academy-page-api.service';
 export * from './blog.service';
 export * from './leads.service';
 export * from './settings.service';

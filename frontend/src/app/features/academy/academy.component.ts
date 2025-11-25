@@ -1,10 +1,14 @@
-import { Component, ElementRef, OnInit, ViewChild, inject, computed } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { PricingComponent } from '../../shared/components/pricing/pricing.component';
-import { AcademyPageApiService, AcademyPageModel } from '../../core/services/academy-page-api.service';
-
-type TrackSummary = AcademyPageModel['tracks'][number];
+import {
+  type AcademyFeature,
+  type ZeroProgrammingTrack,
+  kidsComputingFeatures,
+  zeroProgrammingTracks,
+  freelancingCourses,
+} from '../../core/data/academy-programs.data';
 
 @Component({
   selector: 'app-academy',
@@ -13,22 +17,9 @@ type TrackSummary = AcademyPageModel['tracks'][number];
   templateUrl: './academy.component.html',
   styleUrl: './academy.component.css',
 })
-export class AcademyComponent implements OnInit {
+export class AcademyComponent {
   @ViewChild('academyVideo', { static: false })
   academyVideo?: ElementRef<HTMLVideoElement>;
-
-  private readonly api = inject(AcademyPageApiService);
-
-  readonly page = computed(() => this.api.page());
-  readonly kidsComputingFeatures = computed(() => this.page()?.kidsFeatures ?? []);
-  readonly zeroProgrammingTracks = computed<TrackSummary[]>(() =>
-    (this.page()?.tracks ?? []).filter(track => track.active)
-  );
-  readonly freelancingCourses = computed(() => this.page()?.freelancingCourses ?? []);
-
-  ngOnInit(): void {
-    this.api.loadPage();
-  }
 
   ngAfterViewInit(): void {
     const video = this.academyVideo?.nativeElement;
@@ -45,7 +36,10 @@ export class AcademyComponent implements OnInit {
     }
   }
 
-  heroVideoSource(): string {
-    return this.page()?.heroVideo?.url ?? this.page()?.heroVideo?.fileName ?? 'video/academy.mp4';
-  }
+
+  readonly kidsComputingFeatures: AcademyFeature[] = kidsComputingFeatures;
+
+  readonly zeroProgrammingTracks: ZeroProgrammingTrack[] = zeroProgrammingTracks;
+
+  readonly freelancingCourses: AcademyFeature[] = freelancingCourses;
 }

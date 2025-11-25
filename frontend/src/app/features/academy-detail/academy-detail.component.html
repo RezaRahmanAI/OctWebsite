@@ -33,7 +33,7 @@
             fragment="trial"
             class="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-primary/90"
           >
-            {{ track.callToActionLabel }}
+            {{ track.ctaLabel }}
           </a>
           <a
             routerLink="/contact"
@@ -49,13 +49,13 @@
           <div class="absolute inset-0 bg-gradient-to-tr from-primary/30 via-transparent to-secondary/30 pointer-events-none"></div>
           <video
             class="aspect-[4/3] w-full rounded-3xl object-cover"
-            [attr.poster]="track.heroPoster?.url || track.heroPoster?.fileName"
+            [attr.poster]="track.heroVideo.poster"
             autoplay
             loop
             muted
             playsinline
           >
-            <source [attr.src]="track.heroVideo?.url || track.heroVideo?.fileName | assetUrl" type="video/mp4" />
+            <source [attr.src]="track.heroVideo.src | assetUrl" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>
@@ -167,7 +167,7 @@
           fragment="trial"
           class="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/20 transition hover:-translate-y-0.5 hover:bg-slate-800"
         >
-          {{ track.callToActionLabel }}
+          {{ track.ctaLabel }}
         </a>
       </div>
 
