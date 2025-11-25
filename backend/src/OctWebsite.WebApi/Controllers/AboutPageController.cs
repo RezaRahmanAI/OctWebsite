@@ -1,4 +1,5 @@
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OctWebsite.Application.DTOs;
 using OctWebsite.Application.Services;
@@ -7,9 +8,11 @@ namespace OctWebsite.WebApi.Controllers;
 
 [ApiController]
 [Route("api/about-page")]
+[Authorize]
 public sealed class AboutPageController(IAboutPageService aboutPageService) : ControllerBase
 {
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<AboutPageDto>> GetAsync(CancellationToken cancellationToken)
     {
         var page = await aboutPageService.GetAsync(cancellationToken);

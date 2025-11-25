@@ -1,4 +1,5 @@
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OctWebsite.Application.Services;
 using OctWebsite.Application.DTOs;
@@ -7,9 +8,11 @@ namespace OctWebsite.WebApi.Controllers;
 
 [ApiController]
 [Route("api/team")]
+[Authorize]
 public sealed class TeamController(ITeamService teamService) : ControllerBase
 {
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<IReadOnlyList<TeamMemberDto>>> GetAllAsync(CancellationToken cancellationToken)
     {
         var members = await teamService.GetAllAsync(cancellationToken);
@@ -17,6 +20,7 @@ public sealed class TeamController(ITeamService teamService) : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
+    [AllowAnonymous]
     public async Task<ActionResult<TeamMemberDto>> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         var member = await teamService.GetByIdAsync(id, cancellationToken);

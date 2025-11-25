@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal, inject } from '@angular/core';
 import { environment } from '../../../environments/environment';
+import { Observable, tap } from 'rxjs';
 
 export interface MediaResource {
   fileName: string | null;
@@ -62,14 +63,20 @@ export class AboutPageApiService {
   readonly content = signal<AboutPageModel | null>(null);
 
   load() {
-    return this.http
-      .get<AboutPageModel>(`${this.baseUrl}/api/about-page`)
-      .subscribe(page => this.content.set(page));
+    return this.fetch().subscribe(page => this.content.set(page));
+  }
+
+  fetch(): Observable<AboutPageModel> {
+    return this.http.get<AboutPageModel>(`${this.baseUrl}/api/about-page`);
   }
 
   save(request: SaveAboutPageRequest) {
+    return this.update(request).subscribe(page => this.content.set(page));
+  }
+
+  update(request: SaveAboutPageRequest): Observable<AboutPageModel> {
     return this.http
       .put<AboutPageModel>(`${this.baseUrl}/api/about-page`, request)
-      .subscribe(page => this.content.set(page));
+      .pipe(tap(page => this.content.set(page)));
   }
 }

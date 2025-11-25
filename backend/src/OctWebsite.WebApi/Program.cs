@@ -4,6 +4,9 @@ using OctWebsite.Infrastructure;
 using OctWebsite.Infrastructure.Data;
 using OctWebsite.WebApi.Security;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,11 +31,29 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod();
         });
 });
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Security:Jwt"));
+builder.Services.Configure<AdminUserOptions>(builder.Configuration.GetSection("Security:AdminUser"));
+builder.Services.AddSingleton<JwtTokenGenerator>();
 builder.Services
-    .AddAuthentication(ApiKeyAuthenticationDefaults.AuthenticationScheme)
-    .AddScheme<ApiKeyAuthenticationOptions, ApiKeyAuthenticationHandler>(
-        ApiKeyAuthenticationDefaults.AuthenticationScheme,
-        options => builder.Configuration.GetSection("Security:AdminApiKey").Bind(options));
+    .AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        var jwtOptions = builder.Configuration.GetSection("Security:Jwt").Get<JwtOptions>()!;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtOptions.Issuer,
+            ValidAudience = jwtOptions.Audience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SigningKey))
+        };
+    });
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
