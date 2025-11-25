@@ -2,16 +2,21 @@ const PREFIX = 'oc-zp';
 
 type StorageValue<T> = T | undefined;
 
-function hasStorage(): boolean {
-  return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
+type StorageScope = 'localStorage' | 'sessionStorage';
+
+function getStorage(scope: StorageScope): Storage | null {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+  return window[scope] ?? null;
 }
 
-export function loadFromStorage<T>(key: string, fallback: T): T {
-  if (!hasStorage()) {
+function readValue<T>(store: Storage | null, key: string, fallback: T): T {
+  if (!store) {
     return fallback;
   }
   try {
-    const raw = window.localStorage.getItem(`${PREFIX}:${key}`);
+    const raw = store.getItem(`${PREFIX}:${key}`);
     return raw ? (JSON.parse(raw) as StorageValue<T>) ?? fallback : fallback;
   } catch (error) {
     console.warn('Storage read error', error);
@@ -19,24 +24,48 @@ export function loadFromStorage<T>(key: string, fallback: T): T {
   }
 }
 
-export function saveToStorage<T>(key: string, value: T): void {
-  if (!hasStorage()) {
+function writeValue<T>(store: Storage | null, key: string, value: T): void {
+  if (!store) {
     return;
   }
   try {
-    window.localStorage.setItem(`${PREFIX}:${key}`, JSON.stringify(value));
+    store.setItem(`${PREFIX}:${key}`, JSON.stringify(value));
   } catch (error) {
     console.warn('Storage write error', error);
   }
 }
 
-export function removeFromStorage(key: string): void {
-  if (!hasStorage()) {
+function deleteValue(store: Storage | null, key: string): void {
+  if (!store) {
     return;
   }
   try {
-    window.localStorage.removeItem(`${PREFIX}:${key}`);
+    store.removeItem(`${PREFIX}:${key}`);
   } catch (error) {
     console.warn('Storage remove error', error);
   }
+}
+
+export function loadFromStorage<T>(key: string, fallback: T): T {
+  return readValue(getStorage('localStorage'), key, fallback);
+}
+
+export function saveToStorage<T>(key: string, value: T): void {
+  writeValue(getStorage('localStorage'), key, value);
+}
+
+export function removeFromStorage(key: string): void {
+  deleteValue(getStorage('localStorage'), key);
+}
+
+export function loadFromSession<T>(key: string, fallback: T): T {
+  return readValue(getStorage('sessionStorage'), key, fallback);
+}
+
+export function saveToSession<T>(key: string, value: T): void {
+  writeValue(getStorage('sessionStorage'), key, value);
+}
+
+export function removeFromSession(key: string): void {
+  deleteValue(getStorage('sessionStorage'), key);
 }

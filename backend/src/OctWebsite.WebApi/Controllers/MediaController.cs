@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OctWebsite.WebApi.Contracts;
 
@@ -5,6 +6,7 @@ namespace OctWebsite.WebApi.Controllers;
 
 [ApiController]
 [Route("api/media")]
+[Authorize]
 public sealed class MediaController(IWebHostEnvironment environment) : ControllerBase
 {
     private static readonly HashSet<string> AllowedVideoContentTypes =

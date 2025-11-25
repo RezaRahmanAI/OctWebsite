@@ -5,8 +5,9 @@ import { AuthService } from './auth.service';
 export const authGuard: CanActivateFn = (): boolean | UrlTree => {
   const auth = inject(AuthService);
   const router = inject(Router);
-  if (auth.isLoggedIn()) {
+  const token = auth.token();
+  if (token) {
     return true;
   }
-  return router.createUrlTree(['/auth/login']);
+  return router.createUrlTree(['/login']);
 };

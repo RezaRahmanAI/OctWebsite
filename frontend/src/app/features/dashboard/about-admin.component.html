@@ -1,0 +1,112 @@
+<div class="card-surface">
+  <div class="flex items-center justify-between gap-4">
+    <div>
+      <p class="text-xs font-semibold uppercase text-primary-600">About</p>
+      <h2 class="text-xl font-semibold text-slate-900">Edit About Page Content</h2>
+      <p class="text-sm text-slate-600">Update hero, mission, values, and story copy.</p>
+    </div>
+    <button type="button" class="btn" (click)="submit()">Save Changes</button>
+  </div>
+
+  <form [formGroup]="form" class="mt-6 space-y-6" (ngSubmit)="submit()">
+    <div class="grid gap-4 md:grid-cols-2">
+      <label class="form-field">
+        <span>Header eyebrow</span>
+        <input type="text" formControlName="headerEyebrow" />
+      </label>
+      <label class="form-field">
+        <span>Header title</span>
+        <input type="text" formControlName="headerTitle" />
+      </label>
+      <label class="form-field md:col-span-2">
+        <span>Header subtitle</span>
+        <input type="text" formControlName="headerSubtitle" />
+      </label>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2">
+      <label class="form-field">
+        <span>Hero video file name</span>
+        <input type="text" formControlName="heroVideoFileName" placeholder="uploads/general/video.mp4" />
+        <small>Leave blank to keep the existing video.</small>
+      </label>
+      <label class="form-field">
+        <span>Intro text</span>
+        <textarea rows="3" formControlName="intro"></textarea>
+      </label>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2">
+      <label class="form-field">
+        <span>Mission title</span>
+        <input type="text" formControlName="missionTitle" />
+      </label>
+      <label class="form-field">
+        <span>Mission description</span>
+        <textarea rows="3" formControlName="missionDescription"></textarea>
+      </label>
+      <label class="form-field">
+        <span>Vision title</span>
+        <input type="text" formControlName="visionTitle" />
+      </label>
+      <label class="form-field">
+        <span>Vision description</span>
+        <textarea rows="3" formControlName="visionDescription"></textarea>
+      </label>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2">
+      <label class="form-field">
+        <span>Mission image file name</span>
+        <input type="text" formControlName="missionImageFileName" placeholder="uploads/general/mission.jpg" />
+      </label>
+      <label class="form-field">
+        <span>Story image file name</span>
+        <input type="text" formControlName="storyImageFileName" placeholder="uploads/general/story.jpg" />
+      </label>
+      <label class="form-field md:col-span-2">
+        <span>Story title</span>
+        <input type="text" formControlName="storyTitle" />
+      </label>
+      <label class="form-field md:col-span-2">
+        <span>Story description</span>
+        <textarea rows="3" formControlName="storyDescription"></textarea>
+      </label>
+    </div>
+
+    <div class="space-y-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-semibold text-slate-900">Values</p>
+          <p class="text-xs text-slate-600">Add or remove individual value rows.</p>
+        </div>
+        <button type="button" class="btn ghost" (click)="addValue()">Add value</button>
+      </div>
+      <div class="space-y-4" formArrayName="values">
+        <div *ngFor="let value of values.controls; let i = index" [formGroupName]="i" class="rounded-xl border border-slate-200 p-4">
+          <div class="flex items-start justify-between gap-3">
+            <div class="grid w-full gap-3 md:grid-cols-2">
+              <label class="form-field">
+                <span>Title</span>
+                <input type="text" formControlName="title" />
+              </label>
+              <label class="form-field">
+                <span>Description</span>
+                <textarea rows="2" formControlName="description"></textarea>
+              </label>
+              <label class="form-field md:col-span-2">
+                <span>Value video file name</span>
+                <input type="text" formControlName="videoFileName" placeholder="uploads/values/value.mp4" />
+              </label>
+            </div>
+            <button type="button" class="text-sm text-rose-600" (click)="removeValue(i)">Remove</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-end">
+      <button class="btn" type="submit" [disabled]="loading()">{{ loading() ? 'Saving...' : 'Save About Page' }}</button>
+    </div>
+  </form>
+</div>
