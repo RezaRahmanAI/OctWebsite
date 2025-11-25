@@ -27,6 +27,7 @@
           <div class="relative aspect-[4/3]">
             <ng-container *ngIf="header().videoUrl; else heroPlaceholder">
               <video
+                #heroVideo
                 class="absolute inset-0 h-full w-full object-cover"
                 autoplay
                 loop
@@ -173,7 +174,7 @@
             [ngClass]="i % 2 === 1 ? 'md:order-2' : ''"
           >
             <ng-container *ngIf="value.videoUrl; else valuePlaceholder">
-              <video class="h-full w-full object-cover" autoplay loop muted playsinline>
+              <video #valueVideo class="h-full w-full object-cover" autoplay loop muted playsinline>
                 <source [src]="value.videoUrl | assetUrl" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>

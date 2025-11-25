@@ -1,5 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
 import { AboutPageApiService, AboutPageModel } from '../../core/services/about-page-api.service';
 import { TeamApiService } from '../../core/services/team-api.service';
@@ -60,11 +72,19 @@ interface AboutPageContent {
   styleUrls: ['./about.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AboutComponent implements OnInit {
+export class AboutComponent implements OnInit, AfterViewInit {
   private readonly aboutApi = inject(AboutPageApiService);
   private readonly teamApi = inject(TeamApiService);
 
   private readonly teamMembers = signal<AboutTeamMember[]>([]);
+
+  @ViewChild('heroVideo')
+  set heroVideoRef(video: ElementRef<HTMLVideoElement> | undefined) {
+    this.heroVideo = video;
+    this.autoplayVideos();
+  }
+  private heroVideo?: ElementRef<HTMLVideoElement>;
+  @ViewChildren('valueVideo') private valueVideos?: QueryList<ElementRef<HTMLVideoElement>>;
 
   readonly content = computed<AboutPageContent | null>(() => {
     const model = this.aboutApi.content();
@@ -121,6 +141,11 @@ export class AboutComponent implements OnInit {
   ngOnInit(): void {
     this.aboutApi.load();
     this.teamApi.list().subscribe(team => this.teamMembers.set(this.mapTeamMembers(team)));
+  }
+
+  ngAfterViewInit(): void {
+    this.autoplayVideos();
+    this.valueVideos?.changes.subscribe(() => this.autoplayVideos());
   }
 
   getInitials(name: string | undefined | null): string {
@@ -182,5 +207,23 @@ export class AboutComponent implements OnInit {
       email: member.email,
       avatarUrl: member.photoUrl,
     }));
+  }
+
+  private autoplayVideos(): void {
+    queueMicrotask(() => {
+      this.tryAutoplay(this.heroVideo?.nativeElement);
+      this.valueVideos?.forEach(video => this.tryAutoplay(video.nativeElement));
+    });
+  }
+
+  private tryAutoplay(video?: HTMLVideoElement | null): void {
+    if (!video) return;
+
+    video.muted = true;
+    video.autoplay = true;
+    video.playsInline = true;
+    if (video.paused) {
+      void video.play().catch(() => undefined);
+    }
   }
 }
