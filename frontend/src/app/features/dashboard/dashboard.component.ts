@@ -11,6 +11,9 @@ import {
 } from '../../core/models/home-content.model';
 import { take } from 'rxjs';
 import { MediaService } from '../../core/services/media.service';
+import { AboutPageApiService, SaveAboutPageRequest } from '../../core/services/about-page-api.service';
+import { TeamApiService, SaveTeamMemberRequest } from '../../core/services/team-api.service';
+import { TeamMember } from '../../core/models';
 
 interface ServicesPageContent {
   header: {
@@ -156,7 +159,9 @@ export class DashboardComponent {
     { id: 'page-insights', label: 'Insights Page' },
     { id: 'page-contact', label: 'Contact Page' },
     { id: 'page-navigation', label: 'Navigation Links' },
-    { id: 'page-sitemap', label: 'Sitemap Links' }
+    { id: 'page-sitemap', label: 'Sitemap Links' },
+    { id: 'api-about', label: 'About API' },
+    { id: 'api-team', label: 'Team API' }
   ];
 
   private readonly servicesContentSignal = this.pageContent.getPageSignal<ServicesPageContent>('services');
@@ -178,6 +183,16 @@ export class DashboardComponent {
   protected sitemapDraft: SitemapContent | null = null;
   protected heroVideoUploadInProgress = false;
   protected heroVideoUploadError: string | null = null;
+  protected aboutPageDraft: SaveAboutPageRequest | null = null;
+  protected teamMembers: TeamMember[] = [];
+  protected newTeamMember: SaveTeamMemberRequest = {
+    name: '',
+    role: '',
+    photoUrl: '',
+    bio: '',
+    email: '',
+    active: true
+  };
 
   constructor() {
     this.draft = this.clone(this.content.homeContent());
@@ -213,6 +228,33 @@ export class DashboardComponent {
       }
     });
 
+    this.aboutApi.load();
+    effect(() => {
+      const page = this.aboutApi.content();
+      if (page) {
+        this.aboutPageDraft = {
+          headerEyebrow: page.headerEyebrow,
+          headerTitle: page.headerTitle,
+          headerSubtitle: page.headerSubtitle,
+          heroVideoFileName: page.heroVideo?.fileName ?? '',
+          intro: page.intro,
+          missionTitle: page.missionTitle,
+          missionDescription: page.missionDescription,
+          visionTitle: page.visionTitle,
+          visionDescription: page.visionDescription,
+          missionImageFileName: page.missionImage?.fileName ?? '',
+          values: page.values.map(value => ({
+            title: value.title,
+            description: value.description,
+            videoFileName: value.video?.fileName ?? ''
+          })),
+          storyTitle: page.storyTitle,
+          storyDescription: page.storyDescription,
+          storyImageFileName: page.storyImage?.fileName ?? ''
+        };
+      }
+    });
+
     effect(() => {
       const content = this.insightsContentSignal();
       if (content) {
@@ -243,6 +285,10 @@ export class DashboardComponent {
       }
     });
 
+    this.teamApi.list().subscribe(members => {
+      this.teamMembers = members;
+    });
+
     this.pageContent.loadPage<ServicesPageContent>('services').pipe(take(1)).subscribe();
     this.pageContent.loadPage<AcademyPageContent>('academy').pipe(take(1)).subscribe();
     this.pageContent.loadPage<PortfolioPageContent>('portfolio').pipe(take(1)).subscribe();
@@ -251,6 +297,59 @@ export class DashboardComponent {
     this.pageContent.loadPage<ContactPageContent>('contact').pipe(take(1)).subscribe();
     this.pageContent.loadPage<NavigationContent>('navigation').pipe(take(1)).subscribe();
     this.pageContent.loadPage<SitemapContent>('sitemap').pipe(take(1)).subscribe();
+  }
+
+  protected saveAboutPage(): void {
+    if (this.aboutPageDraft) {
+      this.aboutApi.save(this.aboutPageDraft);
+    }
+  }
+
+  protected uploadAboutMedia(event: Event, target: keyof SaveAboutPageRequest): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file || !this.aboutPageDraft) {
+      return;
+    }
+
+    this.media.upload(file, 'about').subscribe(response => {
+      this.aboutPageDraft = {
+        ...this.aboutPageDraft!,
+        [target]: response.fileName
+      } as SaveAboutPageRequest;
+    });
+  }
+
+  protected uploadTeamPhoto(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) {
+      return;
+    }
+
+    this.media.upload(file, 'team').subscribe(response => {
+      this.newTeamMember = { ...this.newTeamMember, photoUrl: response.fileName };
+    });
+  }
+
+  protected saveNewTeamMember(): void {
+    this.teamApi.create(this.newTeamMember).subscribe(member => {
+      this.teamMembers = [...this.teamMembers, member];
+      this.newTeamMember = {
+        name: '',
+        role: '',
+        photoUrl: '',
+        bio: '',
+        email: '',
+        active: true
+      };
+    });
+  }
+
+  protected deleteTeamMember(id: string): void {
+    this.teamApi.delete(id).subscribe(() => {
+      this.teamMembers = this.teamMembers.filter(member => member.id !== id);
+    });
   }
 
   protected saveHomeContent(): void {

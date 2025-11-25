@@ -14,36 +14,69 @@ public sealed class MediaController(IWebHostEnvironment environment) : Controlle
         "video/ogg"
     ];
 
+    private static readonly HashSet<string> AllowedImageContentTypes =
+    [
+        "image/jpeg",
+        "image/png",
+        "image/webp",
+        "image/gif"
+    ];
+
     [HttpPost("upload")]
     [RequestFormLimits(MultipartBodyLengthLimit = 524_288_000)]
     public async Task<ActionResult<MediaUploadResponse>> UploadAsync(
         [FromForm] IFormFile file,
-        CancellationToken cancellationToken)
+        [FromQuery] string category = "general",
+        CancellationToken cancellationToken = default)
     {
         if (file is null || file.Length == 0)
         {
             return BadRequest("No file was uploaded.");
         }
 
-        if (!AllowedVideoContentTypes.Contains(file.ContentType))
+        if (!IsAllowedContentType(file.ContentType))
         {
-            return BadRequest("Only MP4, WebM, or OGG video files are supported.");
+            return BadRequest("Only common image (jpg, png, webp, gif) or video (mp4, webm, ogg) formats are supported.");
         }
 
-        var uploadsRoot = Path.Combine(environment.ContentRootPath, "uploads", "videos");
-        Directory.CreateDirectory(uploadsRoot);
+        var uploadsRoot = EnsureUploadsRoot();
+        var sanitizedCategory = string.IsNullOrWhiteSpace(category)
+            ? "general"
+            : category.Trim().ToLowerInvariant();
+
+        var targetDirectory = Path.Combine(uploadsRoot, sanitizedCategory);
+        Directory.CreateDirectory(targetDirectory);
 
         var fileExtension = Path.GetExtension(file.FileName);
         var fileName = $"{Guid.NewGuid()}{fileExtension}";
-        var filePath = Path.Combine(uploadsRoot, fileName);
+        var filePath = Path.Combine(targetDirectory, fileName);
 
         await using (var stream = System.IO.File.Create(filePath))
         {
             await file.CopyToAsync(stream, cancellationToken);
         }
 
-        var fileUrl = $"{Request.Scheme}://{Request.Host}/uploads/videos/{fileName}";
+        var relativePath = $"uploads/{sanitizedCategory}/{fileName}".Replace("\\", "/");
+        var fileUrl = $"{Request.Scheme}://{Request.Host}/{relativePath}";
 
-        return Ok(new MediaUploadResponse(fileUrl));
+        return Ok(new MediaUploadResponse(fileUrl, fileName));
+    }
+
+    private bool IsAllowedContentType(string contentType)
+        => AllowedVideoContentTypes.Contains(contentType) || AllowedImageContentTypes.Contains(contentType);
+
+    private string EnsureUploadsRoot()
+    {
+        var webRoot = environment.WebRootPath;
+        if (string.IsNullOrWhiteSpace(webRoot))
+        {
+            webRoot = Path.Combine(environment.ContentRootPath, "wwwroot");
+            Directory.CreateDirectory(webRoot);
+            environment.WebRootPath = webRoot;
+        }
+
+        var uploadsRoot = Path.Combine(webRoot, "uploads");
+        Directory.CreateDirectory(uploadsRoot);
+        return uploadsRoot;
     }
 }

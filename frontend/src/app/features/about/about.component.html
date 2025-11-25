@@ -36,7 +36,7 @@
               playsinline
             >
               <!-- Change path if your video is elsewhere -->
-              <source [src]="'/video/about/about.mp4' | assetUrl" type="video/mp4" />
+              <source [src]="(header().videoUrl || '/video/about/about.mp4') | assetUrl" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
@@ -106,7 +106,7 @@
         <!-- Image -->
         <div class="relative h-64 md:h-80">
           <img
-            src="/images/about/mission-vission.jpg"
+            [src]="missionImageUrl() | assetUrl"
             alt="ObjectCanvas mission and vision"
             class="h-full w-full object-cover"
             loading="lazy"
@@ -167,10 +167,7 @@
           >
             <video class="h-full w-full object-cover" autoplay loop muted playsinline>
               <!-- Change path if needed -->
-              <source
-                [src]="'/video/about/values-' + (i + 1) + '.mp4' | assetUrl"
-                type="video/mp4"
-              />
+              <source [src]="(value.videoUrl || ('/video/about/values-' + (i + 1) + '.mp4')) | assetUrl" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
 
@@ -219,7 +216,7 @@
         <!-- Story hero image -->
         <div class="relative mt-2 overflow-hidden rounded-[32px] bg-slate-900/80 shadow-md">
           <img
-            src="/images/about/story-hero.jpg"
+            [src]="storyImageUrl() | assetUrl"
             alt="ObjectCanvas team collaboration"
             class="h-56 w-full object-cover md:h-72"
             loading="lazy"
