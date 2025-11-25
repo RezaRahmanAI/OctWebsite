@@ -18,7 +18,7 @@ public sealed class ApplicationDbInitializer(
         await context.Database.MigrateAsync(cancellationToken);
 
         await SeedCollectionAsync(context.TeamMembers, SeedData.TeamMembers, cancellationToken);
-        await SeedCollectionAsync(context.CompanyAboutEntries, SeedData.About, cancellationToken);
+        await SeedCollectionAsync(context.CompanyAboutEntries, SeedData.CompanyAboutEntries, cancellationToken);
 
         await EnsureAdminUserAsync(cancellationToken);
 
