@@ -27,8 +27,7 @@ public static class DependencyInjection
                 options.Password.RequiredLength = 6;
             })
             .AddRoles<IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddSignInManager();
+            .AddEntityFrameworkStores<ApplicationDbContext>();
 
         services.AddScoped<ITeamRepository, EfTeamRepository>();
         services.AddScoped<ICompanyAboutRepository, EfCompanyAboutRepository>();
