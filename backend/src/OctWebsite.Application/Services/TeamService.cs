@@ -26,7 +26,7 @@ internal sealed class TeamService(ITeamRepository repository) : ITeamService
             Guid.NewGuid(),
             request.Name.Trim(),
             request.Role.Trim(),
-            request.PhotoUrl.Trim(),
+            request.PhotoFileName?.Trim(),
             request.Bio.Trim(),
             request.Email.Trim(),
             request.Active);
@@ -48,7 +48,7 @@ internal sealed class TeamService(ITeamRepository repository) : ITeamService
         {
             Name = request.Name.Trim(),
             Role = request.Role.Trim(),
-            PhotoUrl = request.PhotoUrl.Trim(),
+            PhotoFileName = request.PhotoFileName?.Trim(),
             Bio = request.Bio.Trim(),
             Email = request.Email.Trim(),
             Active = request.Active
@@ -65,7 +65,6 @@ internal sealed class TeamService(ITeamRepository repository) : ITeamService
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(request.Name);
         ArgumentException.ThrowIfNullOrWhiteSpace(request.Role);
-        ArgumentException.ThrowIfNullOrWhiteSpace(request.PhotoUrl);
         ArgumentException.ThrowIfNullOrWhiteSpace(request.Bio);
         ArgumentException.ThrowIfNullOrWhiteSpace(request.Email);
     }

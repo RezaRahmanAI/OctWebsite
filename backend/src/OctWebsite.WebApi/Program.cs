@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using OctWebsite.Application;
 using OctWebsite.Infrastructure;
 using OctWebsite.Infrastructure.Data;
+using OctWebsite.Infrastructure.Identity;
 using OctWebsite.WebApi.Security;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
