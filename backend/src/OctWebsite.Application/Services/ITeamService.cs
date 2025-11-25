@@ -14,7 +14,7 @@ public interface ITeamService
 public sealed record SaveTeamMemberRequest(
     string Name,
     string Role,
-    string PhotoUrl,
+    string? PhotoFileName,
     string Bio,
     string Email,
     bool Active);

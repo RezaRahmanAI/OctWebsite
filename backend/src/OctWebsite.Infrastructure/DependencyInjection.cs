@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OctWebsite.Application.Abstractions;
 using OctWebsite.Infrastructure.Data;
+using OctWebsite.Infrastructure.Identity;
 using OctWebsite.Infrastructure.Repositories;
 
 namespace OctWebsite.Infrastructure;
@@ -16,14 +18,20 @@ public static class DependencyInjection
         services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
         services.AddScoped<ApplicationDbInitializer>();
 
+        services.AddIdentityCore<ApplicationUser>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+            })
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddSignInManager();
+
         services.AddScoped<ITeamRepository, EfTeamRepository>();
         services.AddScoped<ICompanyAboutRepository, EfCompanyAboutRepository>();
-        services.AddScoped<IServiceRepository, EfServiceRepository>();
-        services.AddScoped<IProductRepository, EfProductRepository>();
-        services.AddScoped<IAcademyRepository, EfAcademyRepository>();
-        services.AddScoped<IBlogRepository, EfBlogRepository>();
-        services.AddScoped<ISettingsRepository, EfSettingsRepository>();
-        services.AddScoped<ILeadRepository, EfLeadRepository>();
 
         return services;
     }

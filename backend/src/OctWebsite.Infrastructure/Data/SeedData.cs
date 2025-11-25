@@ -53,25 +53,6 @@ internal static class SeedData
             Serialize(DefaultAboutRequest))
     ];
 
-    public static IReadOnlyList<ServiceItem> Services { get; } = Array.Empty<ServiceItem>();
-    public static IReadOnlyList<ProductItem> Products { get; } = Array.Empty<ProductItem>();
-    public static IReadOnlyList<AcademyTrack> AcademyTracks { get; } = Array.Empty<AcademyTrack>();
-    public static IReadOnlyList<BlogPost> BlogPosts { get; } = Array.Empty<BlogPost>();
-
-    public static SiteSettings SiteSettings { get; } = new(
-        Guid.Parse("e5d0f8b9-0dd5-4a4c-8f7d-8f8a5e8a7f1c"),
-        string.Empty,
-        string.Empty,
-        string.Empty,
-        string.Empty,
-        string.Empty,
-        string.Empty,
-        string.Empty,
-        string.Empty,
-        string.Empty,
-        string.Empty,
-        string.Empty);
-
     private static SaveAboutPageRequest DefaultAboutRequest => new(
         "About Us",
         "ObjectCanvas Technology",

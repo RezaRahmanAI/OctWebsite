@@ -9,12 +9,6 @@ public static class DependencyInjection
     {
         services.AddScoped<ITeamService, TeamService>();
         services.AddScoped<IAboutService, AboutService>();
-        services.AddScoped<IServiceCatalog, ServiceCatalog>();
-        services.AddScoped<IProductCatalog, ProductCatalog>();
-        services.AddScoped<IAcademyService, AcademyService>();
-        services.AddScoped<IBlogService, BlogService>();
-        services.AddScoped<ISettingsService, SettingsService>();
-        services.AddScoped<ILeadService, LeadService>();
         services.AddScoped<IAboutPageService, AboutPageService>();
         return services;
     }
