@@ -1,10 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs/operators';
-import { trackDetails } from './academy-track.data';
 import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
+import { AcademyPageApiService, AcademyTrackModel } from '../../core/services/academy-page-api.service';
 
 @Component({
   selector: 'app-academy-detail',
@@ -15,10 +13,27 @@ import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
 })
 export class AcademyDetailComponent {
   private readonly route = inject(ActivatedRoute);
+  private readonly api = inject(AcademyPageApiService);
 
-  private readonly slug = toSignal(this.route.paramMap.pipe(map(params => params.get('slug'))));
-  readonly track = computed(() => {
-    const slug = this.slug();
-    return slug ? trackDetails.find(track => track.slug === slug) : undefined;
-  });
+  readonly track = signal<AcademyTrackModel | undefined>(undefined);
+  readonly loading = signal(true);
+
+  constructor() {
+    const slug = this.route.snapshot.paramMap.get('slug');
+    if (!slug) {
+      this.loading.set(false);
+      return;
+    }
+
+    this.api.fetchTrack(slug).subscribe({
+      next: track => {
+        this.track.set(track);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.track.set(undefined);
+        this.loading.set(false);
+      },
+    });
+  }
 }
