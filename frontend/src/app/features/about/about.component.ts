@@ -5,7 +5,7 @@ import { SectionHeaderComponent } from '../../shared/components/section-header/s
 import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
 import { AboutPageApiService, AboutPageModel } from '../../core/services/about-page-api.service';
 import { TeamApiService } from '../../core/services/team-api.service';
-import { TeamMember } from '../../core/models';
+import { TeamMember as TeamMemberModel } from '../../core/models';
 
 interface ValueItem {
   title: string;
@@ -24,7 +24,7 @@ interface Leadership {
   };
 }
 
-interface TeamMember {
+interface AboutTeamMember {
   name: string;
   role: string;
   focus?: string;
@@ -36,7 +36,7 @@ interface TeamSection {
   title: string;
   subtitle: string;
   note?: string;
-  members: TeamMember[];
+  members: AboutTeamMember[];
 }
 
 interface AchievementStat {
@@ -246,7 +246,7 @@ export class AboutComponent implements OnInit, OnDestroy {
       .join('');
   }
 
-  private mapFromApi(model: AboutPageModel, existingTeam: TeamMember[]): AboutPageContent {
+  private mapFromApi(model: AboutPageModel, existingTeam: AboutTeamMember[]): AboutPageContent {
     return {
       header: {
         eyebrow: model.headerEyebrow,
@@ -273,15 +273,15 @@ export class AboutComponent implements OnInit, OnDestroy {
     };
   }
 
-  private applyTeamMembers(members: TeamMember[]): void {
+  private applyTeamMembers(members: TeamMemberModel[]): void {
     if (!members?.length) {
       return;
     }
 
-    const mapped: TeamMember[] = members.map(member => ({
+    const mapped: AboutTeamMember[] = members.map((member: TeamMemberModel) => ({
       ...member,
       avatarUrl: member.photoUrl,
-    } as TeamMember));
+    } as AboutTeamMember));
 
     this._aboutContent.update(current => ({
       ...current,

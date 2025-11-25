@@ -11,7 +11,7 @@ import {
 } from '../../core/models/home-content.model';
 import { take } from 'rxjs';
 import { MediaService } from '../../core/services/media.service';
-import { AboutPageApiService, SaveAboutPageRequest } from '../../core/services/about-page-api.service';
+import { AboutPageApiService, AboutValue, SaveAboutPageRequest } from '../../core/services/about-page-api.service';
 import { TeamApiService, SaveTeamMemberRequest } from '../../core/services/team-api.service';
 import { TeamMember } from '../../core/models';
 
@@ -137,6 +137,8 @@ export class DashboardComponent {
   private readonly content = inject(ContentService);
   private readonly pageContent = inject(ContentService);
   private readonly media = inject(MediaService);
+  private readonly aboutApi = inject(AboutPageApiService);
+  private readonly teamApi = inject(TeamApiService);
   protected draft: HomeContent;
   protected readonly sectionNav = [
     { id: 'hero', label: 'Hero Section' },
@@ -243,7 +245,7 @@ export class DashboardComponent {
           visionTitle: page.visionTitle,
           visionDescription: page.visionDescription,
           missionImageFileName: page.missionImage?.fileName ?? '',
-          values: page.values.map(value => ({
+          values: page.values.map((value: AboutValue) => ({
             title: value.title,
             description: value.description,
             videoFileName: value.video?.fileName ?? ''
@@ -285,7 +287,7 @@ export class DashboardComponent {
       }
     });
 
-    this.teamApi.list().subscribe(members => {
+    this.teamApi.list().subscribe((members: TeamMember[]) => {
       this.teamMembers = members;
     });
 
@@ -333,7 +335,7 @@ export class DashboardComponent {
   }
 
   protected saveNewTeamMember(): void {
-    this.teamApi.create(this.newTeamMember).subscribe(member => {
+    this.teamApi.create(this.newTeamMember).subscribe((member: TeamMember) => {
       this.teamMembers = [...this.teamMembers, member];
       this.newTeamMember = {
         name: '',
@@ -382,14 +384,14 @@ export class DashboardComponent {
     this.heroVideoUploadInProgress = true;
 
     this.media
-      .uploadVideo(file)
+      .upload(file, 'video')
       .pipe(take(1))
       .subscribe({
         next: (response) => {
           this.draft.hero.video.src = response.url;
           this.heroVideoUploadInProgress = false;
         },
-        error: (error) => {
+        error: (error: unknown) => {
           console.error('Failed to upload hero video', error);
           this.heroVideoUploadError = 'Video upload failed. Please try again.';
           this.heroVideoUploadInProgress = false;
