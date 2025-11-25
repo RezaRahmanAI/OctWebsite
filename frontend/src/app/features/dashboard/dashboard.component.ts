@@ -144,7 +144,6 @@ export class DashboardComponent {
     { id: 'hero', label: 'Hero Section' },
     { id: 'trust', label: 'Trust & Stats' },
     { id: 'services', label: 'Services' },
-    { id: 'differentiators', label: 'Differentiators' },
     { id: 'methodology', label: 'Methodology' },
     { id: 'case-studies', label: 'Case Studies' },
     { id: 'academy', label: 'Academy' },
