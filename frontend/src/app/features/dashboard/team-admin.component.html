@@ -8,7 +8,7 @@
     <button type="button" class="btn" (click)="submit()">{{ editingId() ? 'Update' : 'Create' }} member</button>
   </div>
 
-  <form [formGroup]="form" class="mt-6 space-y-4" (ngSubmit)="submit()">
+  <form [formGroup]="form" class="mt-6 space-y-4" (ngSubmit)="submit()" enctype="multipart/form-data">
     <div class="grid gap-4 md:grid-cols-2">
       <label class="form-field">
         <span>Name</span>
@@ -19,8 +19,11 @@
         <input type="text" formControlName="role" />
       </label>
       <label class="form-field">
-        <span>Photo URL or file name</span>
-        <input type="text" formControlName="photoUrl" placeholder="uploads/general/photo.jpg" />
+        <span>Profile photo</span>
+        <input type="file" accept="image/*" (change)="onPhotoSelected($event)" />
+        <p class="text-xs text-slate-500">
+          {{ photoName() ? 'Selected file: ' + photoName() : 'Upload a JPG or PNG image.' }}
+        </p>
       </label>
       <label class="form-field">
         <span>Email</span>
