@@ -26,7 +26,10 @@ public sealed record AboutPageDto(
     IReadOnlyList<AboutValueDto> Values,
     string StoryTitle,
     string StoryDescription,
-    MediaResourceDto? StoryImage);
+    MediaResourceDto? StoryImage,
+    string TeamTitle,
+    string TeamSubtitle,
+    string? TeamNote);
 
 public sealed record SaveAboutValueRequest(
     string Title,
@@ -47,4 +50,7 @@ public sealed record SaveAboutPageRequest(
     IReadOnlyList<SaveAboutValueRequest> Values,
     string StoryTitle,
     string StoryDescription,
-    string? StoryImageFileName);
+    string? StoryImageFileName,
+    string TeamTitle,
+    string TeamSubtitle,
+    string? TeamNote);

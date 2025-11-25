@@ -17,10 +17,7 @@
 
         <!-- Intro -->
         <p class="max-w-2xl text-sm text-slate-600 md:text-base">
-          {{
-            intro() ||
-              'ObjectCanvas product strategists, engineers, data scientists, digital marketers, and  educators collaborate as one team.'
-          }}
+          {{ intro() }}
         </p>
       </div>
 
@@ -28,17 +25,23 @@
       <div class="relative">
         <div class="group relative overflow-hidden rounded-[2.5rem] shadow-xl">
           <div class="relative aspect-[4/3]">
-            <video
-              class="absolute inset-0 h-full w-full object-cover"
-              autoplay
-              loop
-              muted
-              playsinline
-            >
-              <!-- Change path if your video is elsewhere -->
-              <source [src]="(header().videoUrl || '/video/about/about.mp4') | assetUrl" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+            <ng-container *ngIf="header().videoUrl; else heroPlaceholder">
+              <video
+                class="absolute inset-0 h-full w-full object-cover"
+                autoplay
+                loop
+                muted
+                playsinline
+              >
+                <source [src]="header().videoUrl | assetUrl" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </ng-container>
+            <ng-template #heroPlaceholder>
+              <div class="flex h-full w-full items-center justify-center bg-slate-100 text-sm text-slate-500">
+                Media coming soon
+              </div>
+            </ng-template>
           </div>
 
           <!-- subtle gradient overlay (same as Academy) -->
@@ -105,15 +108,22 @@
       <div class="rounded-[32px] bg-white shadow-card overflow-hidden">
         <!-- Image -->
         <div class="relative h-64 md:h-80">
-          <img
-            [src]="missionImageUrl() | assetUrl"
-            alt="ObjectCanvas mission and vision"
-            class="h-full w-full object-cover"
-            loading="lazy"
-          />
-          <div
-            class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-900/30 via-transparent to-transparent"
-          ></div>
+          <ng-container *ngIf="mission().imageUrl; else missionPlaceholder">
+            <img
+              [src]="mission().imageUrl | assetUrl"
+              alt="ObjectCanvas mission and vision"
+              class="h-full w-full object-cover"
+              loading="lazy"
+            />
+            <div
+              class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-900/30 via-transparent to-transparent"
+            ></div>
+          </ng-container>
+          <ng-template #missionPlaceholder>
+            <div class="flex h-full w-full items-center justify-center bg-slate-100 text-sm text-slate-500">
+              Media coming soon
+            </div>
+          </ng-template>
         </div>
 
         <!-- Mission + Vision text under the image -->
@@ -121,10 +131,9 @@
           <!-- Mission -->
           <div class="space-y-3">
             <p class="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Mission</p>
-            <h3 class="text-lg font-semibold text-slate-900">Build products and people together</h3>
+            <h3 class="text-lg font-semibold text-slate-900">{{ mission().title }}</h3>
             <p class="text-sm text-slate-600">
-              We help ambitious teams design, build and scale digital products while growing the
-              next generation of engineers and creators across Bangladesh and beyond.
+              {{ mission().description }}
             </p>
           </div>
 
@@ -132,12 +141,10 @@
           <div class="space-y-3">
             <p class="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Vision</p>
             <h3 class="text-lg font-semibold text-slate-900">
-              A global product studio rooted in Bangladesh
+              {{ vision().title }}
             </h3>
             <p class="text-sm text-slate-600">
-              Our vision is to be a long-term technology and learning partner for global companies,
-              proving that world-class products and talent can be built from Dhaka, Rajshahi and
-              remote teams across the country.
+              {{ vision().description }}
             </p>
           </div>
         </div>
@@ -165,11 +172,17 @@
             class="relative aspect-video md:aspect-[4/2]"
             [ngClass]="i % 2 === 1 ? 'md:order-2' : ''"
           >
-            <video class="h-full w-full object-cover" autoplay loop muted playsinline>
-              <!-- Change path if needed -->
-              <source [src]="(value.videoUrl || ('/video/about/values-' + (i + 1) + '.mp4')) | assetUrl" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+            <ng-container *ngIf="value.videoUrl; else valuePlaceholder">
+              <video class="h-full w-full object-cover" autoplay loop muted playsinline>
+                <source [src]="value.videoUrl | assetUrl" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </ng-container>
+            <ng-template #valuePlaceholder>
+              <div class="flex h-full w-full items-center justify-center bg-slate-100 text-sm text-slate-500">
+                Media coming soon
+              </div>
+            </ng-template>
 
             <!-- soft overlay -->
             <div
@@ -210,20 +223,27 @@
       <section class="space-y-4">
         <p class="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Our Story</p>
         <h3 class="text-2xl font-semibold text-slate-900">
-          From small experiments to a multi-discipline studio
+          {{ story().title }}
         </h3>
 
         <!-- Story hero image -->
         <div class="relative mt-2 overflow-hidden rounded-[32px] bg-slate-900/80 shadow-md">
-          <img
-            [src]="storyImageUrl() | assetUrl"
-            alt="ObjectCanvas team collaboration"
-            class="h-56 w-full object-cover md:h-72"
-            loading="lazy"
-          />
-          <div
-            class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/20 to-transparent"
-          ></div>
+          <ng-container *ngIf="story().imageUrl; else storyPlaceholder">
+            <img
+              [src]="story().imageUrl | assetUrl"
+              alt="ObjectCanvas team collaboration"
+              class="h-56 w-full object-cover md:h-72"
+              loading="lazy"
+            />
+            <div
+              class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/20 to-transparent"
+            ></div>
+          </ng-container>
+          <ng-template #storyPlaceholder>
+            <div class="flex h-56 w-full items-center justify-center bg-slate-100 text-sm text-slate-500 md:h-72">
+              Media coming soon
+            </div>
+          </ng-template>
           <p
             class="absolute bottom-4 left-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-100"
           >
@@ -232,10 +252,7 @@
         </div>
 
         <p class="mt-4 text-sm text-slate-600 md:text-base">
-          {{
-            story() ||
-              'ObjectCanvas began as a focused engineering partner helping teams ship quickly. Over time, we layered in strategy, design, data, and an academy to support learners alongside our clients.'
-          }}
+          {{ story().description }}
         </p>
       </section>
       <div class="mt-4 grid grid-cols-1 gap-4 text-sm text-slate-600">
@@ -305,8 +322,11 @@
           </div>
 
           <div class="mt-4 space-y-2 text-xs text-slate-600">
-            <p class="text-slate-500" *ngIf="member.location">
-              {{ member.location }}
+            <p class="text-slate-500" *ngIf="member.bio">
+              {{ member.bio }}
+            </p>
+            <p class="text-slate-500" *ngIf="member.email">
+              {{ member.email }}
             </p>
           </div>
         </article>

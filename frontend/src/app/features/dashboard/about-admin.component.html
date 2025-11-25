@@ -74,6 +74,21 @@
       </label>
     </div>
 
+    <div class="grid gap-4 md:grid-cols-2">
+      <label class="form-field md:col-span-2">
+        <span>Team title</span>
+        <input type="text" formControlName="teamTitle" />
+      </label>
+      <label class="form-field md:col-span-2">
+        <span>Team subtitle</span>
+        <textarea rows="2" formControlName="teamSubtitle"></textarea>
+      </label>
+      <label class="form-field md:col-span-2">
+        <span>Team note</span>
+        <input type="text" formControlName="teamNote" placeholder="Optional note shown above members" />
+      </label>
+    </div>
+
     <div class="space-y-3">
       <div class="flex items-center justify-between">
         <div>

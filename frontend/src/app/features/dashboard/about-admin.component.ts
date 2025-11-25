@@ -37,6 +37,9 @@ export class AboutAdminComponent implements OnInit {
     storyTitle: ['', Validators.required],
     storyDescription: ['', Validators.required],
     storyImageFileName: [''],
+    teamTitle: ['', Validators.required],
+    teamSubtitle: ['', Validators.required],
+    teamNote: [''],
   });
 
   ngOnInit(): void {
@@ -110,6 +113,9 @@ export class AboutAdminComponent implements OnInit {
       storyTitle: page.storyTitle,
       storyDescription: page.storyDescription,
       storyImageFileName: page.storyImage?.fileName ?? '',
+      teamTitle: page.teamTitle,
+      teamSubtitle: page.teamSubtitle,
+      teamNote: page.teamNote ?? '',
     });
 
     this.values.clear();
@@ -143,6 +149,9 @@ export class AboutAdminComponent implements OnInit {
       storyTitle: raw.storyTitle ?? '',
       storyDescription: raw.storyDescription ?? '',
       storyImageFileName: raw.storyImageFileName || null,
+      teamTitle: raw.teamTitle ?? '',
+      teamSubtitle: raw.teamSubtitle ?? '',
+      teamNote: raw.teamNote || null,
     } satisfies SaveAboutPageRequest;
   }
 }
