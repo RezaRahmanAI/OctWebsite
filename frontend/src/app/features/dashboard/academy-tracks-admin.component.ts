@@ -22,6 +22,9 @@ export class AcademyTracksAdminComponent implements OnInit {
 
   readonly loading = signal(false);
   readonly selectedId = signal<string | null>(null);
+  private heroVideoFile: File | null = null;
+  private heroPosterFile: File | null = null;
+  private levelImageFiles: (File | null)[] = [];
 
   readonly form = this.fb.group({
     title: ['', Validators.required],
@@ -69,6 +72,8 @@ export class AcademyTracksAdminComponent implements OnInit {
     if (!track) return;
 
     this.selectedId.set(id);
+    this.heroVideoFile = null;
+    this.heroPosterFile = null;
     this.form.patchValue({
       title: track.title,
       slug: track.slug,
@@ -91,6 +96,7 @@ export class AcademyTracksAdminComponent implements OnInit {
     track.learningOutcomes.forEach(item => this.learningOutcomes.push(this.fb.control(item)));
 
     this.levels.clear();
+    this.levelImageFiles = track.levels.map(() => null);
     track.levels.forEach(level => this.levels.push(this.createLevel(level)));
 
     this.admissionSteps.clear();
@@ -115,10 +121,12 @@ export class AcademyTracksAdminComponent implements OnInit {
 
   addLevel(level?: AcademyTrackLevelModel): void {
     this.levels.push(this.createLevel(level));
+    this.levelImageFiles.push(null);
   }
 
   removeLevel(index: number): void {
     this.levels.removeAt(index);
+    this.levelImageFiles.splice(index, 1);
   }
 
   getLevelTools(levelIndex: number): FormArray {
@@ -139,6 +147,9 @@ export class AcademyTracksAdminComponent implements OnInit {
 
   resetForm(): void {
     this.selectedId.set(null);
+    this.heroPosterFile = null;
+    this.heroVideoFile = null;
+    this.levelImageFiles = [];
     this.form.reset({ active: true });
     this.highlights.clear();
     this.learningOutcomes.clear();
@@ -227,6 +238,27 @@ export class AcademyTracksAdminComponent implements OnInit {
     outcomes.push(this.fb.control('', Validators.required));
   }
 
+  onHeroVideoSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0] ?? null;
+    this.heroVideoFile = file;
+    this.form.patchValue({ heroVideoFileName: file?.name ?? this.form.value.heroVideoFileName });
+  }
+
+  onHeroPosterSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0] ?? null;
+    this.heroPosterFile = file;
+    this.form.patchValue({ heroPosterFileName: file?.name ?? this.form.value.heroPosterFileName });
+  }
+
+  onLevelImageSelected(levelIndex: number, event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0] ?? null;
+    this.levelImageFiles[levelIndex] = file;
+    this.levels.at(levelIndex).patchValue({ image: file?.name ?? this.levels.at(levelIndex).value.image });
+  }
+
   removeOutcomeFromLevel(levelIndex: number, outcomeIndex: number): void {
     const outcomes = (this.levels.at(levelIndex).get('outcomes') as FormArray);
     outcomes.removeAt(outcomeIndex);
@@ -252,9 +284,11 @@ export class AcademyTracksAdminComponent implements OnInit {
       summary: raw.summary ?? '',
       heroVideoFileName: raw.heroVideoFileName || null,
       heroPosterFileName: raw.heroPosterFileName || null,
+      heroVideoFile: this.heroVideoFile,
+      heroPosterFile: this.heroPosterFile,
       highlights: this.highlights.controls.map(control => control.value ?? ''),
       learningOutcomes: this.learningOutcomes.controls.map(control => control.value ?? ''),
-      levels: this.levels.controls.map(control => ({
+      levels: this.levels.controls.map((control, index) => ({
         title: control.value.title ?? '',
         duration: control.value.duration ?? '',
         description: control.value.description ?? '',
@@ -262,6 +296,8 @@ export class AcademyTracksAdminComponent implements OnInit {
         outcomes: (control.get('outcomes') as FormArray).controls.map(outcome => outcome.value ?? ''),
         project: control.value.project ?? '',
         image: control.value.image ?? '',
+        imageFileName: control.value.image ?? '',
+        imageFile: this.levelImageFiles[index] ?? null,
       })),
       admissionSteps: this.admissionSteps.controls.map(control => ({
         title: control.value.title ?? '',

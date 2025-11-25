@@ -20,8 +20,9 @@
         <textarea formControlName="intro" rows="3"></textarea>
       </label>
       <label class="form-control md:col-span-2">
-        <span>Hero video file/url</span>
-        <input formControlName="heroVideoFileName" />
+        <span>Hero video</span>
+        <input type="file" accept="video/*" (change)="onHeroVideoSelected($event)" />
+        <p class="text-xs text-slate-600" *ngIf="form.value.heroVideoFileName">Current: {{ form.value.heroVideoFileName }}</p>
       </label>
     </div>
 
