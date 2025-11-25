@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -54,7 +55,7 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
 
             var stringListConverter = new ValueConverter<List<string>, string>(
                 list => JsonSerializer.Serialize(list, JsonSerializerOptions.Default),
-                json => JsonSerializer.Deserialize<List<string>>(json, JsonSerializerOptions.Default) ?? []);
+                json => JsonSerializer.Deserialize<List<string>>(json, JsonSerializerOptions.Default) ?? new List<string>());
             var stringListComparer = new ValueComparer<List<string>>(
                 (left, right) => left.SequenceEqual(right),
                 list => list.Aggregate(0, (hash, value) => HashCode.Combine(hash, value.GetHashCode())),
@@ -98,7 +99,7 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
 
             var stringListConverter = new ValueConverter<List<string>, string>(
                 list => JsonSerializer.Serialize(list, JsonSerializerOptions.Default),
-                json => JsonSerializer.Deserialize<List<string>>(json, JsonSerializerOptions.Default) ?? []);
+                json => JsonSerializer.Deserialize<List<string>>(json, JsonSerializerOptions.Default) ?? new List<string>());
             var stringListComparer = new ValueComparer<List<string>>(
                 (left, right) => left.SequenceEqual(right),
                 list => list.Aggregate(0, (hash, value) => HashCode.Combine(hash, value.GetHashCode())),
