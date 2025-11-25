@@ -53,12 +53,14 @@
           <textarea formControlName="summary" rows="3"></textarea>
         </label>
         <label class="form-control">
-          <span>Hero video file/url</span>
-          <input formControlName="heroVideoFileName" />
+          <span>Hero video</span>
+          <input type="file" accept="video/*" (change)="onHeroVideoSelected($event)" />
+          <p class="text-xs text-slate-600" *ngIf="form.value.heroVideoFileName">Current: {{ form.value.heroVideoFileName }}</p>
         </label>
         <label class="form-control">
-          <span>Hero poster file/url</span>
-          <input formControlName="heroPosterFileName" />
+          <span>Hero poster</span>
+          <input type="file" accept="image/*" (change)="onHeroPosterSelected($event)" />
+          <p class="text-xs text-slate-600" *ngIf="form.value.heroPosterFileName">Current: {{ form.value.heroPosterFileName }}</p>
         </label>
         <label class="form-control">
           <span>CTA label</span>
@@ -112,7 +114,8 @@
           </label>
           <label class="form-control">
             <span>Image</span>
-            <input formControlName="image" />
+            <input type="file" accept="image/*" (change)="onLevelImageSelected(i, $event)" />
+            <p class="text-xs text-slate-600" *ngIf="level.value.image">Current: {{ level.value.image }}</p>
           </label>
 
           <div>

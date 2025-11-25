@@ -17,6 +17,7 @@ export class AcademyAdminComponent implements OnInit {
   private readonly toast = inject(ToastService);
 
   readonly loading = signal(false);
+  private heroVideoFile: File | null = null;
 
   readonly form = this.fb.group({
     headerEyebrow: ['', Validators.required],
@@ -89,6 +90,13 @@ export class AcademyAdminComponent implements OnInit {
     });
   }
 
+  onHeroVideoSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0] ?? null;
+    this.heroVideoFile = file;
+    this.form.patchValue({ heroVideoFileName: file?.name ?? this.form.value.heroVideoFileName });
+  }
+
   private load(): void {
     this.loading.set(true);
     this.api.fetchPage().subscribe({
@@ -104,6 +112,7 @@ export class AcademyAdminComponent implements OnInit {
   }
 
   private apply(page: AcademyPageModel): void {
+    this.heroVideoFile = null;
     this.form.patchValue({
       headerEyebrow: page.headerEyebrow,
       headerTitle: page.headerTitle,
@@ -127,6 +136,7 @@ export class AcademyAdminComponent implements OnInit {
       headerSubtitle: raw.headerSubtitle ?? '',
       intro: raw.intro ?? '',
       heroVideoFileName: raw.heroVideoFileName || null,
+      heroVideoFile: this.heroVideoFile,
       kidsFeatures: this.kidsFeatures.controls.map(control => ({
         title: control.value.title ?? '',
         description: control.value.description ?? '',
