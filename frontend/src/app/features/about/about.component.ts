@@ -66,7 +66,7 @@ interface AboutPageContent {
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule, RouterLink, AssetUrlPipe],
+  imports: [CommonModule, AssetUrlPipe],
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
