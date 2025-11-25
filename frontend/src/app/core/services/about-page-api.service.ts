@@ -30,6 +30,9 @@ export interface AboutPageModel {
   storyTitle: string;
   storyDescription: string;
   storyImage: MediaResource | null;
+  teamTitle: string;
+  teamSubtitle: string;
+  teamNote: string | null;
 }
 
 export interface SaveAboutValueRequest {
@@ -53,6 +56,9 @@ export interface SaveAboutPageRequest {
   storyTitle: string;
   storyDescription: string;
   storyImageFileName?: string | null;
+  teamTitle: string;
+  teamSubtitle: string;
+  teamNote?: string | null;
 }
 
 @Injectable({ providedIn: 'root' })

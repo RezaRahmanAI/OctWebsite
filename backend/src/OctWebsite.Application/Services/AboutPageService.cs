@@ -20,7 +20,7 @@ internal sealed class AboutPageService(ICompanyAboutRepository repository) : IAb
             return seeded;
         }
 
-        return Deserialize(existing.Content);
+        return Deserialize(existing.Content, existing.Id);
     }
 
     public async Task<AboutPageDto> UpsertAsync(SaveAboutPageRequest request, CancellationToken cancellationToken = default)
@@ -34,12 +34,12 @@ internal sealed class AboutPageService(ICompanyAboutRepository repository) : IAb
         {
             var created = new CompanyAbout(Guid.NewGuid(), StorageKey, storedContent);
             await repository.CreateAsync(created, cancellationToken);
-            return Deserialize(created.Content);
+            return Deserialize(created.Content, created.Id);
         }
 
         var updated = existing with { Content = storedContent };
         await repository.UpdateAsync(updated, cancellationToken);
-        return Deserialize(updated.Content);
+        return Deserialize(updated.Content, updated.Id);
     }
 
     private async Task<AboutPageDto> SeedDefaultAsync(CancellationToken cancellationToken)
@@ -48,22 +48,25 @@ internal sealed class AboutPageService(ICompanyAboutRepository repository) : IAb
             "About Us",
             "ObjectCanvas Technology",
             "Engineering teams, educators, and strategists building products and people together.",
-            "about/hero.mp4",
-            "ObjectCanvas engineers, product strategists, data practitioners, and  educators work as one integrated team.",
+            null,
+            "ObjectCanvas engineers, product strategists, data practitioners, and educators work as one integrated team. We combine delivery excellence with capability building so every engagement ships both outcomes and skills.",
             "Build products and people together",
-            "We help ambitious teams design, build, and scale digital products while growing the next generation of engineers and creators across Bangladesh and beyond.",
+            "To help ambitious teams design, build, and scale digital products while growing the next generation of engineers and creators across Bangladesh and beyond.",
             "A global product studio rooted in Bangladesh",
             "Our vision is to be a long-term technology and learning partner for global companies, proving that world-class products and talent can be built from Dhaka, Rajshahi and remote teams across the country.",
-            "about/mission-vision.jpg",
+            null,
             new[]
             {
-                new SaveAboutValueRequest("Craft over shortcuts", "We care deeply about code quality, design systems, and operational excellence instead of one-off hacks.", "about/values-1.mp4"),
-                new SaveAboutValueRequest("Teach while we build", "Every project is a chance to upskill clients, students, and our own team through pairing, documentation, and open playbooks.", "about/values-2.mp4"),
-                new SaveAboutValueRequest("Long-term partnerships", "We prefer fewer, deeper relationships where we can own outcomes, not just deliver tickets.", "about/values-3.mp4")
+                new SaveAboutValueRequest("Craft over shortcuts", "We care deeply about code quality, design systems, and operational excellence instead of one-off hacks.", null),
+                new SaveAboutValueRequest("Teach while we build", "Every project is a chance to upskill clients, students, and our own team through pairing, documentation, and open playbooks.", null),
+                new SaveAboutValueRequest("Long-term partnerships", "We prefer fewer, deeper relationships where we can own outcomes, not just deliver tickets.", null)
             },
             "From small experiments to a multi-discipline studio",
-            "ObjectCanvas began as a focused engineering partner helping teams ship quickly. Over time, we layered in strategy, design, data, and an academy to support learners alongside our clients.",
-            "about/story.jpg");
+            "ObjectCanvas started as a focused engineering partner helping teams ship quickly. Over time, we evolved into a multi-discipline studio spanning product strategy, cloud-native engineering, data, design, and a dedicated academy for young and early-career talent.",
+            null,
+            "The team behind ObjectCanvas",
+            "A compact, cross-functional group of builders, mentors, and operators working across product, platform, and academy tracks.",
+            "This is a snapshot of the people you will pair with on strategy, delivery, and training.");
 
         return await UpsertAsync(defaultRequest, cancellationToken);
     }
@@ -80,6 +83,8 @@ internal sealed class AboutPageService(ICompanyAboutRepository repository) : IAb
         ArgumentException.ThrowIfNullOrWhiteSpace(request.VisionDescription);
         ArgumentException.ThrowIfNullOrWhiteSpace(request.StoryTitle);
         ArgumentException.ThrowIfNullOrWhiteSpace(request.StoryDescription);
+        ArgumentException.ThrowIfNullOrWhiteSpace(request.TeamTitle);
+        ArgumentException.ThrowIfNullOrWhiteSpace(request.TeamSubtitle);
     }
 
     private static string Serialize(SaveAboutPageRequest request)
@@ -87,13 +92,13 @@ internal sealed class AboutPageService(ICompanyAboutRepository repository) : IAb
         return JsonSerializer.Serialize(request, JsonOptions);
     }
 
-    private static AboutPageDto Deserialize(string json)
+    private static AboutPageDto Deserialize(string json, Guid? aboutId = null)
     {
         var stored = JsonSerializer.Deserialize<SaveAboutPageRequest>(json, JsonOptions)
             ?? throw new InvalidOperationException("Unable to deserialize about page content.");
 
         return new AboutPageDto(
-            Guid.NewGuid(),
+            aboutId ?? Guid.NewGuid(),
             stored.HeaderEyebrow,
             stored.HeaderTitle,
             stored.HeaderSubtitle,
@@ -110,7 +115,10 @@ internal sealed class AboutPageService(ICompanyAboutRepository repository) : IAb
                 CreateMedia(value.VideoFileName))).ToArray(),
             stored.StoryTitle,
             stored.StoryDescription,
-            CreateMedia(stored.StoryImageFileName));
+            CreateMedia(stored.StoryImageFileName),
+            stored.TeamTitle,
+            stored.TeamSubtitle,
+            stored.TeamNote);
     }
 
     private static MediaResourceDto? CreateMedia(string? fileName)
