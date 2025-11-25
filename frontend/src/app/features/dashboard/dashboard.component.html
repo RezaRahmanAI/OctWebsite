@@ -1716,6 +1716,136 @@
         </ng-template>
       </details>
 
+      <details id="api-about" class="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-glow">
+        <summary class="cursor-pointer text-lg font-semibold text-primary">About API Content</summary>
+        <div *ngIf="aboutPageDraft as about; else aboutLoading" class="mt-6 space-y-5">
+          <div class="grid gap-4 md:grid-cols-3">
+            <label class="form-label">
+              <span class="text-xs font-semibold uppercase text-primary">Header Eyebrow</span>
+              <input class="form-input" [(ngModel)]="about.headerEyebrow" name="aboutHeaderEyebrow" />
+            </label>
+            <label class="form-label md:col-span-2">
+              <span class="text-xs font-semibold uppercase text-primary">Header Title</span>
+              <input class="form-input" [(ngModel)]="about.headerTitle" name="aboutHeaderTitle" />
+            </label>
+          </div>
+          <label class="form-label block">
+            <span class="text-xs font-semibold uppercase text-primary">Subtitle</span>
+            <input class="form-input" [(ngModel)]="about.headerSubtitle" name="aboutHeaderSubtitle" />
+          </label>
+
+          <div class="grid gap-4 md:grid-cols-2">
+            <label class="form-label">
+              <span class="text-xs font-semibold uppercase text-primary">Hero Video File</span>
+              <input class="form-input" [(ngModel)]="about.heroVideoFileName" name="aboutHeroVideo" />
+            </label>
+            <label class="form-label">
+              <span class="text-xs font-semibold uppercase text-primary">Upload Hero Video</span>
+              <input type="file" accept="video/*" class="form-input" (change)="uploadAboutMedia($event, 'heroVideoFileName')" />
+            </label>
+          </div>
+
+          <label class="form-label block">
+            <span class="text-xs font-semibold uppercase text-primary">Intro</span>
+            <textarea class="form-input" rows="2" [(ngModel)]="about.intro" name="aboutIntro"></textarea>
+          </label>
+
+          <div class="grid gap-4 md:grid-cols-2">
+            <label class="form-label">
+              <span class="text-xs font-semibold uppercase text-primary">Mission Title</span>
+              <input class="form-input" [(ngModel)]="about.missionTitle" name="aboutMissionTitle" />
+            </label>
+            <label class="form-label">
+              <span class="text-xs font-semibold uppercase text-primary">Mission Image File</span>
+              <input class="form-input" [(ngModel)]="about.missionImageFileName" name="aboutMissionImage" />
+            </label>
+          </div>
+          <input type="file" accept="image/*" class="form-input" (change)="uploadAboutMedia($event, 'missionImageFileName')" />
+          <label class="form-label block">
+            <textarea class="form-input" rows="2" [(ngModel)]="about.missionDescription" name="aboutMissionDescription" placeholder="Mission description"></textarea>
+          </label>
+
+          <div class="grid gap-4 md:grid-cols-2">
+            <label class="form-label">
+              <span class="text-xs font-semibold uppercase text-primary">Story Title</span>
+              <input class="form-input" [(ngModel)]="about.storyTitle" name="aboutStoryTitle" />
+            </label>
+            <label class="form-label">
+              <span class="text-xs font-semibold uppercase text-primary">Story Image File</span>
+              <input class="form-input" [(ngModel)]="about.storyImageFileName" name="aboutStoryImage" />
+            </label>
+          </div>
+          <input type="file" accept="image/*" class="form-input" (change)="uploadAboutMedia($event, 'storyImageFileName')" />
+          <label class="form-label block">
+            <textarea class="form-input" rows="2" [(ngModel)]="about.storyDescription" name="aboutStoryDescription" placeholder="Story description"></textarea>
+          </label>
+
+          <div>
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-primary">Values</h3>
+            </div>
+            <div class="mt-3 space-y-3">
+              <div *ngFor="let value of about.values; let i = index" class="grid gap-3 md:grid-cols-3">
+                <input class="form-input" [(ngModel)]="value.title" [name]="'aboutValueTitle' + i" placeholder="Title" />
+                <input class="form-input" [(ngModel)]="value.description" [name]="'aboutValueDescription' + i" placeholder="Description" />
+                <input class="form-input" [(ngModel)]="value.videoFileName" [name]="'aboutValueVideo' + i" placeholder="Video file" />
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button type="button" class="btn-secondary" (click)="saveAboutPage()">Save About Content</button>
+          </div>
+        </div>
+        <ng-template #aboutLoading>
+          <p class="mt-6 text-sm text-slate-500">Loading about content...</p>
+        </ng-template>
+      </details>
+
+      <details id="api-team" class="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-glow">
+        <summary class="cursor-pointer text-lg font-semibold text-primary">Team API</summary>
+        <div class="mt-6 space-y-6">
+          <div class="grid gap-4 md:grid-cols-3">
+            <label class="form-label">
+              <span class="text-xs font-semibold uppercase text-primary">Name</span>
+              <input class="form-input" [(ngModel)]="newTeamMember.name" name="teamName" />
+            </label>
+            <label class="form-label">
+              <span class="text-xs font-semibold uppercase text-primary">Role</span>
+              <input class="form-input" [(ngModel)]="newTeamMember.role" name="teamRole" />
+            </label>
+            <label class="form-label">
+              <span class="text-xs font-semibold uppercase text-primary">Photo file</span>
+              <input class="form-input" [(ngModel)]="newTeamMember.photoUrl" name="teamPhoto" />
+            </label>
+          </div>
+          <input type="file" accept="image/*" class="form-input" (change)="uploadTeamPhoto($event)" />
+          <label class="form-label block">
+            <span class="text-xs font-semibold uppercase text-primary">Bio</span>
+            <textarea class="form-input" rows="2" [(ngModel)]="newTeamMember.bio" name="teamBio"></textarea>
+          </label>
+          <label class="form-label block">
+            <span class="text-xs font-semibold uppercase text-primary">Email</span>
+            <input class="form-input" [(ngModel)]="newTeamMember.email" name="teamEmail" />
+          </label>
+          <div class="flex items-center gap-2">
+            <input type="checkbox" class="h-4 w-4" [(ngModel)]="newTeamMember.active" name="teamActive" />
+            <span class="text-sm">Active</span>
+          </div>
+          <button type="button" class="btn-primary" (click)="saveNewTeamMember()">Add Team Member</button>
+
+          <div class="divide-y divide-slate-100 rounded-2xl border border-slate-100">
+            <div *ngFor="let member of teamMembers" class="grid items-center gap-3 px-4 py-3 md:grid-cols-[1fr_auto]">
+              <div>
+                <p class="font-semibold text-slate-900">{{ member.name }}</p>
+                <p class="text-xs text-slate-500">{{ member.role }}</p>
+              </div>
+              <button type="button" class="text-xs text-red-500" (click)="deleteTeamMember(member.id)">Delete</button>
+            </div>
+          </div>
+        </div>
+      </details>
+
         </form>
       </div>
     </div>

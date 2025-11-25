@@ -1,12 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, computed, effect, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SectionHeaderComponent } from '../../shared/components/section-header/section-header.component';
 import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
+import { AboutPageApiService, AboutPageModel } from '../../core/services/about-page-api.service';
+import { TeamApiService } from '../../core/services/team-api.service';
+import { TeamMember } from '../../core/models';
 
 interface ValueItem {
   title: string;
   description: string;
+  videoUrl?: string;
 }
 
 interface Leadership {
@@ -53,10 +57,13 @@ interface AboutPageContent {
     eyebrow: string;
     title: string;
     subtitle: string;
+    videoUrl?: string;
   };
   intro: string; // Who we are text
   mission: string;
+  missionImageUrl?: string;
   story: string;
+  storyImageUrl?: string;
   values: ValueItem[];
   leadership: Leadership;
   achievements: AchievementsSection;
@@ -71,35 +78,44 @@ interface AboutPageContent {
   styleUrls: ['./about.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AboutComponent {
-  private _aboutContent = signal<AboutPageContent>({
+export class AboutComponent implements OnInit, OnDestroy {
+  private readonly aboutApi = inject(AboutPageApiService);
+  private readonly teamApi = inject(TeamApiService);
+
+  private readonly fallbackContent: AboutPageContent = {
     header: {
       eyebrow: 'About Us',
       title: 'ObjectCanvas Technology',
       subtitle:
         'Engineering teams, educators, and strategists building products and people together.',
+      videoUrl: '/video/about/about.mp4',
     },
     intro:
       'ObjectCanvas engineers, product strategists, data practitioners, and  educators work as one integrated team. We combine delivery excellence with capability building so every engagement ships both outcomes and skills.',
     mission:
       'To help ambitious teams design, build, and scale digital products while growing the next generation of engineers and creators across Bangladesh and beyond.',
+    missionImageUrl: '/images/about/mission-vission.jpg',
     story:
       'ObjectCanvas started as a focused engineering partner helping teams ship quickly. Over time, we evolved into a multi-discipline studio spanning product strategy, cloud-native engineering, data, design, and a dedicated academy for young and early-career talent.',
+    storyImageUrl: '/images/about/story-hero.jpg',
     values: [
       {
         title: 'Craft over shortcuts',
         description:
           'We care deeply about code quality, design systems, and operational excellence instead of one-off hacks.',
+        videoUrl: '/video/about/values-1.mp4'
       },
       {
         title: 'Teach while we build',
         description:
           'Every project is a chance to upskill clients, students, and our own team through pairing, documentation, and open playbooks.',
+        videoUrl: '/video/about/values-2.mp4'
       },
       {
         title: 'Long-term partnerships',
         description:
           'We prefer fewer, deeper relationships where we can own outcomes, not just deliver tickets.',
+        videoUrl: '/video/about/values-3.mp4'
       },
     ],
     leadership: {
@@ -191,12 +207,30 @@ export class AboutComponent {
         },
       ],
     },
-  });
+  };
+
+  private _aboutContent = signal<AboutPageContent>(this.fallbackContent);
+
+  ngOnInit(): void {
+    this.aboutApi.load();
+    this.teamApi.list().subscribe(team => this.applyTeamMembers(team));
+    effect(() => {
+      const page = this.aboutApi.content();
+      if (page) {
+        this._aboutContent.set(this.mapFromApi(page, this._aboutContent().team.members));
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+  }
 
   readonly header = computed(() => this._aboutContent().header);
   readonly intro = computed(() => this._aboutContent().intro);
   readonly mission = computed(() => this._aboutContent().mission);
+  readonly missionImageUrl = computed(() => this._aboutContent().missionImageUrl || '/images/about/mission-vission.jpg');
   readonly story = computed(() => this._aboutContent().story);
+  readonly storyImageUrl = computed(() => this._aboutContent().storyImageUrl || '/images/about/story-hero.jpg');
   readonly values = computed(() => this._aboutContent().values);
   readonly leadership = computed(() => this._aboutContent().leadership);
   readonly achievements = computed(() => this._aboutContent().achievements);
@@ -210,5 +244,51 @@ export class AboutComponent {
       .filter(Boolean)
       .map((part) => part[0])
       .join('');
+  }
+
+  private mapFromApi(model: AboutPageModel, existingTeam: TeamMember[]): AboutPageContent {
+    return {
+      header: {
+        eyebrow: model.headerEyebrow,
+        title: model.headerTitle,
+        subtitle: model.headerSubtitle,
+        videoUrl: model.heroVideo?.url ?? this.fallbackContent.header.videoUrl,
+      },
+      intro: model.intro,
+      mission: model.missionDescription,
+      missionImageUrl: model.missionImage?.url ?? this.fallbackContent.missionImageUrl,
+      story: model.storyDescription,
+      storyImageUrl: model.storyImage?.url ?? this.fallbackContent.storyImageUrl,
+      values: model.values.map((value, index) => ({
+        title: value.title,
+        description: value.description,
+        videoUrl: value.video?.url ?? this.fallbackContent.values[index]?.videoUrl ?? `/video/about/values-${index + 1}.mp4`,
+      })),
+      leadership: this.fallbackContent.leadership,
+      achievements: this.fallbackContent.achievements,
+      team: {
+        ...this.fallbackContent.team,
+        members: existingTeam,
+      },
+    };
+  }
+
+  private applyTeamMembers(members: TeamMember[]): void {
+    if (!members?.length) {
+      return;
+    }
+
+    const mapped: TeamMember[] = members.map(member => ({
+      ...member,
+      avatarUrl: member.photoUrl,
+    } as TeamMember));
+
+    this._aboutContent.update(current => ({
+      ...current,
+      team: {
+        ...current.team,
+        members: mapped,
+      },
+    }));
   }
 }

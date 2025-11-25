@@ -37,7 +37,10 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-var uploadsPath = Path.Combine(app.Environment.ContentRootPath, "uploads");
+app.Environment.WebRootPath ??= Path.Combine(app.Environment.ContentRootPath, "wwwroot");
+Directory.CreateDirectory(app.Environment.WebRootPath);
+
+var uploadsPath = Path.Combine(app.Environment.WebRootPath, "uploads");
 Directory.CreateDirectory(uploadsPath);
 
 await using var scope = app.Services.CreateAsyncScope();
