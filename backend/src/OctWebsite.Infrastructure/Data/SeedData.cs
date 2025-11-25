@@ -312,6 +312,9 @@ internal static class SeedData
     private static string Serialize(SaveAboutPageRequest request)
         => JsonSerializer.Serialize(request, JsonOptions);
 
+    private static string Serialize(SaveAcademyPageRequest request)
+        => JsonSerializer.Serialize(request, JsonOptions);
+
     private static string Serialize(IReadOnlyList<AcademyTrackDto> tracks)
         => JsonSerializer.Serialize(tracks, JsonOptions);
 
