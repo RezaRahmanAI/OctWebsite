@@ -121,6 +121,14 @@ export class AcademyTracksAdminComponent implements OnInit {
     this.levels.removeAt(index);
   }
 
+  getLevelTools(levelIndex: number): FormArray {
+    return this.levels.at(levelIndex).get('tools') as FormArray;
+  }
+
+  getLevelOutcomes(levelIndex: number): FormArray {
+    return this.levels.at(levelIndex).get('outcomes') as FormArray;
+  }
+
   addAdmissionStep(title = '', description = ''): void {
     this.admissionSteps.push(this.createAdmissionStep(title, description));
   }
