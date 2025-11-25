@@ -8,6 +8,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +33,11 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod();
         });
 });
-builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Security:Jwt"));
+builder.Services
+    .AddOptions<JwtOptions>()
+    .Bind(builder.Configuration.GetSection("Security:Jwt"))
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
 builder.Services.Configure<AdminUserOptions>(builder.Configuration.GetSection("Security:AdminUser"));
 builder.Services.AddSingleton<JwtTokenGenerator>();
 builder.Services
