@@ -517,42 +517,6 @@ namespace OctWebsite.Infrastructure.Migrations
                     b.ToTable("ContactSubmissions", (string)null);
                 });
 
-            modelBuilder.Entity("OctWebsite.Domain.Entities.ServiceItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Features")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Icon")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Slug")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Summary")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Slug")
-                        .IsUnique();
-
-                    b.ToTable("ServiceItems", (string)null);
-                });
-
             modelBuilder.Entity("OctWebsite.Domain.Entities.TeamMember", b =>
                 {
                     b.Property<Guid>("Id")

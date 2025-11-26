@@ -17,8 +17,6 @@ public static class DependencyInjection
         services.AddScoped<IAcademyPageService, AcademyPageService>();
         services.AddScoped<IBlogService, BlogService>();
         services.AddScoped<IBlogPageService, BlogPageService>();
-        services.AddScoped<IServiceItemService, ServiceItemService>();
-        services.AddScoped<IHomePageService, HomePageService>();
         return services;
     }
 }

@@ -1,19 +1,16 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
 import { DATA_PROVIDER } from '../data';
 import { ServiceItem } from '../models';
 import { STATIC_SERVICES } from '../data/static-services';
-import { SaveServiceItemRequest, ServicesApiService } from './services-api.service';
 
 @Injectable({ providedIn: 'root' })
 export class ServicesService {
   private readonly provider = inject(DATA_PROVIDER);
   private readonly store = this.provider.services;
   private readonly query = signal('');
-  private readonly api = inject(ServicesApiService);
 
   constructor() {
-    void this.ensureLoaded();
+    this.seedFromStatic();
   }
 
   readonly services = computed(() => {
@@ -48,17 +45,9 @@ export class ServicesService {
   }
 
   async create(service: ServiceItem): Promise<ServiceItem> {
-    const payload: SaveServiceItemRequest = {
-      title: service.title,
-      slug: service.slug,
-      summary: service.summary,
-      icon: service.icon ?? null,
-      features: service.features,
-      active: service.active,
-    };
-    const created = await firstValueFrom(this.api.create(payload));
+    const created = { ...service, id: service.id ?? this.generateId() };
     this.store.create(created);
-    return created;
+    return Promise.resolve(created);
   }
 
   async update(id: string, patch: Partial<ServiceItem>): Promise<ServiceItem | undefined> {
@@ -66,47 +55,35 @@ export class ServicesService {
     if (!current) {
       return undefined;
     }
-
-    const payload: SaveServiceItemRequest = {
-      title: patch.title ?? current.title,
-      slug: patch.slug ?? current.slug,
-      summary: patch.summary ?? current.summary,
-      icon: patch.icon ?? current.icon ?? null,
-      features: patch.features ?? current.features,
-      active: patch.active ?? current.active,
-    };
-
-    const updated = await firstValueFrom(this.api.update(id, payload));
+    const updated = { ...current, ...patch } as ServiceItem;
     this.store.update(id, updated);
-    return updated;
+    return Promise.resolve(updated);
   }
 
   async delete(id: string): Promise<void> {
-    await firstValueFrom(this.api.delete(id));
     this.store.delete(id);
+    return Promise.resolve();
   }
 
   async refresh(): Promise<void> {
-    await this.loadFromApi(true);
+    this.seedFromStatic(true);
   }
 
   async ensureLoaded(): Promise<void> {
-    if (this.store.list().length > 0) {
-      return;
-    }
-    await this.loadFromApi(true);
+    this.seedFromStatic(true);
   }
 
-  private async loadFromApi(force = false): Promise<void> {
+  private seedFromStatic(force = false): void {
     if (!force && this.store.list().length > 0) {
       return;
     }
+    this.store.replace(STATIC_SERVICES);
+  }
 
-    try {
-      const items = await firstValueFrom(this.api.list());
-      this.store.replace(items);
-    } catch {
-      this.store.replace(STATIC_SERVICES);
+  private generateId(): string {
+    if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
+      return crypto.randomUUID();
     }
+    return Math.random().toString(36).slice(2);
   }
 }
