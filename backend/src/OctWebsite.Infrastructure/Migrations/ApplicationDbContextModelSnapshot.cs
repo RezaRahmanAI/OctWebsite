@@ -486,6 +486,31 @@ namespace OctWebsite.Infrastructure.Migrations
                     b.ToTable("ContactPages", (string)null);
                 });
 
+            modelBuilder.Entity("OctWebsite.Domain.Entities.ServicesPage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("HeaderEyebrow")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HeaderSubtitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HeaderTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HeroVideoFileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ServicesPages", (string)null);
+                });
+
             modelBuilder.Entity("OctWebsite.Domain.Entities.ContactSubmission", b =>
                 {
                     b.Property<Guid>("Id")

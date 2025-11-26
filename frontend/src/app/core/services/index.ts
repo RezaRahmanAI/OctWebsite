@@ -19,3 +19,4 @@ export * from './contact-page-api.service';
 export * from './contact-channels-api.service';
 export * from './contact-submissions-api.service';
 export * from './services-api.service';
+export * from './services-page-api.service';

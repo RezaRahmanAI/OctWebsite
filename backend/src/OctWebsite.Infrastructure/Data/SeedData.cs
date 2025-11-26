@@ -69,8 +69,8 @@ internal static class SeedData
     public static IReadOnlyList<BlogPost> BlogPosts { get; } = DefaultBlogPosts;
 
     public static IReadOnlyList<ServiceItem> Services { get; } =
-    [
-        CreateService(
+        [
+            CreateService(
             "11111111-1111-1111-1111-111111111111",
             "Web Application",
             "web-platform",
@@ -554,6 +554,15 @@ internal static class SeedData
                 "Book a FREE Trial Class",
                 true))
     ];
+
+    public static ServicesPage ServicesPage { get; } = new()
+    {
+        Id = Guid.Parse("cf0bfe6f-4d68-4d2d-97b7-4b5f998b3c46"),
+        HeaderEyebrow = "Services",
+        HeaderTitle = "Services shaped to match your brand energy",
+        HeaderSubtitle = "Engineering, cloud, security, content, and outsourcing squads that mirror the tone of your product and customers.",
+        HeroVideoFileName = null
+    };
 
     private static IReadOnlyList<BlogPost> DefaultBlogPosts =>
     [

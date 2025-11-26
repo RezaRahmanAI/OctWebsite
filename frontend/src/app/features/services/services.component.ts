@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { SectionHeaderComponent } from '../../shared/components/section-header/section-header.component';
 import { RouterLink } from '@angular/router';
-import { ServicesService } from '../../core/services';
+import { ServicesPageApiService, ServicesService } from '../../core/services';
 import { ServiceItem } from '../../core/models';
 
 interface ServiceGroup {
@@ -22,6 +22,7 @@ interface ServiceGroup {
 })
 export class ServicesComponent {
   private readonly servicesService = inject(ServicesService);
+  private readonly servicesPageApi = inject(ServicesPageApiService);
 
   private readonly groups: ServiceGroup[] = [
     {
@@ -78,10 +79,20 @@ export class ServicesComponent {
 
   readonly services = this.servicesService.services;
   readonly isLoading = computed(() => this.servicesService.isLoading());
+  readonly heroContent = this.servicesPageApi.content;
+  readonly heroEyebrow = computed(
+    () => this.heroContent()?.headerEyebrow || 'Services',
+  );
+  readonly heroTitle = computed(
+    () => this.heroContent()?.headerTitle || 'Services shaped to match your brand energy',
+  );
+  readonly heroSubtitle = computed(
+    () =>
+      this.heroContent()?.headerSubtitle ||
+      'Engineering, cloud, security, content, and outsourcing squads that mirror the tone of your product and customers.',
+  );
   readonly heroVideoUrl = computed(() =>
-    this.services()
-      .map(service => service.headerVideo?.url)
-      .find(url => !!url) || '/video/service/service.mp4',
+    this.heroContent()?.heroVideo?.url || '/video/service/service.mp4',
   );
   readonly groupedServices = computed(() =>
     this.groups
@@ -96,5 +107,6 @@ export class ServicesComponent {
 
   constructor() {
     void this.servicesService.ensureLoaded();
+    this.servicesPageApi.load();
   }
 }

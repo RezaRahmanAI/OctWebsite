@@ -22,6 +22,7 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<BlogPost> BlogPosts => Set<BlogPost>();
     public DbSet<ContactSubmission> ContactSubmissions => Set<ContactSubmission>();
     public DbSet<ServiceItem> ServiceItems => Set<ServiceItem>();
+    public DbSet<ServicesPage> ServicesPages => Set<ServicesPage>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -209,6 +210,16 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
             entity.Property(page => page.Offices)
                 .HasConversion(officeConverter)
                 .Metadata.SetValueComparer(officeComparer);
+        });
+
+        modelBuilder.Entity<ServicesPage>(entity =>
+        {
+            entity.ToTable("ServicesPages");
+            entity.HasKey(page => page.Id);
+            entity.Property(page => page.Id).ValueGeneratedNever();
+            entity.Property(page => page.HeaderEyebrow).IsRequired();
+            entity.Property(page => page.HeaderTitle).IsRequired();
+            entity.Property(page => page.HeaderSubtitle).IsRequired();
         });
 
         modelBuilder.Entity<ContactSubmission>(entity =>
