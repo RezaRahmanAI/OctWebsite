@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BlogApiService, SaveBlogRequest } from '../../core/services/blog-api.service';
+import { BlogPageApiService, BlogPageModel, SaveBlogPageRequest } from '../../core/services/blog-page-api.service';
 import { BlogPost } from '../../core/models';
 import { ToastService } from '../../core/services/toast.service';
 
@@ -14,17 +15,21 @@ import { ToastService } from '../../core/services/toast.service';
 })
 export class BlogAdminComponent implements OnInit {
   private readonly api = inject(BlogApiService);
+  private readonly pageApi = inject(BlogPageApiService);
   private readonly fb = inject(FormBuilder);
   private readonly toast = inject(ToastService);
 
   readonly posts = signal<BlogPost[]>([]);
   readonly editingId = signal<string | null>(null);
   readonly loading = signal(false);
+  readonly headerLoading = signal(false);
   readonly thumbnailPreview = signal<string | null>(null);
   readonly headerVideoName = signal<string | null>(null);
+  readonly heroVideoName = signal<string | null>(null);
 
   private thumbnailFile: File | null = null;
   private headerVideoFile: File | null = null;
+  private heroVideoFile: File | null = null;
 
   readonly form = this.fb.group({
     title: ['', Validators.required],
@@ -47,6 +52,13 @@ export class BlogAdminComponent implements OnInit {
     ]),
   });
 
+  readonly headerForm = this.fb.group({
+    headerEyebrow: ['', Validators.required],
+    headerTitle: ['', Validators.required],
+    headerSubtitle: ['', Validators.required],
+    heroVideoFileName: [''],
+  });
+
   get stats(): FormArray {
     return this.form.get('stats') as FormArray;
   }
@@ -54,7 +66,36 @@ export class BlogAdminComponent implements OnInit {
   readonly statControls = computed(() => this.stats.controls as FormGroup[]);
 
   ngOnInit(): void {
+    this.loadHeader();
     this.loadPosts();
+  }
+
+  saveHeader(): void {
+    if (this.headerForm.invalid) {
+      this.headerForm.markAllAsTouched();
+      return;
+    }
+
+    const payload: SaveBlogPageRequest = {
+      headerEyebrow: this.headerForm.value.headerEyebrow ?? '',
+      headerTitle: this.headerForm.value.headerTitle ?? '',
+      headerSubtitle: this.headerForm.value.headerSubtitle ?? '',
+      heroVideoFileName: this.heroVideoFile ? null : this.headerForm.value.heroVideoFileName || null,
+      heroVideoFile: this.heroVideoFile,
+    };
+
+    this.headerLoading.set(true);
+    this.pageApi.update(payload).subscribe({
+      next: page => {
+        this.applyHeader(page);
+        this.toast.show('Blog header saved', 'success');
+        this.headerLoading.set(false);
+      },
+      error: () => {
+        this.toast.show('Unable to save blog header', 'error');
+        this.headerLoading.set(false);
+      },
+    });
   }
 
   addStat(): void {
@@ -199,6 +240,16 @@ export class BlogAdminComponent implements OnInit {
     }
   }
 
+  onHeroVideoSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0] ?? null;
+    this.heroVideoFile = file;
+    if (file) {
+      this.heroVideoName.set(file.name);
+      this.headerForm.patchValue({ heroVideoFileName: '' });
+    }
+  }
+
   private loadPosts(): void {
     this.loading.set(true);
     this.api.list().subscribe({
@@ -211,5 +262,31 @@ export class BlogAdminComponent implements OnInit {
         this.loading.set(false);
       },
     });
+  }
+
+  private loadHeader(): void {
+    this.headerLoading.set(true);
+    this.pageApi.fetch().subscribe({
+      next: page => {
+        this.applyHeader(page);
+        this.headerLoading.set(false);
+      },
+      error: () => {
+        this.toast.show('Unable to load blog header', 'error');
+        this.headerLoading.set(false);
+      },
+    });
+  }
+
+  private applyHeader(page: BlogPageModel): void {
+    this.headerForm.patchValue({
+      headerEyebrow: page.headerEyebrow,
+      headerTitle: page.headerTitle,
+      headerSubtitle: page.headerSubtitle,
+      heroVideoFileName: page.heroVideo?.fileName ?? page.heroVideo?.url ?? '',
+    });
+
+    this.heroVideoFile = null;
+    this.heroVideoName.set(page.heroVideo?.fileName ?? page.heroVideo?.url ?? null);
   }
 }

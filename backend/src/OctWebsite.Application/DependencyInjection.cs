@@ -13,6 +13,7 @@ public static class DependencyInjection
         services.AddScoped<IAcademyTrackService, AcademyTrackService>();
         services.AddScoped<IAcademyPageService, AcademyPageService>();
         services.AddScoped<IBlogService, BlogService>();
+        services.AddScoped<IBlogPageService, BlogPageService>();
         return services;
     }
 }
