@@ -1,3 +1,4 @@
+using System.Linq;
 using OctWebsite.Domain.Entities;
 
 namespace OctWebsite.Application.DTOs;
@@ -27,4 +28,30 @@ public static class MappingExtensions
         submission.Interest,
         submission.Message,
         submission.CreatedAt);
+
+    public static ServiceDto ToDto(this ServiceItem service) => new(
+        service.Id,
+        service.Title,
+        service.Subtitle,
+        service.Slug,
+        service.Summary,
+        service.Description,
+        service.Icon,
+        CreateMedia(service.BackgroundImageFileName),
+        CreateMedia(service.HeaderVideoFileName),
+        service.AdditionalImageFileNames.Select(CreateMedia).Where(media => media is not null)!
+            .ToArray()!,
+        service.Features,
+        service.Active,
+        service.Featured);
+
+    private static ServiceMediaDto? CreateMedia(string? fileName)
+    {
+        if (string.IsNullOrWhiteSpace(fileName))
+        {
+            return null;
+        }
+
+        return new ServiceMediaDto(fileName, null);
+    }
 }

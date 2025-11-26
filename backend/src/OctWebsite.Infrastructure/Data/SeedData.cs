@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Text.Json;
 using OctWebsite.Application.DTOs;
@@ -66,6 +67,170 @@ internal static class SeedData
     public static IReadOnlyList<AcademyTrack> AcademyTracks { get; } = DefaultAcademyTracks;
 
     public static IReadOnlyList<BlogPost> BlogPosts { get; } = DefaultBlogPosts;
+
+    public static IReadOnlyList<ServiceItem> Services { get; } =
+    [
+        CreateService(
+            "11111111-1111-1111-1111-111111111111",
+            "Web Application",
+            "web-platform",
+            "Enterprise-ready web platforms with resilient architectures, design systems, and conversion-focused experiences.",
+            "🌐",
+            new[]
+            {
+                "Responsive web applications with modern design systems",
+                "API-first backends with security and observability built in",
+                "Performance, accessibility, and SEO baked into every release"
+            },
+            "service-bg-01.jpg",
+            true,
+            true),
+        CreateService(
+            "22222222-2222-2222-2222-222222222222",
+            "Windows Applications",
+            "windows",
+            "Secure desktop software for Windows ecosystems, aligned to enterprise governance and deployment needs.",
+            "🪟",
+            new[]
+            {
+                "UWP/WPF interfaces tuned for performance and accessibility",
+                "Active Directory, Intune, and SCCM friendly deployments",
+                "Automated QA, packaging, and release pipelines"
+            },
+            "service-bg-02.jpg"),
+        CreateService(
+            "33333333-3333-3333-3333-333333333333",
+            "Apple Development",
+            "apple",
+            "Premium Apple-native experiences built with Swift, privacy-first patterns, and App Store rigor.",
+            "🍎",
+            new[]
+            {
+                "SwiftUI interfaces with motion and accessibility polish",
+                "Wallet, HealthKit, and native services integrations",
+                "App Store readiness: privacy, localization, and review support"
+            },
+            "service-bg-03.jpg"),
+        CreateService(
+            "44444444-4444-4444-4444-444444444444",
+            "Android Development",
+            "android",
+            "High-performance Android applications with modern Kotlin stacks and reliable release trains.",
+            "🤖",
+            new[]
+            {
+                "Compose-driven UI with Material You theming",
+                "Edge-to-cloud security with biometrics and encrypted storage",
+                "Play Store optimization, testing, and staged rollouts"
+            },
+            "service-bg-04.jpg"),
+        CreateService(
+            "55555555-5555-5555-5555-555555555555",
+            "IT Enabled Services",
+            "it-enabled-services",
+            "Managed IT services that align technology operations with business uptime, compliance, and cost goals.",
+            "🛠️",
+            new[]
+            {
+                "24/7 monitoring, incident response, and SRE practices",
+                "Lifecycle management for assets, users, and policies",
+                "Governance, risk, and compliance reporting"
+            },
+            "service-bg-05.jpg"),
+        CreateService(
+            "66666666-6666-6666-6666-666666666666",
+            "System Integration",
+            "system-integration",
+            "Connecting CRMs, ERPs, data warehouses, and SaaS tools into a reliable ecosystem with clean data flows.",
+            "🔗",
+            new[]
+            {
+                "API gateway design and event-driven architectures",
+                "Data mapping, cleansing, and master data governance",
+                "Automated regression suites for integration points"
+            },
+            "service-bg-06.jpg"),
+        CreateService(
+            "77777777-7777-7777-7777-777777777777",
+            "Cloud Services",
+            "cloud-service",
+            "Secure cloud foundations, migrations, and FinOps practices across AWS, Azure, and Google Cloud.",
+            "☁️",
+            new[]
+            {
+                "Landing zones, identity, and network hardening",
+                "Kubernetes platforms with IaC and GitOps pipelines",
+                "Cost governance with right-sizing and observability"
+            },
+            "service-bg-07.jpg",
+            true),
+        CreateService(
+            "88888888-8888-8888-8888-888888888888",
+            "Web Listing & Presence",
+            "web-listing",
+            "Centralized web listing management to keep locations, services, and offers accurate across the web.",
+            "🧭",
+            new[]
+            {
+                "Schema and metadata optimization for discoverability",
+                "Syndication to directories, maps, and partner platforms",
+                "Reputation monitoring with insights and response playbooks"
+            },
+            "service-bg-08.jpg"),
+        CreateService(
+            "99999999-9999-9999-9999-999999999999",
+            "Cyber Security Services",
+            "cyber-security-services",
+            "Proactive security programs spanning prevention, detection, and rapid response.",
+            "🛡️",
+            new[]
+            {
+                "Security assessments, threat modeling, and penetration testing",
+                "SOC enablement with SIEM, SOAR, and runbooks",
+                "Zero trust architectures and employee security training"
+            },
+            "service-bg-09.jpg"),
+        CreateService(
+            "aaaaaaa1-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+            "Enterprise Content Management",
+            "enterprise-content-management",
+            "Content platforms that streamline authoring, governance, and omnichannel delivery.",
+            "🗂️",
+            new[]
+            {
+                "Headless CMS implementations with workflow automation",
+                "Document governance, retention, and compliance controls",
+                "Personalized content delivery across web and mobile"
+            },
+            "service-bg-10.jpg"),
+        CreateService(
+            "aaaaaaa2-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+            "Search Engine Optimization (SEO)",
+            "search-engine-optimization-seo",
+            "Performance-driven SEO that blends technical fixes, content, and authority building.",
+            "🚀",
+            new[]
+            {
+                "Technical SEO audits and Core Web Vitals remediation",
+                "Content strategy with structured data and localization",
+                "Backlink and digital PR campaigns with measurable lift"
+            },
+            "service-bg-11.jpg",
+            true),
+        CreateService(
+            "aaaaaaa3-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+            "Graphic Design Studio",
+            "graphic-design",
+            "Brand-aligned creative assets that translate across digital and physical touchpoints.",
+            "🎨",
+            new[]
+            {
+                "Visual identity systems and design language creation",
+                "Campaign visuals, motion graphics, and illustration",
+                "Production-ready assets with accessibility checks"
+            },
+            "service-bg-12.jpg")
+    ];
 
     public static ContactPage ContactPage { get; } = new()
     {
@@ -175,6 +340,33 @@ internal static class SeedData
             new FreelancingCourseDto("Graphics & Branding", "Logo design, brand systems, and storytelling with visuals.", "🎨"),
             new FreelancingCourseDto("Digital Marketing", "Learn funnels, SEO, and automation for online success.", "📈")
         });
+
+    private static ServiceItem CreateService(
+        string id,
+        string title,
+        string slug,
+        string summary,
+        string icon,
+        IReadOnlyList<string> features,
+        string backgroundFileName,
+        bool active = true,
+        bool featured = false)
+    {
+        return new ServiceItem(
+            Guid.Parse(id),
+            title,
+            null,
+            slug,
+            summary,
+            summary,
+            icon,
+            backgroundFileName,
+            "service/header.mp4",
+            Array.Empty<string>(),
+            features,
+            active,
+            featured);
+    }
 
     private static IReadOnlyList<AcademyTrack> DefaultAcademyTracks =>
     [

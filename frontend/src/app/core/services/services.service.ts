@@ -1,16 +1,21 @@
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { Injectable, OnDestroy, computed, inject, signal } from '@angular/core';
 import { DATA_PROVIDER } from '../data';
 import { ServiceItem } from '../models';
-import { STATIC_SERVICES } from '../data/static-services';
+import { ServicesApiService, SaveServiceRequest } from './services-api.service';
+import { Subscription, firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class ServicesService {
+export class ServicesService implements OnDestroy {
   private readonly provider = inject(DATA_PROVIDER);
   private readonly store = this.provider.services;
+  private readonly api = inject(ServicesApiService);
   private readonly query = signal('');
+  private readonly loaded = signal(false);
+  private readonly loading = signal(false);
+  private subscription: Subscription | null = null;
 
   constructor() {
-    this.seedFromStatic();
+    this.refresh();
   }
 
   readonly services = computed(() => {
@@ -28,6 +33,8 @@ export class ServicesService {
 
   readonly all = this.store.items;
 
+  readonly isLoading = this.loading.asReadonly();
+
   search(term: string): void {
     this.query.set(term);
   }
@@ -44,46 +51,53 @@ export class ServicesService {
     return this.store.getBySlug?.(slug);
   }
 
-  async create(service: ServiceItem): Promise<ServiceItem> {
-    const created = { ...service, id: service.id ?? this.generateId() };
+  async create(service: SaveServiceRequest): Promise<ServiceItem> {
+    const created = await firstValueFrom(this.api.create(service));
     this.store.create(created);
-    return Promise.resolve(created);
+    return created;
   }
 
-  async update(id: string, patch: Partial<ServiceItem>): Promise<ServiceItem | undefined> {
-    const current = this.store.getById(id);
-    if (!current) {
-      return undefined;
+  async update(id: string, request: SaveServiceRequest): Promise<ServiceItem | undefined> {
+    const updated = await firstValueFrom(this.api.update(id, request));
+    if (updated) {
+      this.store.update(id, updated);
     }
-    const updated = { ...current, ...patch } as ServiceItem;
-    this.store.update(id, updated);
-    return Promise.resolve(updated);
+    return updated ?? undefined;
   }
 
   async delete(id: string): Promise<void> {
+    await firstValueFrom(this.api.delete(id));
     this.store.delete(id);
-    return Promise.resolve();
   }
 
   async refresh(): Promise<void> {
-    this.seedFromStatic(true);
+    if (this.loading()) {
+      return;
+    }
+
+    this.loading.set(true);
+    this.subscription?.unsubscribe();
+    this.subscription = this.api.list().subscribe({
+      next: services => {
+        this.store.replace(services);
+        this.loaded.set(true);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.loading.set(false);
+      },
+    });
   }
 
   async ensureLoaded(): Promise<void> {
-    this.seedFromStatic(true);
-  }
-
-  private seedFromStatic(force = false): void {
-    if (!force && this.store.list().length > 0) {
+    if (this.loaded()) {
       return;
     }
-    this.store.replace(STATIC_SERVICES);
+
+    await this.refresh();
   }
 
-  private generateId(): string {
-    if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
-      return crypto.randomUUID();
-    }
-    return Math.random().toString(36).slice(2);
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }

@@ -10,11 +10,12 @@ import { ContactAdminComponent } from './contact-admin.component';
 import { ContactChannelsAdminComponent } from './contact-channels-admin.component';
 import { ContactSubmissionsAdminComponent } from './contact-submissions-admin.component';
 import { AuthService } from '../../core/auth';
+import { ServicesAdminComponent } from './services-admin.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, AboutAdminComponent, TeamAdminComponent, AcademyAdminComponent, AcademyTracksAdminComponent, BlogAdminComponent, ContactAdminComponent, ContactChannelsAdminComponent, ContactSubmissionsAdminComponent],
+  imports: [CommonModule, AboutAdminComponent, TeamAdminComponent, AcademyAdminComponent, AcademyTracksAdminComponent, BlogAdminComponent, ContactAdminComponent, ContactChannelsAdminComponent, ContactSubmissionsAdminComponent, ServicesAdminComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
@@ -22,9 +23,9 @@ export class DashboardComponent {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
 
-  readonly activeTab = signal<'about' | 'team' | 'academy' | 'tracks' | 'blog' | 'contact' | 'channels' | 'submissions'>('about');
+  readonly activeTab = signal<'about' | 'team' | 'academy' | 'tracks' | 'blog' | 'contact' | 'channels' | 'submissions' | 'services'>('about');
 
-  select(tab: 'about' | 'team' | 'academy' | 'tracks' | 'blog' | 'contact' | 'channels' | 'submissions'): void {
+  select(tab: 'about' | 'team' | 'academy' | 'tracks' | 'blog' | 'contact' | 'channels' | 'submissions' | 'services'): void {
     this.activeTab.set(tab);
   }
 
