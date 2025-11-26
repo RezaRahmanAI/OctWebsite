@@ -18,6 +18,7 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<AcademyTrack> AcademyTracks => Set<AcademyTrack>();
     public DbSet<AcademyTrackLevel> AcademyTrackLevels => Set<AcademyTrackLevel>();
     public DbSet<AdmissionStep> AdmissionSteps => Set<AdmissionStep>();
+    public DbSet<BlogPost> BlogPosts => Set<BlogPost>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -112,6 +113,45 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
             entity.Property(level => level.Outcomes)
                 .HasConversion(stringListConverter)
                 .Metadata.SetValueComparer(stringListComparer);
+        });
+
+        modelBuilder.Entity<BlogPost>(entity =>
+        {
+            entity.ToTable("BlogPosts");
+            entity.HasKey(post => post.Id);
+            entity.Property(post => post.Id).ValueGeneratedNever();
+            entity.Property(post => post.Title).IsRequired();
+            entity.Property(post => post.Slug).IsRequired();
+            entity.HasIndex(post => post.Slug).IsUnique();
+            entity.Property(post => post.Excerpt).IsRequired();
+            entity.Property(post => post.Content).IsRequired();
+            entity.Property(post => post.CreatedDate).IsRequired();
+
+            var stringListConverter = new ValueConverter<List<string>, string>(
+                list => JsonSerializer.Serialize(list, JsonSerializerOptions.Default),
+                json => JsonSerializer.Deserialize<List<string>>(json, JsonSerializerOptions.Default) ?? new List<string>());
+            var stringListComparer = new ValueComparer<List<string>>(
+                (left, right) => left.SequenceEqual(right),
+                list => list.Aggregate(0, (hash, value) => HashCode.Combine(hash, value.GetHashCode())),
+                list => list.ToList());
+
+            var statConverter = new ValueConverter<List<BlogStat>, string>(
+                list => JsonSerializer.Serialize(list, JsonSerializerOptions.Default),
+                json => JsonSerializer.Deserialize<List<BlogStat>>(json, JsonSerializerOptions.Default) ?? new List<BlogStat>());
+            var statComparer = new ValueComparer<List<BlogStat>>(
+                (left, right) => left.SequenceEqual(right),
+                list => list.Aggregate(0, (hash, value) => HashCode.Combine(hash, value.GetHashCode())),
+                list => list.ToList());
+
+            entity.Property(post => post.Tags)
+                .HasConversion(stringListConverter)
+                .Metadata.SetValueComparer(stringListComparer);
+            entity.Property(post => post.KeyPoints)
+                .HasConversion(stringListConverter)
+                .Metadata.SetValueComparer(stringListComparer);
+            entity.Property(post => post.Stats)
+                .HasConversion(statConverter)
+                .Metadata.SetValueComparer(statComparer);
         });
     }
 }

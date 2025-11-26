@@ -65,6 +65,8 @@ internal static class SeedData
 
     public static IReadOnlyList<AcademyTrack> AcademyTracks { get; } = DefaultAcademyTracks;
 
+    public static IReadOnlyList<BlogPost> BlogPosts { get; } = DefaultBlogPosts;
+
     private static SaveAboutPageRequest DefaultAboutRequest => new(
         "About Us",
         "ObjectCanvas Technology",
@@ -303,6 +305,184 @@ internal static class SeedData
                 },
                 "Book a FREE Trial Class",
                 true))
+    ];
+
+    private static IReadOnlyList<BlogPost> DefaultBlogPosts =>
+    [
+        new BlogPost(
+            Guid.Parse("b0f34359-4f0c-4f1f-86e0-4b232d42928b"),
+            "How We Blend Services with Learning",
+            "blend-services-with-learning",
+            "A behind-the-scenes look at how our delivery squads collaborate with academy mentors.",
+            "<p>Our dual-engine model creates a feedback loop between client projects and the academy. We share playbooks, tooling, and retrospectives with our learners so they build market-ready confidence.</p><p>Every sprint uncovers new teaching moments that shape curriculum updates. Delivery teams surface real-world blockers and our faculty convert them into masterclasses, templates, and walkthroughs the same week.</p><p>By pairing practitioners with mentors, we ship production features and learning assets in parallel, so every engagement improves the next cohort’s outcomes.</p>",
+            "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
+            "/video/blog.mp4",
+            new[] { "Culture", "Academy" },
+            true,
+            DateTimeOffset.Parse("2025-01-10T09:00:00.000Z"),
+            "Ada Ncube",
+            "Director of Delivery",
+            "7 min read",
+            "“Building together is how we keep our academy grounded in what teams truly need.”",
+            new[]
+            {
+                "Sprints double as live curriculum labs.",
+                "Mentors and engineers review retros together every Friday.",
+                "Templates, checklists, and decision logs ship to learners weekly.",
+            },
+            new[]
+            {
+                new BlogStat("Academy playbooks shipped", "42"),
+                new BlogStat("Avg. sprint NPS", "9.3"),
+                new BlogStat("Countries represented", "18"),
+            },
+            DateTimeOffset.Parse("2025-01-10T09:00:00.000Z"),
+            DateTimeOffset.Parse("2025-01-10T09:00:00.000Z")),
+        new BlogPost(
+            Guid.Parse("7b8fb0dd-7721-4e7b-a5e3-08f6d93e4a4f"),
+            "Designing Reliable Commerce Experiences",
+            "designing-reliable-commerce-experiences",
+            "Discover the blueprints we use to launch commerce platforms that delight shoppers.",
+            "<p>From modular UI kits to rigorous QA automation, we ensure ecommerce ecosystems stay performant under scale.</p><p>Our teams blend analytics with CRO experimentation to keep conversion at the center. Each launch is instrumented with product analytics, A/B testing, and synthetic monitoring so we can recover issues before customers notice.</p><p>Design systems keep merchandising, campaigns, and loyalty flows consistent while micro-optimizations deliver compound conversion gains.</p>",
+            "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=80",
+            "/video/blog.mp4",
+            new[] { "Commerce", "Product" },
+            true,
+            DateTimeOffset.Parse("2025-02-02T11:30:00.000Z"),
+            "Devin Mora",
+            "Product Design Lead",
+            null,
+            "“Reliability is the most underrated UX pattern in commerce.”",
+            new[]
+            {
+                "Launch playbooks for flash sales and peak events.",
+                "Conversion experiments run weekly with paired analysts.",
+                "Observability and QA checks guard the checkout funnel.",
+            },
+            new[]
+            {
+                new BlogStat("Checkout uptime", "99.95%"),
+                new BlogStat("A/B tests shipped", "60+"),
+                new BlogStat("Avg. uplift per experiment", "+3.1%"),
+            },
+            DateTimeOffset.Parse("2025-02-02T11:30:00.000Z"),
+            DateTimeOffset.Parse("2025-02-02T11:30:00.000Z")),
+        new BlogPost(
+            Guid.Parse("ec4554a2-22fd-4b4e-bdf6-7bc7566e1fe0"),
+            "Preparing Learners for Freelancing Wins",
+            "preparing-learners-for-freelancing-wins",
+            "How we pair career coaching with portfolio challenges to help learners earn globally.",
+            "<p>Freelancing success is more than technical skills. We mentor communication, pricing, and client operations.</p><p>Learners graduate with templates, scripts, and confidence to thrive independently. Demo days simulate client calls, contract reviews, and scope changes so learners rehearse scenarios before they encounter them.</p><p>Alumni pair up with current cohorts for accountability and pitch feedback, creating a global support circle that keeps momentum high.</p>",
+            "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80",
+            "/video/blog.mp4",
+            new[] { "Academy", "Career" },
+            true,
+            DateTimeOffset.Parse("2025-03-15T14:00:00.000Z"),
+            "Ifeoma James",
+            "Head of Talent Labs",
+            "6 min read",
+            "“The most confident freelancer is the one who practiced every tricky scenario.”",
+            new[]
+            {
+                "Mock client calls every Thursday with real founders.",
+                "Pricing labs cover retainers, milestones, and royalties.",
+                "Alumni mentors rotate monthly to keep guidance current.",
+            },
+            new[]
+            {
+                new BlogStat("Portfolio launches", "120+"),
+                new BlogStat("Avg. first contract", "$2,800"),
+                new BlogStat("Countries in talent cloud", "22"),
+            },
+            DateTimeOffset.Parse("2025-03-15T14:00:00.000Z"),
+            DateTimeOffset.Parse("2025-03-15T14:00:00.000Z")),
+        new BlogPost(
+            Guid.Parse("a16cf8f7-6c9a-4d8c-8f3c-0c7fd2148f21"),
+            "How We Prototype AI Features in 5 Days",
+            "prototype-ai-features-fast",
+            "A repeatable sprint framework for validating AI-powered experiences without derailing your roadmap.",
+            "<p>AI ideas fail when they stay abstract. We run a five-day prototyping sprint that moves from opportunity mapping to a working demo in front of users.</p><p>Day 1 aligns on the workflow being improved. Day 2 selects the smallest model and dataset that can prove value. By Day 4 we have a working vertical slice that testers can touch, while Day 5 is about measurement and next steps.</p><p>The result is an evidence-backed backlog: what to productionize, what to discard, and what to park for later.</p>",
+            "https://images.unsplash.com/photo-1483478550801-ceba5fe50e8e?auto=format&fit=crop&w=1200&q=80",
+            "/video/blog.mp4",
+            new[] { "AI", "Product" },
+            true,
+            DateTimeOffset.Parse("2025-04-09T10:00:00.000Z"),
+            "Ravi Kulkarni",
+            "Principal Product Strategist",
+            "8 min read",
+            "“Speed is less about the model and more about unblocking decisions.”",
+            new[]
+            {
+                "Start with the workflow, not the algorithm.",
+                "Bias toward smallest viable dataset and model.",
+                "Ship a measurable vertical slice before scaling.",
+            },
+            new[]
+            {
+                new BlogStat("Prototypes shipped", "28"),
+                new BlogStat("Median sprint length", "5 days"),
+                new BlogStat("Ideas shelved early", "14"),
+            },
+            DateTimeOffset.Parse("2025-04-09T10:00:00.000Z"),
+            DateTimeOffset.Parse("2025-04-09T10:00:00.000Z")),
+        new BlogPost(
+            Guid.Parse("f3e6d0f2-5c5c-4119-9a1f-3bd114f9f00b"),
+            "Community-Driven Documentation That Engineers Actually Use",
+            "community-driven-documentation",
+            "How we keep docs living, trusted, and discoverable across a fast-moving product org.",
+            "<p>Documentation decays when it lacks owners. We run quarterly doc jams, paired reviews, and release notes automation so engineers have a single trusted source of truth.</p><p>Living diagrams, ADRs, and onboarding paths stay current because squads earn points for each improvement. Those points convert into learning stipends, keeping contribution rewarding.</p><p>In the last quarter alone, 70% of doc updates came from engineers outside the platform team.</p>",
+            "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
+            "/video/blog.mp4",
+            new[] { "Engineering", "Culture" },
+            true,
+            DateTimeOffset.Parse("2025-05-02T08:30:00.000Z"),
+            "Sara Onyango",
+            "Staff Engineer, Platform",
+            null,
+            "“Docs are our product’s memory—treat them like a feature, not a chore.”",
+            new[]
+            {
+                "Doc jams rotate across squads with structured prompts.",
+                "Automations sync release notes to guides weekly.",
+                "Contribution points fund conferences and courses.",
+            },
+            new[]
+            {
+                new BlogStat("Active contributors", "63"),
+                new BlogStat("Docs updated quarterly", "210"),
+                new BlogStat("Support tickets reduced", "31%"),
+            },
+            DateTimeOffset.Parse("2025-05-02T08:30:00.000Z"),
+            DateTimeOffset.Parse("2025-05-02T08:30:00.000Z")),
+        new BlogPost(
+            Guid.Parse("d7ae1b92-22af-4f4c-9cf6-4cd4709c97d3"),
+            "Design Ops Rituals for Calm, High-Velocity Teams",
+            "design-ops-rituals",
+            "The meeting rhythms, asset systems, and scorecards that keep designers shipping without chaos.",
+            "<p>Design ops is the runway for high-performing teams. We keep weekly rituals tight: Monday planning with product, Wednesday critique, Friday system housekeeping.</p><p>Each ritual is time-boxed with clear decision owners. A shared asset library, status dashboards, and scorecards mean designers always know what “good” looks like.</p><p>As a result, PR feedback loops are faster, and handoffs to engineering are predictable.</p>",
+            "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=1200&q=80",
+            "/video/blog.mp4",
+            new[] { "Design", "Culture" },
+            true,
+            DateTimeOffset.Parse("2025-05-22T12:00:00.000Z"),
+            "Leah Benton",
+            "Design Operations Manager",
+            "5 min read",
+            "“Calm teams ship more because they know exactly when decisions get made.”",
+            new[]
+            {
+                "Three recurring rituals with tight agendas.",
+                "Scorecards clarify expectations for every project.",
+                "Asset systems keep dev handoffs lightweight.",
+            },
+            new[]
+            {
+                new BlogStat("Avg. design cycle time", "-18%"),
+                new BlogStat("Critique attendance", "96%"),
+                new BlogStat("Design-to-dev rework", "-24%"),
+            },
+            DateTimeOffset.Parse("2025-05-22T12:00:00.000Z"),
+            DateTimeOffset.Parse("2025-05-22T12:00:00.000Z"))
     ];
 
     private static string Serialize(SaveAboutPageRequest request)

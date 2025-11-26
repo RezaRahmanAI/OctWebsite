@@ -64,8 +64,7 @@
               muted
               playsinline
             >
-              <!-- adjust this path if needed; academy uses a similar pattern -->
-            <source [src]="'/video/blog.mp4' | assetUrl" type="video/mp4" />
+            <source [src]="heroVideoSrc() | assetUrl" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
