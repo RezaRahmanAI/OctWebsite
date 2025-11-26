@@ -6,6 +6,7 @@ import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
 import { ContactOfficeModel, ContactPageApiService, ContactPageModel } from '../../core/services/contact-page-api.service';
 import { ContactChannelsApiService } from '../../core/services/contact-channels-api.service';
 import type { HomeContent } from '../../core/models/home-content.model';
+import { RouterLink } from '@angular/router';
 
 interface ContactPageContent {
   header: {
@@ -34,7 +35,7 @@ interface ContactPageContent {
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule, HomeContactComponent, AssetUrlPipe],
+  imports: [CommonModule, HomeContactComponent, AssetUrlPipe, RouterLink],
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
