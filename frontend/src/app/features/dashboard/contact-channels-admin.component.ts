@@ -23,15 +23,15 @@ export class ContactChannelsAdminComponent implements OnInit {
     internationalPhoneNumber: ['', Validators.required],
     businessEmail: ['', [Validators.required, Validators.email]],
     supportEmail: ['', [Validators.required, Validators.email]],
-    localWhatsapp: this.fb.group<WhatsappChannelModel>({
-      label: this.fb.control('', Validators.required),
-      number: this.fb.control('', Validators.required),
-      url: this.fb.control('', Validators.required),
+    localWhatsapp: this.fb.group({
+      label: this.fb.nonNullable.control('', Validators.required),
+      number: this.fb.nonNullable.control('', Validators.required),
+      url: this.fb.nonNullable.control('', Validators.required),
     }),
-    internationalWhatsapp: this.fb.group<WhatsappChannelModel>({
-      label: this.fb.control('', Validators.required),
-      number: this.fb.control('', Validators.required),
-      url: this.fb.control('', Validators.required),
+    internationalWhatsapp: this.fb.group({
+      label: this.fb.nonNullable.control('', Validators.required),
+      number: this.fb.nonNullable.control('', Validators.required),
+      url: this.fb.nonNullable.control('', Validators.required),
     }),
     socialLinks: this.fb.array([]),
   });
