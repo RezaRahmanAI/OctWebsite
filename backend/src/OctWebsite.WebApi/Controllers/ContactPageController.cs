@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,7 @@ namespace OctWebsite.WebApi.Controllers;
 public sealed class ContactPageController(IContactPageService contactPageService, IWebHostEnvironment environment) : ControllerBase
 {
     private const string HeroFolder = "uploads/contact";
+    private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
 
     [HttpGet]
     [AllowAnonymous]
@@ -38,12 +40,25 @@ public sealed class ContactPageController(IContactPageService contactPageService
             form.HeaderTitle ?? string.Empty,
             form.HeaderSubtitle ?? string.Empty,
             heroVideoFileName,
+            form.HeroMetaLine ?? string.Empty,
+            form.PrimaryCtaLabel ?? string.Empty,
+            form.PrimaryCtaLink ?? string.Empty,
             form.ConsultationOptions ?? string.Empty,
             form.RegionalSupport ?? string.Empty,
             form.Emails?.Where(e => !string.IsNullOrWhiteSpace(e)).Select(e => e.Trim()).ToArray() ?? Array.Empty<string>(),
             form.FormOptions?.Where(e => !string.IsNullOrWhiteSpace(e)).Select(e => e.Trim()).ToArray() ?? Array.Empty<string>(),
             form.NdaLabel ?? string.Empty,
-            form.ResponseTime ?? string.Empty);
+            form.ResponseTime ?? string.Empty,
+            form.OfficesEyebrow ?? string.Empty,
+            form.OfficesTitle ?? string.Empty,
+            form.OfficesDescription ?? string.Empty,
+            ParseOffices(form.OfficesJson),
+            form.MapEmbedUrl ?? string.Empty,
+            form.MapTitle ?? string.Empty,
+            form.Headquarters ?? string.Empty,
+            form.BusinessHours?.Where(e => !string.IsNullOrWhiteSpace(e)).Select(e => e.Trim()).ToArray() ?? Array.Empty<string>(),
+            form.ProfileDownloadLabel ?? string.Empty,
+            form.ProfileDownloadUrl ?? string.Empty);
 
         var updated = await contactPageService.UpsertAsync(request, cancellationToken);
         return Ok(ResolveMedia(updated));
@@ -69,15 +84,25 @@ public sealed class ContactPageController(IContactPageService contactPageService
     private static string BuildRelativePath(string fileName, string folder)
     {
         var normalized = fileName.Trim().Replace("\\", "/");
-        if (normalized.Contains('/'))
+        if (Uri.TryCreate(normalized, UriKind.Absolute, out var absolute))
         {
-            var trimmed = normalized.TrimStart('/');
-            if (trimmed.StartsWith("uploads/", StringComparison.OrdinalIgnoreCase))
-            {
-                return trimmed;
-            }
+            return absolute.ToString();
+        }
 
-            return $"uploads/{trimmed}";
+        var trimmed = normalized.TrimStart('/');
+        if (normalized.StartsWith("/"))
+        {
+            return trimmed;
+        }
+
+        if (trimmed.StartsWith("uploads/", StringComparison.OrdinalIgnoreCase))
+        {
+            return trimmed;
+        }
+
+        if (trimmed.Contains('/'))
+        {
+            return trimmed;
         }
 
         var normalizedFolder = folder.Trim('/').Replace("\\", "/");
@@ -108,6 +133,17 @@ public sealed class ContactPageController(IContactPageService contactPageService
         return fileName;
     }
 
+    private static IReadOnlyList<ContactOfficeDto> ParseOffices(string? officesJson)
+    {
+        if (string.IsNullOrWhiteSpace(officesJson))
+        {
+            return Array.Empty<ContactOfficeDto>();
+        }
+
+        var parsed = JsonSerializer.Deserialize<IReadOnlyList<ContactOfficeDto>>(officesJson, JsonOptions);
+        return parsed ?? Array.Empty<ContactOfficeDto>();
+    }
+
     private string EnsureUploadsFolder(string folder)
     {
         var webRoot = environment.WebRootPath;
@@ -136,6 +172,12 @@ public sealed class SaveContactPageFormRequest
 
     public IFormFile? HeroVideo { get; set; }
 
+    public string? HeroMetaLine { get; set; }
+
+    public string? PrimaryCtaLabel { get; set; }
+
+    public string? PrimaryCtaLink { get; set; }
+
     public string? ConsultationOptions { get; set; }
 
     public string? RegionalSupport { get; set; }
@@ -147,4 +189,24 @@ public sealed class SaveContactPageFormRequest
     public string? NdaLabel { get; set; }
 
     public string? ResponseTime { get; set; }
+
+    public string? OfficesEyebrow { get; set; }
+
+    public string? OfficesTitle { get; set; }
+
+    public string? OfficesDescription { get; set; }
+
+    public string? OfficesJson { get; set; }
+
+    public string? MapEmbedUrl { get; set; }
+
+    public string? MapTitle { get; set; }
+
+    public string? Headquarters { get; set; }
+
+    public IList<string>? BusinessHours { get; set; }
+
+    public string? ProfileDownloadLabel { get; set; }
+
+    public string? ProfileDownloadUrl { get; set; }
 }

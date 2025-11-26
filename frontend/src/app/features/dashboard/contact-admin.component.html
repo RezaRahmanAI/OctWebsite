@@ -25,12 +25,34 @@
 
     <div class="grid gap-4 md:grid-cols-2">
       <label class="form-control">
+        <span class="label">Hero Meta Line</span>
+        <input class="input" formControlName="heroMetaLine" placeholder="Dhaka · Rajshahi · Remote" />
+      </label>
+      <label class="form-control">
+        <span class="label">Primary CTA Label</span>
+        <input class="input" formControlName="primaryCtaLabel" placeholder="Hire Our Team" />
+      </label>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2">
+      <label class="form-control">
+        <span class="label">Primary CTA Link</span>
+        <input class="input" formControlName="primaryCtaLink" placeholder="/contact#consultation" />
+      </label>
+      <label class="form-control">
         <span class="label">Consultation Options</span>
         <textarea class="input" rows="2" formControlName="consultationOptions"></textarea>
       </label>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2">
       <label class="form-control">
         <span class="label">Regional Support</span>
         <input class="input" formControlName="regionalSupport" />
+      </label>
+      <label class="form-control">
+        <span class="label">Response Time</span>
+        <input class="input" formControlName="responseTime" />
       </label>
     </div>
 
@@ -40,9 +62,56 @@
         <input class="input" formControlName="ndaLabel" />
       </label>
       <label class="form-control">
-        <span class="label">Response Time</span>
-        <input class="input" formControlName="responseTime" />
+        <span class="label">Headquarters</span>
+        <textarea class="input" rows="2" formControlName="headquarters"></textarea>
       </label>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-3">
+      <label class="form-control md:col-span-1">
+        <span class="label">Offices Eyebrow</span>
+        <input class="input" formControlName="officesEyebrow" />
+      </label>
+      <label class="form-control md:col-span-1">
+        <span class="label">Offices Title</span>
+        <input class="input" formControlName="officesTitle" />
+      </label>
+      <label class="form-control md:col-span-1">
+        <span class="label">Offices Description</span>
+        <input class="input" formControlName="officesDescription" />
+      </label>
+    </div>
+
+    <div class="space-y-3" formArrayName="offices">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-semibold text-slate-800">Office Locations</h3>
+        <button class="btn ghost" type="button" (click)="addOffice()">Add Office</button>
+      </div>
+      <div class="space-y-4">
+        <div class="grid gap-3 rounded-lg border border-slate-200 p-4" *ngFor="let control of offices.controls; let i = index" [formGroupName]="i">
+          <div class="grid gap-3 md:grid-cols-2">
+            <label class="form-control">
+              <span class="label">Name</span>
+              <input class="input" formControlName="name" />
+            </label>
+            <label class="form-control">
+              <span class="label">Headline</span>
+              <input class="input" formControlName="headline" />
+            </label>
+          </div>
+          <label class="form-control">
+            <span class="label">Address</span>
+            <textarea class="input" rows="2" formControlName="address"></textarea>
+          </label>
+          <div class="flex items-center gap-3">
+            <label class="form-control flex-1">
+              <span class="label">Image URL</span>
+              <input class="input" formControlName="imageUrl" />
+            </label>
+            <button class="btn ghost" type="button" (click)="removeOffice(i)">Remove</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="space-y-3" formArrayName="emails">
@@ -80,6 +149,42 @@
         <span class="label">Upload Hero Video</span>
         <input class="input" type="file" accept="video/*" (change)="onHeroVideoSelected($event)" />
       </label>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2">
+      <label class="form-control">
+        <span class="label">Map Embed URL</span>
+        <input class="input" formControlName="mapEmbedUrl" />
+      </label>
+      <label class="form-control">
+        <span class="label">Map Title</span>
+        <input class="input" formControlName="mapTitle" />
+      </label>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2">
+      <div class="space-y-3" formArrayName="businessHours">
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm font-semibold text-slate-800">Business Hours</h3>
+          <button class="btn ghost" type="button" (click)="addBusinessHour()">Add</button>
+        </div>
+        <div class="space-y-2">
+          <div class="flex items-center gap-2" *ngFor="let control of businessHours.controls; let i = index">
+            <input class="input flex-1" [formControlName]="i" />
+            <button class="btn ghost" type="button" (click)="removeBusinessHour(i)">Remove</button>
+          </div>
+        </div>
+      </div>
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-control">
+          <span class="label">Profile Download Label</span>
+          <input class="input" formControlName="profileDownloadLabel" />
+        </label>
+        <label class="form-control">
+          <span class="label">Profile Download URL</span>
+          <input class="input" formControlName="profileDownloadUrl" />
+        </label>
+      </div>
     </div>
 
     <div class="flex justify-end">

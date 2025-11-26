@@ -14,12 +14,25 @@ export interface ContactPageModel {
   headerTitle: string;
   headerSubtitle: string;
   heroVideo: MediaResource | null;
+  heroMetaLine: string;
+  primaryCtaLabel: string;
+  primaryCtaLink: string;
   consultationOptions: string;
   regionalSupport: string;
   emails: string[];
   formOptions: string[];
   ndaLabel: string;
   responseTime: string;
+  officesEyebrow: string;
+  officesTitle: string;
+  officesDescription: string;
+  offices: ContactOfficeModel[];
+  mapEmbedUrl: string;
+  mapTitle: string;
+  headquarters: string;
+  businessHours: string[];
+  profileDownloadLabel: string;
+  profileDownloadUrl: string;
 }
 
 export interface SaveContactPageRequest {
@@ -28,12 +41,32 @@ export interface SaveContactPageRequest {
   headerSubtitle: string;
   heroVideoFileName?: string | null;
   heroVideoFile?: File | null;
+  heroMetaLine: string;
+  primaryCtaLabel: string;
+  primaryCtaLink: string;
   consultationOptions: string;
   regionalSupport: string;
   emails: string[];
   formOptions: string[];
   ndaLabel: string;
   responseTime: string;
+  officesEyebrow: string;
+  officesTitle: string;
+  officesDescription: string;
+  offices: ContactOfficeModel[];
+  mapEmbedUrl: string;
+  mapTitle: string;
+  headquarters: string;
+  businessHours: string[];
+  profileDownloadLabel: string;
+  profileDownloadUrl: string;
+}
+
+export interface ContactOfficeModel {
+  name: string;
+  headline: string;
+  address: string;
+  imageUrl: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -64,12 +97,25 @@ export class ContactPageApiService {
     if (request.heroVideoFile) {
       form.append('heroVideo', request.heroVideoFile);
     }
+    form.append('heroMetaLine', request.heroMetaLine);
+    form.append('primaryCtaLabel', request.primaryCtaLabel);
+    form.append('primaryCtaLink', request.primaryCtaLink);
     form.append('consultationOptions', request.consultationOptions);
     form.append('regionalSupport', request.regionalSupport);
     request.emails.forEach((email, index) => form.append(`emails[${index}]`, email));
     request.formOptions.forEach((option, index) => form.append(`formOptions[${index}]`, option));
     form.append('ndaLabel', request.ndaLabel);
     form.append('responseTime', request.responseTime);
+    form.append('officesEyebrow', request.officesEyebrow);
+    form.append('officesTitle', request.officesTitle);
+    form.append('officesDescription', request.officesDescription);
+    form.append('officesJson', JSON.stringify(request.offices));
+    form.append('mapEmbedUrl', request.mapEmbedUrl);
+    form.append('mapTitle', request.mapTitle);
+    form.append('headquarters', request.headquarters);
+    request.businessHours.forEach((entry, index) => form.append(`businessHours[${index}]`, entry));
+    form.append('profileDownloadLabel', request.profileDownloadLabel);
+    form.append('profileDownloadUrl', request.profileDownloadUrl);
 
     return this.http
       .put<ContactPageModel>(`${this.baseUrl}/api/contact-page`, form)

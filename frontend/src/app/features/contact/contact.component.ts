@@ -1,10 +1,11 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject } from '@angular/core';
 
-import { ContentService } from '../../core/services/content.service';
 import { HomeContactComponent } from '../home/sections/contact/home-contact.component';
 import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
-import { ContactPageApiService, ContactPageModel } from '../../core/services/contact-page-api.service';
+import { ContactOfficeModel, ContactPageApiService, ContactPageModel } from '../../core/services/contact-page-api.service';
+import { ContactChannelsApiService } from '../../core/services/contact-channels-api.service';
+import type { HomeContent } from '../../core/models/home-content.model';
 
 interface ContactPageContent {
   header: {
@@ -19,6 +20,15 @@ interface ContactPageContent {
   ndaLabel: string;
   responseTime: string;
   heroVideoUrl?: string | null;
+  heroMetaLine: string;
+  primaryCtaLabel: string;
+  primaryCtaLink: string;
+  officesEyebrow: string;
+  officesTitle: string;
+  officesDescription: string;
+  offices: ContactOfficeModel[];
+  mapEmbedUrl: string;
+  mapTitle: string;
 }
 
 @Component({
@@ -30,24 +40,49 @@ interface ContactPageContent {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContactComponent implements OnInit {
-  private readonly content = inject(ContentService);
   private readonly contactPageApi = inject(ContactPageApiService);
+  private readonly contactChannelsApi = inject(ContactChannelsApiService);
   private readonly document = inject(DOCUMENT);
 
-  protected readonly contactData = computed(() => this.content.homeContent().contact);
-  private readonly fallbackContactPage = this.content.getPageSignal<ContactPageContent>('contact');
   protected readonly contactPage = computed<ContactPageContent | null>(() => {
     const apiPage = this.contactPageApi.content();
-    if (apiPage) {
-      return this.mapFromApi(apiPage);
+    return apiPage ? this.mapFromApi(apiPage) : null;
+  });
+  protected readonly heroVideoUrl = computed(() => this.contactPage()?.heroVideoUrl ?? null);
+  protected readonly formOptions = computed(() => this.contactPage()?.formOptions?.filter(Boolean) ?? []);
+  protected readonly contactData = computed<HomeContent['contact'] | null>(() => {
+    const page = this.contactPageApi.content();
+    if (!page) {
+      return null;
     }
 
-    return this.fallbackContactPage();
-  });
-  protected readonly heroVideoUrl = computed(() => this.contactPage()?.heroVideoUrl ?? '/video/contact.mp4');
-  protected readonly formOptions = computed(() => {
-    const options = this.contactPage()?.formOptions?.filter(Boolean) ?? [];
-    return options;
+    const channels = this.contactChannelsApi.channels();
+    const phones = [channels?.localPhoneNumber, channels?.internationalPhoneNumber].filter(Boolean) as string[];
+    const emails = [
+      channels?.businessEmail ?? page.emails[0],
+      channels?.supportEmail ?? page.emails[1],
+    ].filter(Boolean) as string[];
+
+    return {
+      header: {
+        eyebrow: page.headerEyebrow,
+        title: page.headerTitle,
+        subtitle: page.headerSubtitle,
+      },
+      headquarters: page.headquarters,
+      phones,
+      emails: emails.map((email, index) => ({
+        label: index === 0 ? 'Business' : index === 1 ? 'Support' : `Email ${index + 1}`,
+        value: email,
+      })),
+      businessHours: [...page.businessHours],
+      socials: (channels?.socialLinks ?? []).map(link => ({ label: link.label, url: link.url })),
+      consultation: { label: page.primaryCtaLabel, routerLink: page.primaryCtaLink },
+      profileDownload: {
+        label: page.profileDownloadLabel,
+        url: page.profileDownloadUrl,
+      },
+    } satisfies HomeContent['contact'];
   });
 
   ngOnInit(): void {
@@ -72,7 +107,16 @@ export class ContactComponent implements OnInit {
       formOptions: model.formOptions,
       ndaLabel: model.ndaLabel,
       responseTime: model.responseTime,
-      heroVideoUrl: model.heroVideo?.url ?? null,
+      heroVideoUrl: model.heroVideo?.url ?? model.heroVideo?.fileName ?? null,
+      heroMetaLine: model.heroMetaLine,
+      primaryCtaLabel: model.primaryCtaLabel,
+      primaryCtaLink: model.primaryCtaLink,
+      officesEyebrow: model.officesEyebrow,
+      officesTitle: model.officesTitle,
+      officesDescription: model.officesDescription,
+      offices: model.offices,
+      mapEmbedUrl: model.mapEmbedUrl,
+      mapTitle: model.mapTitle,
     };
   }
 }
