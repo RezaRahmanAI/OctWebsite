@@ -1,3 +1,39 @@
+<div class="card mb-6">
+  <div class="flex items-center justify-between">
+    <div>
+      <p class="text-xs font-semibold uppercase text-primary">Services Page</p>
+      <h2 class="text-xl font-semibold text-slate-900">Hero content</h2>
+    </div>
+    <span *ngIf="pageLoading()" class="text-xs text-slate-500">Saving...</span>
+  </div>
+
+  <form [formGroup]="pageForm" class="mt-4 grid gap-4 md:grid-cols-2" (ngSubmit)="submitPage()">
+    <label class="form-field">
+      <span>Eyebrow</span>
+      <input type="text" formControlName="headerEyebrow" />
+    </label>
+    <label class="form-field">
+      <span>Hero Title</span>
+      <input type="text" formControlName="headerTitle" />
+    </label>
+    <label class="form-field md:col-span-2">
+      <span>Hero Subtitle</span>
+      <textarea rows="2" formControlName="headerSubtitle"></textarea>
+    </label>
+
+    <div class="grid gap-2 md:col-span-2">
+      <label class="font-semibold text-sm text-slate-700">Hero Video (mp4)</label>
+      <input type="file" accept="video/mp4" (change)="onHeroVideoSelected($event)" />
+      <p class="text-xs text-slate-500" *ngIf="pageForm.value.heroVideoFileName">{{ pageForm.value.heroVideoFileName }}</p>
+    </div>
+
+    <div class="md:col-span-2 flex items-center gap-3">
+      <button class="btn primary" type="submit" [disabled]="pageLoading()">Save hero</button>
+      <span *ngIf="pageContent()?.heroVideo?.url" class="text-xs text-slate-500">Current video will remain unless replaced.</span>
+    </div>
+  </form>
+</div>
+
 <div class="card">
   <div class="flex items-center justify-between">
     <div>

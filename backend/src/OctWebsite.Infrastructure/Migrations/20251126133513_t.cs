@@ -168,6 +168,21 @@ namespace OctWebsite.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ServicesPages",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    HeaderEyebrow = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HeaderTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HeaderSubtitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HeroVideoFileName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ServicesPages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Services",
                 columns: table => new
                 {
@@ -469,6 +484,9 @@ namespace OctWebsite.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "ContactSubmissions");
+
+            migrationBuilder.DropTable(
+                name: "ServicesPages");
 
             migrationBuilder.DropTable(
                 name: "Services");
