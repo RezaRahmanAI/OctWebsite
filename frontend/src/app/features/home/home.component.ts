@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  OnInit,
   computed,
   effect,
   inject,
@@ -47,7 +48,7 @@ import { BlogService } from '../../core/services/blog.service';
   styleUrl: './home.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   private readonly seo = inject(SeoService);
   private readonly content = inject(ContentService);
   private readonly settings = inject(SettingsService);
@@ -116,6 +117,10 @@ export class HomeComponent {
     this.updateSnapMode();
     this.registerResizeListener();
     this.setupBodySnapClass();
+  }
+
+  ngOnInit(): void {
+    this.blogService.ensureLoaded();
   }
 
   private normalizeMediaUrl(url: string | null | undefined): string {

@@ -1,6 +1,6 @@
 <section
   class="hero"
-  *ngIf="post() as post; else notFound"
+  *ngIf="post() as post; else fallback"
   [ngStyle]="post.coverUrl ? {'--hero-image': 'url(' + post.coverUrl + ')'} : {}"
 >
   <div class="container-responsive relative z-10 grid gap-10 py-16 lg:grid-cols-[1.4fr_1fr]">
@@ -38,10 +38,23 @@
     </div>
 
     <div class="relative h-full">
-      <div class="hero-card" *ngIf="post.coverUrl; else gradientBlock">
-        <img [src]="post.coverUrl" [alt]="post.title" class="hero-image" />
+      <div class="hero-card" *ngIf="post.headerVideoUrl || post.headerVideo?.url; else imageBlock">
+        <video
+          class="hero-image"
+          [src]="post.headerVideoUrl || post.headerVideo?.url || ''"
+          controls
+          playsinline
+          muted
+          loop
+        ></video>
         <div class="hero-card__glow"></div>
       </div>
+      <ng-template #imageBlock>
+        <div class="hero-card" *ngIf="post.coverUrl; else gradientBlock">
+          <img [src]="post.coverUrl" [alt]="post.title" class="hero-image" />
+          <div class="hero-card__glow"></div>
+        </div>
+      </ng-template>
       <ng-template #gradientBlock>
         <div class="hero-card placeholder">
           <p class="text-base font-semibold text-white">Stories crafted for builders</p>
@@ -59,6 +72,12 @@
   <div class="shape-blur"></div>
   <div class="shape-grid"></div>
 </section>
+
+<ng-template #fallback>
+  <div class="section-padding" *ngIf="isLoading(); else notFound">
+    <div class="container-responsive text-center text-slate-600">Loading post...</div>
+  </div>
+</ng-template>
 
 <section class="section-padding bg-background" *ngIf="post() as post">
   <div class="container-responsive grid gap-10 lg:grid-cols-[1.7fr_1fr]">

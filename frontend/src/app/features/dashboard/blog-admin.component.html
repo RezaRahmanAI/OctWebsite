@@ -1,0 +1,162 @@
+<div class="card">
+  <div class="card__header">
+    <div>
+      <p class="eyebrow">Blog</p>
+      <h2 class="card__title">Manage blog posts</h2>
+      <p class="card__subtitle">Create, update, and publish new stories with media uploads.</p>
+    </div>
+    <button class="btn ghost" type="button" (click)="reset()">New post</button>
+  </div>
+
+  <form class="grid gap-6 lg:grid-cols-[2fr_1fr]" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="space-y-4">
+      <div class="form-grid">
+        <label class="form-label">Title</label>
+        <input class="form-input" type="text" formControlName="title" placeholder="Post title" />
+      </div>
+      <div class="form-grid">
+        <label class="form-label">Slug</label>
+        <input class="form-input" type="text" formControlName="slug" placeholder="slug-for-post" />
+      </div>
+      <div class="form-grid">
+        <label class="form-label">Excerpt</label>
+        <textarea class="form-input" formControlName="excerpt" rows="2" placeholder="Short summary"></textarea>
+      </div>
+      <div class="form-grid">
+        <label class="form-label">Content</label>
+        <textarea class="form-input" formControlName="content" rows="6" placeholder="HTML content"></textarea>
+      </div>
+      <div class="form-grid">
+        <label class="form-label">Tags</label>
+        <input class="form-input" type="text" formControlName="tags" placeholder="Comma separated" />
+      </div>
+      <div class="form-grid">
+        <label class="form-label">Key points</label>
+        <textarea class="form-input" formControlName="keyPoints" rows="3" placeholder="One per line"></textarea>
+      </div>
+      <div class="grid gap-4 md:grid-cols-2">
+        <div class="form-grid">
+          <label class="form-label">Author</label>
+          <input class="form-input" type="text" formControlName="author" />
+        </div>
+        <div class="form-grid">
+          <label class="form-label">Author title</label>
+          <input class="form-input" type="text" formControlName="authorTitle" />
+        </div>
+      </div>
+      <div class="grid gap-4 md:grid-cols-3">
+        <div class="form-grid">
+          <label class="form-label">Published at</label>
+          <input class="form-input" type="date" formControlName="publishedAt" />
+        </div>
+        <div class="form-grid">
+          <label class="form-label">Reading time</label>
+          <input class="form-input" type="text" formControlName="readTime" placeholder="e.g. 6 min read" />
+        </div>
+        <div class="form-grid">
+          <label class="form-label">Status</label>
+          <label class="inline-flex items-center gap-2 text-sm text-slate-700">
+            <input type="checkbox" formControlName="published" class="h-4 w-4" /> Published
+          </label>
+        </div>
+      </div>
+      <div class="form-grid">
+        <label class="form-label">Hero quote</label>
+        <input class="form-input" type="text" formControlName="heroQuote" />
+      </div>
+
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="form-label mb-0">Stats</p>
+            <p class="text-xs text-slate-500">Add up to three headline metrics.</p>
+          </div>
+          <button class="btn ghost" type="button" (click)="addStat()">Add</button>
+        </div>
+        <div class="grid gap-3">
+          <div
+            class="grid gap-3 md:grid-cols-[2fr_2fr_auto]"
+            *ngFor="let stat of statControls(); let i = index"
+            [formGroup]="stat"
+          >
+            <input class="form-input" type="text" formControlName="label" placeholder="Label" />
+            <input class="form-input" type="text" formControlName="value" placeholder="Value" />
+            <button class="btn ghost" type="button" (click)="removeStat(i)">Remove</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="space-y-5">
+      <div class="upload-card">
+        <div class="upload-card__header">
+          <div>
+            <p class="form-label mb-1">Thumbnail image</p>
+            <p class="text-xs text-slate-500">Upload a cover image for the listing page.</p>
+          </div>
+          <input type="file" accept="image/*" (change)="onThumbnailChange($event)" />
+        </div>
+        <div class="upload-card__body" *ngIf="thumbnailPreview() as preview">
+          <img [src]="preview" alt="Thumbnail preview" class="h-36 w-full rounded-lg object-cover" />
+        </div>
+      </div>
+
+      <div class="upload-card">
+        <div class="upload-card__header">
+          <div>
+            <p class="form-label mb-1">Header video</p>
+            <p class="text-xs text-slate-500">Optional hero video displayed on detail pages.</p>
+          </div>
+          <input type="file" accept="video/*" (change)="onHeaderVideoChange($event)" />
+        </div>
+        <div class="upload-card__body" *ngIf="headerVideoName() as videoName">
+          <p class="text-sm text-slate-700">{{ videoName }}</p>
+        </div>
+      </div>
+
+      <button class="btn primary w-full" type="submit" [disabled]="loading()">
+        {{ editingId() ? 'Update Post' : 'Create Post' }}
+      </button>
+    </div>
+  </form>
+</div>
+
+<div class="card">
+  <div class="card__header">
+    <div>
+      <p class="eyebrow">Current posts</p>
+      <h3 class="card__title">Blog entries</h3>
+    </div>
+    <span class="pill">{{ posts().length }} posts</span>
+  </div>
+
+  <div class="overflow-auto">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Tags</th>
+          <th>Published</th>
+          <th>Updated</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let post of posts()">
+          <td>{{ post.title }}</td>
+          <td>{{ post.tags.join(', ') }}</td>
+          <td>
+            <span class="pill" [ngClass]="post.published ? 'pill-success' : 'pill-muted'">
+              {{ post.published ? 'Published' : 'Draft' }}
+            </span>
+          </td>
+          <td>{{ (post.updatedDate || post.createdDate) | date : 'mediumDate' }}</td>
+          <td class="actions">
+            <button class="btn ghost" type="button" (click)="edit(post)">Edit</button>
+            <button class="btn danger" type="button" (click)="delete(post.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

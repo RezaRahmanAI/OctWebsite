@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BlogService } from '../../core/services';
 import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
@@ -31,6 +31,14 @@ export class BlogComponent {
   readonly featuredPost = computed(() => this.posts()[0] ?? null);
 
   readonly remainingPosts = computed(() => this.posts().slice(1));
+
+  readonly heroVideoSrc = computed(
+    () => this.featuredPost()?.headerVideoUrl || this.featuredPost()?.headerVideo?.url || '/video/blog.mp4',
+  );
+
+  ngOnInit(): void {
+    this.blogService.ensureLoaded();
+  }
 
   setTag(tag: string | null): void {
     this.activeTag.set(tag);

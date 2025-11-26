@@ -1,17 +1,22 @@
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { Injectable, OnDestroy, computed, inject, signal } from '@angular/core';
 import { DATA_PROVIDER } from '../data';
 import { BlogPost } from '../models';
-import { STATIC_BLOG_POSTS } from '../data/static-blog-posts';
+import { BlogApiService, SaveBlogRequest } from './blog-api.service';
+import { Subscription, firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class BlogService {
+export class BlogService implements OnDestroy {
   private readonly provider = inject(DATA_PROVIDER);
   private readonly store = this.provider.blog;
+  private readonly api = inject(BlogApiService);
   private readonly query = signal('');
   private readonly tagFilter = signal<string | null>(null);
+  private readonly loaded = signal(false);
+  private readonly loading = signal(false);
+  private subscription: Subscription | null = null;
 
   constructor() {
-    this.seedFromStatic();
+    this.refresh();
   }
 
   readonly posts = computed(() => {
@@ -34,6 +39,8 @@ export class BlogService {
 
   readonly all = this.store.items;
 
+  readonly isLoading = this.loading.asReadonly();
+
   search(term: string): void {
     this.query.set(term);
   }
@@ -54,46 +61,53 @@ export class BlogService {
     return this.store.getBySlug?.(slug);
   }
 
-  async create(post: BlogPost): Promise<BlogPost> {
-    const created = { ...post, id: post.id ?? this.generateId() };
-    this.store.create(created);
-    return Promise.resolve(created);
+  async ensureLoaded(): Promise<void> {
+    if (this.loaded()) {
+      return;
+    }
+    await this.refresh();
   }
 
-  async update(id: string, patch: Partial<BlogPost>): Promise<BlogPost | undefined> {
-    const current = this.store.getById(id);
-    if (!current) {
-      return undefined;
+  async create(post: SaveBlogRequest): Promise<BlogPost> {
+    const created = await firstValueFrom(this.api.create(post));
+    if (created) {
+      this.store.create(created);
     }
-    const updated = { ...current, ...patch } as BlogPost;
-    this.store.update(id, updated);
-    return Promise.resolve(updated);
+    return created as BlogPost;
+  }
+
+  async update(id: string, request: SaveBlogRequest): Promise<BlogPost | undefined> {
+    const updated = await firstValueFrom(this.api.update(id, request));
+    if (updated) {
+      this.store.update(id, updated);
+    }
+    return updated ?? undefined;
   }
 
   async delete(id: string): Promise<void> {
+    await firstValueFrom(this.api.delete(id));
     this.store.delete(id);
-    return Promise.resolve();
   }
 
   async refresh(): Promise<void> {
-    this.seedFromStatic(true);
-  }
-
-  async ensureLoaded(): Promise<void> {
-    this.seedFromStatic(true);
-  }
-
-  private seedFromStatic(force = false): void {
-    if (!force && this.store.list().length > 0) {
+    if (this.loading()) {
       return;
     }
-    this.store.replace(STATIC_BLOG_POSTS);
+    this.loading.set(true);
+    this.subscription?.unsubscribe();
+    this.subscription = this.api.list().subscribe({
+      next: posts => {
+        this.store.replace(posts);
+        this.loaded.set(true);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.loading.set(false);
+      },
+    });
   }
 
-  private generateId(): string {
-    if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
-      return crypto.randomUUID();
-    }
-    return Math.random().toString(36).slice(2);
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }
