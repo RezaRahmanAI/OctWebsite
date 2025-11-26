@@ -21,7 +21,6 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<AdmissionStep> AdmissionSteps => Set<AdmissionStep>();
     public DbSet<BlogPost> BlogPosts => Set<BlogPost>();
     public DbSet<ContactSubmission> ContactSubmissions => Set<ContactSubmission>();
-    public DbSet<ServiceItem> ServiceItems => Set<ServiceItem>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -220,29 +219,6 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
             entity.Property(submission => submission.Email).IsRequired();
             entity.Property(submission => submission.Message).IsRequired();
             entity.Property(submission => submission.CreatedAt).IsRequired();
-        });
-
-        modelBuilder.Entity<ServiceItem>(entity =>
-        {
-            entity.ToTable("ServiceItems");
-            entity.HasKey(service => service.Id);
-            entity.Property(service => service.Id).ValueGeneratedNever();
-            entity.Property(service => service.Title).IsRequired();
-            entity.Property(service => service.Slug).IsRequired();
-            entity.HasIndex(service => service.Slug).IsUnique();
-            entity.Property(service => service.Summary).IsRequired();
-
-            var featureConverter = new ValueConverter<IReadOnlyList<string>, string>(
-                list => JsonSerializer.Serialize(list, JsonSerializerOptions.Default),
-                json => (IReadOnlyList<string>)(JsonSerializer.Deserialize<List<string>>(json, JsonSerializerOptions.Default) ?? new List<string>()));
-            var featureComparer = new ValueComparer<IReadOnlyList<string>>(
-                (left, right) => left.SequenceEqual(right),
-                list => list.Aggregate(0, (hash, value) => HashCode.Combine(hash, value == null ? 0 : value.GetHashCode())),
-                list => list.ToList());
-
-            entity.Property(service => service.Features)
-                .HasConversion(featureConverter)
-                .Metadata.SetValueComparer(featureComparer);
         });
     }
 }

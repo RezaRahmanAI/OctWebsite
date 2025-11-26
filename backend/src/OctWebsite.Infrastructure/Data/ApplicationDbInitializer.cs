@@ -22,7 +22,6 @@ public sealed class ApplicationDbInitializer(
         await SeedCollectionAsync(context.AcademyTracks, SeedData.AcademyTracks, cancellationToken);
         await SeedCollectionAsync(context.BlogPosts, SeedData.BlogPosts, cancellationToken);
         await SeedCollectionAsync(context.ContactPages, new[] { SeedData.ContactPage }, cancellationToken);
-        await SeedCollectionAsync(context.ServiceItems, SeedData.ServiceItems, cancellationToken);
 
         await EnsureAdminUserAsync(cancellationToken);
 

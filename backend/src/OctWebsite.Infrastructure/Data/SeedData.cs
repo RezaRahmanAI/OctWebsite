@@ -9,7 +9,6 @@ internal static class SeedData
 {
     private const string AboutStorageKey = "about-page";
     private const string AcademyPageStorageKey = "academy-page";
-    private const string HomePageStorageKey = "home-page";
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
 
     public static IReadOnlyList<TeamMember> TeamMembers { get; } =
@@ -48,75 +47,6 @@ internal static class SeedData
             true)
     ];
 
-    public static IReadOnlyList<ServiceItem> ServiceItems { get; } =
-    [
-        new ServiceItem(
-            Guid.Parse("11111111-1111-4111-8111-111111111111"),
-            "Web Application",
-            "web-platform",
-            "Enterprise-ready web platforms with resilient architectures, design systems, and conversion-focused experiences.",
-            "🌐",
-            new[]
-            {
-                "Responsive web applications with modern design systems",
-                "API-first backends with security and observability built in",
-                "Performance, accessibility, and SEO baked into every release"
-            },
-            true),
-        new ServiceItem(
-            Guid.Parse("22222222-2222-4222-8222-222222222222"),
-            "Cloud Services",
-            "cloud-service",
-            "Secure cloud foundations, migrations, and FinOps practices across AWS, Azure, and Google Cloud.",
-            "☁️",
-            new[]
-            {
-                "Landing zones, identity, and network hardening",
-                "Kubernetes platforms with IaC and GitOps pipelines",
-                "Cost governance with right-sizing and observability"
-            },
-            true),
-        new ServiceItem(
-            Guid.Parse("33333333-3333-4333-8333-333333333333"),
-            "Cyber Security Services",
-            "cyber-security-services",
-            "Proactive security programs spanning prevention, detection, and rapid response.",
-            "🛡️",
-            new[]
-            {
-                "Security assessments, threat modeling, and penetration testing",
-                "SOC enablement with SIEM, SOAR, and runbooks",
-                "Zero trust architectures and employee security training"
-            },
-            true),
-        new ServiceItem(
-            Guid.Parse("44444444-4444-4444-8444-444444444444"),
-            "Graphic Design Studio",
-            "graphic-design",
-            "Brand-aligned creative assets that translate across digital and physical touchpoints.",
-            "🎨",
-            new[]
-            {
-                "Visual identity systems and design language creation",
-                "Campaign visuals, motion graphics, and illustration",
-                "Production-ready assets with accessibility checks"
-            },
-            true),
-        new ServiceItem(
-            Guid.Parse("55555555-5555-4555-8555-555555555555"),
-            "CRM Outsourcing",
-            "crm-outsourcing",
-            "Certified administrators managing your CRM, pipeline hygiene, and automation at scale.",
-            "🤝",
-            new[]
-            {
-                "HubSpot, Salesforce, and Dynamics administration",
-                "Workflow automation, scoring models, and reporting",
-                "Data stewardship with deduplication and governance"
-            },
-            true)
-    ];
-
     public static IReadOnlyList<CompanyAbout> About { get; } =
     [
         new CompanyAbout(
@@ -130,68 +60,12 @@ internal static class SeedData
         AcademyPageStorageKey,
         Serialize(DefaultAcademyPageRequest));
 
-    public static CompanyAbout HomePage { get; } = new(
-        Guid.Parse("96678ad6-8b9e-4a06-b187-90be0f4a1a5a"),
-        HomePageStorageKey,
-        Serialize(DefaultHomePageContent));
-
     public static IReadOnlyList<CompanyAbout> CompanyAboutEntries { get; } =
-        About.Append(AcademyPage).Append(HomePage).ToArray();
+        About.Append(AcademyPage).ToArray();
 
     public static IReadOnlyList<AcademyTrack> AcademyTracks { get; } = DefaultAcademyTracks;
 
     public static IReadOnlyList<BlogPost> BlogPosts { get; } = DefaultBlogPosts;
-
-    private static object DefaultHomePageContent => new
-    {
-        hero = new
-        {
-            badge = "ObjectCanvas · Bangladesh",
-            title = "Build with a product studio and academy in one team",
-            description = "We design, engineer, and teach side-by-side so every engagement ships outcomes and capability.",
-            primaryCta = new { label = "Talk to us", link = "/contact" },
-            secondaryCta = new { label = "View services", link = "/services" },
-            highlightList = new[]
-            {
-                "Product strategy & delivery",
-                "Cloud, security & platform",
-                "Training and capability building"
-            }
-        },
-        trust = new
-        {
-            tagline = "Trusted by founders, enterprises, and universities",
-            companies = new[] { "ObjectCanvas", "Academy", "Global Partners" },
-            stats = new[]
-            {
-                new { label = "Projects shipped", value = 120 },
-                new { label = "Learners coached", value = 2500 },
-                new { label = "Countries served", value = 6 }
-            }
-        },
-        services = new
-        {
-            header = new { title = "Featured services", subtitle = "What we deliver" },
-            items = new[]
-            {
-                new { title = "Web Application", icon = "🌐", description = "Enterprise-ready web platforms.", highlights = new[]{"Design systems","Secure APIs"}, tagline = "Build products fast" },
-                new { title = "Cloud Services", icon = "☁️", description = "Landing zones and FinOps.", highlights = new[]{"IaC","Observability"}, tagline = "Scale reliably" }
-            }
-        },
-        testimonials = new
-        {
-            header = new { title = "What partners say", align = "center" },
-            items = new[]
-            {
-                new { quote = "They ship outcomes while teaching our team.", name = "Engagement Lead", title = "Enterprise client", location = "Dhaka", rating = 5, type = "client" }
-            }
-        },
-        closingCtas = new
-        {
-            business = new { title = "Ready to launch?", description = "Partner with our product studio for your next release.", cta = new { label = "Book a call", link = "/contact" } },
-            academy = new { title = "Grow your team", description = "Upskill engineers with our academy programs.", cta = new { label = "Explore courses", link = "/academy" } }
-        }
-    };
 
     public static ContactPage ContactPage { get; } = new()
     {
@@ -672,9 +546,6 @@ internal static class SeedData
 
     private static string Serialize(SaveAcademyPageRequest request)
         => JsonSerializer.Serialize(request, JsonOptions);
-
-    private static string Serialize(object payload)
-        => JsonSerializer.Serialize(payload, JsonOptions);
 
     private static AcademyTrack Map(Guid id, SaveAcademyTrackRequest request)
     {
