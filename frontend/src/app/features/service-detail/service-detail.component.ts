@@ -23,4 +23,8 @@ export class ServiceDetailComponent {
       .filter(item => item.slug !== this.service()?.slug)
       .slice(0, 3),
   );
+
+  constructor() {
+    void this.servicesService.ensureLoaded();
+  }
 }

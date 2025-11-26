@@ -7,8 +7,8 @@
     <!-- Header row -->
     <div class="flex flex-wrap items-center justify-between gap-4">
       <app-section-header
-        [eyebrow]="data.header.eyebrow"
-        [title]="data.header.title"
+        [eyebrow]="header.eyebrow"
+        [title]="header.title"
       ></app-section-header>
 
       <a
@@ -36,13 +36,15 @@
     <!-- Cards -->
     <div class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
       <article
-        *ngFor="let service of data.items; let i = index"
+        *ngFor="let service of services(); let i = index"
         appScrollReveal
         [revealDelay]="i * 0.08"
         [revealOffset]="40"
         class="group relative min-h-[260px] overflow-hidden rounded-3xl bg-cover bg-center shadow-xl shadow-slate-900/20 transition-transform duration-300 hover:-translate-y-1.5 hover:shadow-2xl"
         [ngClass]="service.featured ? 'ring-2 ring-sky-400/40' : ''"
-        [ngStyle]="{ 'background-image': 'url(' + backgroundImages[i] + ')' }"
+        [ngStyle]="
+          service.backgroundImage?.url ? { 'background-image': 'url(' + service.backgroundImage.url + ')' } : null
+        "
       >
         <!-- Dark base overlay (like hero + video opacity) -->
         <div
