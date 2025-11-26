@@ -127,20 +127,20 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
             entity.Property(post => post.Content).IsRequired();
             entity.Property(post => post.CreatedDate).IsRequired();
 
-            var stringListConverter = new ValueConverter<List<string>, string>(
+            var stringListConverter = new ValueConverter<IReadOnlyList<string>, string>(
                 list => JsonSerializer.Serialize(list, JsonSerializerOptions.Default),
-                json => JsonSerializer.Deserialize<List<string>>(json, JsonSerializerOptions.Default) ?? new List<string>());
-            var stringListComparer = new ValueComparer<List<string>>(
+                json => (IReadOnlyList<string>)(JsonSerializer.Deserialize<List<string>>(json, JsonSerializerOptions.Default) ?? new List<string>()));
+            var stringListComparer = new ValueComparer<IReadOnlyList<string>>(
                 (left, right) => left.SequenceEqual(right),
-                list => list.Aggregate(0, (hash, value) => HashCode.Combine(hash, value.GetHashCode())),
+                list => list.Aggregate(0, (hash, value) => HashCode.Combine(hash, value?.GetHashCode() ?? 0)),
                 list => list.ToList());
 
-            var statConverter = new ValueConverter<List<BlogStat>, string>(
+            var statConverter = new ValueConverter<IReadOnlyList<BlogStat>, string>(
                 list => JsonSerializer.Serialize(list, JsonSerializerOptions.Default),
-                json => JsonSerializer.Deserialize<List<BlogStat>>(json, JsonSerializerOptions.Default) ?? new List<BlogStat>());
-            var statComparer = new ValueComparer<List<BlogStat>>(
+                json => (IReadOnlyList<BlogStat>)(JsonSerializer.Deserialize<List<BlogStat>>(json, JsonSerializerOptions.Default) ?? new List<BlogStat>()));
+            var statComparer = new ValueComparer<IReadOnlyList<BlogStat>>(
                 (left, right) => left.SequenceEqual(right),
-                list => list.Aggregate(0, (hash, value) => HashCode.Combine(hash, value.GetHashCode())),
+                list => list.Aggregate(0, (hash, value) => HashCode.Combine(hash, value?.GetHashCode() ?? 0)),
                 list => list.ToList());
 
             entity.Property(post => post.Tags)
