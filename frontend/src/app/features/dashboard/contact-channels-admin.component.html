@@ -1,0 +1,81 @@
+<div class="card">
+  <div class="card-header flex items-center justify-between">
+    <div>
+      <p class="text-xs uppercase tracking-[0.2em] text-primary">Social & Contact</p>
+      <h2 class="text-lg font-semibold text-slate-900">Manage social links and contact info</h2>
+    </div>
+    <button class="btn primary" type="button" (click)="submit()" [disabled]="loading()">Save</button>
+  </div>
+
+  <form class="space-y-6" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="grid gap-4 md:grid-cols-2">
+      <label class="form-control">
+        <span class="label">Local Phone Number</span>
+        <input class="input" formControlName="localPhoneNumber" />
+      </label>
+      <label class="form-control">
+        <span class="label">International Phone Number</span>
+        <input class="input" formControlName="internationalPhoneNumber" />
+      </label>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2">
+      <label class="form-control">
+        <span class="label">Business Email</span>
+        <input class="input" type="email" formControlName="businessEmail" />
+      </label>
+      <label class="form-control">
+        <span class="label">Support Email</span>
+        <input class="input" type="email" formControlName="supportEmail" />
+      </label>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2" formGroupName="localWhatsapp">
+      <label class="form-control">
+        <span class="label">Local WhatsApp Label</span>
+        <input class="input" formControlName="label" />
+      </label>
+      <label class="form-control">
+        <span class="label">Local WhatsApp Number</span>
+        <input class="input" formControlName="number" />
+      </label>
+      <label class="form-control md:col-span-2">
+        <span class="label">Local WhatsApp URL</span>
+        <input class="input" formControlName="url" />
+      </label>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2" formGroupName="internationalWhatsapp">
+      <label class="form-control">
+        <span class="label">International WhatsApp Label</span>
+        <input class="input" formControlName="label" />
+      </label>
+      <label class="form-control">
+        <span class="label">International WhatsApp Number</span>
+        <input class="input" formControlName="number" />
+      </label>
+      <label class="form-control md:col-span-2">
+        <span class="label">International WhatsApp URL</span>
+        <input class="input" formControlName="url" />
+      </label>
+    </div>
+
+    <div class="space-y-3" formArrayName="socialLinks">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-semibold text-slate-800">Social Links</h3>
+        <button class="btn ghost" type="button" (click)="addSocialLink()">Add Link</button>
+      </div>
+      <div class="space-y-2">
+        <div class="grid gap-2 md:grid-cols-[1fr_1fr_auto] items-center" *ngFor="let control of socialLinks.controls; let i = index" [formGroupName]="i">
+          <input class="input" formControlName="label" placeholder="LinkedIn" />
+          <input class="input" formControlName="url" placeholder="https://" />
+          <button class="btn ghost" type="button" (click)="removeSocialLink(i)">Remove</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-end">
+      <button class="btn primary" type="submit" [disabled]="loading()">Save Contact Channels</button>
+    </div>
+  </form>
+</div>

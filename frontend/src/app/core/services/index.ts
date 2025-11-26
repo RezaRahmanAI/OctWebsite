@@ -15,3 +15,6 @@ export * from './scroll-animation.service';
 export * from './smooth-scroll.service';
 export * from './theme.service';
 export * from './site-identity.service';
+export * from './contact-page-api.service';
+export * from './contact-channels-api.service';
+export * from './contact-submissions-api.service';

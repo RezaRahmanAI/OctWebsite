@@ -385,6 +385,37 @@ namespace OctWebsite.Infrastructure.Migrations
                     b.ToTable("CompanyAbout", (string)null);
                 });
 
+            modelBuilder.Entity("OctWebsite.Domain.Entities.ContactSubmission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Interest")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ContactSubmissions", (string)null);
+                });
+
             modelBuilder.Entity("OctWebsite.Domain.Entities.TeamMember", b =>
                 {
                     b.Property<Guid>("Id")

@@ -59,7 +59,7 @@
               playsinline
             >
               <!-- Change path if your video is elsewhere -->
-              <source [src]="'/video/contact.mp4' | assetUrl" type="video/mp4" />
+              <source [src]="heroVideoUrl() | assetUrl" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
@@ -196,4 +196,4 @@
   </div>
 </section>
 
-<app-home-contact [data]="contactData()"></app-home-contact>
+<app-home-contact [data]="contactData()" [formOptions]="formOptions()"></app-home-contact>
