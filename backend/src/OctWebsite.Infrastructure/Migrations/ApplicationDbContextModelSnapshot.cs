@@ -406,10 +406,6 @@ namespace OctWebsite.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Headquarters")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("HeaderEyebrow")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -419,6 +415,10 @@ namespace OctWebsite.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HeaderTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Headquarters")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -515,6 +515,60 @@ namespace OctWebsite.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ContactSubmissions", (string)null);
+                });
+
+            modelBuilder.Entity("OctWebsite.Domain.Entities.ServiceItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("AdditionalImageFileNames")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BackgroundImageFileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Featured")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Features")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HeaderVideoFileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Icon")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Subtitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Summary")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Slug")
+                        .IsUnique();
+
+                    b.ToTable("Services", (string)null);
                 });
 
             modelBuilder.Entity("OctWebsite.Domain.Entities.TeamMember", b =>

@@ -238,8 +238,11 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
                                                  ?? new List<string>()));
             var stringListComparer = new ValueComparer<IReadOnlyList<string>>(
                 (left, right) => left.SequenceEqual(right),
-                list => list.Aggregate(0, (hash, value) => HashCode.Combine(hash, value?.GetHashCode() ?? 0)),
+                list => list.Aggregate(0, (hash, value) =>
+                    HashCode.Combine(hash, value == null ? 0 : value.GetHashCode())
+                ),
                 list => list.ToList());
+
 
             entity.Property(service => service.Features)
                 .HasConversion(stringListConverter)

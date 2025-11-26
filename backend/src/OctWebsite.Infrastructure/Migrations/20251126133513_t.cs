@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace OctWebsite.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class contact : Migration
+    public partial class t : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -117,6 +117,40 @@ namespace OctWebsite.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ContactPages",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    HeaderEyebrow = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HeaderTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HeaderSubtitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HeroVideoFileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HeroMetaLine = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PrimaryCtaLabel = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PrimaryCtaLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ConsultationOptions = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RegionalSupport = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Emails = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FormOptions = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NdaLabel = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ResponseTime = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OfficesEyebrow = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OfficesTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OfficesDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Offices = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MapEmbedUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MapTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Headquarters = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BusinessHours = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProfileDownloadLabel = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProfileDownloadUrl = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ContactPages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ContactSubmissions",
                 columns: table => new
                 {
@@ -131,6 +165,29 @@ namespace OctWebsite.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ContactSubmissions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Services",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Subtitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Slug = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Summary = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Icon = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BackgroundImageFileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HeaderVideoFileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AdditionalImageFileNames = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Features = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
+                    Featured = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Services", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -369,6 +426,12 @@ namespace OctWebsite.Infrastructure.Migrations
                 table: "CompanyAbout",
                 column: "Key",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Services_Slug",
+                table: "Services",
+                column: "Slug",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -402,7 +465,13 @@ namespace OctWebsite.Infrastructure.Migrations
                 name: "CompanyAbout");
 
             migrationBuilder.DropTable(
+                name: "ContactPages");
+
+            migrationBuilder.DropTable(
                 name: "ContactSubmissions");
+
+            migrationBuilder.DropTable(
+                name: "Services");
 
             migrationBuilder.DropTable(
                 name: "TeamMembers");

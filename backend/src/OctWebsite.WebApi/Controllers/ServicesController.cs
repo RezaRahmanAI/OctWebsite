@@ -144,7 +144,7 @@ public sealed class ServicesController(IServiceCatalog catalog, IWebHostEnvironm
             backgroundImage,
             headerVideo,
             gallery,
-            form.Features ?? Array.Empty<string>(),
+            form.Features?.ToList() ?? new List<string>(),
             form.Active,
             form.Featured);
     }
