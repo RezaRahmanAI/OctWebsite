@@ -1,0 +1,89 @@
+<div class="card">
+  <div class="card-header flex items-center justify-between">
+    <div>
+      <p class="text-xs uppercase tracking-[0.2em] text-primary">Contact Page</p>
+      <h2 class="text-lg font-semibold text-slate-900">Edit Contact Content</h2>
+    </div>
+    <button class="btn primary" type="button" (click)="submit()" [disabled]="loading()">Save</button>
+  </div>
+
+  <form class="space-y-6" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="grid gap-4 md:grid-cols-2">
+      <label class="form-control">
+        <span class="label">Header Eyebrow</span>
+        <input class="input" formControlName="headerEyebrow" placeholder="Contact" />
+      </label>
+      <label class="form-control">
+        <span class="label">Header Title</span>
+        <input class="input" formControlName="headerTitle" placeholder="Partner with ObjectCanvas" />
+      </label>
+      <label class="form-control md:col-span-2">
+        <span class="label">Header Subtitle</span>
+        <textarea class="input" rows="2" formControlName="headerSubtitle"></textarea>
+      </label>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2">
+      <label class="form-control">
+        <span class="label">Consultation Options</span>
+        <textarea class="input" rows="2" formControlName="consultationOptions"></textarea>
+      </label>
+      <label class="form-control">
+        <span class="label">Regional Support</span>
+        <input class="input" formControlName="regionalSupport" />
+      </label>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2">
+      <label class="form-control">
+        <span class="label">NDA Label</span>
+        <input class="input" formControlName="ndaLabel" />
+      </label>
+      <label class="form-control">
+        <span class="label">Response Time</span>
+        <input class="input" formControlName="responseTime" />
+      </label>
+    </div>
+
+    <div class="space-y-3" formArrayName="emails">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-semibold text-slate-800">Emails</h3>
+        <button class="btn ghost" type="button" (click)="addEmail()">Add Email</button>
+      </div>
+      <div class="space-y-2">
+        <div class="flex items-center gap-2" *ngFor="let control of emails.controls; let i = index">
+          <input class="input flex-1" [formControlName]="i" />
+          <button class="btn ghost" type="button" (click)="removeEmail(i)">Remove</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="space-y-3" formArrayName="formOptions">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-semibold text-slate-800">Form Options</h3>
+        <button class="btn ghost" type="button" (click)="addFormOption()">Add Option</button>
+      </div>
+      <div class="space-y-2">
+        <div class="flex items-center gap-2" *ngFor="let control of formOptions.controls; let i = index">
+          <input class="input flex-1" [formControlName]="i" />
+          <button class="btn ghost" type="button" (click)="removeFormOption(i)">Remove</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2">
+      <label class="form-control">
+        <span class="label">Hero Video File Name</span>
+        <input class="input" formControlName="heroVideoFileName" placeholder="Existing file name or URL" />
+      </label>
+      <label class="form-control">
+        <span class="label">Upload Hero Video</span>
+        <input class="input" type="file" accept="video/*" (change)="onHeroVideoSelected($event)" />
+      </label>
+    </div>
+
+    <div class="flex justify-end">
+      <button class="btn primary" type="submit" [disabled]="loading()">Save Contact Page</button>
+    </div>
+  </form>
+</div>

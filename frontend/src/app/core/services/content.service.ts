@@ -10,6 +10,7 @@ import {
 } from '../models/home-content.model';
 import { PricingPlanItem } from '../models/pricing-plan.model';
 import { NavigationContent } from '../models/site-content.model';
+import { SiteContactChannels } from '../models/site-identity.model';
 import { SiteIdentityService } from './site-identity.service';
 
 type PageKey =
@@ -1008,8 +1009,41 @@ export class ContentService {
     this.removePageFromStorage(key);
   }
 
-  private buildContactPhones(): string[] {
-    const channels = this.siteIdentity.contactChannels();
+  applyContactChannels(channels: SiteContactChannels): void {
+    this.siteIdentity.updateContactChannels(channels);
+
+    this.homeState.update((home) => {
+      if (!home) {
+        return home;
+      }
+
+      return {
+        ...home,
+        contact: {
+          ...home.contact,
+          phones: this.buildContactPhones(channels),
+          emails: [...this.buildContactEmails(channels), { label: 'Academy', value: 'admissions@.com' }],
+          socials: this.buildSocialLinks(channels),
+          responseTime: `We respond within 24 business hours. For urgent queries, call ${channels.phoneNumbers.local}.`,
+        },
+      };
+    });
+
+    const contactSignal = this.pageSignals.get('contact');
+    if (contactSignal) {
+      const current = contactSignal() as any;
+      if (current) {
+        contactSignal.set({
+          ...current,
+          emails: [channels.businessEmail, 'admissions@.com', channels.supportEmail],
+          responseTime: `We respond within 24 business hours. For urgent queries, call ${channels.phoneNumbers.local}.`,
+        });
+        this.writePageToStorage('contact', contactSignal());
+      }
+    }
+  }
+
+  private buildContactPhones(channels: SiteContactChannels = this.siteIdentity.contactChannels()): string[] {
     return [
       `Local: ${channels.phoneNumbers.local}`,
       `International: ${channels.phoneNumbers.international}`,
@@ -1018,16 +1052,14 @@ export class ContentService {
     ];
   }
 
-  private buildContactEmails(): { label: string; value: string }[] {
-    const channels = this.siteIdentity.contactChannels();
+  private buildContactEmails(channels: SiteContactChannels = this.siteIdentity.contactChannels()): { label: string; value: string }[] {
     return [
       { label: 'Business', value: channels.businessEmail },
       { label: 'Support', value: channels.supportEmail },
     ];
   }
 
-  private buildSocialLinks(): { label: string; url: string }[] {
-    const channels = this.siteIdentity.contactChannels();
+  private buildSocialLinks(channels: SiteContactChannels = this.siteIdentity.contactChannels()): { label: string; url: string }[] {
     return channels.socialLinks.map((link) => ({ ...link }));
   }
 
