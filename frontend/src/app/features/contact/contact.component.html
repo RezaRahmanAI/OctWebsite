@@ -1,83 +1,53 @@
-<!-- CONTACT HERO – styled like Academy header -->
-<section class="container-wide overflow-hidden py-16 space-y-16">
+<section class="container-wide overflow-hidden py-16 space-y-16" *ngIf="contactPage() as contactPage">
   <header class="section-padding">
     <div class="grid items-center gap-10 lg:grid-cols-2">
-      <!-- LEFT: text content (same content, academy styling) -->
       <div class="space-y-6">
-        <!-- Soft pill (same style as Academy) -->
         <p
-          class="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/70 px-4 py-1
-                 text-xs font-semibold uppercase tracking-[0.35em] text-primary"
+          class="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/70 px-4 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-primary"
         >
-          {{ contactPage()?.header?.eyebrow || 'Contact Us' }}
+          {{ contactPage.header.eyebrow }}
         </p>
 
-        <!-- Main heading -->
         <h1 class="text-3xl font-bold sm:text-4xl md:text-5xl text-slate-900">
-          {{
-            contactPage()?.header?.title
-              || 'Empowering connections, resolving challenges'
-          }}
+          {{ contactPage.header.title }}
         </h1>
 
-        <!-- Sub copy -->
         <p class="max-w-xl text-sm text-slate-600 md:text-base">
-          {{
-            contactPage()?.header?.subtitle
-              || 'Looking for a specialist team, training partner, or strategic guidance? Share your goals and we will align the right people, schedule, and delivery model for you.'
-          }}
+          {{ contactPage.header.subtitle }}
         </p>
 
-        <!-- CTA (same style, just aligned with new layout) -->
         <div class="flex flex-wrap items-center gap-4 pt-2">
           <a
-            class="inline-flex items-center justify-center rounded-xl bg-primary px-6 py-3
-                   text-sm font-semibold text-white shadow-lg shadow-primary/40
-                   transition hover:translate-y-0.5 hover:bg-primary/90"
+            class="inline-flex items-center justify-center rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/40 transition hover:translate-y-0.5 hover:bg-primary/90"
+            [routerLink]="contactPage.primaryCtaLink"
           >
-            Hire Our Team →
+            {{ contactPage.primaryCtaLabel }}
           </a>
+          <button class="text-sm font-semibold text-primary" type="button" (click)="scrollToOffices()">
+            View offices ↓
+          </button>
         </div>
 
-        <!-- Optional small meta line like “24h response” under text -->
         <p class="text-xs text-slate-500">
-          {{ contactPage()?.responseTime || 'Most inquiries receive a tailored reply within one business day.' }}
+          {{ contactPage.responseTime }}
         </p>
       </div>
 
-      <!-- RIGHT: video card (same style as Academy/Blog) -->
-      <div class="relative">
-        <div
-          class="group relative overflow-hidden rounded-[2.5rem] shadow-xl"
-        >
+      <div class="relative" *ngIf="heroVideoUrl() as heroUrl">
+        <div class="group relative overflow-hidden rounded-[2.5rem] shadow-xl">
           <div class="relative aspect-[4/3]">
-            <video
-              class="absolute inset-0 h-full w-full object-cover"
-              autoplay
-              loop
-              muted
-              playsinline
-            >
-              <!-- Change path if your video is elsewhere -->
-              <source [src]="heroVideoUrl() | assetUrl" type="video/mp4" />
+            <video class="absolute inset-0 h-full w-full object-cover" autoplay loop muted playsinline>
+              <source [src]="heroUrl | assetUrl" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
 
-          <!-- subtle gradient overlay (same as Academy) -->
           <div
-            class="pointer-events-none absolute inset-0 bg-gradient-to-tr
-                   from-primary/40 via-transparent to-secondary/40
-                   opacity-40 transition-opacity duration-300
-                   group-hover:opacity-20"
+            class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-primary/40 via-transparent to-secondary/40 opacity-40 transition-opacity duration-300 group-hover:opacity-20"
           ></div>
 
-          <!-- Small info strip at bottom of card (replaces old label) -->
-          <div
-            class="absolute inset-x-6 bottom-6 flex items-center justify-between rounded-2xl
-                   bg-white/90 px-4 py-3 text-xs text-slate-700 shadow-lg"
-          >
-            <span>Dhaka · Rajshahi · Remote</span>
+          <div class="absolute inset-x-6 bottom-6 flex items-center justify-between rounded-2xl bg-white/90 px-4 py-3 text-xs text-slate-700 shadow-lg">
+            <span>{{ contactPage.heroMetaLine }}</span>
             <span class="inline-flex items-center gap-1">
               <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
               Live support
@@ -89,105 +59,43 @@
   </header>
 </section>
 
-
-
-<!-- OFFICES SECTION: CONTENT LEFT, IMAGE RIGHT -->
-<section class="section-padding bg-slate-50">
-  <div class="container-wide space-y-10">
-    <!-- Heading -->
+<section class="section-padding bg-slate-50" *ngIf="contactPage() as contactPage">
+  <div class="container-wide space-y-10" id="offices">
     <header class="mx-auto max-w-2xl text-center space-y-4">
-      <p
-        class="inline-flex items-center justify-center gap-2 rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-indigo-700"
-      >
-        Our Awesome Offices
+      <p class="inline-flex items-center justify-center gap-2 rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-indigo-700">
+        {{ contactPage.officesEyebrow }}
       </p>
       <h2 class="text-3xl font-semibold sm:text-4xl">
-        Visit our teams in Bangladesh
+        {{ contactPage.officesTitle }}
       </h2>
       <p class="text-slate-600">
-        Drop by our offices or host a hybrid session with our Dhaka and Rajshahi teams.
+        {{ contactPage.officesDescription }}
       </p>
     </header>
 
-    <!-- Office cards row -->
     <div class="grid gap-8 lg:grid-cols-2">
-      <!-- Dhaka Office -->
-      <article
-        class="flex flex-col overflow-hidden lg:flex-row"
-      >
-
-      <!-- Image right -->
-        <div
-          class="relative h-44 w-64 overflow-hidden"
-        >
-          <img
-            src="/images/offices/dhaka-office.webp"
-            alt="Dhaka office lobby"
-            class="h-full w-full object-cover"
-          />
-        </div>
-
-        <!-- Content left -->
-        <div class="flex-1 space-y-3 p-6 sm:p-8">
-          <p
-            class="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500"
-          >
-            Dhaka Office
-          </p>
-          <h3 class="text-xl font-semibold text-slate-900">
-            Ahmed Tower, Kemal Ataturk Ave
-          </h3>
-          <p class="text-sm leading-relaxed text-slate-700">
-            Floor #11, 16 &amp; 19 Ahmed Tower, 28–30 Kemal Ataturk Ave,
-            Dhaka&nbsp;1213, Bangladesh.
-          </p>
-
-          
-        </div>
-
-        
-      </article>
-
-      <!-- Rajshahi Office -->
-      <article
-        class="flex flex-col overflow-hidden lg:flex-row"
-      >
-      <div
-          class="relative h-44 w-64 overflow-hidden"
-        >
-          <img
-            src="/images/offices/rajshahi-office.webp"
-            alt="Rajshahi office interior"
-            class="h-full w-full object-cover"
-          />
+      <article class="flex flex-col overflow-hidden lg:flex-row" *ngFor="let office of contactPage.offices">
+        <div class="relative h-44 w-64 overflow-hidden">
+          <img [src]="office.imageUrl | assetUrl" [alt]="office.name" class="h-full w-full object-cover" />
         </div>
         <div class="flex-1 space-y-3 p-6 sm:p-8">
-          <p
-            class="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500"
-          >
-            Rajshahi Office
+          <p class="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+            {{ office.name }}
           </p>
           <h3 class="text-xl font-semibold text-slate-900">
-            Nilanjona (1st Floor)
+            {{ office.headline }}
           </h3>
           <p class="text-sm leading-relaxed text-slate-700">
-            Nilanjona (1st Floor), 627–Ramchandrapur,
-            Rajshahi&nbsp;6100, Bangladesh.
+            {{ office.address }}
           </p>
-
-          
         </div>
-        
       </article>
     </div>
 
-    <!-- Map full width under cards -->
-    <div
-      class="overflow-hidden  border border-slate-200 shadow-[0_24px_80px_-40px_rgba(15,23,42,0.35)]"
-    >
+    <div class="overflow-hidden border border-slate-200 shadow-[0_24px_80px_-40px_rgba(15,23,42,0.35)]">
       <iframe
-        title="ObjectCanvas Bangladesh locations"
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.7093978657114!2d90.39547967541172!3d23.7572962786824!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755bf5539555555%3A0x555a0a3b6c1b58a!2sTejgaon%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1700000000000!5m2!1sen!2sbd"
+        [title]="contactPage.mapTitle"
+        [src]="contactPage.mapEmbedUrl"
         class="h-[420px] w-full border-0"
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
@@ -196,4 +104,4 @@
   </div>
 </section>
 
-<app-home-contact [data]="contactData()" [formOptions]="formOptions()"></app-home-contact>
+<app-home-contact *ngIf="contactData() as contactData" [data]="contactData" [formOptions]="formOptions()"></app-home-contact>

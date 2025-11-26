@@ -15,6 +15,7 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
 {
     public DbSet<TeamMember> TeamMembers => Set<TeamMember>();
     public DbSet<CompanyAbout> CompanyAboutEntries => Set<CompanyAbout>();
+    public DbSet<ContactPage> ContactPages => Set<ContactPage>();
     public DbSet<AcademyTrack> AcademyTracks => Set<AcademyTrack>();
     public DbSet<AcademyTrackLevel> AcademyTrackLevels => Set<AcademyTrackLevel>();
     public DbSet<AdmissionStep> AdmissionSteps => Set<AdmissionStep>();
@@ -153,6 +154,60 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
             entity.Property(post => post.Stats)
                 .HasConversion(statConverter)
                 .Metadata.SetValueComparer(statComparer);
+        });
+
+        modelBuilder.Entity<ContactPage>(entity =>
+        {
+            entity.ToTable("ContactPages");
+            entity.HasKey(page => page.Id);
+            entity.Property(page => page.Id).ValueGeneratedNever();
+            entity.Property(page => page.HeaderEyebrow).IsRequired();
+            entity.Property(page => page.HeaderTitle).IsRequired();
+            entity.Property(page => page.HeaderSubtitle).IsRequired();
+            entity.Property(page => page.HeroMetaLine).IsRequired();
+            entity.Property(page => page.PrimaryCtaLabel).IsRequired();
+            entity.Property(page => page.PrimaryCtaLink).IsRequired();
+            entity.Property(page => page.ConsultationOptions).IsRequired();
+            entity.Property(page => page.RegionalSupport).IsRequired();
+            entity.Property(page => page.NdaLabel).IsRequired();
+            entity.Property(page => page.ResponseTime).IsRequired();
+            entity.Property(page => page.OfficesEyebrow).IsRequired();
+            entity.Property(page => page.OfficesTitle).IsRequired();
+            entity.Property(page => page.OfficesDescription).IsRequired();
+            entity.Property(page => page.MapEmbedUrl).IsRequired();
+            entity.Property(page => page.MapTitle).IsRequired();
+            entity.Property(page => page.Headquarters).IsRequired();
+            entity.Property(page => page.ProfileDownloadLabel).IsRequired();
+            entity.Property(page => page.ProfileDownloadUrl).IsRequired();
+
+            var stringListConverter = new ValueConverter<List<string>, string>(
+                list => JsonSerializer.Serialize(list, JsonSerializerOptions.Default),
+                json => JsonSerializer.Deserialize<List<string>>(json, JsonSerializerOptions.Default) ?? new List<string>());
+            var stringListComparer = new ValueComparer<List<string>>(
+                (left, right) => left.SequenceEqual(right),
+                list => list.Aggregate(0, (hash, value) => HashCode.Combine(hash, value.GetHashCode())),
+                list => list.ToList());
+
+            var officeConverter = new ValueConverter<List<ContactOffice>, string>(
+                list => JsonSerializer.Serialize(list, JsonSerializerOptions.Default),
+                json => JsonSerializer.Deserialize<List<ContactOffice>>(json, JsonSerializerOptions.Default) ?? new List<ContactOffice>());
+            var officeComparer = new ValueComparer<List<ContactOffice>>(
+                (left, right) => left.SequenceEqual(right),
+                list => list.Aggregate(0, (hash, value) => HashCode.Combine(hash, value.GetHashCode())),
+                list => list.ToList());
+
+            entity.Property(page => page.Emails)
+                .HasConversion(stringListConverter)
+                .Metadata.SetValueComparer(stringListComparer);
+            entity.Property(page => page.FormOptions)
+                .HasConversion(stringListConverter)
+                .Metadata.SetValueComparer(stringListComparer);
+            entity.Property(page => page.BusinessHours)
+                .HasConversion(stringListConverter)
+                .Metadata.SetValueComparer(stringListComparer);
+            entity.Property(page => page.Offices)
+                .HasConversion(officeConverter)
+                .Metadata.SetValueComparer(officeComparer);
         });
 
         modelBuilder.Entity<ContactSubmission>(entity =>

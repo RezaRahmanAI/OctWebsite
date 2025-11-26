@@ -67,6 +67,62 @@ internal static class SeedData
 
     public static IReadOnlyList<BlogPost> BlogPosts { get; } = DefaultBlogPosts;
 
+    public static ContactPage ContactPage { get; } = new()
+    {
+        Id = Guid.Parse("c8c9d5b2-b4e6-4f1f-b75d-0d5b4ce9f924"),
+        HeaderEyebrow = "Contact",
+        HeaderTitle = "Partner with ObjectCanvas × Bangladesh",
+        HeaderSubtitle = "Share your goals and we will prepare a tailored action plan, timeline, and resourcing model.",
+        HeroVideoFileName = "video/contact.mp4",
+        HeroMetaLine = "Dhaka · Rajshahi · Remote",
+        PrimaryCtaLabel = "Hire Our Team →",
+        PrimaryCtaLink = "/contact#consultation",
+        ConsultationOptions = "Schedule a discovery call, request a proposal, or invite us to an RFP.",
+        RegionalSupport = "Dhaka · Singapore · Dubai · London · Toronto",
+        Emails =
+        [
+            "partnerships@objectcanvas.com",
+            "admissions@objectcanvas.com",
+            "support@objectcanvas.com"
+        ],
+        FormOptions =
+        [
+            "Digital Marketing",
+            "Software Development",
+            "Website Building",
+            "ObjectCanvas Academy Programs",
+            "General Inquiry"
+        ],
+        NdaLabel = "I would like to sign an NDA prior to sharing sensitive information.",
+        ResponseTime = "We respond within 24 business hours. For urgent queries, call +880 1315-220077.",
+        OfficesEyebrow = "Our Awesome Offices",
+        OfficesTitle = "Visit our teams in Bangladesh",
+        OfficesDescription = "Drop by our offices or host a hybrid session with our Dhaka and Rajshahi teams.",
+        Offices =
+        [
+            new ContactOffice(
+                "Dhaka Office",
+                "Ahmed Tower, Kemal Ataturk Ave",
+                "Floor #11, 16 & 19 Ahmed Tower, 28–30 Kemal Ataturk Ave, Dhaka 1213, Bangladesh.",
+                "/images/offices/dhaka-office.webp"),
+            new ContactOffice(
+                "Rajshahi Office",
+                "Nilanjona (1st Floor)",
+                "Nilanjona (1st Floor), 627–Ramchandrapur, Rajshahi 6100, Bangladesh.",
+                "/images/offices/rajshahi-office.webp")
+        ],
+        MapEmbedUrl = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.7093978657114!2d90.39547967541172!3d23.7572962786824!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755bf5539555555%3A0x555a0a3b6c1b58a!2sTejgaon%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1700000000000!5m2!1sen!2sbd",
+        MapTitle = "ObjectCanvas Bangladesh locations",
+        Headquarters = "ObjectCanvas Studios & ObjectCanvas Academy, 12/2 Innovation Avenue, Tejgaon, Dhaka 1207",
+        BusinessHours =
+        [
+            "Sun-Thu: 9:00 AM - 6:00 PM (GMT+6)",
+            "Fri-Sat: Closed"
+        ],
+        ProfileDownloadLabel = "Download Company Profile (PDF)",
+        ProfileDownloadUrl = "https://objectcanvas.com/company-profile.pdf"
+    };
+
     private static SaveAboutPageRequest DefaultAboutRequest => new(
         "About Us",
         "ObjectCanvas Technology",
