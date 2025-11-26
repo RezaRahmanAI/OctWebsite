@@ -132,7 +132,7 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
                 json => (IReadOnlyList<string>)(JsonSerializer.Deserialize<List<string>>(json, JsonSerializerOptions.Default) ?? new List<string>()));
             var stringListComparer = new ValueComparer<IReadOnlyList<string>>(
                 (left, right) => left.SequenceEqual(right),
-                list => list.Aggregate(0, (hash, value) => HashCode.Combine(hash, value?.GetHashCode() ?? 0)),
+                list => list.Aggregate(0, (hash, value) => HashCode.Combine(hash, value == null ? 0 : value.GetHashCode())),
                 list => list.ToList());
 
             var statConverter = new ValueConverter<IReadOnlyList<BlogStat>, string>(
@@ -140,7 +140,7 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
                 json => (IReadOnlyList<BlogStat>)(JsonSerializer.Deserialize<List<BlogStat>>(json, JsonSerializerOptions.Default) ?? new List<BlogStat>()));
             var statComparer = new ValueComparer<IReadOnlyList<BlogStat>>(
                 (left, right) => left.SequenceEqual(right),
-                list => list.Aggregate(0, (hash, value) => HashCode.Combine(hash, value?.GetHashCode() ?? 0)),
+                list => list.Aggregate(0, (hash, value) => HashCode.Combine(hash, value == null ? 0 : value.GetHashCode())),
                 list => list.ToList());
 
             entity.Property(post => post.Tags)
