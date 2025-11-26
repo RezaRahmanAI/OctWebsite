@@ -40,7 +40,10 @@
       <p class="text-xs font-semibold uppercase text-primary">Services</p>
       <h2 class="text-xl font-semibold text-slate-900">Manage service catalogue</h2>
     </div>
-    <button class="btn ghost" type="button" (click)="reset()">New Service</button>
+    <div class="flex items-center gap-2">
+      <button class="btn ghost" type="button" (click)="seedServices()">Seed Defaults</button>
+      <button class="btn ghost" type="button" (click)="reset()">New Service</button>
+    </div>
   </div>
 
   <form [formGroup]="form" class="grid gap-4 md:grid-cols-2 mt-4" (ngSubmit)="submit()">
