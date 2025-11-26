@@ -19,6 +19,7 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<AcademyTrackLevel> AcademyTrackLevels => Set<AcademyTrackLevel>();
     public DbSet<AdmissionStep> AdmissionSteps => Set<AdmissionStep>();
     public DbSet<BlogPost> BlogPosts => Set<BlogPost>();
+    public DbSet<ContactSubmission> ContactSubmissions => Set<ContactSubmission>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -152,6 +153,17 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
             entity.Property(post => post.Stats)
                 .HasConversion(statConverter)
                 .Metadata.SetValueComparer(statComparer);
+        });
+
+        modelBuilder.Entity<ContactSubmission>(entity =>
+        {
+            entity.ToTable("ContactSubmissions");
+            entity.HasKey(submission => submission.Id);
+            entity.Property(submission => submission.Id).ValueGeneratedNever();
+            entity.Property(submission => submission.Name).IsRequired();
+            entity.Property(submission => submission.Email).IsRequired();
+            entity.Property(submission => submission.Message).IsRequired();
+            entity.Property(submission => submission.CreatedAt).IsRequired();
         });
     }
 }

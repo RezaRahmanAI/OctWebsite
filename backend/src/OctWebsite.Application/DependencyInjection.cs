@@ -12,6 +12,7 @@ public static class DependencyInjection
         services.AddScoped<IAboutPageService, AboutPageService>();
         services.AddScoped<IContactPageService, ContactPageService>();
         services.AddScoped<IContactChannelsService, ContactChannelsService>();
+        services.AddScoped<IContactSubmissionService, ContactSubmissionService>();
         services.AddScoped<IAcademyTrackService, AcademyTrackService>();
         services.AddScoped<IAcademyPageService, AcademyPageService>();
         services.AddScoped<IBlogService, BlogService>();

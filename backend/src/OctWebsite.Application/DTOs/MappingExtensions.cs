@@ -18,4 +18,13 @@ public static class MappingExtensions
         about.Id,
         about.Key,
         about.Content);
+
+    public static ContactSubmissionDto ToDto(this ContactSubmission submission) => new(
+        submission.Id,
+        submission.Name,
+        submission.Email,
+        submission.Phone,
+        submission.Interest,
+        submission.Message,
+        submission.CreatedAt);
 }

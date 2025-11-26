@@ -45,6 +45,10 @@ export class ContactComponent implements OnInit {
     return this.fallbackContactPage();
   });
   protected readonly heroVideoUrl = computed(() => this.contactPage()?.heroVideoUrl ?? '/video/contact.mp4');
+  protected readonly formOptions = computed(() => {
+    const options = this.contactPage()?.formOptions?.filter(Boolean) ?? [];
+    return options;
+  });
 
   ngOnInit(): void {
     this.contactPageApi.load();
