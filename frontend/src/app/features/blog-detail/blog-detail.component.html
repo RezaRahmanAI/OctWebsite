@@ -1,16 +1,58 @@
-<section class="relative overflow-hidden bg-gradient-to-br from-primary-900 via-primary-800 to-primary-600 text-white" *ngIf="post() as post; else notFound">
-  <div class="container-responsive relative z-10 space-y-6 py-16">
-    <div class="flex flex-wrap items-center gap-4 text-sm text-white/80">
-      <a routerLink="/blog" class="inline-flex items-center gap-2 font-semibold text-white hover:text-secondary-200">← Back to insights</a>
-      <span class="h-1 w-1 rounded-full bg-white/40"></span>
-      <span class="rounded-full bg-white/10 px-3 py-1 font-semibold uppercase tracking-wide">{{ post.publishedAt | date: 'fullDate' }}</span>
-    </div>
-    <div class="space-y-4">
-      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-secondary-200">In the lab</p>
-      <h1 class="text-4xl font-bold leading-tight md:text-5xl">{{ post.title }}</h1>
-      <p class="max-w-3xl text-lg text-white/85">{{ post.excerpt }}</p>
+<section
+  class="hero"
+  *ngIf="post() as post; else notFound"
+  [ngStyle]="post.coverUrl ? {'--hero-image': 'url(' + post.coverUrl + ')'} : {}"
+>
+  <div class="container-responsive relative z-10 grid gap-10 py-16 lg:grid-cols-[1.4fr_1fr]">
+    <div class="space-y-6">
+      <div class="flex flex-wrap items-center gap-3 text-sm text-white/80">
+        <a routerLink="/blog" class="inline-flex items-center gap-2 font-semibold text-white transition hover:text-secondary-100">← Back to insights</a>
+        <span class="h-1 w-1 rounded-full bg-white/50"></span>
+        <span class="pill">{{ post.publishedAt | date: 'fullDate' }}</span>
+        <span class="pill pill-faint" *ngIf="readTime()">{{ readTime() }}</span>
+      </div>
+      <div class="space-y-4">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-secondary-200">Inside the build room</p>
+        <h1 class="text-4xl font-bold leading-tight md:text-5xl">{{ post.title }}</h1>
+        <p class="max-w-3xl text-lg text-white/85">{{ post.excerpt }}</p>
+      </div>
       <div class="flex flex-wrap gap-2 text-xs">
-        <span *ngFor="let tag of post.tags" class="rounded-full bg-white/15 px-3 py-1 font-semibold text-white">#{{ tag }}</span>
+        <span *ngFor="let tag of post.tags" class="pill pill-faint">#{{ tag }}</span>
+      </div>
+      <div class="flex flex-wrap items-center gap-4 text-sm text-white/90">
+        <div class="flex items-center gap-3 rounded-2xl bg-white/5 px-4 py-3 backdrop-blur">
+          <div class="avatar">{{ post.author?.charAt(0) || 'O' }}</div>
+          <div>
+            <p class="font-semibold leading-tight">{{ post.author || 'Octave Team' }}</p>
+            <p class="text-white/70">{{ post.authorTitle || 'Product & Engineering' }}</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 rounded-2xl bg-white/5 px-4 py-3 text-white/80 backdrop-blur">
+          <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-lg">★</span>
+          <div>
+            <p class="text-sm font-semibold">Proof-led story</p>
+            <p class="text-xs">Built from real delivery rituals and playbooks</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="relative h-full">
+      <div class="hero-card" *ngIf="post.coverUrl; else gradientBlock">
+        <img [src]="post.coverUrl" [alt]="post.title" class="hero-image" />
+        <div class="hero-card__glow"></div>
+      </div>
+      <ng-template #gradientBlock>
+        <div class="hero-card placeholder">
+          <p class="text-base font-semibold text-white">Stories crafted for builders</p>
+          <p class="mt-2 text-sm text-white/80">We turn delivery lessons, experiments, and rituals into ready-to-use patterns.</p>
+        </div>
+      </ng-template>
+      <div class="metrics" *ngIf="post.stats?.length">
+        <div class="metric" *ngFor="let stat of post.stats">
+          <p class="metric__value">{{ stat.value }}</p>
+          <p class="metric__label">{{ stat.label }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -19,32 +61,79 @@
 </section>
 
 <section class="section-padding bg-background" *ngIf="post() as post">
-  <div class="container-responsive grid gap-10 lg:grid-cols-[2fr_1fr]">
-    <article class="rounded-3xl bg-white p-8 shadow-card">
-      <div class="prose prose-slate max-w-none prose-h2:mt-10 prose-h2:text-slate-900 prose-p:text-slate-700 prose-li:text-slate-700" [innerHTML]="safeContent()"></div>
-    </article>
-    <aside class="space-y-6">
-      <div class="rounded-2xl bg-white p-6 shadow-card">
-        <p class="text-xs font-semibold uppercase tracking-wide text-primary-700">Story details</p>
-        <div class="mt-4 space-y-3 text-sm text-slate-700">
-          <div class="flex justify-between rounded-xl bg-slate-50 px-4 py-3">
-            <span class="font-semibold text-slate-600">Published</span>
-            <span>{{ post.publishedAt | date: 'mediumDate' }}</span>
+  <div class="container-responsive grid gap-10 lg:grid-cols-[1.7fr_1fr]">
+    <article class="content-card">
+      <div class="content-card__inner">
+        <div class="callout" *ngIf="post.heroQuote">
+          <p class="callout__label">Field Note</p>
+          <p class="callout__quote">{{ post.heroQuote }}</p>
+        </div>
+
+        <div class="prose prose-slate max-w-none prose-h2:mt-10 prose-h2:text-slate-900 prose-p:text-slate-700 prose-li:text-slate-700" [innerHTML]="safeContent()"></div>
+
+        <div class="highlights" *ngIf="post.keyPoints?.length">
+          <div class="highlights__header">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-primary-600">Playbook highlights</p>
+            <p class="text-sm text-slate-600">Use these as prompts for your next retro or planning session.</p>
           </div>
-          <div class="flex justify-between rounded-xl bg-slate-50 px-4 py-3">
-            <span class="font-semibold text-slate-600">Topics</span>
-            <span class="text-right">{{ post.tags.join(', ') }}</span>
-          </div>
-          <div class="flex justify-between rounded-xl bg-slate-50 px-4 py-3">
-            <span class="font-semibold text-slate-600">Reading time</span>
-            <span>6-8 mins</span>
+          <div class="highlights__list">
+            <div class="highlight" *ngFor="let point of post.keyPoints; let i = index">
+              <span class="highlight__index">0{{ i + 1 }}</span>
+              <p class="highlight__text">{{ point }}</p>
+            </div>
           </div>
         </div>
       </div>
-      <div class="rounded-2xl border border-dashed border-primary-200 bg-primary-50 p-6 text-primary-900 shadow-glow">
+    </article>
+
+    <aside class="space-y-6">
+      <div class="detail-card">
+        <p class="eyebrow">Story details</p>
+        <div class="detail-card__grid">
+          <div class="detail-row">
+            <span class="label">Published</span>
+            <span class="value">{{ post.publishedAt | date: 'mediumDate' }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Topics</span>
+            <span class="value">{{ post.tags.join(', ') }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Reading time</span>
+            <span class="value">{{ readTime() || '—' }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Author</span>
+            <span class="value">{{ post.author || 'Octave Studio' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-card alt">
+        <p class="eyebrow">Latest from the lab</p>
+        <div class="related" *ngIf="relatedPosts().length; else emptyRelated">
+          <a
+            *ngFor="let related of relatedPosts()"
+            [routerLink]="['/blog', related.slug]"
+            class="related__item"
+          >
+            <div class="related__cover" *ngIf="related.coverUrl" [style.backgroundImage]="'url(' + related.coverUrl + ')'" aria-hidden="true"></div>
+            <div class="related__content">
+              <p class="related__tag">{{ related.tags[0] || 'Blog' }}</p>
+              <p class="related__title">{{ related.title }}</p>
+              <p class="related__meta">{{ related.publishedAt | date: 'mediumDate' }} • {{ related.readTime || 'Quick read' }}</p>
+            </div>
+          </a>
+        </div>
+        <ng-template #emptyRelated>
+          <p class="text-sm text-slate-600">More stories are on the way.</p>
+        </ng-template>
+      </div>
+
+      <div class="cta-card">
         <p class="text-base font-semibold">Keep shipping new ideas</p>
-        <p class="mt-2 text-sm text-primary-800">Browse more stories on delivery best practices, engineering culture, and product experiments.</p>
-        <a routerLink="/blog" class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary-700">
+        <p class="mt-2 text-sm text-primary-900/80">Browse more stories on delivery best practices, engineering culture, and product experiments.</p>
+        <a routerLink="/blog" class="cta-card__link">
           Back to blog
           <span aria-hidden="true">→</span>
         </a>

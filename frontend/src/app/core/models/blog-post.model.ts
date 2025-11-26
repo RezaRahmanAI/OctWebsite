@@ -8,4 +8,10 @@ export interface BlogPost {
   tags: string[];
   published: boolean;
   publishedAt?: string;
+  author?: string;
+  authorTitle?: string;
+  readTime?: string;
+  heroQuote?: string;
+  keyPoints?: string[];
+  stats?: { label: string; value: string }[];
 }

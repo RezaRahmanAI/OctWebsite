@@ -30,4 +30,27 @@ export class BlogDetailComponent {
       this.sanitizer.sanitize(SecurityContext.HTML, content) ?? ''
     );
   });
+
+  readonly readTime = computed(() => {
+    const post = this.post();
+    if (!post) {
+      return null;
+    }
+
+    if (post.readTime) {
+      return post.readTime;
+    }
+
+    const words = post.content.replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length;
+    const minutes = Math.max(1, Math.round(words / 220));
+    return `${minutes} min read`;
+  });
+
+  readonly relatedPosts = computed(() => {
+    const currentSlug = this.slug();
+    return this.blogService
+      .posts()
+      .filter(post => post.slug !== currentSlug)
+      .slice(0, 3);
+  });
 }
