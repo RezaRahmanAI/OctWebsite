@@ -110,7 +110,7 @@
             class="group relative flex h-full flex-col gap-4 rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50/60 p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg bg-cover bg-center"
             [ngStyle]="
               service.backgroundImage?.url
-                ? { 'background-image': 'linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(248,250,252,0.96) 100%), url(' + service.backgroundImage.url + ')' }
+                ? { 'background-image': 'linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(248,250,252,0.96) 100%), url(' + service.backgroundImage!.url + ')' }
                 : null
             "
           >
