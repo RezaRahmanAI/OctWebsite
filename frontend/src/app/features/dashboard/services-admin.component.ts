@@ -2,8 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ServiceItem } from '../../core/models';
-import { SaveServiceRequest, ServicesApiService } from '../../core/services/services-api.service';
+import { SaveServiceRequest } from '../../core/services/services-api.service';
 import { SaveServicesPageRequest, ServicesPageApiService, ServicesPageModel } from '../../core/services/services-page-api.service';
+import { ServicesService } from '../../core/services/services.service';
 import { ToastService } from '../../core/services/toast.service';
 
 @Component({
@@ -14,7 +15,7 @@ import { ToastService } from '../../core/services/toast.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class ServicesAdminComponent implements OnInit {
-  private readonly api = inject(ServicesApiService);
+  private readonly servicesService = inject(ServicesService);
   private readonly servicesPageApi = inject(ServicesPageApiService);
   private readonly fb = inject(FormBuilder);
   private readonly toast = inject(ToastService);
@@ -54,7 +55,7 @@ export class ServicesAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadPage();
-    this.load();
+    void this.load();
   }
 
   edit(service: ServiceItem): void {
@@ -118,7 +119,7 @@ export class ServicesAdminComponent implements OnInit {
     });
   }
 
-  submit(): void {
+  async submit(): Promise<void> {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -147,36 +148,35 @@ export class ServicesAdminComponent implements OnInit {
       featured: this.form.value.featured ?? false,
     };
 
-    const request$ = this.editingId()
-      ? this.api.update(this.editingId()!, payload)
-      : this.api.create(payload);
-
     this.loading.set(true);
-    request$.subscribe({
-      next: () => {
-        this.toast.show('Service saved', 'success');
-        this.reset();
-        this.load();
-      },
-      error: () => {
-        this.toast.show('Unable to save service', 'error');
-        this.loading.set(false);
-      },
-    });
+
+    try {
+      if (this.editingId()) {
+        await this.servicesService.update(this.editingId()!, payload);
+      } else {
+        await this.servicesService.create(payload);
+      }
+
+      this.toast.show('Service saved', 'success');
+      this.reset();
+      await this.load();
+    } catch {
+      this.toast.show('Unable to save service', 'error');
+      this.loading.set(false);
+    }
   }
 
-  delete(id: string): void {
+  async delete(id: string): Promise<void> {
     this.loading.set(true);
-    this.api.delete(id).subscribe({
-      next: () => {
-        this.toast.show('Service deleted', 'success');
-        this.load();
-      },
-      error: () => {
-        this.toast.show('Unable to delete service', 'error');
-        this.loading.set(false);
-      },
-    });
+
+    try {
+      await this.servicesService.delete(id);
+      this.toast.show('Service deleted', 'success');
+      await this.load();
+    } catch {
+      this.toast.show('Unable to delete service', 'error');
+      this.loading.set(false);
+    }
   }
 
   onBackgroundSelected(event: Event): void {
@@ -210,18 +210,30 @@ export class ServicesAdminComponent implements OnInit {
     }
   }
 
-  private load(): void {
+  async seedServices(): Promise<void> {
     this.loading.set(true);
-    this.api.list().subscribe({
-      next: services => {
-        this.services.set(services);
-        this.loading.set(false);
-      },
-      error: () => {
-        this.toast.show('Unable to load services', 'error');
-        this.loading.set(false);
-      },
-    });
+    try {
+      await this.servicesService.seedFromStatic();
+      this.services.set(this.servicesService.list());
+      this.toast.show('Seeded services from defaults', 'success');
+    } catch {
+      this.toast.show('Unable to seed services', 'error');
+    } finally {
+      this.loading.set(false);
+    }
+  }
+
+  private async load(): Promise<void> {
+    this.loading.set(true);
+
+    try {
+      await this.servicesService.refresh(true);
+      this.services.set(this.servicesService.list());
+    } catch {
+      this.toast.show('Unable to load services', 'error');
+    } finally {
+      this.loading.set(false);
+    }
   }
 
   private loadPage(): void {

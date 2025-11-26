@@ -1,22 +1,19 @@
-import { Injectable, OnDestroy, computed, inject, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { DATA_PROVIDER } from '../data';
+import { STATIC_SERVICES } from '../data/static-services';
 import { ServiceItem } from '../models';
-import { ServicesApiService, SaveServiceRequest } from './services-api.service';
-import { Subscription, firstValueFrom } from 'rxjs';
+import { SaveServiceRequest, ServicesApiService } from './services-api.service';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class ServicesService implements OnDestroy {
+export class ServicesService {
   private readonly provider = inject(DATA_PROVIDER);
   private readonly store = this.provider.services;
   private readonly api = inject(ServicesApiService);
   private readonly query = signal('');
   private readonly loaded = signal(false);
   private readonly loading = signal(false);
-  private subscription: Subscription | null = null;
-
-  constructor() {
-    this.refresh();
-  }
+  private seeding: Promise<ServiceItem[]> | null = null;
 
   readonly services = computed(() => {
     const term = this.query().toLowerCase().trim();
@@ -70,23 +67,29 @@ export class ServicesService implements OnDestroy {
     this.store.delete(id);
   }
 
-  async refresh(): Promise<void> {
+  async refresh(seedIfEmpty = false): Promise<void> {
     if (this.loading()) {
       return;
     }
 
     this.loading.set(true);
-    this.subscription?.unsubscribe();
-    this.subscription = this.api.list().subscribe({
-      next: services => {
-        this.store.replace(services);
-        this.loaded.set(true);
-        this.loading.set(false);
-      },
-      error: () => {
-        this.loading.set(false);
-      },
-    });
+
+    try {
+      const services = await firstValueFrom(this.api.list());
+      if (seedIfEmpty && services.length === 0) {
+        const seeded = await this.seedFromStatic();
+        if (seeded.length > 0) {
+          this.store.replace(seeded);
+          this.loaded.set(true);
+          return;
+        }
+      }
+
+      this.store.replace(services);
+      this.loaded.set(true);
+    } finally {
+      this.loading.set(false);
+    }
   }
 
   async ensureLoaded(): Promise<void> {
@@ -97,7 +100,49 @@ export class ServicesService implements OnDestroy {
     await this.refresh();
   }
 
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+  async seedFromStatic(): Promise<ServiceItem[]> {
+    if (this.store.list().length > 0) {
+      return this.store.list();
+    }
+
+    if (this.seeding) {
+      return this.seeding;
+    }
+
+    this.seeding = (async () => {
+      const created: ServiceItem[] = [];
+      for (const service of STATIC_SERVICES) {
+        const payload: SaveServiceRequest = {
+          title: service.title,
+          subtitle: service.subtitle ?? '',
+          slug: service.slug,
+          summary: service.summary ?? '',
+          description: service.description ?? '',
+          icon: service.icon ?? '',
+          backgroundImage: null,
+          backgroundImageFileName: service.backgroundImage?.fileName ?? null,
+          headerVideo: null,
+          headerVideoFileName: service.headerVideo?.fileName ?? null,
+          additionalImages: [],
+          additionalImageFileNames: (service.gallery ?? [])
+            .map(media => media.fileName)
+            .filter(Boolean) as string[],
+          features: service.features ?? [],
+          active: service.active ?? true,
+          featured: service.featured ?? false,
+        };
+
+        const createdService = await firstValueFrom(this.api.create(payload));
+        created.push(createdService);
+      }
+
+      this.store.replace(created);
+      this.loaded.set(true);
+      return created;
+    })();
+
+    return this.seeding.finally(() => {
+      this.seeding = null;
+    });
   }
 }
