@@ -138,7 +138,7 @@ export const offerings: Offering[] = [
     stats: [
       { label: 'Builders available', value: '20+ MVP specialists' },
       { label: 'Engagement style', value: 'Lean & experiment-driven' },
-      { label: 'Launch focus', value: 'Rapid time-to-market' },
+      
     ],
     benefits: [
       { title: 'Rapid Time-to-Market', description: 'Launch your product quickly, gain user feedback, and validate early.' },
