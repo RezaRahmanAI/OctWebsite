@@ -6,11 +6,36 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace OctWebsite.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class about_team : Migration
+    public partial class contact : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AcademyTracks",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Slug = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AgeRange = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Duration = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PriceLabel = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Audience = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Format = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Summary = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HeroVideoFileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HeroPosterFileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CallToActionLabel = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
+                    Highlights = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LearningOutcomes = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AcademyTracks", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -51,6 +76,34 @@ namespace OctWebsite.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BlogPosts",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Slug = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Excerpt = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ThumbnailFileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HeaderVideoFileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Tags = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Published = table.Column<bool>(type: "bit", nullable: false),
+                    PublishedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    Author = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AuthorTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReadTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HeroQuote = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    KeyPoints = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Stats = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    UpdatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BlogPosts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CompanyAbout",
                 columns: table => new
                 {
@@ -61,6 +114,23 @@ namespace OctWebsite.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CompanyAbout", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ContactSubmissions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Interest = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ContactSubmissions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -78,6 +148,53 @@ namespace OctWebsite.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TeamMembers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AcademyTrackLevels",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TrackId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Duration = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Project = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Order = table.Column<int>(type: "int", nullable: false),
+                    Tools = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Outcomes = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AcademyTrackLevels", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AcademyTrackLevels_AcademyTracks_TrackId",
+                        column: x => x.TrackId,
+                        principalTable: "AcademyTracks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AdmissionSteps",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TrackId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Order = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AdmissionSteps", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AdmissionSteps_AcademyTracks_TrackId",
+                        column: x => x.TrackId,
+                        principalTable: "AcademyTracks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -187,6 +304,22 @@ namespace OctWebsite.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AcademyTrackLevels_TrackId",
+                table: "AcademyTrackLevels",
+                column: "TrackId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AcademyTracks_Slug",
+                table: "AcademyTracks",
+                column: "Slug",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AdmissionSteps_TrackId",
+                table: "AdmissionSteps",
+                column: "TrackId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
@@ -226,6 +359,12 @@ namespace OctWebsite.Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BlogPosts_Slug",
+                table: "BlogPosts",
+                column: "Slug",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CompanyAbout_Key",
                 table: "CompanyAbout",
                 column: "Key",
@@ -235,6 +374,12 @@ namespace OctWebsite.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AcademyTrackLevels");
+
+            migrationBuilder.DropTable(
+                name: "AdmissionSteps");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -251,10 +396,19 @@ namespace OctWebsite.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "BlogPosts");
+
+            migrationBuilder.DropTable(
                 name: "CompanyAbout");
 
             migrationBuilder.DropTable(
+                name: "ContactSubmissions");
+
+            migrationBuilder.DropTable(
                 name: "TeamMembers");
+
+            migrationBuilder.DropTable(
+                name: "AcademyTracks");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
