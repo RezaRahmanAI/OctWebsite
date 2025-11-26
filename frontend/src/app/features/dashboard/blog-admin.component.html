@@ -1,6 +1,52 @@
 <div class="card">
   <div class="card__header">
     <div>
+      <p class="eyebrow">Blog header</p>
+      <h2 class="card__title">Hero content</h2>
+      <p class="card__subtitle">Control the blog page hero copy and optional header video.</p>
+    </div>
+  </div>
+
+  <form class="grid gap-6 lg:grid-cols-[2fr_1fr]" [formGroup]="headerForm" (ngSubmit)="saveHeader()">
+    <div class="space-y-4">
+      <div class="form-grid">
+        <label class="form-label">Eyebrow</label>
+        <input class="form-input" type="text" formControlName="headerEyebrow" placeholder="Insights &amp; Updates" />
+      </div>
+      <div class="form-grid">
+        <label class="form-label">Title</label>
+        <input class="form-input" type="text" formControlName="headerTitle" placeholder="Stories from the studio" />
+      </div>
+      <div class="form-grid">
+        <label class="form-label">Subtitle</label>
+        <textarea class="form-input" rows="3" formControlName="headerSubtitle" placeholder="Intro copy"></textarea>
+      </div>
+    </div>
+
+    <div class="space-y-5">
+      <div class="upload-card">
+        <div class="upload-card__header">
+          <div>
+            <p class="form-label mb-1">Header video</p>
+            <p class="text-xs text-slate-500">Optional hero video for the blog page header.</p>
+          </div>
+          <input type="file" accept="video/*" (change)="onHeroVideoSelected($event)" />
+        </div>
+        <div class="upload-card__body" *ngIf="heroVideoName() as videoName">
+          <p class="text-sm text-slate-700">{{ videoName }}</p>
+        </div>
+      </div>
+
+      <button class="btn primary w-full" type="submit" [disabled]="headerLoading()">
+        Save header
+      </button>
+    </div>
+  </form>
+</div>
+
+<div class="card">
+  <div class="card__header">
+    <div>
       <p class="eyebrow">Blog</p>
       <h2 class="card__title">Manage blog posts</h2>
       <p class="card__subtitle">Create, update, and publish new stories with media uploads.</p>

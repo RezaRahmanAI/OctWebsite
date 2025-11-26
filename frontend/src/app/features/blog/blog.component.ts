@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { BlogService } from '../../core/services';
+import { BlogPageApiService, BlogService } from '../../core/services';
 import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
 
 @Component({
@@ -13,10 +13,13 @@ import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
 })
 export class BlogComponent {
   private readonly blogService = inject(BlogService);
+  private readonly blogPageApi = inject(BlogPageApiService);
   readonly searchTerm = signal('');
   readonly activeTag = signal<string | null>(null);
 
   readonly tags = this.blogService.tags;
+
+  readonly pageContent = this.blogPageApi.content;
 
   readonly posts = computed(() => {
     const term = this.searchTerm().toLowerCase();
@@ -32,12 +35,17 @@ export class BlogComponent {
 
   readonly remainingPosts = computed(() => this.posts().slice(1));
 
-  readonly heroVideoSrc = computed(
-    () => this.featuredPost()?.headerVideoUrl || this.featuredPost()?.headerVideo?.url || '/video/blog.mp4',
+  readonly heroVideoSrc = computed(() =>
+    this.featuredPost()?.headerVideoUrl ||
+    this.featuredPost()?.headerVideo?.url ||
+    this.pageContent()?.heroVideo?.url ||
+    this.pageContent()?.heroVideo?.fileName ||
+    '/video/blog.mp4',
   );
 
   ngOnInit(): void {
     this.blogService.ensureLoaded();
+    this.blogPageApi.load();
   }
 
   setTag(tag: string | null): void {
