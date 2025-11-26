@@ -1,0 +1,78 @@
+<div class="card">
+  <div class="card-header">
+    <div>
+      <p class="eyebrow">Services</p>
+      <h2 class="title">Manage service catalog</h2>
+      <p class="muted">Create, update, and archive service offerings shown on the Services page.</p>
+    </div>
+    <button class="btn ghost" type="button" (click)="reset()">New service</button>
+  </div>
+
+  <form class="grid gap-4 md:grid-cols-2" [formGroup]="form" (ngSubmit)="submit()">
+    <label class="form-field">
+      <span>Title</span>
+      <input type="text" formControlName="title" placeholder="Web Application" />
+    </label>
+    <label class="form-field">
+      <span>Slug</span>
+      <input type="text" formControlName="slug" placeholder="web-platform" />
+    </label>
+    <label class="form-field md:col-span-2">
+      <span>Summary</span>
+      <textarea rows="2" formControlName="summary" placeholder="Short description"></textarea>
+    </label>
+    <label class="form-field">
+      <span>Icon</span>
+      <input type="text" formControlName="icon" placeholder="Emoji or icon text" />
+    </label>
+    <label class="form-field md:col-span-2">
+      <span>Features (one per line)</span>
+      <textarea rows="3" formControlName="features" placeholder="Feature A&#10;Feature B"></textarea>
+    </label>
+    <label class="form-field inline-flex items-center gap-2 md:col-span-2">
+      <input type="checkbox" formControlName="active" />
+      <span>Active</span>
+    </label>
+
+    <div class="md:col-span-2 flex flex-wrap gap-2">
+      <button class="btn primary" type="submit" [disabled]="loading()">{{ editingId() ? 'Update' : 'Create' }} Service</button>
+      <button class="btn ghost" type="button" (click)="reset()">Cancel</button>
+    </div>
+  </form>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div>
+      <p class="eyebrow">Service list</p>
+      <h3 class="title">Current entries</h3>
+    </div>
+    <span class="muted">{{ services().length }} total</span>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Slug</th>
+          <th>Active</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of services()">
+          <td class="font-semibold">{{ item.icon }} {{ item.title }}</td>
+          <td class="font-mono text-xs text-slate-600">{{ item.slug }}</td>
+          <td>
+            <span class="status-pill" [ngClass]="item.active ? 'success' : 'muted'">{{ item.active ? 'Active' : 'Inactive' }}</span>
+          </td>
+          <td class="flex gap-2">
+            <button class="btn ghost" type="button" (click)="edit(item)">Edit</button>
+            <button class="btn danger" type="button" (click)="delete(item.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

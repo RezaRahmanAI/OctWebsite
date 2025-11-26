@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject } from '@angular/core';
 import { SectionHeaderComponent } from '../../shared/components/section-header/section-header.component';
 import { RouterLink } from '@angular/router';
 import { ServicesService } from '../../core/services';
@@ -20,7 +20,7 @@ interface ServiceGroup {
   styleUrls: ['./services.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ServicesComponent {
+export class ServicesComponent implements OnInit {
   private readonly servicesService = inject(ServicesService);
 
   private readonly groups: ServiceGroup[] = [
@@ -87,4 +87,8 @@ export class ServicesComponent {
       }))
       .filter(group => group.services.length > 0),
   );
+
+  ngOnInit(): void {
+    void this.servicesService.ensureLoaded();
+  }
 }

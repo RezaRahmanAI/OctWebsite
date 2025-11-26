@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import { Component, OnInit, computed, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs/operators';
@@ -12,7 +12,7 @@ import { ServicesService } from '../../core/services';
   templateUrl: './service-detail.component.html',
   styleUrls: ['./service-detail.component.css'],
 })
-export class ServiceDetailComponent {
+export class ServiceDetailComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly servicesService = inject(ServicesService);
 
@@ -23,4 +23,8 @@ export class ServiceDetailComponent {
       .filter(item => item.slug !== this.service()?.slug)
       .slice(0, 3),
   );
+
+  ngOnInit(): void {
+    void this.servicesService.ensureLoaded();
+  }
 }

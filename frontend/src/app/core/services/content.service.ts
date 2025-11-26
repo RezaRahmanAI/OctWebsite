@@ -1,5 +1,5 @@
 import { Injectable, Signal, WritableSignal, computed, inject, signal } from '@angular/core';
-import { Observable, defer, of } from 'rxjs';
+import { Observable, defer, map, of, tap } from 'rxjs';
 
 import {
   HomeContent,
@@ -12,6 +12,7 @@ import { PricingPlanItem } from '../models/pricing-plan.model';
 import { NavigationContent } from '../models/site-content.model';
 import { SiteContactChannels } from '../models/site-identity.model';
 import { SiteIdentityService } from './site-identity.service';
+import { HomePageApiService } from './home-page-api.service';
 
 type PageKey =
   | 'services'
@@ -26,6 +27,7 @@ type PageKey =
 @Injectable({ providedIn: 'root' })
 export class ContentService {
   private readonly storageKey = 'objectcanvas-zeroprogramming-home-content';
+  private readonly homeApi = inject(HomePageApiService);
   private readonly pricingPlans: PricingPlanItem[] = [
     {
       id: 'starter',
@@ -938,6 +940,7 @@ export class ContentService {
 
   constructor() {
     this.initializePageSignals();
+    this.fetchHomeFromApi();
   }
 
   readonly homeContent = computed(() => this.homeState());
@@ -966,6 +969,28 @@ export class ContentService {
     if (this.canUseStorage()) {
       localStorage.removeItem(this.storageKey);
     }
+  }
+
+  fetchHomeFromApi(): void {
+    this.homeApi.fetch().subscribe({
+      next: response => {
+        const next = this.mergeHomeContent(this.initialHomeContent, response.content);
+        this.homeState.set(next);
+        this.writeHomeContent(next);
+      },
+    });
+  }
+
+  saveHomeContent(content: HomeContent): Observable<HomeContent> {
+    const payload = this.clone(content);
+    return this.homeApi.update(payload).pipe(
+      tap(response => {
+        const next = this.mergeHomeContent(this.initialHomeContent, response.content);
+        this.homeState.set(next);
+        this.writeHomeContent(next);
+      }),
+      map(response => this.mergeHomeContent(this.initialHomeContent, response.content)),
+    );
   }
 
   getPageSignal<T>(key: PageKey): Signal<T | null> {
@@ -1070,6 +1095,65 @@ export class ContentService {
       const initial = stored ?? (fallback ? this.clone(fallback) : null);
       this.pageSignals.set(key, signal(initial));
     });
+  }
+
+  private mergeHomeContent(base: HomeContent, incoming: HomeContent): HomeContent {
+    const fallback = this.clone(base);
+    const incomingContent = this.clone(incoming);
+
+    const mergedHero = {
+      ...fallback.hero,
+      ...incomingContent.hero,
+      primaryCta: { ...fallback.hero.primaryCta, ...incomingContent.hero?.primaryCta },
+      secondaryCta: { ...fallback.hero.secondaryCta, ...incomingContent.hero?.secondaryCta },
+      highlightCard: { ...fallback.hero.highlightCard, ...incomingContent.hero?.highlightCard },
+      video: { ...fallback.hero.video, ...incomingContent.hero?.video },
+      featurePanel: { ...fallback.hero.featurePanel, ...incomingContent.hero?.featurePanel },
+    };
+
+    const mergedTrust = {
+      ...fallback.trust,
+      ...incomingContent.trust,
+      companies: incomingContent.trust?.companies ?? fallback.trust.companies,
+      stats: incomingContent.trust?.stats ?? fallback.trust.stats,
+    };
+
+    const mergedServices = {
+      ...fallback.services,
+      ...incomingContent.services,
+      items: incomingContent.services?.items ?? fallback.services.items,
+    };
+
+    const mergedTestimonials = {
+      ...fallback.testimonials,
+      ...incomingContent.testimonials,
+      items: incomingContent.testimonials?.items ?? fallback.testimonials.items,
+    };
+
+    const mergedClosing = {
+      ...fallback.closingCtas,
+      ...incomingContent.closingCtas,
+      business: {
+        ...fallback.closingCtas.business,
+        ...incomingContent.closingCtas?.business,
+        cta: { ...fallback.closingCtas.business.cta, ...incomingContent.closingCtas?.business?.cta },
+      },
+      academy: {
+        ...fallback.closingCtas.academy,
+        ...incomingContent.closingCtas?.academy,
+        cta: { ...fallback.closingCtas.academy.cta, ...incomingContent.closingCtas?.academy?.cta },
+      },
+    };
+
+    return {
+      ...fallback,
+      ...incomingContent,
+      hero: mergedHero,
+      trust: mergedTrust,
+      services: mergedServices,
+      testimonials: mergedTestimonials,
+      closingCtas: mergedClosing,
+    };
   }
 
   private loadHomeContent(): HomeContent {
