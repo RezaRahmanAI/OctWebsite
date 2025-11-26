@@ -3,7 +3,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
-export interface MediaResource {
+export interface ServicesMediaResource {
   fileName: string | null;
   url: string | null;
 }
@@ -13,7 +13,7 @@ export interface ServicesPageModel {
   headerEyebrow: string;
   headerTitle: string;
   headerSubtitle: string;
-  heroVideo: MediaResource | null;
+  heroVideo: ServicesMediaResource | null;
 }
 
 export interface SaveServicesPageRequest {
