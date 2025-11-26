@@ -1,4 +1,4 @@
-<section class="section-padding bg-gradient-to-b from-white via-background to-white" *ngIf="service() as service; else notFound">
+<section class="section-padding bg-gradient-to-b from-white via-background to-white" *ngIf="service() as currentService; else notFound">
   <div class="container-wide space-y-16">
     <!-- HERO -->
     <header class="grid items-start gap-10 lg:grid-cols-[1.25fr_1fr]">
@@ -11,15 +11,15 @@
         <div class="flex flex-wrap items-center gap-2 text-sm text-slate-500">
           <a routerLink="/services" class="font-semibold text-primary transition hover:text-primary/80">Services</a>
           <span aria-hidden="true">/</span>
-          <span class="font-semibold text-slate-700">{{ service.title }}</span>
+          <span class="font-semibold text-slate-700">{{ currentService.title }}</span>
         </div>
 
         <h1 class="font-heading text-3xl leading-tight text-title sm:text-4xl md:text-5xl">
-          {{ service.title }}
+          {{ currentService.title }}
         </h1>
 
         <p class="max-w-2xl text-sm text-slate-600 md:text-base">
-          {{ service.summary }}
+          {{ currentService.summary }}
         </p>
 
         <div class="flex flex-wrap gap-3">
@@ -37,10 +37,10 @@
           </a>
         </div>
 
-        <div *ngIf="service()?.headerVideo?.url" class="hero-video-wrapper mt-4">
+        <div *ngIf="currentService?.headerVideo?.url" class="hero-video-wrapper mt-4">
           <video
             class="hero-video"
-            [src]="service()?.headerVideo?.url!"
+            [src]="currentService?.headerVideo?.url!"
             controls
             playsinline
             loop
@@ -85,7 +85,7 @@
           Each engagement follows our house playbooks for research, design, engineering, security, and rollout. We align to your internal teams and bring the right mix of specialists and apprentices.
         </p>
         <ul class="space-y-3 text-sm text-slate-700">
-          <li *ngFor="let feature of service.features" class="flex items-start gap-3">
+          <li *ngFor="let feature of currentService.features" class="flex items-start gap-3">
             <span class="mt-1 h-2 w-2 rounded-full bg-primary"></span>
             <span>{{ feature }}</span>
           </li>
@@ -139,14 +139,14 @@
       </div>
     </section>
 
-    <section *ngIf="service()?.gallery?.length" class="space-y-4">
+    <section *ngIf="currentService?.gallery?.length" class="space-y-4">
       <h3 class="text-xl font-semibold text-title">Recent visuals</h3>
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <figure *ngFor="let media of service()?.gallery" class="overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
+        <figure *ngFor="let media of currentService?.gallery" class="overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
           <img
             *ngIf="media.url"
             [src]="media.url"
-            [alt]="service()?.title || 'Service media'"
+            [alt]="currentService?.title || 'Service media'"
             class="h-48 w-full object-cover"
           />
         </figure>

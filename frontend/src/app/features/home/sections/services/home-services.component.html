@@ -43,7 +43,7 @@
         class="group relative min-h-[260px] overflow-hidden rounded-3xl bg-cover bg-center shadow-xl shadow-slate-900/20 transition-transform duration-300 hover:-translate-y-1.5 hover:shadow-2xl"
         [ngClass]="service.featured ? 'ring-2 ring-sky-400/40' : ''"
         [ngStyle]="
-          service.backgroundImage?.url ? { 'background-image': 'url(' + service.backgroundImage.url + ')' } : null
+          service.backgroundImage?.url ? { 'background-image': 'url(' + service.backgroundImage!.url + ')' } : null
         "
       >
         <!-- Dark base overlay (like hero + video opacity) -->

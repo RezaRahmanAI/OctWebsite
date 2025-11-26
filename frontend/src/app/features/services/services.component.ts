@@ -4,7 +4,6 @@ import { SectionHeaderComponent } from '../../shared/components/section-header/s
 import { RouterLink } from '@angular/router';
 import { ServicesService } from '../../core/services';
 import { ServiceItem } from '../../core/models';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 interface ServiceGroup {
   title: string;
@@ -23,7 +22,6 @@ interface ServiceGroup {
 })
 export class ServicesComponent {
   private readonly servicesService = inject(ServicesService);
-  private readonly loading = toSignal(this.servicesService.isLoading, { initialValue: false });
 
   private readonly groups: ServiceGroup[] = [
     {
@@ -79,7 +77,7 @@ export class ServicesComponent {
   ];
 
   readonly services = this.servicesService.services;
-  readonly isLoading = computed(() => this.loading());
+  readonly isLoading = computed(() => this.servicesService.isLoading());
   readonly heroVideoUrl = computed(() =>
     this.services()
       .map(service => service.headerVideo?.url)
