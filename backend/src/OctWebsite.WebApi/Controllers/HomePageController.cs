@@ -17,6 +17,7 @@ public sealed class HomePageController(IHomePageService homePageService, IWebHos
 {
     private const string HeroFolder = "uploads/home/hero";
     private const string TestimonialFolder = "uploads/home/testimonials";
+    private const string TrustFolder = "uploads/home/trust";
 
     [HttpGet]
     [AllowAnonymous]
@@ -51,6 +52,13 @@ public sealed class HomePageController(IHomePageService homePageService, IWebHos
                 imageFileName));
         }
 
+        var logos = new List<HomeTrustLogoRequest>();
+        foreach (var logo in form.TrustLogos ?? Array.Empty<HomeTrustLogoFormRequest>())
+        {
+            var logoFileName = await StoreMediaIfNeededAsync(logo.Logo, TrustFolder, logo.LogoFileName, cancellationToken);
+            logos.Add(new HomeTrustLogoRequest(logoFileName));
+        }
+
         var request = new SaveHomePageRequest(
             new HomeHeroSectionRequest(
                 form.HeroBadge ?? string.Empty,
@@ -70,7 +78,7 @@ public sealed class HomePageController(IHomePageService homePageService, IWebHos
                     new HomePartnerRequest(form.PartnerLabel ?? string.Empty, form.PartnerDescription ?? string.Empty))),
             new HomeTrustSectionRequest(
                 form.TrustTagline ?? string.Empty,
-                (form.TrustCompanies ?? new List<string>()).ToArray(),
+                logos,
                 (form.TrustStats ?? new List<HomeStatFormRequest>())
                     .Select(stat => new HomeStatRequest(stat.Label ?? string.Empty, stat.Value, stat.Suffix, stat.Decimals))
                     .ToArray()),
@@ -88,6 +96,10 @@ public sealed class HomePageController(IHomePageService homePageService, IWebHos
             {
                 Video = Resolve(dto.Hero.Video, HeroFolder),
                 Poster = Resolve(dto.Hero.Poster, HeroFolder)
+            },
+            Trust = dto.Trust with
+            {
+                Logos = dto.Trust.Logos.Select(logo => Resolve(logo, TrustFolder)).ToArray(),
             },
             Testimonials = dto.Testimonials
                 .Select(t => t with { Image = Resolve(t.Image, TestimonialFolder) })
@@ -195,7 +207,7 @@ public sealed class SaveHomePageFormRequest
     public string? PartnerDescription { get; set; }
 
     public string? TrustTagline { get; set; }
-    public IList<string> TrustCompanies { get; set; } = new List<string>();
+    public IList<HomeTrustLogoFormRequest> TrustLogos { get; set; } = new List<HomeTrustLogoFormRequest>();
     public IList<HomeStatFormRequest> TrustStats { get; set; } = new List<HomeStatFormRequest>();
 
     public IList<HomeTestimonialFormRequest> Testimonials { get; set; } = new List<HomeTestimonialFormRequest>();
@@ -214,6 +226,12 @@ public sealed class HomeStatFormRequest
     public decimal Value { get; set; }
     public string? Suffix { get; set; }
     public int? Decimals { get; set; }
+}
+
+public sealed class HomeTrustLogoFormRequest
+{
+    public IFormFile? Logo { get; set; }
+    public string? LogoFileName { get; set; }
 }
 
 public sealed class HomeTestimonialFormRequest

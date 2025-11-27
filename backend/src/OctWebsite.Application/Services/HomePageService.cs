@@ -6,37 +6,53 @@ using OctWebsite.Domain.Entities;
 
 namespace OctWebsite.Application.Services;
 
-internal sealed class HomePageService(ICompanyAboutRepository repository) : IHomePageService
+internal sealed class HomePageService(IHomePageRepository pageRepository, IHomeTestimonialRepository testimonialRepository) : IHomePageService
 {
-    private const string StorageKey = "home-page";
-
     public async Task<HomePageDto> GetAsync(CancellationToken cancellationToken = default)
     {
-        var stored = await repository.GetByKeyAsync(StorageKey, cancellationToken);
+        var stored = await pageRepository.GetAsync(cancellationToken);
         if (stored is null)
         {
             return await SeedDefaultAsync(cancellationToken);
         }
 
-        return Deserialize(stored);
+        var testimonials = await testimonialRepository.GetByHomePageIdAsync(stored.Id, cancellationToken);
+        return Deserialize(stored, testimonials);
     }
 
     public async Task<HomePageDto> UpsertAsync(SaveHomePageRequest request, CancellationToken cancellationToken = default)
     {
         Validate(request);
-        var serialized = Serialize(request);
-        var existing = await repository.GetByKeyAsync(StorageKey, cancellationToken);
+        var serialized = Serialize(new HomePageContent(request.Hero, request.Trust));
+        var existing = await pageRepository.GetAsync(cancellationToken);
 
+        HomePage page;
         if (existing is null)
         {
-            var created = new CompanyAbout(Guid.NewGuid(), StorageKey, serialized);
-            var stored = await repository.CreateAsync(created, cancellationToken);
-            return Deserialize(stored);
+            page = new HomePage(Guid.NewGuid(), serialized);
+            page = await pageRepository.CreateAsync(page, cancellationToken);
+        }
+        else
+        {
+            page = existing with { Content = serialized };
+            page = (await pageRepository.UpdateAsync(page, cancellationToken))!;
         }
 
-        var updated = existing with { Content = serialized };
-        var result = await repository.UpdateAsync(updated, cancellationToken);
-        return Deserialize(result!);
+        var testimonials = request.Testimonials
+            .Select(testimonial => new HomeTestimonial(
+                Guid.NewGuid(),
+                page.Id,
+                testimonial.Quote,
+                testimonial.Name,
+                testimonial.Title,
+                testimonial.Location,
+                testimonial.Rating,
+                testimonial.Type,
+                testimonial.ImageFileName))
+            .ToArray();
+
+        await testimonialRepository.ReplaceAsync(page.Id, testimonials, cancellationToken);
+        return Deserialize(page, testimonials);
     }
 
     private static void Validate(SaveHomePageRequest request)
@@ -73,13 +89,28 @@ internal sealed class HomePageService(ICompanyAboutRepository repository) : IHom
     private async Task<HomePageDto> SeedDefaultAsync(CancellationToken cancellationToken)
     {
         var defaultRequest = HomePageDefaults.DefaultRequest;
-        var serialized = Serialize(defaultRequest);
-        var created = new CompanyAbout(Guid.NewGuid(), StorageKey, serialized);
-        var stored = await repository.CreateAsync(created, cancellationToken);
-        return Deserialize(stored);
+        var serialized = Serialize(new HomePageContent(defaultRequest.Hero, defaultRequest.Trust));
+        var page = new HomePage(Guid.NewGuid(), serialized);
+        var stored = await pageRepository.CreateAsync(page, cancellationToken);
+
+        var testimonials = defaultRequest.Testimonials
+            .Select(testimonial => new HomeTestimonial(
+                Guid.NewGuid(),
+                stored.Id,
+                testimonial.Quote,
+                testimonial.Name,
+                testimonial.Title,
+                testimonial.Location,
+                testimonial.Rating,
+                testimonial.Type,
+                testimonial.ImageFileName))
+            .ToArray();
+
+        await testimonialRepository.ReplaceAsync(stored.Id, testimonials, cancellationToken);
+        return Deserialize(stored, testimonials);
     }
 
-    private static string Serialize(SaveHomePageRequest request)
+    private static string Serialize(HomePageContent request)
     {
         return JsonSerializer.Serialize(request, new JsonSerializerOptions
         {
@@ -88,9 +119,9 @@ internal sealed class HomePageService(ICompanyAboutRepository repository) : IHom
         });
     }
 
-    private static HomePageDto Deserialize(CompanyAbout about)
+    private static HomePageDto Deserialize(HomePage page, IReadOnlyList<HomeTestimonial> testimonials)
     {
-        var stored = JsonSerializer.Deserialize<SaveHomePageRequest>(about.Content, new JsonSerializerOptions
+        var stored = JsonSerializer.Deserialize<HomePageContent>(page.Content, new JsonSerializerOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         });
@@ -101,7 +132,7 @@ internal sealed class HomePageService(ICompanyAboutRepository repository) : IHom
         }
 
         return new HomePageDto(
-            about.Id,
+            page.Id,
             new HomeHeroDto(
                 stored.Hero.Badge,
                 stored.Hero.Title,
@@ -121,9 +152,9 @@ internal sealed class HomePageService(ICompanyAboutRepository repository) : IHom
             ),
             new HomeTrustDto(
                 stored.Trust.Tagline,
-                stored.Trust.Companies,
+                stored.Trust.Logos.Select(logo => CreateMedia(logo.LogoFileName)).ToArray(),
                 stored.Trust.Stats.Select(stat => new HomeStatDto(stat.Label, stat.Value, stat.Suffix, stat.Decimals)).ToArray()),
-            stored.Testimonials
+            testimonials
                 .Select(testimonial => new HomeTestimonialDto(
                     testimonial.Quote,
                     testimonial.Name,

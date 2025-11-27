@@ -34,7 +34,7 @@ public static class HomePageDefaults
                     "Align business outcomes with skill transformation—ObjectCanvas Academy trains your teams to own and scale every solution we deploy."))),
         new HomeTrustSectionRequest(
             "Trusted by teams at",
-            new[] { "Walton", "Tricon", "Arian", "Ashaven" },
+            Array.Empty<HomeTrustLogoRequest>(),
             new[]
             {
                 new HomeStatRequest("Projects Delivered", 500, "+", null),

@@ -130,12 +130,15 @@
 
       <div>
         <div class="flex-between">
-          <h4>Companies</h4>
-          <button type="button" (click)="addCompany()">Add</button>
+          <h4>Logos</h4>
+          <button type="button" (click)="addLogo()">Add</button>
         </div>
-        <div *ngFor="let control of companies.controls; let i = index" class="list-row">
-          <input type="text" [formControl]="control" />
-          <button type="button" (click)="removeCompany(i)">Remove</button>
+        <div *ngFor="let control of logos.controls; let i = index" class="grid-2 list-row">
+          <div>
+            <input type="text" [formControl]="control" placeholder="Logo file name or URL" />
+            <input type="file" accept="image/*" (change)="onTrustLogoSelected(i, $event)" />
+          </div>
+          <button type="button" (click)="removeLogo(i)">Remove</button>
         </div>
       </div>
 
