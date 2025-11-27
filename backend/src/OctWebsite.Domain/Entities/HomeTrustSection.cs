@@ -1,6 +1,6 @@
 namespace OctWebsite.Domain.Entities;
 
-public sealed record HomePage(
+public sealed record HomeTrustSection(
     Guid Id,
     string Content
 );

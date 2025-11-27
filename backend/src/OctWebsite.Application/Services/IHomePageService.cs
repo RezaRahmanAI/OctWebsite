@@ -5,5 +5,4 @@ namespace OctWebsite.Application.Services;
 public interface IHomePageService
 {
     Task<HomePageDto> GetAsync(CancellationToken cancellationToken = default);
-    Task<HomePageDto> UpsertAsync(SaveHomePageRequest request, CancellationToken cancellationToken = default);
 }

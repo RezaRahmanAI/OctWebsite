@@ -8,13 +8,16 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { Observable, forkJoin, tap } from 'rxjs';
 import { ToastService } from '../../core/services';
 import {
   HomePageApiService,
   HomePageModel,
   HomeMetricModel,
   HomeTestimonialModel,
-  SaveHomePageRequest,
+  SaveHomeHeroRequest,
+  SaveHomeTrustRequest,
+  SaveHomeTestimonialRequest,
 } from '../../core/services/home-page-api.service';
 
 type MetricFormGroup = FormGroup<{
@@ -31,6 +34,7 @@ type StatFormGroup = FormGroup<{
 }>;
 
 type TestimonialFormGroup = FormGroup<{
+  id: FormControl<string | null>;
   quote: FormControl<string>;
   name: FormControl<string>;
   title: FormControl<string>;
@@ -56,8 +60,12 @@ export class HomeAdminComponent implements OnInit {
   private heroPoster: File | null = null;
   private testimonialImages: (File | null)[] = [];
   private trustLogoFiles: (File | null)[] = [null];
+  private existingTestimonialIds: string[] = [];
 
   readonly loading = signal(false);
+  readonly savingHero = signal(false);
+  readonly savingTrust = signal(false);
+  readonly savingTestimonials = signal(false);
 
   readonly heroForm = this.fb.group({
     badge: this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
@@ -170,25 +178,85 @@ export class HomeAdminComponent implements OnInit {
     this.testimonialImages[index] = file;
   }
 
-  submit(): void {
-    if (this.heroForm.invalid || this.trustForm.invalid || this.testimonialForm.invalid) {
+  submitHero(): void {
+    if (this.heroForm.invalid) {
       this.heroForm.markAllAsTouched();
+      return;
+    }
+
+    const request = this.toHeroRequest();
+    this.savingHero.set(true);
+    this.api.updateHero(request).subscribe({
+      next: hero => {
+        this.applyHero(hero);
+        this.toast.show('Hero section saved', 'success');
+        this.savingHero.set(false);
+      },
+      error: () => {
+        this.toast.show('Failed to save hero section', 'error');
+        this.savingHero.set(false);
+      },
+    });
+  }
+
+  submitTrust(): void {
+    if (this.trustForm.invalid) {
       this.trustForm.markAllAsTouched();
+      return;
+    }
+
+    const request = this.toTrustRequest();
+    this.savingTrust.set(true);
+    this.api.updateTrust(request).subscribe({
+      next: trust => {
+        this.applyTrust(trust);
+        this.toast.show('Trust section saved', 'success');
+        this.savingTrust.set(false);
+      },
+      error: () => {
+        this.toast.show('Failed to save trust section', 'error');
+        this.savingTrust.set(false);
+      },
+    });
+  }
+
+  submitTestimonials(): void {
+    if (this.testimonialForm.invalid) {
       this.testimonialForm.markAllAsTouched();
       return;
     }
 
-    const request = this.toRequest();
-    this.loading.set(true);
-    this.api.update(request).subscribe({
-      next: page => {
-        this.apply(page);
-        this.toast.show('Home page saved', 'success');
-        this.loading.set(false);
+    const operations: Observable<unknown>[] = [];
+    const nextIds: string[] = [];
+
+    this.testimonialForm.controls.forEach((control, index) => {
+      const request = this.toTestimonialRequest(control, index);
+      const id = control.value.id;
+      if (id) {
+        nextIds.push(id);
+        operations.push(this.api.updateTestimonial(id, request));
+      } else {
+        operations.push(
+          this.api
+            .createTestimonial(request)
+            .pipe(tap(created => nextIds.push(created.id)))
+        );
+      }
+    });
+
+    const deletions = this.existingTestimonialIds.filter(id => !nextIds.includes(id));
+    deletions.forEach(id => operations.push(this.api.deleteTestimonial(id)));
+
+    this.savingTestimonials.set(true);
+    forkJoin(operations).subscribe({
+      next: () => {
+        this.toast.show('Testimonials saved', 'success');
+        this.savingTestimonials.set(false);
+        this.load();
       },
       error: () => {
-        this.toast.show('Failed to save home page', 'error');
-        this.loading.set(false);
+        this.toast.show('Failed to save testimonials', 'error');
+        this.savingTestimonials.set(false);
       },
     });
   }
@@ -208,121 +276,135 @@ export class HomeAdminComponent implements OnInit {
   }
 
   private apply(page: HomePageModel): void {
+    this.applyHero(page.hero);
+    this.applyTrust(page.trust);
+    this.applyTestimonials(page.testimonials);
+  }
+
+  private applyHero(hero: HomePageModel['hero']): void {
     this.heroForm.patchValue({
-      badge: page.hero.badge,
-      title: page.hero.title,
-      description: page.hero.description,
-      primaryLabel: page.hero.primaryCta.label,
-      primaryLink: page.hero.primaryCta.routerLink ?? '',
-      primaryFragment: page.hero.primaryCta.fragment ?? '',
-      secondaryLabel: page.hero.secondaryCta.label,
-      secondaryLink: page.hero.secondaryCta.routerLink ?? '',
-      secondaryFragment: page.hero.secondaryCta.fragment ?? '',
-      highlightTitle: page.hero.highlightCard.title,
-      highlightDescription: page.hero.highlightCard.description,
-      videoFileName: page.hero.video?.fileName ?? '',
-      posterFileName: page.hero.poster?.fileName ?? '',
-      featureEyebrow: page.hero.featurePanel.eyebrow,
-      featureTitle: page.hero.featurePanel.title,
-      featureDescription: page.hero.featurePanel.description,
-      partnerLabel: page.hero.featurePanel.partner.label,
-      partnerDescription: page.hero.featurePanel.partner.description,
+      badge: hero.badge,
+      title: hero.title,
+      description: hero.description,
+      primaryLabel: hero.primaryCta.label,
+      primaryLink: hero.primaryCta.routerLink ?? '',
+      primaryFragment: hero.primaryCta.fragment ?? '',
+      secondaryLabel: hero.secondaryCta.label,
+      secondaryLink: hero.secondaryCta.routerLink ?? '',
+      secondaryFragment: hero.secondaryCta.fragment ?? '',
+      highlightTitle: hero.highlightCard.title,
+      highlightDescription: hero.highlightCard.description,
+      videoFileName: hero.video?.fileName ?? '',
+      posterFileName: hero.poster?.fileName ?? '',
+      featureEyebrow: hero.featurePanel.eyebrow,
+      featureTitle: hero.featurePanel.title,
+      featureDescription: hero.featurePanel.description,
+      partnerLabel: hero.featurePanel.partner.label,
+      partnerDescription: hero.featurePanel.partner.description,
     });
 
     this.heroVideo = null;
     this.heroPoster = null;
-    this.testimonialImages = [];
 
     this.highlightList.clear();
-    page.hero.highlightList.forEach(item => this.addHighlight(item));
+    hero.highlightList.forEach(item => this.addHighlight(item));
 
     this.metrics.clear();
-    page.hero.featurePanel.metrics.forEach(metric => this.addMetric(metric));
+    hero.featurePanel.metrics.forEach(metric => this.addMetric(metric));
+  }
 
+  private applyTrust(trust: HomePageModel['trust']): void {
     this.trustForm.patchValue({
-      tagline: page.trust.tagline,
+      tagline: trust.tagline,
     });
     this.logos.clear();
     this.trustLogoFiles = [];
-    if (!page.trust.logos.length) {
+    if (!trust.logos.length) {
       this.addLogo();
     } else {
-      page.trust.logos.forEach(logo => this.addLogo(logo.fileName ?? logo.url ?? ''));
+      trust.logos.forEach(logo => this.addLogo(logo.fileName ?? logo.url ?? ''));
     }
 
     this.stats.clear();
-    page.trust.stats.forEach(stat => this.addStat(stat));
-
-    this.testimonialForm.clear();
-    page.testimonials.forEach(testimonial => this.addTestimonial(testimonial));
+    trust.stats.forEach(stat => this.addStat(stat));
   }
 
-  private toRequest(): SaveHomePageRequest {
+  private applyTestimonials(testimonials: HomeTestimonialModel[]): void {
+    this.testimonialForm.clear();
+    this.testimonialImages = [];
+    testimonials.forEach(testimonial => this.addTestimonial(testimonial));
+    this.existingTestimonialIds = testimonials.map(t => t.id);
+  }
+
+  private toHeroRequest(): SaveHomeHeroRequest {
     return {
-      hero: {
-        badge: this.heroForm.value.badge ?? '',
-        title: this.heroForm.value.title ?? '',
-        description: this.heroForm.value.description ?? '',
-        primaryCta: {
-          label: this.heroForm.value.primaryLabel ?? '',
-          routerLink: this.heroForm.value.primaryLink || null,
-          fragment: this.heroForm.value.primaryFragment || null,
-        },
-        secondaryCta: {
-          label: this.heroForm.value.secondaryLabel ?? '',
-          routerLink: this.heroForm.value.secondaryLink || null,
-          fragment: this.heroForm.value.secondaryFragment || null,
-        },
-        highlightCard: {
-          title: this.heroForm.value.highlightTitle ?? '',
-          description: this.heroForm.value.highlightDescription ?? '',
-        },
-        highlightList: this.highlightList.controls.map(control => control.value ?? ''),
-        videoFileName: this.heroForm.value.videoFileName || null,
-        videoFile: this.heroVideo,
-        posterFileName: this.heroForm.value.posterFileName || null,
-        posterFile: this.heroPoster,
-        featurePanel: {
-          eyebrow: this.heroForm.value.featureEyebrow ?? '',
-          title: this.heroForm.value.featureTitle ?? '',
-          description: this.heroForm.value.featureDescription ?? '',
-          metrics: this.metrics.controls.map(control => ({
-            label: control.value.label ?? '',
-            value: control.value.value ?? '',
-            theme: control.value.theme ?? 'accent',
-          })),
-          partner: {
-            label: this.heroForm.value.partnerLabel ?? '',
-            description: this.heroForm.value.partnerDescription ?? '',
-          },
-        },
+      badge: this.heroForm.value.badge ?? '',
+      title: this.heroForm.value.title ?? '',
+      description: this.heroForm.value.description ?? '',
+      primaryCta: {
+        label: this.heroForm.value.primaryLabel ?? '',
+        routerLink: this.heroForm.value.primaryLink || null,
+        fragment: this.heroForm.value.primaryFragment || null,
       },
-      trust: {
-        tagline: this.trustForm.value.tagline ?? '',
-        logos: this.logos.controls.map((control, index) => ({
-          fileName: control.value || null,
-          url: control.value || null,
-          logoFile: this.trustLogoFiles[index],
-        })),
-        stats: this.stats.controls.map(control => ({
+      secondaryCta: {
+        label: this.heroForm.value.secondaryLabel ?? '',
+        routerLink: this.heroForm.value.secondaryLink || null,
+        fragment: this.heroForm.value.secondaryFragment || null,
+      },
+      highlightCard: {
+        title: this.heroForm.value.highlightTitle ?? '',
+        description: this.heroForm.value.highlightDescription ?? '',
+      },
+      highlightList: this.highlightList.controls.map(control => control.value ?? ''),
+      videoFileName: this.heroForm.value.videoFileName || null,
+      videoFile: this.heroVideo,
+      posterFileName: this.heroForm.value.posterFileName || null,
+      posterFile: this.heroPoster,
+      featurePanel: {
+        eyebrow: this.heroForm.value.featureEyebrow ?? '',
+        title: this.heroForm.value.featureTitle ?? '',
+        description: this.heroForm.value.featureDescription ?? '',
+        metrics: this.metrics.controls.map(control => ({
           label: control.value.label ?? '',
-          value: Number(control.value.value ?? 0),
-          suffix: control.value.suffix || null,
-          decimals: control.value.decimals ?? null,
+          value: control.value.value ?? '',
+          theme: control.value.theme ?? 'accent',
         })),
+        partner: {
+          label: this.heroForm.value.partnerLabel ?? '',
+          description: this.heroForm.value.partnerDescription ?? '',
+        },
       },
-      testimonials: this.testimonialForm.controls.map((control, index) => ({
-        quote: control.value.quote ?? '',
-        name: control.value.name ?? '',
-        title: control.value.title ?? '',
-        location: control.value.location ?? '',
-        rating: Number(control.value.rating ?? 5),
-        type: control.value.type ?? 'client',
-        image: null,
-        imageFileName: control.value.imageFileName || null,
-        imageFile: this.testimonialImages[index],
+    } satisfies SaveHomeHeroRequest;
+  }
+
+  private toTrustRequest(): SaveHomeTrustRequest {
+    return {
+      tagline: this.trustForm.value.tagline ?? '',
+      logos: this.logos.controls.map((control, index) => ({
+        fileName: control.value || null,
+        url: control.value || null,
+        logoFile: this.trustLogoFiles[index],
       })),
-    } satisfies SaveHomePageRequest;
+      stats: this.stats.controls.map(control => ({
+        label: control.value.label ?? '',
+        value: Number(control.value.value ?? 0),
+        suffix: control.value.suffix || null,
+        decimals: control.value.decimals ?? null,
+      })),
+    } satisfies SaveHomeTrustRequest;
+  }
+
+  private toTestimonialRequest(control: TestimonialFormGroup, index: number): SaveHomeTestimonialRequest {
+    return {
+      quote: control.value.quote ?? '',
+      name: control.value.name ?? '',
+      title: control.value.title ?? '',
+      location: control.value.location ?? '',
+      rating: Number(control.value.rating ?? 5),
+      type: control.value.type ?? 'client',
+      imageFileName: control.value.imageFileName || null,
+      imageFile: this.testimonialImages[index],
+    } satisfies SaveHomeTestimonialRequest;
   }
 
   private createMetricGroup(metric?: HomeMetricModel): MetricFormGroup {
@@ -364,6 +446,7 @@ export class HomeAdminComponent implements OnInit {
 
   private createTestimonialGroup(testimonial?: HomeTestimonialModel): TestimonialFormGroup {
     return this.fb.group({
+      id: this.fb.control<string | null>(testimonial?.id ?? null),
       quote: this.fb.control<string>(testimonial?.quote ?? '', {
         validators: Validators.required,
         nonNullable: true,

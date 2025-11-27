@@ -10,6 +10,7 @@ public sealed record HomePageDto(
 );
 
 public sealed record HomeHeroDto(
+    Guid Id,
     string Badge,
     string Title,
     string Description,
@@ -47,6 +48,7 @@ public sealed record HomePartnerDto(
 );
 
 public sealed record HomeTrustDto(
+    Guid Id,
     string Tagline,
     IReadOnlyList<MediaResourceDto?> Logos,
     IReadOnlyList<HomeStatDto> Stats
@@ -60,6 +62,7 @@ public sealed record HomeStatDto(
 );
 
 public sealed record HomeTestimonialDto(
+    Guid Id,
     string Quote,
     string Name,
     string Title,
@@ -67,17 +70,6 @@ public sealed record HomeTestimonialDto(
     int Rating,
     string Type,
     MediaResourceDto? Image
-);
-
-public sealed record SaveHomePageRequest(
-    HomeHeroSectionRequest Hero,
-    HomeTrustSectionRequest Trust,
-    IReadOnlyList<HomeTestimonialRequest> Testimonials
-);
-
-public sealed record HomePageContent(
-    HomeHeroSectionRequest Hero,
-    HomeTrustSectionRequest Trust
 );
 
 public sealed record HomeHeroSectionRequest(

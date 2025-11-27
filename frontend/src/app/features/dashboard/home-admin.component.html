@@ -1,7 +1,7 @@
 <div class="admin-panel" [class.loading]="loading()">
   <h2>Home Page</h2>
 
-  <form (ngSubmit)="submit()" class="form-grid">
+  <form class="form-grid">
     <section [formGroup]="heroForm">
       <h3>Hero</h3>
       <label>
@@ -213,6 +213,8 @@
   </form>
 
   <div class="actions">
-    <button type="button" (click)="submit()" [disabled]="loading()">Save Home Page</button>
+    <button type="button" (click)="submitHero()" [disabled]="loading() || savingHero()">Save Hero</button>
+    <button type="button" (click)="submitTrust()" [disabled]="loading() || savingTrust()">Save Trust</button>
+    <button type="button" (click)="submitTestimonials()" [disabled]="loading() || savingTestimonials()">Save Testimonials</button>
   </div>
 </div>
