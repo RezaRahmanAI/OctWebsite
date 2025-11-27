@@ -108,10 +108,14 @@
           <h4>Metrics</h4>
           <button type="button" (click)="addMetric()">Add Metric</button>
         </div>
-        <div *ngFor="let control of metrics.controls; let i = index" class="grid-3 list-row">
-          <input type="text" placeholder="Label" [formControl]="control.get('label')" />
-          <input type="text" placeholder="Value" [formControl]="control.get('value')" />
-          <input type="text" placeholder="Theme" [formControl]="control.get('theme')" />
+        <div
+          *ngFor="let control of metrics.controls; let i = index"
+          class="grid-3 list-row"
+          [formGroup]="control"
+        >
+          <input type="text" placeholder="Label" formControlName="label" />
+          <input type="text" placeholder="Value" formControlName="value" />
+          <input type="text" placeholder="Theme" formControlName="theme" />
           <button type="button" (click)="removeMetric(i)">Remove</button>
         </div>
       </div>
@@ -140,11 +144,15 @@
           <h4>Stats</h4>
           <button type="button" (click)="addStat()">Add</button>
         </div>
-        <div *ngFor="let control of stats.controls; let i = index" class="grid-4 list-row">
-          <input type="text" placeholder="Label" [formControl]="control.get('label')" />
-          <input type="number" placeholder="Value" [formControl]="control.get('value')" />
-          <input type="text" placeholder="Suffix" [formControl]="control.get('suffix')" />
-          <input type="number" placeholder="Decimals" [formControl]="control.get('decimals')" />
+        <div
+          *ngFor="let control of stats.controls; let i = index"
+          class="grid-4 list-row"
+          [formGroup]="control"
+        >
+          <input type="text" placeholder="Label" formControlName="label" />
+          <input type="number" placeholder="Value" formControlName="value" />
+          <input type="text" placeholder="Suffix" formControlName="suffix" />
+          <input type="number" placeholder="Decimals" formControlName="decimals" />
           <button type="button" (click)="removeStat(i)">Remove</button>
         </div>
       </div>
