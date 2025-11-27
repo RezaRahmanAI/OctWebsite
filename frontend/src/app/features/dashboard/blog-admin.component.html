@@ -1,189 +1,348 @@
-<div class="card">
-  <div class="card__header">
+<!-- BLOG HEADER / HERO CONFIG -->
+<div class="card-surface">
+  <div class="flex items-center justify-between gap-4">
     <div>
-      <p class="eyebrow">Blog header</p>
-      <h2 class="card__title">Hero content</h2>
-      <p class="card__subtitle">Control the blog page hero copy and optional header video.</p>
+      <p class="text-xs font-semibold uppercase text-primary-600">Blog</p>
+      <h2 class="text-xl font-semibold text-slate-900">Hero content</h2>
+      <p class="text-sm text-slate-600">
+        Control the blog page hero copy and optional header video.
+      </p>
     </div>
+    <button
+      class="btn"
+      type="button"
+      (click)="saveHeader()"
+      [disabled]="headerLoading()"
+    >
+      {{ headerLoading() ? 'Saving...' : 'Save header' }}
+    </button>
   </div>
 
-  <form class="grid gap-6 lg:grid-cols-[2fr_1fr]" [formGroup]="headerForm" (ngSubmit)="saveHeader()">
+  <form
+    class="mt-6 grid gap-6 lg:grid-cols-[2fr_1fr]"
+    [formGroup]="headerForm"
+    (ngSubmit)="saveHeader()"
+  >
     <div class="space-y-4">
-      <div class="form-grid">
-        <label class="form-label">Eyebrow</label>
-        <input class="form-input" type="text" formControlName="headerEyebrow" placeholder="Insights &amp; Updates" />
-      </div>
-      <div class="form-grid">
-        <label class="form-label">Title</label>
-        <input class="form-input" type="text" formControlName="headerTitle" placeholder="Stories from the studio" />
-      </div>
-      <div class="form-grid">
-        <label class="form-label">Subtitle</label>
-        <textarea class="form-input" rows="3" formControlName="headerSubtitle" placeholder="Intro copy"></textarea>
-      </div>
+      <label class="form-field">
+        <span>Eyebrow</span>
+        <input
+          type="text"
+          formControlName="headerEyebrow"
+          placeholder="Insights &amp; Updates"
+        />
+      </label>
+
+      <label class="form-field">
+        <span>Title</span>
+        <input
+          type="text"
+          formControlName="headerTitle"
+          placeholder="Stories from the studio"
+        />
+      </label>
+
+      <label class="form-field">
+        <span>Subtitle</span>
+        <textarea
+          rows="3"
+          formControlName="headerSubtitle"
+          placeholder="Intro copy"
+        ></textarea>
+      </label>
     </div>
 
     <div class="space-y-5">
-      <div class="upload-card">
-        <div class="upload-card__header">
+      <div class="rounded-xl border border-slate-200 p-4 space-y-3">
+        <div class="flex items-center justify-between gap-3">
           <div>
-            <p class="form-label mb-1">Header video</p>
-            <p class="text-xs text-slate-500">Optional hero video for the blog page header.</p>
+            <p class="text-sm font-semibold text-slate-900 mb-1">Header video</p>
+            
           </div>
-          <input type="file" accept="video/*" (change)="onHeroVideoSelected($event)" />
+          <input
+            type="file"
+            accept="video/*"
+            (change)="onHeroVideoSelected($event)"
+            class="text-xs"
+          />
         </div>
-        <div class="upload-card__body" *ngIf="heroVideoName() as videoName">
-          <p class="text-sm text-slate-700">{{ videoName }}</p>
+
+        <div *ngIf="heroVideoName() as videoName">
+          <p class="text-xs text-slate-600">
+            Current: <span class="font-medium text-slate-800">{{ videoName }}</span>
+          </p>
         </div>
       </div>
 
-      <button class="btn primary w-full" type="submit" [disabled]="headerLoading()">
-        Save header
+      <button
+        class="btn w-full"
+        type="submit"
+        [disabled]="headerLoading()"
+      >
+        {{ headerLoading() ? 'Saving...' : 'Save header' }}
       </button>
     </div>
   </form>
 </div>
 
-<div class="card">
-  <div class="card__header">
+<!-- BLOG EDITOR -->
+<div class="card-surface mt-6">
+  <div class="flex items-center justify-between gap-4">
     <div>
-      <p class="eyebrow">Blog</p>
-      <h2 class="card__title">Manage blog posts</h2>
-      <p class="card__subtitle">Create, update, and publish new stories with media uploads.</p>
+      <p class="text-xs font-semibold uppercase text-primary-600">Blog</p>
+      <h2 class="text-xl font-semibold text-slate-900">Manage blog posts</h2>
+      <p class="text-sm text-slate-600">
+        Create, update, and publish new stories with media uploads.
+      </p>
     </div>
-    <button class="btn ghost" type="button" (click)="reset()">New post</button>
+    <button class="btn ghost" type="button" (click)="reset()">
+      New post
+    </button>
   </div>
 
-  <form class="grid gap-6 lg:grid-cols-[2fr_1fr]" [formGroup]="form" (ngSubmit)="submit()">
+  <form
+    class="mt-6 grid gap-6 lg:grid-cols-[2fr_1fr]"
+    [formGroup]="form"
+    (ngSubmit)="submit()"
+  >
+    <!-- Left column: metadata + content -->
     <div class="space-y-4">
-      <div class="form-grid">
-        <label class="form-label">Title</label>
-        <input class="form-input" type="text" formControlName="title" placeholder="Post title" />
-      </div>
-      <div class="form-grid">
-        <label class="form-label">Slug</label>
-        <input class="form-input" type="text" formControlName="slug" placeholder="slug-for-post" />
-      </div>
-      <div class="form-grid">
-        <label class="form-label">Excerpt</label>
-        <textarea class="form-input" formControlName="excerpt" rows="2" placeholder="Short summary"></textarea>
-      </div>
-      <div class="form-grid">
-        <label class="form-label">Content</label>
-        <textarea class="form-input" formControlName="content" rows="6" placeholder="HTML content"></textarea>
-      </div>
-      <div class="form-grid">
-        <label class="form-label">Tags</label>
-        <input class="form-input" type="text" formControlName="tags" placeholder="Comma separated" />
-      </div>
-      <div class="form-grid">
-        <label class="form-label">Key points</label>
-        <textarea class="form-input" formControlName="keyPoints" rows="3" placeholder="One per line"></textarea>
-      </div>
+      <label class="form-field">
+        <span>Title</span>
+        <input
+          type="text"
+          formControlName="title"
+          placeholder="Post title"
+        />
+      </label>
+
+      <label class="form-field">
+        <span>Slug</span>
+        <input
+          type="text"
+          formControlName="slug"
+          placeholder="slug-for-post"
+        />
+      </label>
+
+      <label class="form-field">
+        <span>Excerpt</span>
+        <textarea
+          formControlName="excerpt"
+          rows="2"
+          placeholder="Short summary"
+        ></textarea>
+      </label>
+
+      <label class="form-field">
+        <span>Content</span>
+        <textarea
+          formControlName="content"
+          rows="6"
+          placeholder="HTML content"
+        ></textarea>
+      </label>
+
+      <label class="form-field">
+        <span>Tags</span>
+        <input
+          type="text"
+          formControlName="tags"
+          placeholder="Comma separated"
+        />
+      </label>
+
+      <label class="form-field">
+        <span>Key points</span>
+        <textarea
+          formControlName="keyPoints"
+          rows="3"
+          placeholder="One per line"
+        ></textarea>
+      </label>
+
       <div class="grid gap-4 md:grid-cols-2">
-        <div class="form-grid">
-          <label class="form-label">Author</label>
-          <input class="form-input" type="text" formControlName="author" />
-        </div>
-        <div class="form-grid">
-          <label class="form-label">Author title</label>
-          <input class="form-input" type="text" formControlName="authorTitle" />
-        </div>
+        <label class="form-field">
+          <span>Author</span>
+          <input type="text" formControlName="author" />
+        </label>
+
+        <label class="form-field">
+          <span>Author title</span>
+          <input type="text" formControlName="authorTitle" />
+        </label>
       </div>
+
       <div class="grid gap-4 md:grid-cols-3">
-        <div class="form-grid">
-          <label class="form-label">Published at</label>
-          <input class="form-input" type="date" formControlName="publishedAt" />
-        </div>
-        <div class="form-grid">
-          <label class="form-label">Reading time</label>
-          <input class="form-input" type="text" formControlName="readTime" placeholder="e.g. 6 min read" />
-        </div>
-        <div class="form-grid">
-          <label class="form-label">Status</label>
+        <label class="form-field">
+          <span>Published at</span>
+          <input type="date" formControlName="publishedAt" />
+        </label>
+
+        <label class="form-field">
+          <span>Reading time</span>
+          <input
+            type="text"
+            formControlName="readTime"
+            placeholder="e.g. 6 min read"
+          />
+        </label>
+
+        <div class="flex items-end">
           <label class="inline-flex items-center gap-2 text-sm text-slate-700">
-            <input type="checkbox" formControlName="published" class="h-4 w-4" /> Published
+            <input
+              type="checkbox"
+              formControlName="published"
+              class="h-4 w-4 rounded border-slate-300 text-primary-600"
+            />
+            <span>Published</span>
           </label>
         </div>
       </div>
-      <div class="form-grid">
-        <label class="form-label">Hero quote</label>
-        <input class="form-input" type="text" formControlName="heroQuote" />
-      </div>
 
+      <label class="form-field">
+        <span>Hero quote</span>
+        <input type="text" formControlName="heroQuote" />
+      </label>
+
+      <!-- Stats -->
       <div class="space-y-3">
         <div class="flex items-center justify-between">
           <div>
-            <p class="form-label mb-0">Stats</p>
-            <p class="text-xs text-slate-500">Add up to three headline metrics.</p>
+            <p class="text-sm font-semibold text-slate-900 mb-0">Stats</p>
+            <p class="text-xs text-slate-500">
+              Add up to three headline metrics.
+            </p>
           </div>
-          <button class="btn ghost" type="button" (click)="addStat()">Add</button>
+          <button
+            class="btn ghost"
+            type="button"
+            (click)="addStat()"
+          >
+            Add
+          </button>
         </div>
-        <div class="grid gap-3">
+
+        <div class="space-y-3">
           <div
             class="grid gap-3 md:grid-cols-[2fr_2fr_auto]"
             *ngFor="let stat of statControls(); let i = index"
             [formGroup]="stat"
           >
-            <input class="form-input" type="text" formControlName="label" placeholder="Label" />
-            <input class="form-input" type="text" formControlName="value" placeholder="Value" />
-            <button class="btn ghost" type="button" (click)="removeStat(i)">Remove</button>
+            <input
+              class="rounded-lg border border-slate-200 px-3 py-2 text-sm"
+              type="text"
+              formControlName="label"
+              placeholder="Label"
+            />
+            <input
+              class="rounded-lg border border-slate-200 px-3 py-2 text-sm"
+              type="text"
+              formControlName="value"
+              placeholder="Value"
+            />
+            <button
+              class="text-xs text-rose-600 justify-self-end"
+              type="button"
+              (click)="removeStat(i)"
+            >
+              Remove
+            </button>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- Right column: media + save -->
     <div class="space-y-5">
-      <div class="upload-card">
-        <div class="upload-card__header">
+      <!-- Thumbnail -->
+      <div class="rounded-xl border border-slate-200 p-4 space-y-3">
+        <div class="flex items-center justify-between gap-3">
           <div>
-            <p class="form-label mb-1">Thumbnail image</p>
-            <p class="text-xs text-slate-500">Upload a cover image for the listing page.</p>
+            <p class="text-sm font-semibold text-slate-900 mb-1">
+              Thumbnail image
+            </p>
+            <p class="text-xs text-slate-500">
+              Upload a cover image for the listing page.
+            </p>
           </div>
-          <input type="file" accept="image/*" (change)="onThumbnailChange($event)" />
+          <input
+            type="file"
+            accept="image/*"
+            (change)="onThumbnailChange($event)"
+            class="text-xs"
+          />
         </div>
-        <div class="upload-card__body" *ngIf="thumbnailPreview() as preview">
-          <img [src]="preview" alt="Thumbnail preview" class="h-36 w-full rounded-lg object-cover" />
+
+        <div *ngIf="thumbnailPreview() as preview" class="pt-2">
+          <img
+            [src]="preview"
+            alt="Thumbnail preview"
+            class="h-36 w-full rounded-lg object-cover"
+          />
         </div>
       </div>
 
-      <div class="upload-card">
-        <div class="upload-card__header">
+      <!-- Header video -->
+      <div class="rounded-xl border border-slate-200 p-4 space-y-3">
+        <div class="flex items-center justify-between gap-3">
           <div>
-            <p class="form-label mb-1">Header video</p>
-            <p class="text-xs text-slate-500">Optional hero video displayed on detail pages.</p>
+            <p class="text-sm font-semibold text-slate-900 mb-1">
+              Header video
+            </p>
+            <p class="text-xs text-slate-500">
+              Optional hero video displayed on detail pages. Leave blank to keep
+              the existing video.
+            </p>
           </div>
-          <input type="file" accept="video/*" (change)="onHeaderVideoChange($event)" />
+          <input
+            type="file"
+            accept="video/*"
+            (change)="onHeaderVideoChange($event)"
+            class="text-xs"
+          />
         </div>
-        <div class="upload-card__body" *ngIf="headerVideoName() as videoName">
-          <p class="text-sm text-slate-700">{{ videoName }}</p>
+
+        <div *ngIf="headerVideoName() as videoName">
+          <p class="text-xs text-slate-600">
+            Current: <span class="font-medium text-slate-800">{{ videoName }}</span>
+          </p>
         </div>
       </div>
 
-      <button class="btn primary w-full" type="submit" [disabled]="loading()">
-        {{ editingId() ? 'Update Post' : 'Create Post' }}
+      <button
+        class="btn w-full"
+        type="submit"
+        [disabled]="loading()"
+      >
+        {{ editingId() ? 'Update post' : 'Create post' }}
       </button>
     </div>
   </form>
 </div>
 
-<div class="card">
-  <div class="card__header">
+<!-- POSTS TABLE -->
+<div class="card-surface mt-6">
+  <div class="flex items-center justify-between gap-4">
     <div>
-      <p class="eyebrow">Current posts</p>
-      <h3 class="card__title">Blog entries</h3>
+      <p class="text-xs font-semibold uppercase text-primary-600">
+        Current posts
+      </p>
+      <h3 class="text-lg font-semibold text-slate-900">Blog entries</h3>
     </div>
-    <span class="pill">{{ posts().length }} posts</span>
+    <span class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">
+      {{ posts().length }} posts
+    </span>
   </div>
 
-  <div class="overflow-auto">
-    <table class="admin-table">
+  <div class="mt-4 overflow-auto">
+    <table class="admin-table w-full text-sm">
       <thead>
         <tr>
-          <th>Title</th>
-          <th>Tags</th>
-          <th>Published</th>
-          <th>Updated</th>
+          <th class="text-left">Title</th>
+          <th class="text-left">Tags</th>
+          <th class="text-left">Published</th>
+          <th class="text-left">Updated</th>
           <th></th>
         </tr>
       </thead>
@@ -192,14 +351,31 @@
           <td>{{ post.title }}</td>
           <td>{{ post.tags.join(', ') }}</td>
           <td>
-            <span class="pill" [ngClass]="post.published ? 'pill-success' : 'pill-muted'">
+            <span
+              class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium"
+              [ngClass]="post.published ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-500'"
+            >
               {{ post.published ? 'Published' : 'Draft' }}
             </span>
           </td>
           <td>{{ (post.updatedDate || post.createdDate) | date : 'mediumDate' }}</td>
-          <td class="actions">
-            <button class="btn ghost" type="button" (click)="edit(post)">Edit</button>
-            <button class="btn danger" type="button" (click)="delete(post.id)">Delete</button>
+          <td class="text-right">
+            <div class="flex items-center justify-end gap-2">
+              <button
+                class="btn ghost"
+                type="button"
+                (click)="edit(post)"
+              >
+                Edit
+              </button>
+              <button
+                class="btn danger"
+                type="button"
+                (click)="delete(post.id)"
+              >
+                Delete
+              </button>
+            </div>
           </td>
         </tr>
       </tbody>

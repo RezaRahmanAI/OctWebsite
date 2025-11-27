@@ -1,81 +1,176 @@
-<div class="card">
-  <div class="card-header flex items-center justify-between">
+<div class="card-surface">
+  <div class="flex items-center justify-between gap-4">
     <div>
-      <p class="text-xs uppercase tracking-[0.2em] text-primary">Social & Contact</p>
-      <h2 class="text-lg font-semibold text-slate-900">Manage social links and contact info</h2>
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-primary-600">
+        Social &amp; Contact
+      </p>
+      <h2 class="text-xl font-semibold text-slate-900">
+        Manage social links and contact info
+      </h2>
+      <p class="text-sm text-slate-600">
+        Update phone numbers, emails, WhatsApp channels, and social profiles used across the site.
+      </p>
     </div>
-    <button class="btn primary" type="button" (click)="submit()" [disabled]="loading()">Save</button>
+    <button
+      class="btn"
+      type="button"
+      (click)="submit()"
+      [disabled]="loading()"
+    >
+      {{ loading() ? 'Saving...' : 'Save' }}
+    </button>
   </div>
 
-  <form class="space-y-6" [formGroup]="form" (ngSubmit)="submit()">
-    <div class="grid gap-4 md:grid-cols-2">
-      <label class="form-control">
-        <span class="label">Local Phone Number</span>
-        <input class="input" formControlName="localPhoneNumber" />
-      </label>
-      <label class="form-control">
-        <span class="label">International Phone Number</span>
-        <input class="input" formControlName="internationalPhoneNumber" />
-      </label>
+  <form
+    class="mt-6 space-y-8"
+    [formGroup]="form"
+    (ngSubmit)="submit()"
+  >
+    <!-- Phone numbers -->
+    <div class="space-y-4">
+      <div>
+        <p class="text-sm font-semibold text-slate-900">Phone numbers</p>
+        <p class="text-xs text-slate-600">
+          Shown in the site header, footer, and contact blocks.
+        </p>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-field">
+          <span>Local phone number</span>
+          <input type="text" formControlName="localPhoneNumber" />
+        </label>
+        <label class="form-field">
+          <span>International phone number</span>
+          <input type="text" formControlName="internationalPhoneNumber" />
+        </label>
+      </div>
     </div>
 
-    <div class="grid gap-4 md:grid-cols-2">
-      <label class="form-control">
-        <span class="label">Business Email</span>
-        <input class="input" type="email" formControlName="businessEmail" />
-      </label>
-      <label class="form-control">
-        <span class="label">Support Email</span>
-        <input class="input" type="email" formControlName="supportEmail" />
-      </label>
+    <!-- Emails -->
+    <div class="space-y-4">
+      <div>
+        <p class="text-sm font-semibold text-slate-900">Emails</p>
+        <p class="text-xs text-slate-600">
+          Primary business and support email addresses.
+        </p>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-field">
+          <span>Business email</span>
+          <input type="email" formControlName="businessEmail" />
+        </label>
+        <label class="form-field">
+          <span>Support email</span>
+          <input type="email" formControlName="supportEmail" />
+        </label>
+      </div>
     </div>
 
-    <div class="grid gap-4 md:grid-cols-2" formGroupName="localWhatsapp">
-      <label class="form-control">
-        <span class="label">Local WhatsApp Label</span>
-        <input class="input" formControlName="label" />
-      </label>
-      <label class="form-control">
-        <span class="label">Local WhatsApp Number</span>
-        <input class="input" formControlName="number" />
-      </label>
-      <label class="form-control md:col-span-2">
-        <span class="label">Local WhatsApp URL</span>
-        <input class="input" formControlName="url" />
-      </label>
+    <!-- Local WhatsApp -->
+    <div class="space-y-4" formGroupName="localWhatsapp">
+      <div>
+        <p class="text-sm font-semibold text-slate-900">Local WhatsApp</p>
+        <p class="text-xs text-slate-600">
+          Channel for Bangladesh-based WhatsApp enquiries.
+        </p>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-field">
+          <span>Local WhatsApp label</span>
+          <input type="text" formControlName="label" placeholder="WhatsApp (BD)" />
+        </label>
+        <label class="form-field">
+          <span>Local WhatsApp number</span>
+          <input type="text" formControlName="number" />
+        </label>
+        <label class="form-field md:col-span-2">
+          <span>Local WhatsApp URL</span>
+          <input type="text" formControlName="url" placeholder="https://wa.me/..." />
+        </label>
+      </div>
     </div>
 
-    <div class="grid gap-4 md:grid-cols-2" formGroupName="internationalWhatsapp">
-      <label class="form-control">
-        <span class="label">International WhatsApp Label</span>
-        <input class="input" formControlName="label" />
-      </label>
-      <label class="form-control">
-        <span class="label">International WhatsApp Number</span>
-        <input class="input" formControlName="number" />
-      </label>
-      <label class="form-control md:col-span-2">
-        <span class="label">International WhatsApp URL</span>
-        <input class="input" formControlName="url" />
-      </label>
+    <!-- International WhatsApp -->
+    <div class="space-y-4" formGroupName="internationalWhatsapp">
+      <div>
+        <p class="text-sm font-semibold text-slate-900">International WhatsApp</p>
+        <p class="text-xs text-slate-600">
+          Channel for global enquiries outside Bangladesh.
+        </p>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-field">
+          <span>International WhatsApp label</span>
+          <input type="text" formControlName="label" placeholder="WhatsApp (Global)" />
+        </label>
+        <label class="form-field">
+          <span>International WhatsApp number</span>
+          <input type="text" formControlName="number" />
+        </label>
+        <label class="form-field md:col-span-2">
+          <span>International WhatsApp URL</span>
+          <input type="text" formControlName="url" placeholder="https://wa.me/..." />
+        </label>
+      </div>
     </div>
 
+    <!-- Social links -->
     <div class="space-y-3" formArrayName="socialLinks">
       <div class="flex items-center justify-between">
-        <h3 class="text-sm font-semibold text-slate-800">Social Links</h3>
-        <button class="btn ghost" type="button" (click)="addSocialLink()">Add Link</button>
+        <div>
+          <p class="text-sm font-semibold text-slate-900">Social links</p>
+          <p class="text-xs text-slate-600">
+            Profiles used in the footer and contact sections (e.g. LinkedIn, Facebook, YouTube).
+          </p>
+        </div>
+        <button
+          class="btn ghost"
+          type="button"
+          (click)="addSocialLink()"
+        >
+          Add link
+        </button>
       </div>
+
       <div class="space-y-2">
-        <div class="grid gap-2 md:grid-cols-[1fr_1fr_auto] items-center" *ngFor="let control of socialLinks.controls; let i = index" [formGroupName]="i">
-          <input class="input" formControlName="label" placeholder="LinkedIn" />
-          <input class="input" formControlName="url" placeholder="https://" />
-          <button class="btn ghost" type="button" (click)="removeSocialLink(i)">Remove</button>
+        <div
+          class="grid items-center gap-2 md:grid-cols-[1fr_1fr_auto]"
+          *ngFor="let control of socialLinks.controls; let i = index"
+          [formGroupName]="i"
+        >
+          <input
+            class="rounded-lg border border-slate-200 px-3 py-2 text-sm"
+            formControlName="label"
+            placeholder="LinkedIn"
+          />
+          <input
+            class="rounded-lg border border-slate-200 px-3 py-2 text-sm"
+            formControlName="url"
+            placeholder="https://"
+          />
+          <button
+            class="text-xs text-rose-600 justify-self-end"
+            type="button"
+            (click)="removeSocialLink(i)"
+          >
+            Remove
+          </button>
         </div>
       </div>
     </div>
 
     <div class="flex justify-end">
-      <button class="btn primary" type="submit" [disabled]="loading()">Save Contact Channels</button>
+      <button
+        class="btn"
+        type="submit"
+        [disabled]="loading()"
+      >
+        {{ loading() ? 'Saving...' : 'Save contact channels' }}
+      </button>
     </div>
   </form>
 </div>

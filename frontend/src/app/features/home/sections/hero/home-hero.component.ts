@@ -37,7 +37,6 @@ export class HomeHeroComponent implements AfterViewInit, OnDestroy {
   @ViewChild('mediaImage') mediaImage?: ElementRef<HTMLImageElement>;
   @ViewChildren('titleWord') titleWordElements?: QueryList<ElementRef<HTMLElement>>;
   @ViewChildren('ctaButton') ctaButtons?: QueryList<ElementRef<HTMLAnchorElement>>;
-  @ViewChildren('highlightItem') highlightItems?: QueryList<ElementRef<HTMLLIElement>>;
   @ViewChildren('floatingCard') floatingCards?: QueryList<ElementRef<HTMLDivElement>>;
 
   private timeline?: any;
@@ -95,7 +94,7 @@ export class HomeHeroComponent implements AfterViewInit, OnDestroy {
 
     const titleWordEls = this.titleWordElements?.toArray().map((ref) => ref.nativeElement) ?? [];
     const ctaEls = this.ctaButtons?.toArray().map((ref) => ref.nativeElement) ?? [];
-    const highlightEls = this.highlightItems?.toArray().map((ref) => ref.nativeElement) ?? [];
+    
     const floatingEls = this.floatingCards?.toArray().map((ref) => ref.nativeElement) ?? [];
 
     if (titleWordEls.length) {
@@ -110,9 +109,7 @@ export class HomeHeroComponent implements AfterViewInit, OnDestroy {
       this.timeline.from(ctaEls, { y: 20, opacity: 0, stagger: 0.08, duration: 0.6 }, '-=0.25');
     }
 
-    if (highlightEls.length) {
-      this.timeline.from(highlightEls, { y: 18, opacity: 0, stagger: 0.05, duration: 0.6 }, '-=0.35');
-    }
+
 
     if (this.mediaCard) {
       this.timeline.from(this.mediaCard.nativeElement, { y: 48, opacity: 0, duration: 1 }, '-=0.4');

@@ -1,194 +1,408 @@
-<div class="card">
-  <div class="card-header flex items-center justify-between">
+<div class="card-surface">
+  <div class="flex items-center justify-between gap-4">
     <div>
-      <p class="text-xs uppercase tracking-[0.2em] text-primary">Contact Page</p>
-      <h2 class="text-lg font-semibold text-slate-900">Edit Contact Content</h2>
+      <p class="text-xs font-semibold uppercase text-primary-600 tracking-[0.2em]">
+        Contact Page
+      </p>
+      <h2 class="text-xl font-semibold text-slate-900">Edit Contact Content</h2>
+      <p class="text-sm text-slate-600">
+        Manage hero copy, offices, emails, form options, and map settings for the contact page.
+      </p>
     </div>
-    <button class="btn primary" type="button" (click)="submit()" [disabled]="loading()">Save</button>
+    <button
+      class="btn"
+      type="button"
+      (click)="submit()"
+      [disabled]="loading()"
+    >
+      {{ loading() ? 'Saving...' : 'Save Contact Page' }}
+    </button>
   </div>
 
-  <form class="space-y-6" [formGroup]="form" (ngSubmit)="submit()">
-    <div class="grid gap-4 md:grid-cols-2">
-      <label class="form-control">
-        <span class="label">Header Eyebrow</span>
-        <input class="input" formControlName="headerEyebrow" placeholder="Contact" />
-      </label>
-      <label class="form-control">
-        <span class="label">Header Title</span>
-        <input class="input" formControlName="headerTitle" placeholder="Partner with ObjectCanvas" />
-      </label>
-      <label class="form-control md:col-span-2">
-        <span class="label">Header Subtitle</span>
-        <textarea class="input" rows="2" formControlName="headerSubtitle"></textarea>
-      </label>
+  <form
+    class="mt-6 space-y-8"
+    [formGroup]="form"
+    (ngSubmit)="submit()"
+  >
+    <!-- Hero content -->
+    <div class="space-y-4">
+      <div>
+        <p class="text-sm font-semibold text-slate-900">Hero content</p>
+        <p class="text-xs text-slate-600">
+          Controls the main headline and intro text at the top of the contact page.
+        </p>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-field">
+          <span>Header eyebrow</span>
+          <input
+            type="text"
+            formControlName="headerEyebrow"
+            placeholder="Contact"
+          />
+        </label>
+        <label class="form-field">
+          <span>Header title</span>
+          <input
+            type="text"
+            formControlName="headerTitle"
+            placeholder="Partner with ObjectCanvas"
+          />
+        </label>
+        <label class="form-field md:col-span-2">
+          <span>Header subtitle</span>
+          <textarea
+            rows="2"
+            formControlName="headerSubtitle"
+          ></textarea>
+        </label>
+      </div>
     </div>
 
-    <div class="grid gap-4 md:grid-cols-2">
-      <label class="form-control">
-        <span class="label">Hero Meta Line</span>
-        <input class="input" formControlName="heroMetaLine" placeholder="Dhaka · Rajshahi · Remote" />
-      </label>
-      <label class="form-control">
-        <span class="label">Primary CTA Label</span>
-        <input class="input" formControlName="primaryCtaLabel" placeholder="Hire Our Team" />
-      </label>
+    <!-- Meta + CTA -->
+    <div class="space-y-4">
+      <div>
+        <p class="text-sm font-semibold text-slate-900">Hero meta & CTA</p>
+        <p class="text-xs text-slate-600">
+          Meta line, primary action label, and consultation details.
+        </p>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-field">
+          <span>Hero meta line</span>
+          <input
+            type="text"
+            formControlName="heroMetaLine"
+            placeholder="Dhaka · Rajshahi · Remote"
+          />
+        </label>
+        <label class="form-field">
+          <span>Primary CTA label</span>
+          <input
+            type="text"
+            formControlName="primaryCtaLabel"
+            placeholder="Hire Our Team"
+          />
+        </label>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-field">
+          <span>Primary CTA link</span>
+          <input
+            type="text"
+            formControlName="primaryCtaLink"
+            placeholder="/contact#consultation"
+          />
+        </label>
+        <label class="form-field">
+          <span>Consultation options</span>
+          <textarea
+            rows="2"
+            formControlName="consultationOptions"
+          ></textarea>
+        </label>
+      </div>
     </div>
 
-    <div class="grid gap-4 md:grid-cols-2">
-      <label class="form-control">
-        <span class="label">Primary CTA Link</span>
-        <input class="input" formControlName="primaryCtaLink" placeholder="/contact#consultation" />
-      </label>
-      <label class="form-control">
-        <span class="label">Consultation Options</span>
-        <textarea class="input" rows="2" formControlName="consultationOptions"></textarea>
-      </label>
+    <!-- Support / response / NDA / HQ -->
+    <div class="space-y-4">
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-field">
+          <span>Regional support</span>
+          <input type="text" formControlName="regionalSupport" />
+        </label>
+        <label class="form-field">
+          <span>Response time</span>
+          <input type="text" formControlName="responseTime" />
+        </label>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-field">
+          <span>NDA label</span>
+          <input type="text" formControlName="ndaLabel" />
+        </label>
+        <label class="form-field">
+          <span>Headquarters</span>
+          <textarea
+            rows="2"
+            formControlName="headquarters"
+          ></textarea>
+        </label>
+      </div>
     </div>
 
-    <div class="grid gap-4 md:grid-cols-2">
-      <label class="form-control">
-        <span class="label">Regional Support</span>
-        <input class="input" formControlName="regionalSupport" />
-      </label>
-      <label class="form-control">
-        <span class="label">Response Time</span>
-        <input class="input" formControlName="responseTime" />
-      </label>
+    <!-- Offices summary -->
+    <div class="space-y-4">
+      <div>
+        <p class="text-sm font-semibold text-slate-900">Offices summary</p>
+        <p class="text-xs text-slate-600">
+          Controls the text above the office cards on the public page.
+        </p>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-3">
+        <label class="form-field">
+          <span>Offices eyebrow</span>
+          <input type="text" formControlName="officesEyebrow" />
+        </label>
+        <label class="form-field">
+          <span>Offices title</span>
+          <input type="text" formControlName="officesTitle" />
+        </label>
+        <label class="form-field">
+          <span>Offices description</span>
+          <input type="text" formControlName="officesDescription" />
+        </label>
+      </div>
     </div>
 
-    <div class="grid gap-4 md:grid-cols-2">
-      <label class="form-control">
-        <span class="label">NDA Label</span>
-        <input class="input" formControlName="ndaLabel" />
-      </label>
-      <label class="form-control">
-        <span class="label">Headquarters</span>
-        <textarea class="input" rows="2" formControlName="headquarters"></textarea>
-      </label>
-    </div>
-
-    <div class="grid gap-4 md:grid-cols-3">
-      <label class="form-control md:col-span-1">
-        <span class="label">Offices Eyebrow</span>
-        <input class="input" formControlName="officesEyebrow" />
-      </label>
-      <label class="form-control md:col-span-1">
-        <span class="label">Offices Title</span>
-        <input class="input" formControlName="officesTitle" />
-      </label>
-      <label class="form-control md:col-span-1">
-        <span class="label">Offices Description</span>
-        <input class="input" formControlName="officesDescription" />
-      </label>
-    </div>
-
+    <!-- Office locations -->
     <div class="space-y-3" formArrayName="offices">
       <div class="flex items-center justify-between">
-        <h3 class="text-sm font-semibold text-slate-800">Office Locations</h3>
-        <button class="btn ghost" type="button" (click)="addOffice()">Add Office</button>
+        <div>
+          <p class="text-sm font-semibold text-slate-900">Office locations</p>
+          <p class="text-xs text-slate-600">
+            Cards for each physical office location.
+          </p>
+        </div>
+        <button
+          class="btn ghost"
+          type="button"
+          (click)="addOffice()"
+        >
+          Add office
+        </button>
       </div>
+
       <div class="space-y-4">
-        <div class="grid gap-3 rounded-lg border border-slate-200 p-4" *ngFor="let control of offices.controls; let i = index" [formGroupName]="i">
+        <div
+          class="grid gap-3 rounded-xl border border-slate-200 p-4"
+          *ngFor="let control of offices.controls; let i = index"
+          [formGroupName]="i"
+        >
           <div class="grid gap-3 md:grid-cols-2">
-            <label class="form-control">
-              <span class="label">Name</span>
-              <input class="input" formControlName="name" />
+            <label class="form-field">
+              <span>Name</span>
+              <input type="text" formControlName="name" />
             </label>
-            <label class="form-control">
-              <span class="label">Headline</span>
-              <input class="input" formControlName="headline" />
+            <label class="form-field">
+              <span>Headline</span>
+              <input type="text" formControlName="headline" />
             </label>
           </div>
-          <label class="form-control">
-            <span class="label">Address</span>
-            <textarea class="input" rows="2" formControlName="address"></textarea>
+
+          <label class="form-field">
+            <span>Address</span>
+            <textarea
+              rows="2"
+              formControlName="address"
+            ></textarea>
           </label>
+
           <div class="flex items-center gap-3">
-            <label class="form-control flex-1">
-              <span class="label">Image URL</span>
-              <input class="input" formControlName="imageUrl" />
+            <label class="form-field flex-1">
+              <span>Image URL</span>
+              <input type="text" formControlName="imageUrl" />
             </label>
-            <button class="btn ghost" type="button" (click)="removeOffice(i)">Remove</button>
+            <button
+              class="text-xs text-rose-600"
+              type="button"
+              (click)="removeOffice(i)"
+            >
+              Remove
+            </button>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- Emails -->
     <div class="space-y-3" formArrayName="emails">
       <div class="flex items-center justify-between">
-        <h3 class="text-sm font-semibold text-slate-800">Emails</h3>
-        <button class="btn ghost" type="button" (click)="addEmail()">Add Email</button>
+        <div>
+          <p class="text-sm font-semibold text-slate-900">Emails</p>
+          <p class="text-xs text-slate-600">
+            Contact email addresses shown in the contact section.
+          </p>
+        </div>
+        <button
+          class="btn ghost"
+          type="button"
+          (click)="addEmail()"
+        >
+          Add email
+        </button>
       </div>
+
       <div class="space-y-2">
-        <div class="flex items-center gap-2" *ngFor="let control of emails.controls; let i = index">
-          <input class="input flex-1" [formControlName]="i" />
-          <button class="btn ghost" type="button" (click)="removeEmail(i)">Remove</button>
+        <div
+          class="flex items-center gap-2 rounded-xl border border-slate-200 px-3 py-2"
+          *ngFor="let control of emails.controls; let i = index"
+        >
+          <input
+            class="flex-1 border-none bg-transparent p-0 text-sm focus:ring-0"
+            [formControlName]="i"
+          />
+          <button
+            class="text-xs text-rose-600"
+            type="button"
+            (click)="removeEmail(i)"
+          >
+            Remove
+          </button>
         </div>
       </div>
     </div>
 
+    <!-- Form options -->
     <div class="space-y-3" formArrayName="formOptions">
       <div class="flex items-center justify-between">
-        <h3 class="text-sm font-semibold text-slate-800">Form Options</h3>
-        <button class="btn ghost" type="button" (click)="addFormOption()">Add Option</button>
+        <div>
+          <p class="text-sm font-semibold text-slate-900">Form options</p>
+          <p class="text-xs text-slate-600">
+            Options shown in the “How can we help?” select field.
+          </p>
+        </div>
+        <button
+          class="btn ghost"
+          type="button"
+          (click)="addFormOption()"
+        >
+          Add option
+        </button>
       </div>
+
       <div class="space-y-2">
-        <div class="flex items-center gap-2" *ngFor="let control of formOptions.controls; let i = index">
-          <input class="input flex-1" [formControlName]="i" />
-          <button class="btn ghost" type="button" (click)="removeFormOption(i)">Remove</button>
+        <div
+          class="flex items-center gap-2 rounded-xl border border-slate-200 px-3 py-2"
+          *ngFor="let control of formOptions.controls; let i = index"
+        >
+          <input
+            class="flex-1 border-none bg-transparent p-0 text-sm focus:ring-0"
+            [formControlName]="i"
+          />
+          <button
+            class="text-xs text-rose-600"
+            type="button"
+            (click)="removeFormOption(i)"
+          >
+            Remove
+          </button>
         </div>
       </div>
     </div>
 
-    <div class="grid gap-4 md:grid-cols-2">
-      <label class="form-control">
-        <span class="label">Hero Video File Name</span>
-        <input class="input" formControlName="heroVideoFileName" placeholder="Existing file name or URL" />
-      </label>
-      <label class="form-control">
-        <span class="label">Upload Hero Video</span>
-        <input class="input" type="file" accept="video/*" (change)="onHeroVideoSelected($event)" />
-      </label>
+    <!-- Hero video -->
+    <div class="space-y-4">
+      <div>
+        <p class="text-sm font-semibold text-slate-900">Hero video</p>
+        <p class="text-xs text-slate-600">
+          Optional looping background video used in the contact hero.
+        </p>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-field">
+          <span>Hero video file name</span>
+          <input
+            type="text"
+            formControlName="heroVideoFileName"
+            placeholder="Existing file name or URL"
+          />
+        </label>
+        <label class="form-field">
+          <span>Upload hero video</span>
+          <input
+            type="file"
+            accept="video/*"
+            (change)="onHeroVideoSelected($event)"
+          />
+          <small *ngIf="form.value.heroVideoFileName; else noHeroVideo">
+            Current: {{ form.value.heroVideoFileName }}
+          </small>
+          <ng-template #noHeroVideo>
+            <small>Leave blank to keep the existing video.</small>
+          </ng-template>
+        </label>
+      </div>
     </div>
 
-    <div class="grid gap-4 md:grid-cols-2">
-      <label class="form-control">
-        <span class="label">Map Embed URL</span>
-        <input class="input" formControlName="mapEmbedUrl" />
-      </label>
-      <label class="form-control">
-        <span class="label">Map Title</span>
-        <input class="input" formControlName="mapTitle" />
-      </label>
-    </div>
+    <!-- Map + profile -->
+    <div class="space-y-4">
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-field">
+          <span>Map embed URL</span>
+          <input type="text" formControlName="mapEmbedUrl" />
+        </label>
+        <label class="form-field">
+          <span>Map title</span>
+          <input type="text" formControlName="mapTitle" />
+        </label>
+      </div>
 
-    <div class="grid gap-4 md:grid-cols-2">
-      <div class="space-y-3" formArrayName="businessHours">
-        <div class="flex items-center justify-between">
-          <h3 class="text-sm font-semibold text-slate-800">Business Hours</h3>
-          <button class="btn ghost" type="button" (click)="addBusinessHour()">Add</button>
-        </div>
-        <div class="space-y-2">
-          <div class="flex items-center gap-2" *ngFor="let control of businessHours.controls; let i = index">
-            <input class="input flex-1" [formControlName]="i" />
-            <button class="btn ghost" type="button" (click)="removeBusinessHour(i)">Remove</button>
+      <div class="grid gap-4 md:grid-cols-2">
+        <div class="space-y-3" formArrayName="businessHours">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-semibold text-slate-900">Business hours</p>
+              <p class="text-xs text-slate-600">
+                Lines shown under the offices section (e.g. Sun–Thu, Fri–Sat).
+              </p>
+            </div>
+            <button
+              class="btn ghost"
+              type="button"
+              (click)="addBusinessHour()"
+            >
+              Add
+            </button>
+          </div>
+
+          <div class="space-y-2">
+            <div
+              class="flex items-center gap-2 rounded-xl border border-slate-200 px-3 py-2"
+              *ngFor="let control of businessHours.controls; let i = index"
+            >
+              <input
+                class="flex-1 border-none bg-transparent p-0 text-sm focus:ring-0"
+                [formControlName]="i"
+              />
+              <button
+                class="text-xs text-rose-600"
+                type="button"
+                (click)="removeBusinessHour(i)"
+              >
+                Remove
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="grid gap-4 md:grid-cols-2">
-        <label class="form-control">
-          <span class="label">Profile Download Label</span>
-          <input class="input" formControlName="profileDownloadLabel" />
-        </label>
-        <label class="form-control">
-          <span class="label">Profile Download URL</span>
-          <input class="input" formControlName="profileDownloadUrl" />
-        </label>
+
+        <div class="grid gap-4 md:grid-cols-2">
+          <label class="form-field">
+            <span>Profile download label</span>
+            <input type="text" formControlName="profileDownloadLabel" />
+          </label>
+          <label class="form-field">
+            <span>Profile download URL</span>
+            <input type="text" formControlName="profileDownloadUrl" />
+          </label>
+        </div>
       </div>
     </div>
 
     <div class="flex justify-end">
-      <button class="btn primary" type="submit" [disabled]="loading()">Save Contact Page</button>
+      <button
+        class="btn"
+        type="submit"
+        [disabled]="loading()"
+      >
+        {{ loading() ? 'Saving...' : 'Save Contact Page' }}
+      </button>
     </div>
   </form>
 </div>
