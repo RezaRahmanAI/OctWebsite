@@ -542,7 +542,7 @@ namespace OctWebsite.Infrastructure.Migrations
                     b.ToTable("ContactSubmissions", (string)null);
                 });
 
-            modelBuilder.Entity("OctWebsite.Domain.Entities.HomePage", b =>
+            modelBuilder.Entity("OctWebsite.Domain.Entities.HomeHeroSection", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -553,15 +553,26 @@ namespace OctWebsite.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("HomePages", (string)null);
+                    b.ToTable("HomeHeroSections", (string)null);
+                });
+
+            modelBuilder.Entity("OctWebsite.Domain.Entities.HomeTrustSection", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HomeTrustSections", (string)null);
                 });
 
             modelBuilder.Entity("OctWebsite.Domain.Entities.HomeTestimonial", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("HomePageId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ImageFileName")
@@ -591,8 +602,6 @@ namespace OctWebsite.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("HomePageId");
 
                     b.ToTable("HomeTestimonials", (string)null);
                 });
@@ -795,15 +804,6 @@ namespace OctWebsite.Infrastructure.Migrations
                     b.HasOne("OctWebsite.Infrastructure.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("OctWebsite.Domain.Entities.HomeTestimonial", b =>
-                {
-                    b.HasOne("OctWebsite.Domain.Entities.HomePage", null)
-                        .WithMany()
-                        .HasForeignKey("HomePageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

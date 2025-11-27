@@ -183,7 +183,7 @@ namespace OctWebsite.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "HomePages",
+                name: "HomeHeroSections",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -191,7 +191,19 @@ namespace OctWebsite.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HomePages", x => x.Id);
+                    table.PrimaryKey("PK_HomeHeroSections", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HomeTrustSections",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HomeTrustSections", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -222,7 +234,6 @@ namespace OctWebsite.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    HomePageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Quote = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -234,12 +245,6 @@ namespace OctWebsite.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_HomeTestimonials", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_HomeTestimonials_HomePages_HomePageId",
-                        column: x => x.HomePageId,
-                        principalTable: "HomePages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -480,11 +485,6 @@ namespace OctWebsite.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_HomeTestimonials_HomePageId",
-                table: "HomeTestimonials",
-                column: "HomePageId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Services_Slug",
                 table: "Services",
                 column: "Slug",
@@ -531,7 +531,10 @@ namespace OctWebsite.Infrastructure.Migrations
                 name: "HomeTestimonials");
 
             migrationBuilder.DropTable(
-                name: "HomePages");
+                name: "HomeHeroSections");
+
+            migrationBuilder.DropTable(
+                name: "HomeTrustSections");
 
             migrationBuilder.DropTable(
                 name: "ServicesPages");

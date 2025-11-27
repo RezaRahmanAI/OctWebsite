@@ -2,7 +2,6 @@ namespace OctWebsite.Domain.Entities;
 
 public sealed record HomeTestimonial(
     Guid Id,
-    Guid HomePageId,
     string Quote,
     string Name,
     string Title,

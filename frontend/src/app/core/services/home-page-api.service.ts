@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable, forkJoin, map, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export interface MediaResource {
@@ -31,6 +31,7 @@ export interface HomeFeaturePanelModel {
 }
 
 export interface HomeHeroModel {
+  id: string;
   badge: string;
   title: string;
   description: string;
@@ -44,12 +45,14 @@ export interface HomeHeroModel {
 }
 
 export interface HomeTrustModel {
+  id: string;
   tagline: string;
   logos: MediaResource[];
   stats: { label: string; value: number; suffix?: string | null; decimals?: number | null }[];
 }
 
 export interface HomeTestimonialModel {
+  id: string;
   quote: string;
   name: string;
   title: string;
@@ -66,23 +69,36 @@ export interface HomePageModel {
   testimonials: HomeTestimonialModel[];
 }
 
-export interface SaveHomePageRequest {
-  hero: {
-    badge: string;
-    title: string;
-    description: string;
-    primaryCta: CtaLinkModel;
-    secondaryCta: CtaLinkModel;
-    highlightCard: { title: string; description: string };
-    highlightList: string[];
-    videoFileName?: string | null;
-    videoFile?: File | null;
-    posterFileName?: string | null;
-    posterFile?: File | null;
-    featurePanel: HomeFeaturePanelModel;
-  };
-  trust: HomeTrustModel & { logos: (MediaResource & { logoFile?: File | null })[] };
-  testimonials: (HomeTestimonialModel & { imageFileName?: string | null; imageFile?: File | null })[];
+export interface SaveHomeHeroRequest {
+  badge: string;
+  title: string;
+  description: string;
+  primaryCta: CtaLinkModel;
+  secondaryCta: CtaLinkModel;
+  highlightCard: { title: string; description: string };
+  highlightList: string[];
+  videoFileName?: string | null;
+  videoFile?: File | null;
+  posterFileName?: string | null;
+  posterFile?: File | null;
+  featurePanel: HomeFeaturePanelModel;
+}
+
+export interface SaveHomeTrustRequest {
+  tagline: string;
+  logos: (MediaResource & { logoFile?: File | null })[];
+  stats: { label: string; value: number; suffix?: string | null; decimals?: number | null }[];
+}
+
+export interface SaveHomeTestimonialRequest {
+  quote: string;
+  name: string;
+  title: string;
+  location: string;
+  rating: number;
+  type: string;
+  imageFileName?: string | null;
+  imageFile?: File | null;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -93,61 +109,71 @@ export class HomePageApiService {
   readonly content = signal<HomePageModel | null>(null);
 
   load() {
-    return this.fetch().subscribe(page => this.content.set(page));
+    return this.fetch().subscribe();
   }
 
   fetch(): Observable<HomePageModel> {
-    return this.http.get<HomePageModel>(`${this.baseUrl}/api/home-page`);
+    return forkJoin({
+      hero: this.http.get<HomeHeroModel>(`${this.baseUrl}/api/home-hero`),
+      trust: this.http.get<HomeTrustModel>(`${this.baseUrl}/api/home-trust`),
+      testimonials: this.http.get<HomeTestimonialModel[]>(`${this.baseUrl}/api/home-testimonials`),
+    }).pipe(
+      map(({ hero, trust, testimonials }) => ({ id: hero.id, hero, trust, testimonials } satisfies HomePageModel)),
+      tap(page => this.content.set(page))
+    );
   }
 
-  save(request: SaveHomePageRequest) {
-    return this.update(request).subscribe(page => this.content.set(page));
-  }
-
-  update(request: SaveHomePageRequest): Observable<HomePageModel> {
+  updateHero(request: SaveHomeHeroRequest): Observable<HomeHeroModel> {
     const form = new FormData();
-    form.append('heroBadge', request.hero.badge);
-    form.append('heroTitle', request.hero.title);
-    form.append('heroDescription', request.hero.description);
-    form.append('primaryCtaLabel', request.hero.primaryCta.label);
-    if (request.hero.primaryCta.routerLink) form.append('primaryCtaLink', request.hero.primaryCta.routerLink);
-    if (request.hero.primaryCta.fragment) form.append('primaryCtaFragment', request.hero.primaryCta.fragment);
-    if (request.hero.primaryCta.externalUrl) form.append('primaryCtaExternalUrl', request.hero.primaryCta.externalUrl);
-    if (request.hero.primaryCta.style) form.append('primaryCtaStyle', request.hero.primaryCta.style);
+    form.append('heroBadge', request.badge);
+    form.append('heroTitle', request.title);
+    form.append('heroDescription', request.description);
+    form.append('primaryCtaLabel', request.primaryCta.label);
+    if (request.primaryCta.routerLink) form.append('primaryCtaLink', request.primaryCta.routerLink);
+    if (request.primaryCta.fragment) form.append('primaryCtaFragment', request.primaryCta.fragment);
+    if (request.primaryCta.externalUrl) form.append('primaryCtaExternalUrl', request.primaryCta.externalUrl);
+    if (request.primaryCta.style) form.append('primaryCtaStyle', request.primaryCta.style);
 
-    form.append('secondaryCtaLabel', request.hero.secondaryCta.label);
-    if (request.hero.secondaryCta.routerLink) form.append('secondaryCtaLink', request.hero.secondaryCta.routerLink);
-    if (request.hero.secondaryCta.fragment) form.append('secondaryCtaFragment', request.hero.secondaryCta.fragment);
-    if (request.hero.secondaryCta.externalUrl) form.append('secondaryCtaExternalUrl', request.hero.secondaryCta.externalUrl);
-    if (request.hero.secondaryCta.style) form.append('secondaryCtaStyle', request.hero.secondaryCta.style);
+    form.append('secondaryCtaLabel', request.secondaryCta.label);
+    if (request.secondaryCta.routerLink) form.append('secondaryCtaLink', request.secondaryCta.routerLink);
+    if (request.secondaryCta.fragment) form.append('secondaryCtaFragment', request.secondaryCta.fragment);
+    if (request.secondaryCta.externalUrl) form.append('secondaryCtaExternalUrl', request.secondaryCta.externalUrl);
+    if (request.secondaryCta.style) form.append('secondaryCtaStyle', request.secondaryCta.style);
 
-    form.append('heroHighlightTitle', request.hero.highlightCard.title);
-    form.append('heroHighlightDescription', request.hero.highlightCard.description);
-    request.hero.highlightList.forEach((item, index) => form.append(`heroHighlightList[${index}]`, item));
+    form.append('heroHighlightTitle', request.highlightCard.title);
+    form.append('heroHighlightDescription', request.highlightCard.description);
+    request.highlightList.forEach((item, index) => form.append(`heroHighlightList[${index}]`, item));
 
-    if (request.hero.videoFileName) form.append('heroVideoFileName', request.hero.videoFileName);
-    if (request.hero.videoFile) form.append('heroVideo', request.hero.videoFile);
-    if (request.hero.posterFileName) form.append('heroPosterFileName', request.hero.posterFileName);
-    if (request.hero.posterFile) form.append('heroPoster', request.hero.posterFile);
+    if (request.videoFileName) form.append('heroVideoFileName', request.videoFileName);
+    if (request.videoFile) form.append('heroVideo', request.videoFile);
+    if (request.posterFileName) form.append('heroPosterFileName', request.posterFileName);
+    if (request.posterFile) form.append('heroPoster', request.posterFile);
 
-    form.append('featureEyebrow', request.hero.featurePanel.eyebrow);
-    form.append('featureTitle', request.hero.featurePanel.title);
-    form.append('featureDescription', request.hero.featurePanel.description);
-    request.hero.featurePanel.metrics.forEach((metric, index) => {
+    form.append('featureEyebrow', request.featurePanel.eyebrow);
+    form.append('featureTitle', request.featurePanel.title);
+    form.append('featureDescription', request.featurePanel.description);
+    request.featurePanel.metrics.forEach((metric, index) => {
       form.append(`heroMetrics[${index}].label`, metric.label);
       form.append(`heroMetrics[${index}].value`, metric.value);
       form.append(`heroMetrics[${index}].theme`, metric.theme);
     });
-    form.append('partnerLabel', request.hero.featurePanel.partner.label);
-    form.append('partnerDescription', request.hero.featurePanel.partner.description);
+    form.append('partnerLabel', request.featurePanel.partner.label);
+    form.append('partnerDescription', request.featurePanel.partner.description);
 
-    form.append('trustTagline', request.trust.tagline);
-    request.trust.logos.forEach((logo, index) => {
+    return this.http.put<HomeHeroModel>(`${this.baseUrl}/api/home-hero`, form).pipe(
+      tap(hero => this.mergeContent({ hero, id: hero.id }))
+    );
+  }
+
+  updateTrust(request: SaveHomeTrustRequest): Observable<HomeTrustModel> {
+    const form = new FormData();
+    form.append('trustTagline', request.tagline);
+    request.logos.forEach((logo, index) => {
       if (logo.fileName) form.append(`trustLogos[${index}].logoFileName`, logo.fileName);
       const file = (logo as any).logoFile as File | undefined;
       if (file) form.append(`trustLogos[${index}].logo`, file);
     });
-    request.trust.stats.forEach((stat, index) => {
+    request.stats.forEach((stat, index) => {
       form.append(`trustStats[${index}].label`, stat.label);
       form.append(`trustStats[${index}].value`, `${stat.value}`);
       if (stat.suffix) form.append(`trustStats[${index}].suffix`, stat.suffix);
@@ -156,19 +182,58 @@ export class HomePageApiService {
       }
     });
 
-    request.testimonials.forEach((testimonial, index) => {
-      form.append(`testimonials[${index}].quote`, testimonial.quote);
-      form.append(`testimonials[${index}].name`, testimonial.name);
-      form.append(`testimonials[${index}].title`, testimonial.title);
-      form.append(`testimonials[${index}].location`, testimonial.location);
-      form.append(`testimonials[${index}].rating`, `${testimonial.rating}`);
-      form.append(`testimonials[${index}].type`, testimonial.type);
-      if (testimonial.imageFileName) form.append(`testimonials[${index}].imageFileName`, testimonial.imageFileName);
-      if ((testimonial as any).imageFile) form.append(`testimonials[${index}].image`, (testimonial as any).imageFile);
-    });
+    return this.http.put<HomeTrustModel>(`${this.baseUrl}/api/home-trust`, form).pipe(
+      tap(trust => this.mergeContent({ trust }))
+    );
+  }
 
-    return this.http
-      .put<HomePageModel>(`${this.baseUrl}/api/home-page`, form)
-      .pipe(tap(page => this.content.set(page)));
+  createTestimonial(request: SaveHomeTestimonialRequest): Observable<HomeTestimonialModel> {
+    const form = this.toTestimonialFormData(request);
+    return this.http.post<HomeTestimonialModel>(`${this.baseUrl}/api/home-testimonials`, form).pipe(
+      tap(testimonial => this.mergeContent({ testimonials: [...(this.content()?.testimonials ?? []), testimonial] }))
+    );
+  }
+
+  updateTestimonial(id: string, request: SaveHomeTestimonialRequest): Observable<HomeTestimonialModel> {
+    const form = this.toTestimonialFormData(request);
+    return this.http.put<HomeTestimonialModel>(`${this.baseUrl}/api/home-testimonials/${id}`, form).pipe(
+      tap(testimonial => {
+        const existing = this.content()?.testimonials ?? [];
+        const updated = existing.map(item => (item.id === id ? testimonial : item));
+        this.mergeContent({ testimonials: updated });
+      })
+    );
+  }
+
+  deleteTestimonial(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/api/home-testimonials/${id}`).pipe(
+      tap(() => {
+        const remaining = (this.content()?.testimonials ?? []).filter(t => t.id !== id);
+        this.mergeContent({ testimonials: remaining });
+      })
+    );
+  }
+
+  private toTestimonialFormData(request: SaveHomeTestimonialRequest): FormData {
+    const form = new FormData();
+    form.append('quote', request.quote);
+    form.append('name', request.name);
+    form.append('title', request.title);
+    form.append('location', request.location);
+    form.append('rating', `${request.rating}`);
+    form.append('type', request.type);
+    if (request.imageFileName) form.append('imageFileName', request.imageFileName);
+    if (request.imageFile) form.append('image', request.imageFile);
+    return form;
+  }
+
+  private mergeContent(update: Partial<HomePageModel>) {
+    const current = this.content();
+    const next: HomePageModel | null = current
+      ? { ...current, ...update, hero: update.hero ?? current.hero, trust: update.trust ?? current.trust, testimonials: update.testimonials ?? current.testimonials }
+      : null;
+    if (next) {
+      this.content.set(next);
+    }
   }
 }

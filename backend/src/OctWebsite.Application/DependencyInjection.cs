@@ -10,6 +10,9 @@ public static class DependencyInjection
         services.AddScoped<ITeamService, TeamService>();
         services.AddScoped<IAboutService, AboutService>();
         services.AddScoped<IAboutPageService, AboutPageService>();
+        services.AddScoped<IHomeHeroService, HomeHeroService>();
+        services.AddScoped<IHomeTrustService, HomeTrustService>();
+        services.AddScoped<IHomeTestimonialService, HomeTestimonialService>();
         services.AddScoped<IHomePageService, HomePageService>();
         services.AddScoped<IContactPageService, ContactPageService>();
         services.AddScoped<IContactChannelsService, ContactChannelsService>();

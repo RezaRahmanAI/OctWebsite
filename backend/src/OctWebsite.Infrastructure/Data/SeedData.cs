@@ -10,7 +10,6 @@ namespace OctWebsite.Infrastructure.Data;
 internal static class SeedData
 {
     private const string AboutStorageKey = "about-page";
-    private const string HomePageStorageKey = "home-page";
     private const string AcademyPageStorageKey = "academy-page";
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
 
@@ -58,18 +57,13 @@ internal static class SeedData
             Serialize(DefaultAboutRequest))
     ];
 
-    public static CompanyAbout HomePage { get; } = new(
-        Guid.Parse("7c1a7b5c-5a8f-4d8a-8f64-7a13e8adf2a3"),
-        HomePageStorageKey,
-        Serialize(HomePageDefaults.DefaultRequest));
-
     public static CompanyAbout AcademyPage { get; } = new(
         Guid.Parse("8ccf6b48-9e2d-42d3-ae27-43b2446f7ff0"),
         AcademyPageStorageKey,
         Serialize(DefaultAcademyPageRequest));
 
     public static IReadOnlyList<CompanyAbout> CompanyAboutEntries { get; } =
-        About.Append(HomePage).Append(AcademyPage).ToArray();
+        About.Append(AcademyPage).ToArray();
 
     public static IReadOnlyList<AcademyTrack> AcademyTracks { get; } = DefaultAcademyTracks;
 
@@ -750,9 +744,6 @@ internal static class SeedData
     ];
 
     private static string Serialize(SaveAboutPageRequest request)
-        => JsonSerializer.Serialize(request, JsonOptions);
-
-    private static string Serialize(SaveHomePageRequest request)
         => JsonSerializer.Serialize(request, JsonOptions);
 
     private static string Serialize(SaveAcademyPageRequest request)

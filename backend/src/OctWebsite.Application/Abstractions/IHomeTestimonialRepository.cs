@@ -4,6 +4,9 @@ namespace OctWebsite.Application.Abstractions;
 
 public interface IHomeTestimonialRepository
 {
-    Task<IReadOnlyList<HomeTestimonial>> GetByHomePageIdAsync(Guid homePageId, CancellationToken cancellationToken = default);
-    Task ReplaceAsync(Guid homePageId, IReadOnlyList<HomeTestimonial> testimonials, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<HomeTestimonial>> GetAllAsync(CancellationToken cancellationToken = default);
+    Task<HomeTestimonial?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<HomeTestimonial> CreateAsync(HomeTestimonial testimonial, CancellationToken cancellationToken = default);
+    Task<HomeTestimonial?> UpdateAsync(HomeTestimonial testimonial, CancellationToken cancellationToken = default);
+    Task DeleteAsync(Guid id, CancellationToken cancellationToken = default);
 }

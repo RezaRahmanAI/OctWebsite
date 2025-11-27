@@ -23,7 +23,8 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<ContactSubmission> ContactSubmissions => Set<ContactSubmission>();
     public DbSet<ServiceItem> ServiceItems => Set<ServiceItem>();
     public DbSet<ServicesPage> ServicesPages => Set<ServicesPage>();
-    public DbSet<HomePage> HomePages => Set<HomePage>();
+    public DbSet<HomeHeroSection> HomeHeroSections => Set<HomeHeroSection>();
+    public DbSet<HomeTrustSection> HomeTrustSections => Set<HomeTrustSection>();
     public DbSet<HomeTestimonial> HomeTestimonials => Set<HomeTestimonial>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -224,12 +225,20 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
             entity.Property(page => page.HeaderSubtitle).IsRequired();
         });
 
-        modelBuilder.Entity<HomePage>(entity =>
+        modelBuilder.Entity<HomeHeroSection>(entity =>
         {
-            entity.ToTable("HomePages");
-            entity.HasKey(page => page.Id);
-            entity.Property(page => page.Id).ValueGeneratedNever();
-            entity.Property(page => page.Content).IsRequired();
+            entity.ToTable("HomeHeroSections");
+            entity.HasKey(section => section.Id);
+            entity.Property(section => section.Id).ValueGeneratedNever();
+            entity.Property(section => section.Content).IsRequired();
+        });
+
+        modelBuilder.Entity<HomeTrustSection>(entity =>
+        {
+            entity.ToTable("HomeTrustSections");
+            entity.HasKey(section => section.Id);
+            entity.Property(section => section.Id).ValueGeneratedNever();
+            entity.Property(section => section.Content).IsRequired();
         });
 
         modelBuilder.Entity<HomeTestimonial>(entity =>
@@ -242,10 +251,6 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
             entity.Property(testimonial => testimonial.Title).IsRequired();
             entity.Property(testimonial => testimonial.Location).IsRequired();
             entity.Property(testimonial => testimonial.Type).IsRequired();
-            entity.HasOne<HomePage>()
-                .WithMany()
-                .HasForeignKey(testimonial => testimonial.HomePageId)
-                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<ContactSubmission>(entity =>
