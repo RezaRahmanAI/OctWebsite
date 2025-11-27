@@ -18,7 +18,7 @@ public sealed class ApplicationDbInitializer(
         await context.Database.MigrateAsync(cancellationToken);
 
         await SeedCollectionAsync(context.TeamMembers, SeedData.TeamMembers, cancellationToken);
-        await SeedCollectionAsync(context.CompanyAboutEntries, SeedData.CompanyAboutEntries, cancellationToken);
+        await SeedCompanyAboutEntriesAsync(cancellationToken);
         await SeedCollectionAsync(context.AcademyTracks, SeedData.AcademyTracks, cancellationToken);
         await SeedCollectionAsync(context.BlogPosts, SeedData.BlogPosts, cancellationToken);
         await SeedCollectionAsync(context.ContactPages, new[] { SeedData.ContactPage }, cancellationToken);
@@ -70,5 +70,23 @@ public sealed class ApplicationDbInitializer(
         }
 
         await set.AddRangeAsync(data, cancellationToken);
+    }
+
+    private async Task SeedCompanyAboutEntriesAsync(CancellationToken cancellationToken)
+    {
+        var existingKeys = await context.CompanyAboutEntries.AsNoTracking()
+            .Select(entry => entry.Key.ToLowerInvariant())
+            .ToListAsync(cancellationToken);
+
+        var missingEntries = SeedData.CompanyAboutEntries
+            .Where(entry => !existingKeys.Contains(entry.Key.ToLowerInvariant()))
+            .ToArray();
+
+        if (missingEntries.Length == 0)
+        {
+            return;
+        }
+
+        await context.CompanyAboutEntries.AddRangeAsync(missingEntries, cancellationToken);
     }
 }
