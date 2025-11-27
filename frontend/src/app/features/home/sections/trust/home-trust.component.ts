@@ -15,23 +15,21 @@ interface TrustedLogo {
   imports: [CommonModule, FormatStatPipe, ScrollRevealDirective],
   templateUrl: './home-trust.component.html',
   styleUrl: './home-trust.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeTrustComponent {
+  // Data now expected to come from API (via parent trustData()),
+  // no internal static fallback.
   @Input({ required: true }) data!: HomeContent['trust'];
 
-  private readonly fallbackLogos: TrustedLogo[] = [
-    { name: 'Walton', src: '/images/trusted-by/walton-logo-update.svg' },
-    { name: 'Tricon', src: '/images/trusted-by/tricon.png' },
-    { name: 'Arian', src: '/images/trusted-by/arian.png' },
-    { name: 'Ashaven', src: '/images/trusted-by/ashaven.png' },
-  ];
-
   get marqueeRowOne(): TrustedLogo[] {
-    const logos = this.data?.logos?.length
-      ? this.data.logos.map(logo => ({ name: logo.alt ?? 'Trusted company', src: logo.src }))
-      : this.fallbackLogos;
+    const logos =
+      this.data?.logos?.map((logo) => ({
+        name: logo.alt ?? 'Trusted company',
+        src: logo.src,
+      })) ?? [];
 
+    // Repeat for smooth infinite marquee
     return [...logos, ...logos];
   }
 }

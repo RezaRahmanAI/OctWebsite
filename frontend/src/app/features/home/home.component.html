@@ -4,11 +4,11 @@
   </section>
 
   <section class="home-section">
-    <app-home-trust [data]="mergedHome().trust"></app-home-trust>
+    <app-home-trust [data]="trustData()" />
   </section>
 
   <section class="home-section">
-    <app-home-services [header]="mergedHome().services.header" />
+    <app-home-services [header]="home().services.header" />
   </section>
 
   <section class="home-section">
@@ -16,15 +16,15 @@
   </section>
 
   <section class="home-section">
-    <app-home-methodology [data]="mergedHome().methodology" />
+    <app-home-methodology [data]="home().methodology" />
   </section>
 
   <section class="home-section">
-    <app-home-collaboration [data]="mergedHome().collaboration" />
+    <app-home-collaboration [data]="home().collaboration" />
   </section>
 
   <section class="home-section">
-    <app-home-academy [data]="mergedHome().academy" />
+    <app-home-academy [data]="home().academy" />
   </section>
 
   <section class="home-section">
@@ -33,16 +33,16 @@
 
   <section class="home-section">
     <app-home-testimonials
-      [header]="mergedHome().testimonials.header"
-      [testimonials]="mergedHome().testimonials.items"
+      [header]="testimonialsHeader()"
+      [testimonials]="testimonialsItems()"
     />
   </section>
 
   <section class="home-section">
-    <app-home-insights [data]="mergedHome().insights" [posts]="featuredPosts()" />
+    <app-home-insights [data]="home().insights" [posts]="featuredPosts()" />
   </section>
 
   <section>
-    <app-home-closing-ctas [data]="mergedHome().closingCtas" />
+    <app-home-closing-ctas [data]="home().closingCtas" />
   </section>
 </div>

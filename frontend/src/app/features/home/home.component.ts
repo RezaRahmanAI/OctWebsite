@@ -12,7 +12,6 @@ import {
 import { TechStackComponent } from './sections/tech-stack-slider/tech-stack-slider.component';
 import { SeoService } from '../../core/services/seo.service';
 import { ContentService } from '../../core/services/content.service';
-import { SettingsService } from '../../core/services/settings.service';
 import { SiteIdentityService } from '../../core/services/site-identity.service';
 import { HomeHeroComponent } from './sections/hero/home-hero.component';
 import { HomeTrustComponent } from './sections/trust/home-trust.component';
@@ -26,7 +25,8 @@ import { environment } from '../../../environments/environment';
 import { HomeCollaborationComponent } from './sections/collaboration/home-collaboration.component';
 import { ProductShowcaseComponent } from './sections/product-showcase/product-showcase';
 import { BlogService } from '../../core/services/blog.service';
-import { HomePageApiService, HomePageModel } from '../../core/services/home-page-api.service';
+import { HomePageApiService, CtaLinkModel } from '../../core/services/home-page-api.service';
+import type { HomeContent, Testimonial, CtaLink } from '../../core/models/home-content.model';
 
 @Component({
   selector: 'app-home',
@@ -52,52 +52,141 @@ import { HomePageApiService, HomePageModel } from '../../core/services/home-page
 export class HomeComponent implements OnInit {
   private readonly seo = inject(SeoService);
   private readonly content = inject(ContentService);
-  private readonly settings = inject(SettingsService);
   private readonly siteIdentity = inject(SiteIdentityService);
   private readonly document = inject(DOCUMENT, { optional: true });
   private readonly blogService = inject(BlogService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly homePageApi = inject(HomePageApiService);
 
+  // Base static site content (for non-API sections & fallback)
   protected readonly home = this.content.homeContent;
+
+  // API home content (hero, trust, testimonials)
   protected readonly apiHome = this.homePageApi.content;
-  protected readonly mergedHome = computed(() => this.mergeHome(this.home(), this.apiHome()));
-  private readonly siteSettings = this.settings.settings;
+
   protected readonly snapEnabled = signal(false);
-  protected readonly heroData = computed(() => {
-    const base = this.mergedHome().hero;
-    const settings = this.siteSettings();
+
+  // ---------- HERO (API-first) ----------
+  protected readonly heroData = computed<HomeContent['hero']>(() => {
+    const baseHero = this.home().hero;
+    const apiHero = this.apiHome()?.hero;
     const heroVideo = this.siteIdentity.getHeroVideo('home');
 
-    const safeString = (value: string | undefined) =>
-      value && value.trim().length > 0 ? value.trim() : null;
+    // Resolve video sources (API → SiteIdentity override → base)
+    const rawVideoSrc =
+      heroVideo?.src ?? apiHero?.video?.url ?? apiHero?.video?.fileName ?? baseHero.video.src;
+
+    const rawPosterSrc =
+      heroVideo?.poster ??
+      apiHero?.poster?.url ??
+      apiHero?.poster?.fileName ??
+      baseHero.video.poster;
+
+    // Normalize metrics to match strict theme union
+    const metrics: HomeContent['hero']['featurePanel']['metrics'] =
+      apiHero?.featurePanel?.metrics && apiHero.featurePanel.metrics.length
+        ? apiHero.featurePanel.metrics.map((m) => ({
+            label: m.label,
+            value: m.value,
+            // Only allow 'accent' or 'emerald'; default to 'accent'
+            theme: (m.theme === 'emerald' ? 'emerald' : 'accent') as 'accent' | 'emerald',
+          }))
+        : baseHero.featurePanel.metrics;
 
     return {
-      ...base,
-      badge: safeString(settings?.heroMediaBadge) ?? base.badge,
-      title: safeString(settings?.heroTitle) ?? base.title,
-      description: safeString(settings?.heroSubtitle) ?? base.description,
-      primaryCta: {
-        ...base.primaryCta,
-        label: safeString(settings?.primaryCtaLabel) ?? base.primaryCta.label,
-      },
+      badge: apiHero?.badge ?? baseHero.badge,
+      title: apiHero?.title ?? baseHero.title,
+      description: apiHero?.description ?? baseHero.description,
+
+      primaryCta: this.mapCtaForHero(baseHero.primaryCta, apiHero?.primaryCta),
+      secondaryCta: this.mapCtaForHero(baseHero.secondaryCta, apiHero?.secondaryCta),
+
       highlightCard: {
-        ...base.highlightCard,
-        description: safeString(settings?.heroMediaCaption) ?? base.highlightCard.description,
+        title: apiHero?.highlightCard?.title ?? baseHero.highlightCard.title,
+        description: apiHero?.highlightCard?.description ?? baseHero.highlightCard.description,
       },
+
+      highlightList:
+        apiHero?.highlightList && apiHero.highlightList.length
+          ? apiHero.highlightList
+          : baseHero.highlightList,
+
       video: {
-        src: heroVideo?.src ?? safeString(settings?.heroVideoUrl) ?? base.video.src,
-        poster: heroVideo?.poster ?? safeString(settings?.heroVideoPoster) ?? base.video.poster,
+        src: this.normalizeMediaUrl(rawVideoSrc),
+        poster: this.normalizeMediaUrl(rawPosterSrc),
+      },
+
+      featurePanel: {
+        eyebrow: apiHero?.featurePanel?.eyebrow ?? baseHero.featurePanel.eyebrow,
+        title: apiHero?.featurePanel?.title ?? baseHero.featurePanel.title,
+        description: apiHero?.featurePanel?.description ?? baseHero.featurePanel.description,
+        metrics,
+        partner: {
+          label: apiHero?.featurePanel?.partner?.label ?? baseHero.featurePanel.partner.label,
+          description:
+            apiHero?.featurePanel?.partner?.description ??
+            baseHero.featurePanel.partner.description,
+        },
       },
     };
   });
-  protected readonly heroVideoSrc = computed(() =>
-    this.normalizeMediaUrl(this.heroData().video.src)
-  );
-  protected readonly heroVideoPoster = computed(() =>
-    this.normalizeMediaUrl(this.heroData().video.poster)
-  );
 
+  protected readonly heroVideoSrc = computed(() => this.heroData().video.src);
+  protected readonly heroVideoPoster = computed(() => this.heroData().video.poster);
+
+  // ---------- TRUST (API-first logos & stats) ----------
+  protected readonly trustData = computed<HomeContent['trust']>(() => {
+    const baseTrust = this.home().trust;
+    const apiTrust = this.apiHome()?.trust;
+
+    const logos =
+      apiTrust?.logos && apiTrust.logos.length
+        ? apiTrust.logos.map((logo) => ({
+            src: this.normalizeMediaUrl(logo.url ?? logo.fileName ?? ''),
+            alt: 'Trusted company',
+          }))
+        : baseTrust.logos;
+
+    const stats =
+      apiTrust?.stats && apiTrust.stats.length
+        ? apiTrust.stats.map((stat) => ({
+            label: stat.label,
+            value: stat.value,
+            suffix: stat.suffix ?? undefined, // avoid null
+            decimals: stat.decimals ?? undefined,
+          }))
+        : baseTrust.stats;
+
+    return {
+      tagline: apiTrust?.tagline ?? baseTrust.tagline,
+      logos,
+      stats,
+    };
+  });
+
+  // ---------- TESTIMONIALS (API items + static header) ----------
+  protected readonly testimonialsHeader = computed(() => this.home().testimonials.header);
+
+  protected readonly testimonialsItems = computed<Testimonial[]>(() => {
+    const apiTestimonials = this.apiHome()?.testimonials ?? [];
+    const baseTestimonials = this.home().testimonials.items;
+
+    if (!apiTestimonials.length) {
+      return baseTestimonials;
+    }
+
+    return apiTestimonials.map<Testimonial>((item) => ({
+      quote: item.quote,
+      name: item.name,
+      title: item.title,
+      location: item.location,
+      rating: item.rating,
+      type: item.type as any,
+      image: item.image ? this.normalizeMediaUrl(item.image.url ?? item.image.fileName ?? '') : '',
+    }));
+  });
+
+  // ---------- BLOG POSTS ----------
   protected readonly featuredPosts = computed(() => {
     return [...this.blogService.posts()]
       .sort(
@@ -127,6 +216,8 @@ export class HomeComponent implements OnInit {
     this.homePageApi.load();
     this.blogService.ensureLoaded();
   }
+
+  // ---------- Helpers ----------
 
   private normalizeMediaUrl(url: string | null | undefined): string {
     if (!url) {
@@ -161,70 +252,24 @@ export class HomeComponent implements OnInit {
     return `${apiBase}/${strippedPublic.replace(/\/+$/, '')}`;
   }
 
-  private mergeHome(base: any, api: HomePageModel | null) {
+  private mapCtaForHero(base: CtaLink, api?: CtaLinkModel | null): CtaLink {
     if (!api) {
       return base;
     }
 
-    const mapMedia = (media: any) => media?.url || media?.fileName || '';
-    const mappedHero = {
-      ...base.hero,
-      badge: api.hero.badge || base.hero.badge,
-      title: api.hero.title || base.hero.title,
-      description: api.hero.description || base.hero.description,
-      primaryCta: {
-        ...base.hero.primaryCta,
-        ...api.hero.primaryCta,
-      },
-      secondaryCta: {
-        ...base.hero.secondaryCta,
-        ...api.hero.secondaryCta,
-      },
-      highlightCard: {
-        ...base.hero.highlightCard,
-        ...api.hero.highlightCard,
-      },
-      highlightList: api.hero.highlightList.length ? api.hero.highlightList : base.hero.highlightList,
-      video: {
-        src: mapMedia(api.hero.video) || base.hero.video.src,
-        poster: mapMedia(api.hero.poster) || base.hero.video.poster,
-      },
-      featurePanel: {
-        ...base.hero.featurePanel,
-        ...api.hero.featurePanel,
-      },
-    };
+    // Map style safely to the union
+    let style: CtaLink['style'] = (api.style as CtaLink['style']) ?? base.style;
 
-    const mappedTrust = api.trust
-      ? {
-          ...base.trust,
-          tagline: api.trust.tagline || base.trust.tagline,
-          logos: api.trust.logos.length
-            ? api.trust.logos.map(logo => ({
-                src: mapMedia(logo) || '',
-                alt: 'Trusted company',
-              }))
-            : base.trust.logos,
-          stats: api.trust.stats?.length ? api.trust.stats : base.trust.stats,
-        }
-      : base.trust;
+    if (style && !['primary', 'secondary', 'outline'].includes(style)) {
+      style = base.style;
+    }
 
     return {
-      ...base,
-      hero: mappedHero,
-      trust: mappedTrust,
-      testimonials: {
-        ...base.testimonials,
-        items: api.testimonials.length ? api.testimonials.map(item => ({
-          quote: item.quote,
-          name: item.name,
-          title: item.title,
-          location: item.location,
-          rating: item.rating,
-          type: item.type as any,
-          image: mapMedia(item.image),
-        })) : base.testimonials.items,
-      },
+      label: api.label ?? base.label,
+      routerLink: api.routerLink ?? base.routerLink,
+      fragment: api.fragment ?? base.fragment,
+      externalUrl: api.externalUrl ?? base.externalUrl,
+      style,
     };
   }
 
@@ -256,9 +301,7 @@ export class HomeComponent implements OnInit {
     const resizeHandler = () => this.updateSnapMode();
     win.addEventListener('resize', resizeHandler, { passive: true });
 
-    this.destroyRef.onDestroy(() =>
-      win.removeEventListener('resize', resizeHandler)
-    );
+    this.destroyRef.onDestroy(() => win.removeEventListener('resize', resizeHandler));
   }
 
   private updateSnapMode(): void {
