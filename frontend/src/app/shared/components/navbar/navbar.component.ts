@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { SmoothScrollService, ThemeService } from '../../../core/services';
+import { SmoothScrollService } from '../../../core/services';
 
 @Component({
   selector: 'app-navbar',
@@ -13,12 +13,10 @@ import { SmoothScrollService, ThemeService } from '../../../core/services';
 export class NavbarComponent {
   private readonly router = inject(Router);
   private readonly smoothScroll = inject(SmoothScrollService);
-  private readonly themeService = inject(ThemeService);
   isMenuOpen = signal(false);
   isHidden = signal(false);
   atTop = signal(true);
   private lastScroll = 0;
-  readonly theme = this.themeService.theme;
 
   navItems = [
     { label: 'Home', link: '/' },
@@ -61,9 +59,6 @@ export class NavbarComponent {
     this.isMenuOpen.set(false);
   }
 
-  toggleTheme(): void {
-    this.themeService.toggle();
-  }
 
   navigateToAbout(fragment: string): void {
     this.closeMenu();

@@ -1,4 +1,3 @@
-export * from './team.service';
 export * from './about.service';
 export * from './services.service';
 export * from './products.service';
@@ -8,12 +7,10 @@ export * from './blog-page-api.service';
 export * from './blog-api.service';
 export * from './blog.service';
 export * from './leads.service';
-export * from './settings.service';
 export * from './toast.service';
 export * from './animation.service';
 export * from './scroll-animation.service';
 export * from './smooth-scroll.service';
-export * from './theme.service';
 export * from './site-identity.service';
 export * from './contact-page-api.service';
 export * from './contact-channels-api.service';
