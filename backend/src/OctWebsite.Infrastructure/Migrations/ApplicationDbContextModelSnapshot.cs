@@ -486,31 +486,6 @@ namespace OctWebsite.Infrastructure.Migrations
                     b.ToTable("ContactPages", (string)null);
                 });
 
-            modelBuilder.Entity("OctWebsite.Domain.Entities.ServicesPage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("HeaderEyebrow")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HeaderSubtitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HeaderTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HeroVideoFileName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ServicesPages", (string)null);
-                });
-
             modelBuilder.Entity("OctWebsite.Domain.Entities.ContactSubmission", b =>
                 {
                     b.Property<Guid>("Id")
@@ -556,20 +531,6 @@ namespace OctWebsite.Infrastructure.Migrations
                     b.ToTable("HomeHeroSections", (string)null);
                 });
 
-            modelBuilder.Entity("OctWebsite.Domain.Entities.HomeTrustSection", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("HomeTrustSections", (string)null);
-                });
-
             modelBuilder.Entity("OctWebsite.Domain.Entities.HomeTestimonial", b =>
                 {
                     b.Property<Guid>("Id")
@@ -604,6 +565,20 @@ namespace OctWebsite.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("HomeTestimonials", (string)null);
+                });
+
+            modelBuilder.Entity("OctWebsite.Domain.Entities.HomeTrustSection", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HomeTrustSections", (string)null);
                 });
 
             modelBuilder.Entity("OctWebsite.Domain.Entities.ServiceItem", b =>
@@ -658,6 +633,31 @@ namespace OctWebsite.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Services", (string)null);
+                });
+
+            modelBuilder.Entity("OctWebsite.Domain.Entities.ServicesPage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("HeaderEyebrow")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HeaderSubtitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HeaderTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HeroVideoFileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ServicesPages", (string)null);
                 });
 
             modelBuilder.Entity("OctWebsite.Domain.Entities.TeamMember", b =>
