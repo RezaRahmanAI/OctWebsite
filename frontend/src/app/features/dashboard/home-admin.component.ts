@@ -1,6 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ToastService } from '../../core/services';
 import {
   HomePageApiService,
@@ -9,6 +16,29 @@ import {
   HomeTestimonialModel,
   SaveHomePageRequest,
 } from '../../core/services/home-page-api.service';
+
+type MetricFormGroup = FormGroup<{
+  label: FormControl<string>;
+  value: FormControl<string>;
+  theme: FormControl<string>;
+}>;
+
+type StatFormGroup = FormGroup<{
+  label: FormControl<string>;
+  value: FormControl<number>;
+  suffix: FormControl<string | null>;
+  decimals: FormControl<number | null>;
+}>;
+
+type TestimonialFormGroup = FormGroup<{
+  quote: FormControl<string>;
+  name: FormControl<string>;
+  title: FormControl<string>;
+  location: FormControl<string>;
+  rating: FormControl<number>;
+  type: FormControl<HomeTestimonialModel['type']>;
+  imageFileName: FormControl<string>;
+}>;
 
 @Component({
   selector: 'app-home-admin',
@@ -29,58 +59,64 @@ export class HomeAdminComponent implements OnInit {
   readonly loading = signal(false);
 
   readonly heroForm = this.fb.group({
-    badge: ['', Validators.required],
-    title: ['', Validators.required],
-    description: ['', Validators.required],
-    primaryLabel: ['', Validators.required],
-    primaryLink: [''],
-    primaryFragment: [''],
-    secondaryLabel: ['', Validators.required],
-    secondaryLink: [''],
-    secondaryFragment: [''],
-    highlightTitle: ['', Validators.required],
-    highlightDescription: ['', Validators.required],
-    highlightList: this.fb.array([this.fb.control('', Validators.required)]),
-    videoFileName: [''],
-    posterFileName: [''],
-    featureEyebrow: ['', Validators.required],
-    featureTitle: ['', Validators.required],
-    featureDescription: ['', Validators.required],
-    metrics: this.fb.array([]),
-    partnerLabel: ['', Validators.required],
-    partnerDescription: ['', Validators.required],
+    badge: this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
+    title: this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
+    description: this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
+    primaryLabel: this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
+    primaryLink: this.fb.control<string>('', { nonNullable: true }),
+    primaryFragment: this.fb.control<string>('', { nonNullable: true }),
+    secondaryLabel: this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
+    secondaryLink: this.fb.control<string>('', { nonNullable: true }),
+    secondaryFragment: this.fb.control<string>('', { nonNullable: true }),
+    highlightTitle: this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
+    highlightDescription: this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
+    highlightList: this.fb.array<FormControl<string>>([
+      this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
+    ]),
+    videoFileName: this.fb.control<string>('', { nonNullable: true }),
+    posterFileName: this.fb.control<string>('', { nonNullable: true }),
+    featureEyebrow: this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
+    featureTitle: this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
+    featureDescription: this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
+    metrics: this.fb.array<MetricFormGroup>([]),
+    partnerLabel: this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
+    partnerDescription: this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
   });
 
   readonly trustForm = this.fb.group({
-    tagline: ['', Validators.required],
-    companies: this.fb.array([this.fb.control('', Validators.required)]),
-    stats: this.fb.array([]),
+    tagline: this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
+    companies: this.fb.array<FormControl<string>>([
+      this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
+    ]),
+    stats: this.fb.array<StatFormGroup>([]),
   });
 
-  readonly testimonialForm = this.fb.array([]);
+  readonly testimonialForm = this.fb.array<TestimonialFormGroup>([]);
 
   ngOnInit(): void {
     this.load();
   }
 
-  get highlightList(): FormArray {
-    return this.heroForm.get('highlightList') as FormArray;
+  get highlightList(): FormArray<FormControl<string>> {
+    return this.heroForm.get('highlightList') as FormArray<FormControl<string>>;
   }
 
-  get metrics(): FormArray {
-    return this.heroForm.get('metrics') as FormArray;
+  get metrics(): FormArray<MetricFormGroup> {
+    return this.heroForm.get('metrics') as FormArray<MetricFormGroup>;
   }
 
-  get companies(): FormArray {
-    return this.trustForm.get('companies') as FormArray;
+  get companies(): FormArray<FormControl<string>> {
+    return this.trustForm.get('companies') as FormArray<FormControl<string>>;
   }
 
-  get stats(): FormArray {
-    return this.trustForm.get('stats') as FormArray;
+  get stats(): FormArray<StatFormGroup> {
+    return this.trustForm.get('stats') as FormArray<StatFormGroup>;
   }
 
   addHighlight(value = ''): void {
-    this.highlightList.push(this.fb.control(value, Validators.required));
+    this.highlightList.push(
+      this.fb.control<string>(value, { validators: Validators.required, nonNullable: true })
+    );
   }
 
   removeHighlight(index: number): void {
@@ -88,13 +124,7 @@ export class HomeAdminComponent implements OnInit {
   }
 
   addMetric(metric?: HomeMetricModel): void {
-    this.metrics.push(
-      this.fb.group({
-        label: [metric?.label ?? '', Validators.required],
-        value: [metric?.value ?? '', Validators.required],
-        theme: [metric?.theme ?? 'accent', Validators.required],
-      })
-    );
+    this.metrics.push(this.createMetricGroup(metric));
   }
 
   removeMetric(index: number): void {
@@ -102,7 +132,9 @@ export class HomeAdminComponent implements OnInit {
   }
 
   addCompany(value = ''): void {
-    this.companies.push(this.fb.control(value, Validators.required));
+    this.companies.push(
+      this.fb.control<string>(value, { validators: Validators.required, nonNullable: true })
+    );
   }
 
   removeCompany(index: number): void {
@@ -110,14 +142,7 @@ export class HomeAdminComponent implements OnInit {
   }
 
   addStat(stat?: { label: string; value: number; suffix?: string | null; decimals?: number | null }): void {
-    this.stats.push(
-      this.fb.group({
-        label: [stat?.label ?? '', Validators.required],
-        value: [stat?.value ?? 0, Validators.required],
-        suffix: [stat?.suffix ?? ''],
-        decimals: [stat?.decimals ?? null],
-      })
-    );
+    this.stats.push(this.createStatGroup(stat));
   }
 
   removeStat(index: number): void {
@@ -125,17 +150,7 @@ export class HomeAdminComponent implements OnInit {
   }
 
   addTestimonial(testimonial?: HomeTestimonialModel): void {
-    this.testimonialForm.push(
-      this.fb.group({
-        quote: [testimonial?.quote ?? '', Validators.required],
-        name: [testimonial?.name ?? '', Validators.required],
-        title: [testimonial?.title ?? '', Validators.required],
-        location: [testimonial?.location ?? '', Validators.required],
-        rating: [testimonial?.rating ?? 5, [Validators.required]],
-        type: [testimonial?.type ?? 'client', Validators.required],
-        imageFileName: [testimonial?.image?.fileName ?? testimonial?.image?.url ?? ''],
-      })
-    );
+    this.testimonialForm.push(this.createTestimonialGroup(testimonial));
     this.testimonialImages.push(null);
   }
 
@@ -303,5 +318,75 @@ export class HomeAdminComponent implements OnInit {
         imageFile: this.testimonialImages[index],
       })),
     } satisfies SaveHomePageRequest;
+  }
+
+  private createMetricGroup(metric?: HomeMetricModel): MetricFormGroup {
+    return this.fb.group({
+      label: this.fb.control<string>(metric?.label ?? '', {
+        validators: Validators.required,
+        nonNullable: true,
+      }),
+      value: this.fb.control<string>(metric?.value ?? '', {
+        validators: Validators.required,
+        nonNullable: true,
+      }),
+      theme: this.fb.control<string>(metric?.theme ?? 'accent', {
+        validators: Validators.required,
+        nonNullable: true,
+      }),
+    });
+  }
+
+  private createStatGroup(stat?: {
+    label: string;
+    value: number;
+    suffix?: string | null;
+    decimals?: number | null;
+  }): StatFormGroup {
+    return this.fb.group({
+      label: this.fb.control<string>(stat?.label ?? '', {
+        validators: Validators.required,
+        nonNullable: true,
+      }),
+      value: this.fb.control<number>(stat?.value ?? 0, {
+        validators: Validators.required,
+        nonNullable: true,
+      }),
+      suffix: this.fb.control<string | null>(stat?.suffix ?? ''),
+      decimals: this.fb.control<number | null>(stat?.decimals ?? null),
+    });
+  }
+
+  private createTestimonialGroup(testimonial?: HomeTestimonialModel): TestimonialFormGroup {
+    return this.fb.group({
+      quote: this.fb.control<string>(testimonial?.quote ?? '', {
+        validators: Validators.required,
+        nonNullable: true,
+      }),
+      name: this.fb.control<string>(testimonial?.name ?? '', {
+        validators: Validators.required,
+        nonNullable: true,
+      }),
+      title: this.fb.control<string>(testimonial?.title ?? '', {
+        validators: Validators.required,
+        nonNullable: true,
+      }),
+      location: this.fb.control<string>(testimonial?.location ?? '', {
+        validators: Validators.required,
+        nonNullable: true,
+      }),
+      rating: this.fb.control<number>(testimonial?.rating ?? 5, {
+        validators: Validators.required,
+        nonNullable: true,
+      }),
+      type: this.fb.control<HomeTestimonialModel['type']>(
+        testimonial?.type ?? 'client',
+        { validators: Validators.required, nonNullable: true }
+      ),
+      imageFileName: this.fb.control<string>(
+        testimonial?.image?.fileName ?? testimonial?.image?.url ?? '',
+        { nonNullable: true }
+      ),
+    });
   }
 }
