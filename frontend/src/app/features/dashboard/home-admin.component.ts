@@ -55,6 +55,7 @@ export class HomeAdminComponent implements OnInit {
   private heroVideo: File | null = null;
   private heroPoster: File | null = null;
   private testimonialImages: (File | null)[] = [];
+  private trustLogoFiles: (File | null)[] = [null];
 
   readonly loading = signal(false);
 
@@ -85,7 +86,7 @@ export class HomeAdminComponent implements OnInit {
 
   readonly trustForm = this.fb.group({
     tagline: this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
-    companies: this.fb.array<FormControl<string>>([
+    logos: this.fb.array<FormControl<string>>([
       this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
     ]),
     stats: this.fb.array<StatFormGroup>([]),
@@ -105,8 +106,8 @@ export class HomeAdminComponent implements OnInit {
     return this.heroForm.get('metrics') as FormArray<MetricFormGroup>;
   }
 
-  get companies(): FormArray<FormControl<string>> {
-    return this.trustForm.get('companies') as FormArray<FormControl<string>>;
+  get logos(): FormArray<FormControl<string>> {
+    return this.trustForm.get('logos') as FormArray<FormControl<string>>;
   }
 
   get stats(): FormArray<StatFormGroup> {
@@ -131,14 +132,9 @@ export class HomeAdminComponent implements OnInit {
     this.metrics.removeAt(index);
   }
 
-  addCompany(value = ''): void {
-    this.companies.push(
-      this.fb.control<string>(value, { validators: Validators.required, nonNullable: true })
-    );
-  }
-
-  removeCompany(index: number): void {
-    this.companies.removeAt(index);
+  removeLogo(index: number): void {
+    this.logos.removeAt(index);
+    this.trustLogoFiles.splice(index, 1);
   }
 
   addStat(stat?: { label: string; value: number; suffix?: string | null; decimals?: number | null }): void {
@@ -246,8 +242,13 @@ export class HomeAdminComponent implements OnInit {
     this.trustForm.patchValue({
       tagline: page.trust.tagline,
     });
-    this.companies.clear();
-    page.trust.companies.forEach(company => this.addCompany(company));
+    this.logos.clear();
+    this.trustLogoFiles = [];
+    if (!page.trust.logos.length) {
+      this.addLogo();
+    } else {
+      page.trust.logos.forEach(logo => this.addLogo(logo.fileName ?? logo.url ?? ''));
+    }
 
     this.stats.clear();
     page.trust.stats.forEach(stat => this.addStat(stat));
@@ -298,7 +299,11 @@ export class HomeAdminComponent implements OnInit {
       },
       trust: {
         tagline: this.trustForm.value.tagline ?? '',
-        companies: this.companies.controls.map(control => control.value ?? ''),
+        logos: this.logos.controls.map((control, index) => ({
+          fileName: control.value || null,
+          url: control.value || null,
+          logoFile: this.trustLogoFiles[index],
+        })),
         stats: this.stats.controls.map(control => ({
           label: control.value.label ?? '',
           value: Number(control.value.value ?? 0),
@@ -388,5 +393,17 @@ export class HomeAdminComponent implements OnInit {
         { nonNullable: true }
       ),
     });
+  }
+
+  addLogo(value = ''): void {
+    this.logos.push(
+      this.fb.control<string>(value, { validators: Validators.required, nonNullable: true })
+    );
+    this.trustLogoFiles.push(null);
+  }
+
+  onTrustLogoSelected(index: number, event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0] ?? null;
+    this.trustLogoFiles[index] = file;
   }
 }

@@ -45,7 +45,7 @@ export interface HomeHeroModel {
 
 export interface HomeTrustModel {
   tagline: string;
-  companies: string[];
+  logos: MediaResource[];
   stats: { label: string; value: number; suffix?: string | null; decimals?: number | null }[];
 }
 
@@ -81,7 +81,7 @@ export interface SaveHomePageRequest {
     posterFile?: File | null;
     featurePanel: HomeFeaturePanelModel;
   };
-  trust: HomeTrustModel;
+  trust: HomeTrustModel & { logos: (MediaResource & { logoFile?: File | null })[] };
   testimonials: (HomeTestimonialModel & { imageFileName?: string | null; imageFile?: File | null })[];
 }
 
@@ -142,7 +142,11 @@ export class HomePageApiService {
     form.append('partnerDescription', request.hero.featurePanel.partner.description);
 
     form.append('trustTagline', request.trust.tagline);
-    request.trust.companies.forEach((company, index) => form.append(`trustCompanies[${index}]`, company));
+    request.trust.logos.forEach((logo, index) => {
+      if (logo.fileName) form.append(`trustLogos[${index}].logoFileName`, logo.fileName);
+      const file = (logo as any).logoFile as File | undefined;
+      if (file) form.append(`trustLogos[${index}].logo`, file);
+    });
     request.trust.stats.forEach((stat, index) => {
       form.append(`trustStats[${index}].label`, stat.label);
       form.append(`trustStats[${index}].value`, `${stat.value}`);

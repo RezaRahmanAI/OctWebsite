@@ -195,10 +195,24 @@ export class HomeComponent implements OnInit {
       },
     };
 
+    const mappedTrust = api.trust
+      ? {
+          ...base.trust,
+          tagline: api.trust.tagline || base.trust.tagline,
+          logos: api.trust.logos.length
+            ? api.trust.logos.map(logo => ({
+                src: mapMedia(logo) || '',
+                alt: 'Trusted company',
+              }))
+            : base.trust.logos,
+          stats: api.trust.stats?.length ? api.trust.stats : base.trust.stats,
+        }
+      : base.trust;
+
     return {
       ...base,
       hero: mappedHero,
-      trust: api.trust ?? base.trust,
+      trust: mappedTrust,
       testimonials: {
         ...base.testimonials,
         items: api.testimonials.length ? api.testimonials.map(item => ({

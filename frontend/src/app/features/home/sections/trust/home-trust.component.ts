@@ -20,12 +20,18 @@ interface TrustedLogo {
 export class HomeTrustComponent {
   @Input({ required: true }) data!: HomeContent['trust'];
 
-  private readonly trustedLogos: TrustedLogo[] = [
+  private readonly fallbackLogos: TrustedLogo[] = [
     { name: 'Walton', src: '/images/trusted-by/walton-logo-update.svg' },
     { name: 'Tricon', src: '/images/trusted-by/tricon.png' },
     { name: 'Arian', src: '/images/trusted-by/arian.png' },
     { name: 'Ashaven', src: '/images/trusted-by/ashaven.png' },
   ];
 
-  marqueeRowOne = [...this.trustedLogos, ...this.trustedLogos];
+  get marqueeRowOne(): TrustedLogo[] {
+    const logos = this.data?.logos?.length
+      ? this.data.logos.map(logo => ({ name: logo.alt ?? 'Trusted company', src: logo.src }))
+      : this.fallbackLogos;
+
+    return [...logos, ...logos];
+  }
 }

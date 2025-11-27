@@ -79,7 +79,7 @@ export interface HomeContent {
   };
   trust: {
     tagline: string;
-    companies: string[];
+    logos: { src: string; alt?: string }[];
     stats: StatItem[];
   };
   services: {

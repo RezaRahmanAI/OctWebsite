@@ -542,6 +542,61 @@ namespace OctWebsite.Infrastructure.Migrations
                     b.ToTable("ContactSubmissions", (string)null);
                 });
 
+            modelBuilder.Entity("OctWebsite.Domain.Entities.HomePage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HomePages", (string)null);
+                });
+
+            modelBuilder.Entity("OctWebsite.Domain.Entities.HomeTestimonial", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("HomePageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ImageFileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Quote")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HomePageId");
+
+                    b.ToTable("HomeTestimonials", (string)null);
+                });
+
             modelBuilder.Entity("OctWebsite.Domain.Entities.ServiceItem", b =>
                 {
                     b.Property<Guid>("Id")
@@ -740,6 +795,15 @@ namespace OctWebsite.Infrastructure.Migrations
                     b.HasOne("OctWebsite.Infrastructure.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("OctWebsite.Domain.Entities.HomeTestimonial", b =>
+                {
+                    b.HasOne("OctWebsite.Domain.Entities.HomePage", null)
+                        .WithMany()
+                        .HasForeignKey("HomePageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

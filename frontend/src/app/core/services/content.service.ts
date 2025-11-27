@@ -164,7 +164,12 @@ export class ContentService {
     },
     trust: {
       tagline: 'Trusted by teams at',
-      companies: ['Walton', 'Tricon', 'Arian', 'Ashaven'],
+      logos: [
+        { src: '/images/trusted-by/walton-logo-update.svg', alt: 'Walton' },
+        { src: '/images/trusted-by/tricon.png', alt: 'Tricon' },
+        { src: '/images/trusted-by/arian.png', alt: 'Arian' },
+        { src: '/images/trusted-by/ashaven.png', alt: 'Ashaven' },
+      ],
       stats: [
         { label: 'Projects Delivered', value: 500, suffix: '+' },
         { label: 'Countries Served', value: 50, suffix: '+' },

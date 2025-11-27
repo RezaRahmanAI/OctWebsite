@@ -23,6 +23,8 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<ContactSubmission> ContactSubmissions => Set<ContactSubmission>();
     public DbSet<ServiceItem> ServiceItems => Set<ServiceItem>();
     public DbSet<ServicesPage> ServicesPages => Set<ServicesPage>();
+    public DbSet<HomePage> HomePages => Set<HomePage>();
+    public DbSet<HomeTestimonial> HomeTestimonials => Set<HomeTestimonial>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -220,6 +222,30 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
             entity.Property(page => page.HeaderEyebrow).IsRequired();
             entity.Property(page => page.HeaderTitle).IsRequired();
             entity.Property(page => page.HeaderSubtitle).IsRequired();
+        });
+
+        modelBuilder.Entity<HomePage>(entity =>
+        {
+            entity.ToTable("HomePages");
+            entity.HasKey(page => page.Id);
+            entity.Property(page => page.Id).ValueGeneratedNever();
+            entity.Property(page => page.Content).IsRequired();
+        });
+
+        modelBuilder.Entity<HomeTestimonial>(entity =>
+        {
+            entity.ToTable("HomeTestimonials");
+            entity.HasKey(testimonial => testimonial.Id);
+            entity.Property(testimonial => testimonial.Id).ValueGeneratedNever();
+            entity.Property(testimonial => testimonial.Quote).IsRequired();
+            entity.Property(testimonial => testimonial.Name).IsRequired();
+            entity.Property(testimonial => testimonial.Title).IsRequired();
+            entity.Property(testimonial => testimonial.Location).IsRequired();
+            entity.Property(testimonial => testimonial.Type).IsRequired();
+            entity.HasOne<HomePage>()
+                .WithMany()
+                .HasForeignKey(testimonial => testimonial.HomePageId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<ContactSubmission>(entity =>

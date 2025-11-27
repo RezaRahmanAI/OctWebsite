@@ -48,7 +48,7 @@ public sealed record HomePartnerDto(
 
 public sealed record HomeTrustDto(
     string Tagline,
-    IReadOnlyList<string> Companies,
+    IReadOnlyList<MediaResourceDto?> Logos,
     IReadOnlyList<HomeStatDto> Stats
 );
 
@@ -73,6 +73,11 @@ public sealed record SaveHomePageRequest(
     HomeHeroSectionRequest Hero,
     HomeTrustSectionRequest Trust,
     IReadOnlyList<HomeTestimonialRequest> Testimonials
+);
+
+public sealed record HomePageContent(
+    HomeHeroSectionRequest Hero,
+    HomeTrustSectionRequest Trust
 );
 
 public sealed record HomeHeroSectionRequest(
@@ -114,9 +119,11 @@ public sealed record HomePartnerRequest(
 
 public sealed record HomeTrustSectionRequest(
     string Tagline,
-    IReadOnlyList<string> Companies,
+    IReadOnlyList<HomeTrustLogoRequest> Logos,
     IReadOnlyList<HomeStatRequest> Stats
 );
+
+public sealed record HomeTrustLogoRequest(string? LogoFileName);
 
 public sealed record HomeStatRequest(
     string Label,
