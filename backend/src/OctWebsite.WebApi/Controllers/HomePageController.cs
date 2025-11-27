@@ -59,7 +59,7 @@ public sealed class HomePageController(IHomePageService homePageService, IWebHos
                 new CtaLinkRequest(form.PrimaryCtaLabel ?? string.Empty, form.PrimaryCtaLink, form.PrimaryCtaFragment, form.PrimaryCtaExternalUrl, form.PrimaryCtaStyle),
                 new CtaLinkRequest(form.SecondaryCtaLabel ?? string.Empty, form.SecondaryCtaLink, form.SecondaryCtaFragment, form.SecondaryCtaExternalUrl, form.SecondaryCtaStyle),
                 new HomeHighlightRequest(form.HeroHighlightTitle ?? string.Empty, form.HeroHighlightDescription ?? string.Empty),
-                form.HeroHighlightList ?? new List<string>(),
+                (form.HeroHighlightList ?? new List<string>()).ToArray(),
                 heroVideo,
                 heroPoster,
                 new HomeFeaturePanelRequest(
@@ -70,7 +70,7 @@ public sealed class HomePageController(IHomePageService homePageService, IWebHos
                     new HomePartnerRequest(form.PartnerLabel ?? string.Empty, form.PartnerDescription ?? string.Empty))),
             new HomeTrustSectionRequest(
                 form.TrustTagline ?? string.Empty,
-                form.TrustCompanies ?? new List<string>(),
+                (form.TrustCompanies ?? new List<string>()).ToArray(),
                 (form.TrustStats ?? new List<HomeStatFormRequest>())
                     .Select(stat => new HomeStatRequest(stat.Label ?? string.Empty, stat.Value, stat.Suffix, stat.Decimals))
                     .ToArray()),
