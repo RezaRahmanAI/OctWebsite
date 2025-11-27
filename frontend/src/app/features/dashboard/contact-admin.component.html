@@ -1,29 +1,18 @@
-<div class="card-surface">
+<div class="card-surface mt-2" [class.opacity-60]="loading()">
   <div class="flex items-center justify-between gap-4">
     <div>
-      <p class="text-xs font-semibold uppercase text-primary-600 tracking-[0.2em]">
-        Contact Page
-      </p>
+      <p class="text-xs font-semibold uppercase text-primary-600 tracking-[0.2em]">Contact Page</p>
       <h2 class="text-xl font-semibold text-slate-900">Edit Contact Content</h2>
       <p class="text-sm text-slate-600">
         Manage hero copy, offices, emails, form options, and map settings for the contact page.
       </p>
     </div>
-    <button
-      class="btn"
-      type="button"
-      (click)="submit()"
-      [disabled]="loading()"
-    >
+    <button class="btn" type="button" (click)="submit()" [disabled]="loading()">
       {{ loading() ? 'Saving...' : 'Save Contact Page' }}
     </button>
   </div>
 
-  <form
-    class="mt-6 space-y-8"
-    [formGroup]="form"
-    (ngSubmit)="submit()"
-  >
+  <form class="mt-6 space-y-8" [formGroup]="form" (ngSubmit)="submit()">
     <!-- Hero content -->
     <div class="space-y-4">
       <div>
@@ -36,11 +25,7 @@
       <div class="grid gap-4 md:grid-cols-2">
         <label class="form-field">
           <span>Header eyebrow</span>
-          <input
-            type="text"
-            formControlName="headerEyebrow"
-            placeholder="Contact"
-          />
+          <input type="text" formControlName="headerEyebrow" placeholder="Contact" />
         </label>
         <label class="form-field">
           <span>Header title</span>
@@ -52,10 +37,7 @@
         </label>
         <label class="form-field md:col-span-2">
           <span>Header subtitle</span>
-          <textarea
-            rows="2"
-            formControlName="headerSubtitle"
-          ></textarea>
+          <textarea rows="2" formControlName="headerSubtitle"></textarea>
         </label>
       </div>
     </div>
@@ -80,29 +62,18 @@
         </label>
         <label class="form-field">
           <span>Primary CTA label</span>
-          <input
-            type="text"
-            formControlName="primaryCtaLabel"
-            placeholder="Hire Our Team"
-          />
+          <input type="text" formControlName="primaryCtaLabel" placeholder="Hire Our Team" />
         </label>
       </div>
 
       <div class="grid gap-4 md:grid-cols-2">
         <label class="form-field">
           <span>Primary CTA link</span>
-          <input
-            type="text"
-            formControlName="primaryCtaLink"
-            placeholder="/contact#consultation"
-          />
+          <input type="text" formControlName="primaryCtaLink" placeholder="/contact#consultation" />
         </label>
         <label class="form-field">
           <span>Consultation options</span>
-          <textarea
-            rows="2"
-            formControlName="consultationOptions"
-          ></textarea>
+          <textarea rows="2" formControlName="consultationOptions"></textarea>
         </label>
       </div>
     </div>
@@ -127,10 +98,7 @@
         </label>
         <label class="form-field">
           <span>Headquarters</span>
-          <textarea
-            rows="2"
-            formControlName="headquarters"
-          ></textarea>
+          <textarea rows="2" formControlName="headquarters"></textarea>
         </label>
       </div>
     </div>
@@ -165,17 +133,9 @@
       <div class="flex items-center justify-between">
         <div>
           <p class="text-sm font-semibold text-slate-900">Office locations</p>
-          <p class="text-xs text-slate-600">
-            Cards for each physical office location.
-          </p>
+          <p class="text-xs text-slate-600">Cards for each physical office location.</p>
         </div>
-        <button
-          class="btn ghost"
-          type="button"
-          (click)="addOffice()"
-        >
-          Add office
-        </button>
+        <button class="btn ghost" type="button" (click)="addOffice()">Add office</button>
       </div>
 
       <div class="space-y-4">
@@ -197,10 +157,7 @@
 
           <label class="form-field">
             <span>Address</span>
-            <textarea
-              rows="2"
-              formControlName="address"
-            ></textarea>
+            <textarea rows="2" formControlName="address"></textarea>
           </label>
 
           <div class="flex items-center gap-3">
@@ -208,11 +165,7 @@
               <span>Image URL</span>
               <input type="text" formControlName="imageUrl" />
             </label>
-            <button
-              class="text-xs text-rose-600"
-              type="button"
-              (click)="removeOffice(i)"
-            >
+            <button class="text-xs text-rose-600" type="button" (click)="removeOffice(i)">
               Remove
             </button>
           </div>
@@ -229,13 +182,7 @@
             Contact email addresses shown in the contact section.
           </p>
         </div>
-        <button
-          class="btn ghost"
-          type="button"
-          (click)="addEmail()"
-        >
-          Add email
-        </button>
+        <button class="btn ghost" type="button" (click)="addEmail()">Add email</button>
       </div>
 
       <div class="space-y-2">
@@ -247,11 +194,7 @@
             class="flex-1 border-none bg-transparent p-0 text-sm focus:ring-0"
             [formControlName]="i"
           />
-          <button
-            class="text-xs text-rose-600"
-            type="button"
-            (click)="removeEmail(i)"
-          >
+          <button class="text-xs text-rose-600" type="button" (click)="removeEmail(i)">
             Remove
           </button>
         </div>
@@ -267,13 +210,7 @@
             Options shown in the “How can we help?” select field.
           </p>
         </div>
-        <button
-          class="btn ghost"
-          type="button"
-          (click)="addFormOption()"
-        >
-          Add option
-        </button>
+        <button class="btn ghost" type="button" (click)="addFormOption()">Add option</button>
       </div>
 
       <div class="space-y-2">
@@ -285,11 +222,7 @@
             class="flex-1 border-none bg-transparent p-0 text-sm focus:ring-0"
             [formControlName]="i"
           />
-          <button
-            class="text-xs text-rose-600"
-            type="button"
-            (click)="removeFormOption(i)"
-          >
+          <button class="text-xs text-rose-600" type="button" (click)="removeFormOption(i)">
             Remove
           </button>
         </div>
@@ -316,11 +249,7 @@
         </label>
         <label class="form-field">
           <span>Upload hero video</span>
-          <input
-            type="file"
-            accept="video/*"
-            (change)="onHeroVideoSelected($event)"
-          />
+          <input type="file" accept="video/*" (change)="onHeroVideoSelected($event)" />
           <small *ngIf="form.value.heroVideoFileName; else noHeroVideo">
             Current: {{ form.value.heroVideoFileName }}
           </small>
@@ -353,13 +282,7 @@
                 Lines shown under the offices section (e.g. Sun–Thu, Fri–Sat).
               </p>
             </div>
-            <button
-              class="btn ghost"
-              type="button"
-              (click)="addBusinessHour()"
-            >
-              Add
-            </button>
+            <button class="btn ghost" type="button" (click)="addBusinessHour()">Add</button>
           </div>
 
           <div class="space-y-2">
@@ -371,11 +294,7 @@
                 class="flex-1 border-none bg-transparent p-0 text-sm focus:ring-0"
                 [formControlName]="i"
               />
-              <button
-                class="text-xs text-rose-600"
-                type="button"
-                (click)="removeBusinessHour(i)"
-              >
+              <button class="text-xs text-rose-600" type="button" (click)="removeBusinessHour(i)">
                 Remove
               </button>
             </div>
@@ -396,11 +315,7 @@
     </div>
 
     <div class="flex justify-end">
-      <button
-        class="btn"
-        type="submit"
-        [disabled]="loading()"
-      >
+      <button class="btn" type="submit" [disabled]="loading()">
         {{ loading() ? 'Saving...' : 'Save Contact Page' }}
       </button>
     </div>

@@ -1,5 +1,5 @@
 <!-- BLOG HEADER / HERO CONFIG -->
-<div class="card-surface">
+<div class="card-surface mt-2" opacity-60>
   <div class="flex items-center justify-between gap-4">
     <div>
       <p class="text-xs font-semibold uppercase text-primary-600">Blog</p>
@@ -8,12 +8,7 @@
         Control the blog page hero copy and optional header video.
       </p>
     </div>
-    <button
-      class="btn"
-      type="button"
-      (click)="saveHeader()"
-      [disabled]="headerLoading()"
-    >
+    <button class="btn" type="button" (click)="saveHeader()" [disabled]="headerLoading()">
       {{ headerLoading() ? 'Saving...' : 'Save header' }}
     </button>
   </div>
@@ -26,29 +21,17 @@
     <div class="space-y-4">
       <label class="form-field">
         <span>Eyebrow</span>
-        <input
-          type="text"
-          formControlName="headerEyebrow"
-          placeholder="Insights &amp; Updates"
-        />
+        <input type="text" formControlName="headerEyebrow" placeholder="Insights &amp; Updates" />
       </label>
 
       <label class="form-field">
         <span>Title</span>
-        <input
-          type="text"
-          formControlName="headerTitle"
-          placeholder="Stories from the studio"
-        />
+        <input type="text" formControlName="headerTitle" placeholder="Stories from the studio" />
       </label>
 
       <label class="form-field">
         <span>Subtitle</span>
-        <textarea
-          rows="3"
-          formControlName="headerSubtitle"
-          placeholder="Intro copy"
-        ></textarea>
+        <textarea rows="3" formControlName="headerSubtitle" placeholder="Intro copy"></textarea>
       </label>
     </div>
 
@@ -57,7 +40,6 @@
         <div class="flex items-center justify-between gap-3">
           <div>
             <p class="text-sm font-semibold text-slate-900 mb-1">Header video</p>
-            
           </div>
           <input
             type="file"
@@ -74,11 +56,7 @@
         </div>
       </div>
 
-      <button
-        class="btn w-full"
-        type="submit"
-        [disabled]="headerLoading()"
-      >
+      <button class="btn w-full" type="submit" [disabled]="headerLoading()">
         {{ headerLoading() ? 'Saving...' : 'Save header' }}
       </button>
     </div>
@@ -95,70 +73,40 @@
         Create, update, and publish new stories with media uploads.
       </p>
     </div>
-    <button class="btn ghost" type="button" (click)="reset()">
-      New post
-    </button>
+    <button class="btn ghost" type="button" (click)="reset()">New post</button>
   </div>
 
-  <form
-    class="mt-6 grid gap-6 lg:grid-cols-[2fr_1fr]"
-    [formGroup]="form"
-    (ngSubmit)="submit()"
-  >
+  <form class="mt-6 grid gap-6 lg:grid-cols-[2fr_1fr]" [formGroup]="form" (ngSubmit)="submit()">
     <!-- Left column: metadata + content -->
     <div class="space-y-4">
       <label class="form-field">
         <span>Title</span>
-        <input
-          type="text"
-          formControlName="title"
-          placeholder="Post title"
-        />
+        <input type="text" formControlName="title" placeholder="Post title" />
       </label>
 
       <label class="form-field">
         <span>Slug</span>
-        <input
-          type="text"
-          formControlName="slug"
-          placeholder="slug-for-post"
-        />
+        <input type="text" formControlName="slug" placeholder="slug-for-post" />
       </label>
 
       <label class="form-field">
         <span>Excerpt</span>
-        <textarea
-          formControlName="excerpt"
-          rows="2"
-          placeholder="Short summary"
-        ></textarea>
+        <textarea formControlName="excerpt" rows="2" placeholder="Short summary"></textarea>
       </label>
 
       <label class="form-field">
         <span>Content</span>
-        <textarea
-          formControlName="content"
-          rows="6"
-          placeholder="HTML content"
-        ></textarea>
+        <textarea formControlName="content" rows="6" placeholder="HTML content"></textarea>
       </label>
 
       <label class="form-field">
         <span>Tags</span>
-        <input
-          type="text"
-          formControlName="tags"
-          placeholder="Comma separated"
-        />
+        <input type="text" formControlName="tags" placeholder="Comma separated" />
       </label>
 
       <label class="form-field">
         <span>Key points</span>
-        <textarea
-          formControlName="keyPoints"
-          rows="3"
-          placeholder="One per line"
-        ></textarea>
+        <textarea formControlName="keyPoints" rows="3" placeholder="One per line"></textarea>
       </label>
 
       <div class="grid gap-4 md:grid-cols-2">
@@ -181,11 +129,7 @@
 
         <label class="form-field">
           <span>Reading time</span>
-          <input
-            type="text"
-            formControlName="readTime"
-            placeholder="e.g. 6 min read"
-          />
+          <input type="text" formControlName="readTime" placeholder="e.g. 6 min read" />
         </label>
 
         <div class="flex items-end">
@@ -210,17 +154,9 @@
         <div class="flex items-center justify-between">
           <div>
             <p class="text-sm font-semibold text-slate-900 mb-0">Stats</p>
-            <p class="text-xs text-slate-500">
-              Add up to three headline metrics.
-            </p>
+            <p class="text-xs text-slate-500">Add up to three headline metrics.</p>
           </div>
-          <button
-            class="btn ghost"
-            type="button"
-            (click)="addStat()"
-          >
-            Add
-          </button>
+          <button class="btn ghost" type="button" (click)="addStat()">Add</button>
         </div>
 
         <div class="space-y-3">
@@ -259,12 +195,8 @@
       <div class="rounded-xl border border-slate-200 p-4 space-y-3">
         <div class="flex items-center justify-between gap-3">
           <div>
-            <p class="text-sm font-semibold text-slate-900 mb-1">
-              Thumbnail image
-            </p>
-            <p class="text-xs text-slate-500">
-              Upload a cover image for the listing page.
-            </p>
+            <p class="text-sm font-semibold text-slate-900 mb-1">Thumbnail image</p>
+            <p class="text-xs text-slate-500">Upload a cover image for the listing page.</p>
           </div>
           <input
             type="file"
@@ -287,12 +219,9 @@
       <div class="rounded-xl border border-slate-200 p-4 space-y-3">
         <div class="flex items-center justify-between gap-3">
           <div>
-            <p class="text-sm font-semibold text-slate-900 mb-1">
-              Header video
-            </p>
+            <p class="text-sm font-semibold text-slate-900 mb-1">Header video</p>
             <p class="text-xs text-slate-500">
-              Optional hero video displayed on detail pages. Leave blank to keep
-              the existing video.
+              Optional hero video displayed on detail pages. Leave blank to keep the existing video.
             </p>
           </div>
           <input
@@ -310,11 +239,7 @@
         </div>
       </div>
 
-      <button
-        class="btn w-full"
-        type="submit"
-        [disabled]="loading()"
-      >
+      <button class="btn w-full" type="submit" [disabled]="loading()">
         {{ editingId() ? 'Update post' : 'Create post' }}
       </button>
     </div>
@@ -325,12 +250,12 @@
 <div class="card-surface mt-6">
   <div class="flex items-center justify-between gap-4">
     <div>
-      <p class="text-xs font-semibold uppercase text-primary-600">
-        Current posts
-      </p>
+      <p class="text-xs font-semibold uppercase text-primary-600">Current posts</p>
       <h3 class="text-lg font-semibold text-slate-900">Blog entries</h3>
     </div>
-    <span class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">
+    <span
+      class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700"
+    >
       {{ posts().length }} posts
     </span>
   </div>
@@ -353,28 +278,18 @@
           <td>
             <span
               class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium"
-              [ngClass]="post.published ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-500'"
+              [ngClass]="
+                post.published ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-500'
+              "
             >
               {{ post.published ? 'Published' : 'Draft' }}
             </span>
           </td>
-          <td>{{ (post.updatedDate || post.createdDate) | date : 'mediumDate' }}</td>
+          <td>{{ post.updatedDate || post.createdDate | date : 'mediumDate' }}</td>
           <td class="text-right">
             <div class="flex items-center justify-end gap-2">
-              <button
-                class="btn ghost"
-                type="button"
-                (click)="edit(post)"
-              >
-                Edit
-              </button>
-              <button
-                class="btn danger"
-                type="button"
-                (click)="delete(post.id)"
-              >
-                Delete
-              </button>
+              <button class="btn ghost" type="button" (click)="edit(post)">Edit</button>
+              <button class="btn danger" type="button" (click)="delete(post.id)">Delete</button>
             </div>
           </td>
         </tr>

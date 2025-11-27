@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card mt-2" [class.opacity-60]="loading()">
   <div class="card-header">
     <div>
       <p class="eyebrow">Contact</p>
@@ -11,7 +11,9 @@
   </div>
 
   <div *ngIf="loading()" class="status-chip info">Loading submissions…</div>
-  <div *ngIf="!loading() && submissions().length === 0" class="status-chip muted">No submissions yet.</div>
+  <div *ngIf="!loading() && submissions().length === 0" class="status-chip muted">
+    No submissions yet.
+  </div>
 
   <div class="overflow-x-auto" *ngIf="submissions().length > 0">
     <table class="admin-table">
@@ -28,11 +30,15 @@
       <tbody>
         <tr *ngFor="let submission of submissions()">
           <td class="font-semibold">{{ submission.name }}</td>
-          <td><a class="text-primary underline" [href]="'mailto:' + submission.email">{{ submission.email }}</a></td>
+          <td>
+            <a class="text-primary underline" [href]="'mailto:' + submission.email">{{
+              submission.email
+            }}</a>
+          </td>
           <td>{{ submission.phone || '—' }}</td>
           <td>{{ submission.interest || '—' }}</td>
           <td class="max-w-xl whitespace-pre-wrap text-sm">{{ submission.message }}</td>
-          <td class="text-sm text-slate-500">{{ submission.createdAt | date: 'medium' }}</td>
+          <td class="text-sm text-slate-500">{{ submission.createdAt | date : 'medium' }}</td>
         </tr>
       </tbody>
     </table>

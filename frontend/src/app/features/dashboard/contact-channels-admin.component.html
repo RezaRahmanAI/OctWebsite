@@ -1,38 +1,25 @@
-<div class="card-surface">
+<div class="card-surface mt-2" [class.opacity-60]="loading()">
   <div class="flex items-center justify-between gap-4">
     <div>
       <p class="text-xs font-semibold uppercase tracking-[0.2em] text-primary-600">
         Social &amp; Contact
       </p>
-      <h2 class="text-xl font-semibold text-slate-900">
-        Manage social links and contact info
-      </h2>
+      <h2 class="text-xl font-semibold text-slate-900">Manage social links and contact info</h2>
       <p class="text-sm text-slate-600">
         Update phone numbers, emails, WhatsApp channels, and social profiles used across the site.
       </p>
     </div>
-    <button
-      class="btn"
-      type="button"
-      (click)="submit()"
-      [disabled]="loading()"
-    >
+    <button class="btn" type="button" (click)="submit()" [disabled]="loading()">
       {{ loading() ? 'Saving...' : 'Save' }}
     </button>
   </div>
 
-  <form
-    class="mt-6 space-y-8"
-    [formGroup]="form"
-    (ngSubmit)="submit()"
-  >
+  <form class="mt-6 space-y-8" [formGroup]="form" (ngSubmit)="submit()">
     <!-- Phone numbers -->
     <div class="space-y-4">
       <div>
         <p class="text-sm font-semibold text-slate-900">Phone numbers</p>
-        <p class="text-xs text-slate-600">
-          Shown in the site header, footer, and contact blocks.
-        </p>
+        <p class="text-xs text-slate-600">Shown in the site header, footer, and contact blocks.</p>
       </div>
 
       <div class="grid gap-4 md:grid-cols-2">
@@ -51,9 +38,7 @@
     <div class="space-y-4">
       <div>
         <p class="text-sm font-semibold text-slate-900">Emails</p>
-        <p class="text-xs text-slate-600">
-          Primary business and support email addresses.
-        </p>
+        <p class="text-xs text-slate-600">Primary business and support email addresses.</p>
       </div>
 
       <div class="grid gap-4 md:grid-cols-2">
@@ -72,9 +57,7 @@
     <div class="space-y-4" formGroupName="localWhatsapp">
       <div>
         <p class="text-sm font-semibold text-slate-900">Local WhatsApp</p>
-        <p class="text-xs text-slate-600">
-          Channel for Bangladesh-based WhatsApp enquiries.
-        </p>
+        <p class="text-xs text-slate-600">Channel for Bangladesh-based WhatsApp enquiries.</p>
       </div>
 
       <div class="grid gap-4 md:grid-cols-2">
@@ -97,9 +80,7 @@
     <div class="space-y-4" formGroupName="internationalWhatsapp">
       <div>
         <p class="text-sm font-semibold text-slate-900">International WhatsApp</p>
-        <p class="text-xs text-slate-600">
-          Channel for global enquiries outside Bangladesh.
-        </p>
+        <p class="text-xs text-slate-600">Channel for global enquiries outside Bangladesh.</p>
       </div>
 
       <div class="grid gap-4 md:grid-cols-2">
@@ -127,13 +108,7 @@
             Profiles used in the footer and contact sections (e.g. LinkedIn, Facebook, YouTube).
           </p>
         </div>
-        <button
-          class="btn ghost"
-          type="button"
-          (click)="addSocialLink()"
-        >
-          Add link
-        </button>
+        <button class="btn ghost" type="button" (click)="addSocialLink()">Add link</button>
       </div>
 
       <div class="space-y-2">
@@ -164,11 +139,7 @@
     </div>
 
     <div class="flex justify-end">
-      <button
-        class="btn"
-        type="submit"
-        [disabled]="loading()"
-      >
+      <button class="btn" type="submit" [disabled]="loading()">
         {{ loading() ? 'Saving...' : 'Save contact channels' }}
       </button>
     </div>

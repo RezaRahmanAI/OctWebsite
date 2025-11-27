@@ -1,4 +1,4 @@
-<div class="card-surface">
+<div class="card-surface mt-2" [class.opacity-60]="loading()">
   <div class="flex items-center justify-between gap-4">
     <div>
       <p class="text-xs font-semibold uppercase text-primary-600">Academy</p>
@@ -7,13 +7,7 @@
         Manage tracks, levels, tools, and admission steps for Zero Programming Academy.
       </p>
     </div>
-    <button
-      class="btn"
-      type="button"
-      (click)="resetForm()"
-    >
-      New track
-    </button>
+    <button class="btn" type="button" (click)="resetForm()">New track</button>
   </div>
 
   <div class="mt-6 grid gap-6 md:grid-cols-[2fr_3fr]">
@@ -25,42 +19,22 @@
       >
         <div>
           <p class="text-sm font-semibold text-slate-900">{{ track.title }}</p>
-          <p class="text-xs text-slate-600">
-            {{ track.ageRange }} · {{ track.duration }}
-          </p>
+          <p class="text-xs text-slate-600">{{ track.ageRange }} · {{ track.duration }}</p>
         </div>
         <div class="flex items-center gap-2">
-          <button
-            class="btn ghost"
-            type="button"
-            (click)="select(track.id)"
-          >
-            Edit
-          </button>
-          <button
-            class="btn danger"
-            type="button"
-            (click)="delete(track.id)"
-          >
-            Delete
-          </button>
+          <button class="btn ghost" type="button" (click)="select(track.id)">Edit</button>
+          <button class="btn danger" type="button" (click)="delete(track.id)">Delete</button>
         </div>
       </div>
     </div>
 
     <!-- Track editor form -->
-    <form
-      [formGroup]="form"
-      (ngSubmit)="submit()"
-      class="space-y-6"
-    >
+    <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-6">
       <!-- Basic track info -->
       <div class="space-y-4">
         <div>
           <p class="text-sm font-semibold text-slate-900">Track details</p>
-          <p class="text-xs text-slate-600">
-            Title, slug, audience, format, and track summary.
-          </p>
+          <p class="text-xs text-slate-600">Title, slug, audience, format, and track summary.</p>
         </div>
 
         <div class="grid gap-3 md:grid-cols-2">
@@ -104,11 +78,7 @@
         <div class="grid gap-3 md:grid-cols-2">
           <label class="form-field">
             <span>Hero video</span>
-            <input
-              type="file"
-              accept="video/*"
-              (change)="onHeroVideoSelected($event)"
-            />
+            <input type="file" accept="video/*" (change)="onHeroVideoSelected($event)" />
             <small *ngIf="form.value.heroVideoFileName; else noHeroVideo">
               Current: {{ form.value.heroVideoFileName }}
             </small>
@@ -119,11 +89,7 @@
 
           <label class="form-field">
             <span>Hero poster</span>
-            <input
-              type="file"
-              accept="image/*"
-              (change)="onHeroPosterSelected($event)"
-            />
+            <input type="file" accept="image/*" (change)="onHeroPosterSelected($event)" />
             <small *ngIf="form.value.heroPosterFileName; else noHeroPoster">
               Current: {{ form.value.heroPosterFileName }}
             </small>
@@ -159,13 +125,7 @@
               Short bullets that appear near the track hero section.
             </p>
           </div>
-          <button
-            type="button"
-            class="btn ghost"
-            (click)="addHighlight()"
-          >
-            Add highlight
-          </button>
+          <button type="button" class="btn ghost" (click)="addHighlight()">Add highlight</button>
         </div>
 
         <div class="space-y-2" formArrayName="highlights">
@@ -178,11 +138,7 @@
               [formControlName]="i"
               placeholder="Highlight text"
             />
-            <button
-              type="button"
-              class="text-xs text-rose-600"
-              (click)="removeHighlight(i)"
-            >
+            <button type="button" class="text-xs text-rose-600" (click)="removeHighlight(i)">
               Remove
             </button>
           </div>
@@ -198,13 +154,7 @@
               Key outcomes learners should achieve by the end of the track.
             </p>
           </div>
-          <button
-            type="button"
-            class="btn ghost"
-            (click)="addOutcome()"
-          >
-            Add outcome
-          </button>
+          <button type="button" class="btn ghost" (click)="addOutcome()">Add outcome</button>
         </div>
 
         <div class="space-y-2" formArrayName="learningOutcomes">
@@ -217,11 +167,7 @@
               [formControlName]="i"
               placeholder="Outcome text"
             />
-            <button
-              type="button"
-              class="text-xs text-rose-600"
-              (click)="removeOutcome(i)"
-            >
+            <button type="button" class="text-xs text-rose-600" (click)="removeOutcome(i)">
               Remove
             </button>
           </div>
@@ -237,32 +183,18 @@
               Structure each track into levels with tools and mini outcomes.
             </p>
           </div>
-          <button
-            type="button"
-            class="btn ghost"
-            (click)="addLevel()"
-          >
-            Add level
-          </button>
+          <button type="button" class="btn ghost" (click)="addLevel()">Add level</button>
         </div>
 
-        <div
-          class="space-y-3"
-        >
+        <div class="space-y-3">
           <div
             class="rounded-xl border border-slate-200 p-4 space-y-3"
             *ngFor="let level of levels.controls; let i = index"
             [formGroupName]="i"
           >
             <div class="flex items-center justify-between">
-              <h3 class="text-sm font-semibold text-slate-900">
-                Level {{ i + 1 }}
-              </h3>
-              <button
-                type="button"
-                class="text-xs text-rose-600"
-                (click)="removeLevel(i)"
-              >
+              <h3 class="text-sm font-semibold text-slate-900">Level {{ i + 1 }}</h3>
+              <button type="button" class="text-xs text-rose-600" (click)="removeLevel(i)">
                 Remove level
               </button>
             </div>
@@ -290,11 +222,7 @@
               </label>
               <label class="form-field">
                 <span>Level image</span>
-                <input
-                  type="file"
-                  accept="image/*"
-                  (change)="onLevelImageSelected(i, $event)"
-                />
+                <input type="file" accept="image/*" (change)="onLevelImageSelected(i, $event)" />
                 <small *ngIf="level.value.image; else noLevelImage">
                   Current: {{ level.value.image }}
                 </small>
@@ -316,21 +244,11 @@
                   [formControlName]="t"
                   placeholder="Tool (e.g. Scratch, Python)"
                 />
-                <button
-                  type="button"
-                  class="text-xs text-rose-600"
-                  (click)="removeTool(i, t)"
-                >
+                <button type="button" class="text-xs text-rose-600" (click)="removeTool(i, t)">
                   Remove
                 </button>
               </div>
-              <button
-                type="button"
-                class="btn ghost"
-                (click)="addTool(i)"
-              >
-                Add tool
-              </button>
+              <button type="button" class="btn ghost" (click)="addTool(i)">Add tool</button>
             </div>
 
             <!-- Level outcomes -->
@@ -353,11 +271,7 @@
                   Remove
                 </button>
               </div>
-              <button
-                type="button"
-                class="btn ghost"
-                (click)="addOutcomeToLevel(i)"
-              >
+              <button type="button" class="btn ghost" (click)="addOutcomeToLevel(i)">
                 Add outcome
               </button>
             </div>
@@ -370,22 +284,12 @@
         <div class="flex items-center justify-between">
           <div>
             <p class="text-sm font-semibold text-slate-900">Admission steps</p>
-            <p class="text-xs text-slate-600">
-              Short step-by-step guide for parents and learners.
-            </p>
+            <p class="text-xs text-slate-600">Short step-by-step guide for parents and learners.</p>
           </div>
-          <button
-            type="button"
-            class="btn ghost"
-            (click)="addAdmissionStep()"
-          >
-            Add step
-          </button>
+          <button type="button" class="btn ghost" (click)="addAdmissionStep()">Add step</button>
         </div>
 
-        <div
-          class="space-y-2"
-        >
+        <div class="space-y-2">
           <div
             class="grid gap-2 md:grid-cols-[1fr_2fr_auto]"
             *ngFor="let step of admissionSteps.controls; let i = index"
@@ -413,11 +317,7 @@
       </div>
 
       <div class="flex justify-end">
-        <button
-          type="submit"
-          class="btn"
-          [disabled]="loading()"
-        >
+        <button type="submit" class="btn" [disabled]="loading()">
           {{ loading() ? 'Saving...' : 'Save track' }}
         </button>
       </div>

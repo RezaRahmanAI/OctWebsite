@@ -16,17 +16,52 @@ import { HomeAdminComponent } from './home-admin.component';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, AboutAdminComponent, TeamAdminComponent, AcademyAdminComponent, AcademyTracksAdminComponent, BlogAdminComponent, ContactAdminComponent, ContactChannelsAdminComponent, ContactSubmissionsAdminComponent, ServicesAdminComponent, HomeAdminComponent],
+  imports: [
+    CommonModule,
+    AboutAdminComponent,
+    TeamAdminComponent,
+    AcademyAdminComponent,
+    AcademyTracksAdminComponent,
+    BlogAdminComponent,
+    ContactAdminComponent,
+    ContactChannelsAdminComponent,
+    ContactSubmissionsAdminComponent,
+    ServicesAdminComponent,
+    HomeAdminComponent,
+  ],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
 
-  readonly activeTab = signal<'home' | 'about' | 'team' | 'academy' | 'tracks' | 'blog' | 'contact' | 'channels' | 'submissions' | 'services'>('about');
+  readonly activeTab = signal<
+    | 'home'
+    | 'about'
+    | 'team'
+    | 'academy'
+    | 'tracks'
+    | 'blog'
+    | 'contact'
+    | 'channels'
+    | 'submissions'
+    | 'services'
+  >('home');
 
-  select(tab: 'home' | 'about' | 'team' | 'academy' | 'tracks' | 'blog' | 'contact' | 'channels' | 'submissions' | 'services'): void {
+  select(
+    tab:
+      | 'home'
+      | 'about'
+      | 'team'
+      | 'academy'
+      | 'tracks'
+      | 'blog'
+      | 'contact'
+      | 'channels'
+      | 'submissions'
+      | 'services'
+  ): void {
     this.activeTab.set(tab);
   }
 
