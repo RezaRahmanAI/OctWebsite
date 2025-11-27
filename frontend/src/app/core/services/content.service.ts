@@ -3,10 +3,6 @@ import { Observable, defer, of } from 'rxjs';
 
 import {
   HomeContent,
-  InsightItem,
-  ServiceCard,
-  StatItem,
-  Testimonial,
 } from '../models/home-content.model';
 import { PricingPlanItem } from '../models/pricing-plan.model';
 import { NavigationContent } from '../models/site-content.model';
@@ -162,6 +158,8 @@ export class ContentService {
         },
       },
     },
+
+
     trust: {
       tagline: 'Trusted by teams at',
       logos: [

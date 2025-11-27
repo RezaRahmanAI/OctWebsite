@@ -63,17 +63,6 @@
           {{ hero.secondaryCta.label }}
         </a>
       </div>
-
-      <ul class="grid gap-3 sm:grid-cols-2">
-        <li
-          #highlightItem
-          class="flex items-start gap-3 rounded-xl bg-slate-900/70 px-4 py-3 ring-1 ring-white/5"
-          *ngFor="let item of hero.highlightList"
-        >
-          <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/20 text-sm text-emerald-300">✓</span>
-          <span class="text-sm text-slate-100">{{ item }}</span>
-        </li>
-      </ul>
     </div>
 
     <div class="mt-12 flex-1 space-y-4 lg:mt-0">
