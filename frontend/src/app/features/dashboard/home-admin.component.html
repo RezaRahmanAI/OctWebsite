@@ -1,0 +1,207 @@
+<div class="admin-panel" [class.loading]="loading()">
+  <h2>Home Page</h2>
+
+  <form (ngSubmit)="submit()" class="form-grid">
+    <section [formGroup]="heroForm">
+      <h3>Hero</h3>
+      <label>
+        Badge
+        <input type="text" formControlName="badge" />
+      </label>
+      <label>
+        Title
+        <input type="text" formControlName="title" />
+      </label>
+      <label>
+        Description
+        <textarea rows="3" formControlName="description"></textarea>
+      </label>
+      <div class="grid-2">
+        <label>
+          Primary CTA Label
+          <input type="text" formControlName="primaryLabel" />
+        </label>
+        <label>
+          Primary CTA Link
+          <input type="text" formControlName="primaryLink" />
+        </label>
+      </div>
+      <div class="grid-2">
+        <label>
+          Secondary CTA Label
+          <input type="text" formControlName="secondaryLabel" />
+        </label>
+        <label>
+          Secondary CTA Link
+          <input type="text" formControlName="secondaryLink" />
+        </label>
+      </div>
+
+      <label>
+        Highlight Title
+        <input type="text" formControlName="highlightTitle" />
+      </label>
+      <label>
+        Highlight Description
+        <textarea rows="3" formControlName="highlightDescription"></textarea>
+      </label>
+
+      <div>
+        <div class="flex-between">
+          <h4>Highlight Items</h4>
+          <button type="button" (click)="addHighlight()">Add Item</button>
+        </div>
+        <div *ngFor="let control of highlightList.controls; let i = index" class="list-row">
+          <input type="text" [formControl]="control" />
+          <button type="button" (click)="removeHighlight(i)">Remove</button>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <label>
+          Hero Video File Name
+          <input type="text" formControlName="videoFileName" placeholder="/video/bg.mp4" />
+        </label>
+        <label>
+          Upload Hero Video
+          <input type="file" accept="video/*" (change)="onHeroVideoSelected($event)" />
+        </label>
+      </div>
+
+      <div class="grid-2">
+        <label>
+          Poster File Name
+          <input type="text" formControlName="posterFileName" />
+        </label>
+        <label>
+          Upload Poster
+          <input type="file" accept="image/*" (change)="onHeroPosterSelected($event)" />
+        </label>
+      </div>
+
+      <h4>Feature Panel</h4>
+      <label>
+        Eyebrow
+        <input type="text" formControlName="featureEyebrow" />
+      </label>
+      <label>
+        Title
+        <input type="text" formControlName="featureTitle" />
+      </label>
+      <label>
+        Description
+        <textarea rows="3" formControlName="featureDescription"></textarea>
+      </label>
+      <div class="grid-2">
+        <label>
+          Partner Label
+          <input type="text" formControlName="partnerLabel" />
+        </label>
+        <label>
+          Partner Description
+          <input type="text" formControlName="partnerDescription" />
+        </label>
+      </div>
+
+      <div>
+        <div class="flex-between">
+          <h4>Metrics</h4>
+          <button type="button" (click)="addMetric()">Add Metric</button>
+        </div>
+        <div *ngFor="let control of metrics.controls; let i = index" class="grid-3 list-row">
+          <input type="text" placeholder="Label" [formControl]="control.get('label')" />
+          <input type="text" placeholder="Value" [formControl]="control.get('value')" />
+          <input type="text" placeholder="Theme" [formControl]="control.get('theme')" />
+          <button type="button" (click)="removeMetric(i)">Remove</button>
+        </div>
+      </div>
+    </section>
+
+    <section [formGroup]="trustForm">
+      <h3>Trust</h3>
+      <label>
+        Tagline
+        <input type="text" formControlName="tagline" />
+      </label>
+
+      <div>
+        <div class="flex-between">
+          <h4>Companies</h4>
+          <button type="button" (click)="addCompany()">Add</button>
+        </div>
+        <div *ngFor="let control of companies.controls; let i = index" class="list-row">
+          <input type="text" [formControl]="control" />
+          <button type="button" (click)="removeCompany(i)">Remove</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="flex-between">
+          <h4>Stats</h4>
+          <button type="button" (click)="addStat()">Add</button>
+        </div>
+        <div *ngFor="let control of stats.controls; let i = index" class="grid-4 list-row">
+          <input type="text" placeholder="Label" [formControl]="control.get('label')" />
+          <input type="number" placeholder="Value" [formControl]="control.get('value')" />
+          <input type="text" placeholder="Suffix" [formControl]="control.get('suffix')" />
+          <input type="number" placeholder="Decimals" [formControl]="control.get('decimals')" />
+          <button type="button" (click)="removeStat(i)">Remove</button>
+        </div>
+      </div>
+
+      <h3>Testimonials</h3>
+      <div class="flex-between">
+        <p>Manage featured testimonials for the home page.</p>
+        <button type="button" (click)="addTestimonial()">Add Testimonial</button>
+      </div>
+      <div class="card" *ngFor="let control of testimonialForm.controls; let i = index" [formGroup]="control">
+        <div class="grid-2">
+          <label>
+            Name
+            <input type="text" formControlName="name" />
+          </label>
+          <label>
+            Title
+            <input type="text" formControlName="title" />
+          </label>
+        </div>
+        <div class="grid-2">
+          <label>
+            Location
+            <input type="text" formControlName="location" />
+          </label>
+          <label>
+            Type
+            <select formControlName="type">
+              <option value="client">Client</option>
+              <option value="student">Student</option>
+            </select>
+          </label>
+        </div>
+        <label>
+          Quote
+          <textarea rows="3" formControlName="quote"></textarea>
+        </label>
+        <label>
+          Rating
+          <input type="number" min="1" max="5" formControlName="rating" />
+        </label>
+        <div class="grid-2">
+          <label>
+            Image File Name
+            <input type="text" formControlName="imageFileName" />
+          </label>
+          <label>
+            Upload Image
+            <input type="file" accept="image/*" (change)="onTestimonialImageSelected(i, $event)" />
+          </label>
+        </div>
+        <button type="button" (click)="removeTestimonial(i)">Remove Testimonial</button>
+      </div>
+    </section>
+  </form>
+
+  <div class="actions">
+    <button type="button" (click)="submit()" [disabled]="loading()">Save Home Page</button>
+  </div>
+</div>

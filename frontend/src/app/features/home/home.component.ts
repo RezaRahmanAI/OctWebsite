@@ -26,6 +26,7 @@ import { environment } from '../../../environments/environment';
 import { HomeCollaborationComponent } from './sections/collaboration/home-collaboration.component';
 import { ProductShowcaseComponent } from './sections/product-showcase/product-showcase';
 import { BlogService } from '../../core/services/blog.service';
+import { HomePageApiService, HomePageModel } from '../../core/services/home-page-api.service';
 
 @Component({
   selector: 'app-home',
@@ -56,12 +57,15 @@ export class HomeComponent implements OnInit {
   private readonly document = inject(DOCUMENT, { optional: true });
   private readonly blogService = inject(BlogService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly homePageApi = inject(HomePageApiService);
 
   protected readonly home = this.content.homeContent;
+  protected readonly apiHome = this.homePageApi.content;
+  protected readonly mergedHome = computed(() => this.mergeHome(this.home(), this.apiHome()));
   private readonly siteSettings = this.settings.settings;
   protected readonly snapEnabled = signal(false);
   protected readonly heroData = computed(() => {
-    const base = this.home().hero;
+    const base = this.mergedHome().hero;
     const settings = this.siteSettings();
     const heroVideo = this.siteIdentity.getHeroVideo('home');
 
@@ -120,6 +124,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.homePageApi.load();
     this.blogService.ensureLoaded();
   }
 
@@ -154,6 +159,59 @@ export class HomeComponent implements OnInit {
 
     const apiBase = environment.apiUrl.replace(/\/+$/, '');
     return `${apiBase}/${strippedPublic.replace(/\/+$/, '')}`;
+  }
+
+  private mergeHome(base: any, api: HomePageModel | null) {
+    if (!api) {
+      return base;
+    }
+
+    const mapMedia = (media: any) => media?.url || media?.fileName || '';
+    const mappedHero = {
+      ...base.hero,
+      badge: api.hero.badge || base.hero.badge,
+      title: api.hero.title || base.hero.title,
+      description: api.hero.description || base.hero.description,
+      primaryCta: {
+        ...base.hero.primaryCta,
+        ...api.hero.primaryCta,
+      },
+      secondaryCta: {
+        ...base.hero.secondaryCta,
+        ...api.hero.secondaryCta,
+      },
+      highlightCard: {
+        ...base.hero.highlightCard,
+        ...api.hero.highlightCard,
+      },
+      highlightList: api.hero.highlightList.length ? api.hero.highlightList : base.hero.highlightList,
+      video: {
+        src: mapMedia(api.hero.video) || base.hero.video.src,
+        poster: mapMedia(api.hero.poster) || base.hero.video.poster,
+      },
+      featurePanel: {
+        ...base.hero.featurePanel,
+        ...api.hero.featurePanel,
+      },
+    };
+
+    return {
+      ...base,
+      hero: mappedHero,
+      trust: api.trust ?? base.trust,
+      testimonials: {
+        ...base.testimonials,
+        items: api.testimonials.length ? api.testimonials.map(item => ({
+          quote: item.quote,
+          name: item.name,
+          title: item.title,
+          location: item.location,
+          rating: item.rating,
+          type: item.type as any,
+          image: mapMedia(item.image),
+        })) : base.testimonials.items,
+      },
+    };
   }
 
   private setupBodySnapClass(): void {
