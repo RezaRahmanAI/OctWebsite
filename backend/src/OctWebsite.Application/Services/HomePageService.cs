@@ -1,6 +1,7 @@
 using System.Text.Json;
 using OctWebsite.Application.Abstractions;
 using OctWebsite.Application.DTOs;
+using OctWebsite.Application.Defaults;
 using OctWebsite.Domain.Entities;
 
 namespace OctWebsite.Application.Services;
@@ -71,7 +72,7 @@ internal sealed class HomePageService(ICompanyAboutRepository repository) : IHom
 
     private async Task<HomePageDto> SeedDefaultAsync(CancellationToken cancellationToken)
     {
-        var defaultRequest = SeedData.HomePageRequest;
+        var defaultRequest = HomePageDefaults.DefaultRequest;
         var serialized = Serialize(defaultRequest);
         var created = new CompanyAbout(Guid.NewGuid(), StorageKey, serialized);
         var stored = await repository.CreateAsync(created, cancellationToken);
