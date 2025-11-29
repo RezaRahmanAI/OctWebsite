@@ -1,6 +1,6 @@
 <section
   #heroSection
-  class="relative isolate overflow-hidden bg-slate-950 text-slate-50"
+  class="relative isolate flex min-h-screen items-center overflow-hidden bg-slate-950 text-slate-50"
 >
   <!-- Background video -->
   <video
@@ -17,6 +17,11 @@
     Your browser does not support the video tag.
   </video>
 
+  <!-- Dark overlay (optional, for extra contrast) -->
+  <div
+    #heroOverlay
+    class="pointer-events-none absolute inset-0 bg-slate-950/50 mix-blend-multiply"
+  ></div>
 
   <div class="relative z-10 mx-auto max-w-7xl px-6 py-44 lg:flex lg:items-center lg:gap-16">
     <div class="flex-1 space-y-6 text-center lg:text-left">
@@ -28,7 +33,9 @@
           <span class="h-2 w-2 rounded-full bg-sky-400"></span>
           {{ hero.badge }}
         </span>
-        <span class="text-xs uppercase tracking-[0.3em] text-slate-300/80">Global delivery</span>
+        <span class="text-xs uppercase tracking-[0.3em] text-slate-300/80">
+          Global delivery
+        </span>
       </div>
 
       <h1 class="text-3xl font-semibold leading-tight sm:text-5xl" aria-label="{{ hero.title }}">
@@ -65,49 +72,7 @@
       </div>
     </div>
 
-    <div class="mt-12 flex-1 space-y-4 lg:mt-0">
-      <div
-        #mediaCard
-        class="relative overflow-hidden rounded-2xl bg-slate-900/70 p-6 ring-1 ring-white/10 backdrop-blur"
-      >
-        <div class="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-slate-400">
-          <span>{{ hero.featurePanel.eyebrow }}</span>
-          <span class="flex items-center gap-2 text-emerald-300">
-            <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
-            Live
-          </span>
-        </div>
-
-        <div class="mt-4 space-y-2">
-          <h2 class="text-xl font-semibold text-white">{{ hero.featurePanel.title }}</h2>
-          <p class="text-sm text-slate-200/80">{{ hero.featurePanel.description }}</p>
-        </div>
-
-        <div class="mt-6 grid gap-3 sm:grid-cols-2">
-          <div
-            #floatingCard
-            class="rounded-xl bg-sky-500/10 px-4 py-3 text-sky-100 ring-1 ring-sky-500/30"
-            *ngFor="let metric of hero.featurePanel.metrics"
-          >
-            <p class="text-xs uppercase tracking-[0.25em] text-sky-200/80">{{ metric.label }}</p>
-            <p class="text-lg font-semibold">{{ metric.value }}</p>
-          </div>
-        </div>
-
-        <div class="mt-5 flex items-start gap-3 rounded-xl bg-slate-950/60 px-4 py-3 ring-1 ring-white/5">
-          <img
-            #mediaImage
-            class="h-12 w-12 flex-none rounded-full object-cover"
-            [src]="(hero.video.poster || '/img/partner.jpg') | assetUrl"
-            [alt]="hero.featurePanel.partner.label || 'Partner'"
-            loading="lazy"
-          />
-          <div class="space-y-1 text-sm">
-            <p class="font-semibold text-white">{{ hero.featurePanel.partner.label }}</p>
-            <p class="text-slate-200/80">{{ hero.featurePanel.partner.description }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- Optional media card (left as in previous version, can stay commented) -->
+    <!-- ... -->
   </div>
 </section>

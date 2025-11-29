@@ -67,20 +67,18 @@ export class HomeComponent implements OnInit {
   protected readonly snapEnabled = signal(false);
 
   // ---------- HERO (API-first) ----------
+  // ---------- HERO (API-first, VIDEO FROM API ONLY) ----------
   protected readonly heroData = computed<HomeContent['hero']>(() => {
     const baseHero = this.home().hero;
     const apiHero = this.apiHome()?.hero;
-    const heroVideo = this.siteIdentity.getHeroVideo('home');
 
-    // Resolve video sources (API → SiteIdentity override → base)
-    const rawVideoSrc =
-      heroVideo?.src ?? apiHero?.video?.url ?? apiHero?.video?.fileName ?? baseHero.video.src;
+    // ✅ VIDEO: API ONLY (no SiteIdentity, no static fallback)
+    const apiVideoSrc = apiHero?.video?.url ?? apiHero?.video?.fileName ?? ''; // if API doesn't send anything, we leave it empty
 
-    const rawPosterSrc =
-      heroVideo?.poster ??
-      apiHero?.poster?.url ??
-      apiHero?.poster?.fileName ??
-      baseHero.video.poster;
+    const apiPosterSrc = apiHero?.poster?.url ?? apiHero?.poster?.fileName ?? '';
+
+    const videoSrc = this.normalizeMediaUrl(apiVideoSrc);
+    const videoPoster = this.normalizeMediaUrl(apiPosterSrc);
 
     // Normalize metrics to match strict theme union
     const metrics: HomeContent['hero']['featurePanel']['metrics'] =
@@ -111,9 +109,10 @@ export class HomeComponent implements OnInit {
           ? apiHero.highlightList
           : baseHero.highlightList,
 
+      // 🔥 VIDEO ONLY FROM API
       video: {
-        src: this.normalizeMediaUrl(rawVideoSrc),
-        poster: this.normalizeMediaUrl(rawPosterSrc),
+        src: videoSrc,
+        poster: videoPoster,
       },
 
       featurePanel: {

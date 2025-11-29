@@ -21,4 +21,8 @@
     <ProjectReference Include="..\OctWebsite.Infrastructure\OctWebsite.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>

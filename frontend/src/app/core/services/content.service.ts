@@ -199,21 +199,15 @@ export class ContentService {
         {
           title: '',
           icon: '💻',
-          description:
-            '',
-          highlights: [
-            
-          ],
+          description: '',
+          highlights: [],
           tagline: '',
         },
         {
           title: '',
           icon: '',
-          description:
-            '',
-          highlights: [
-            
-          ],
+          description: '',
+          highlights: [],
           tagline: 'Your Digital Home, Perfected',
         },
         {
@@ -229,7 +223,6 @@ export class ContentService {
           ],
           tagline: 'Grow Your Digital Presence Globally',
         },
-        
       ],
     },
 
@@ -246,7 +239,6 @@ export class ContentService {
           description:
             'International delivery quality with a deep understanding of Bangladesh and emerging markets to localize impact.',
         },
-        
       ],
       partnershipPanel: {
         eyebrow: 'Partnership DNA',
@@ -271,7 +263,23 @@ export class ContentService {
           step: 'Discover',
           detail: 'Deep dive workshops to understand objectives, users, and success metrics.',
         },
-        
+        {
+          step: 'Design',
+          detail: 'Collaborative prototyping, technical architecture, and experience design.',
+        },
+        {
+          step: 'Develop',
+          detail:
+            'Agile delivery with continuous integration, QA automation, and security reviews.',
+        },
+        {
+          step: 'Deploy',
+          detail: 'Cloud-native deployment, observability setup, and go-live orchestration.',
+        },
+        {
+          step: 'Discover',
+          detail: '24/7 monitoring, optimization sprints, and on-demand training for your teams.',
+        },
       ],
     },
     caseStudies: {
@@ -284,13 +292,12 @@ export class ContentService {
       },
       items: [
         {
-          client: 'Aarong Global',
-          industry: 'Retail & E-commerce',
-          challenge: 'Low conversion rates and fragmented customer journeys.',
-          solution: 'Full-stack replatforming, UX revamp, and omnichannel marketing automation.',
-          result: '250% increase in online revenue within 6 months.',
+          client: '',
+          industry: '',
+          challenge: '',
+          solution: '',
+          result: '',
         },
-        
       ],
     },
     academy: {
@@ -469,11 +476,7 @@ export class ContentService {
   private readonly homeState = signal<HomeContent>(this.loadHomeContent());
   private readonly pageStorageKeyPrefix = 'objectcanvas-zeroprogramming-page-';
 
-
-
   private readonly pageSignals = new Map<PageKey, WritableSignal<unknown | null>>();
-
-
 
   readonly homeContent = computed(() => this.homeState());
   readonly navigationContent = this.getPageSignal<NavigationContent>('navigation');
@@ -588,7 +591,6 @@ export class ContentService {
     return channels.socialLinks.map((link) => ({ ...link }));
   }
 
-
   private loadHomeContent(): HomeContent {
     if (!this.canUseStorage()) {
       return this.clone(this.initialHomeContent);
@@ -624,15 +626,12 @@ export class ContentService {
     return pageSignal;
   }
 
-  
-
   private writePageToStorage<T>(key: PageKey, value: T): void {
     if (!this.canUseStorage()) {
       return;
     }
     localStorage.setItem(`${this.pageStorageKeyPrefix}${key}`, JSON.stringify(value));
   }
-
 
   private canUseStorage(): boolean {
     try {
