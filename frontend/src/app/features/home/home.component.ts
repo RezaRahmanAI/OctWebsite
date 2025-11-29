@@ -52,7 +52,6 @@ import type { HomeContent, Testimonial, CtaLink } from '../../core/models/home-c
 export class HomeComponent implements OnInit {
   private readonly seo = inject(SeoService);
   private readonly content = inject(ContentService);
-  private readonly siteIdentity = inject(SiteIdentityService);
   private readonly document = inject(DOCUMENT, { optional: true });
   private readonly blogService = inject(BlogService);
   private readonly destroyRef = inject(DestroyRef);
@@ -73,7 +72,7 @@ export class HomeComponent implements OnInit {
     const apiHero = this.apiHome()?.hero;
 
     // ✅ VIDEO: API ONLY (no SiteIdentity, no static fallback)
-    const apiVideoSrc = apiHero?.video?.url ?? apiHero?.video?.fileName ?? ''; // if API doesn't send anything, we leave it empty
+    const apiVideoSrc = apiHero?.video?.url ?? apiHero?.video?.fileName ?? ''; 
 
     const apiPosterSrc = apiHero?.poster?.url ?? apiHero?.poster?.fileName ?? '';
 

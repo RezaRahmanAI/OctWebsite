@@ -10,15 +10,24 @@ import { ScrollRevealDirective } from '../../../../shared/directives/scroll-reve
   imports: [CommonModule, SectionHeaderComponent, ScrollRevealDirective],
   templateUrl: './home-testimonials.component.html',
   styleUrl: './home-testimonials.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeTestimonialsComponent {
   @Input({ required: true }) header!: HomeContent['testimonials']['header'];
-  @Input({ required: true }) testimonials!: Testimonial[];
 
+  // 🔹 Turn the Input into a signal so computed() can react to changes
+  private readonly testimonialsSignal = signal<Testimonial[]>([]);
+
+  @Input({ required: true }) set testimonials(value: Testimonial[]) {
+    this.testimonialsSignal.set(value ?? []);
+  }
+
+  // View toggle: 'client' or 'student'
   protected readonly view = signal<'client' | 'student'>('client');
+
+  // 🔥 Now this computed depends ONLY on signals → it will re-run
   protected readonly filteredTestimonials = computed(() =>
-    this.testimonials.filter((testimonial) => testimonial.type === this.view())
+    this.testimonialsSignal().filter((testimonial) => testimonial.type === this.view())
   );
 
   protected setView(view: 'client' | 'student'): void {

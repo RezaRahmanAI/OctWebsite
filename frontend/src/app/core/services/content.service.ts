@@ -374,9 +374,10 @@ export class ContentService {
     // ✅ Empty testimonials – API will fully drive this
     testimonials: {
       header: {
-        eyebrow: '',
-        title: '',
-        subtitle: '',
+        eyebrow: 'Testimonials',
+        title: 'What Our Clients & Students Say',
+        subtitle:
+          'Real outcomes, global voices. Explore how partnerships and learning experiences reshape careers and companies.',
         align: 'center',
       },
       items: [],

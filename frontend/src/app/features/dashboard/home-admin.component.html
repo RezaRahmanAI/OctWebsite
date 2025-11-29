@@ -9,14 +9,14 @@
           Update home hero copy, highlights, media, and feature panel metrics.
         </p>
       </div>
-      <button
+      <!-- <button
         type="button"
         class="btn"
         (click)="submitHero()"
         [disabled]="loading() || savingHero()"
       >
         {{ savingHero() ? 'Saving...' : 'Save Hero Section' }}
-      </button>
+      </button> -->
     </div>
 
     <form class="mt-6 space-y-6" [formGroup]="heroForm" (ngSubmit)="submitHero()">
@@ -115,7 +115,7 @@
         </label>
       </div>
 
-      <div class="grid gap-4 md:grid-cols-2">
+      <!-- <div class="grid gap-4 md:grid-cols-2">
         <label class="form-field">
           <span>Poster image</span>
           <input type="file" accept="image/*" (change)="onHeroPosterSelected($event)" />
@@ -131,10 +131,10 @@
           <span>Poster file name</span>
           <input type="text" formControlName="posterFileName" />
         </label>
-      </div>
+      </div> -->
 
       <!-- Feature panel -->
-      <div class="space-y-4">
+      <!-- <div class="space-y-4">
         <div>
           <p class="text-sm font-semibold text-slate-900">Feature panel</p>
           <p class="text-xs text-slate-600">
@@ -168,7 +168,6 @@
           </label>
         </div>
 
-        <!-- Metrics -->
         <div class="space-y-3">
           <div class="flex items-center justify-between">
             <div>
@@ -204,7 +203,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="flex justify-end">
         <button class="btn" type="submit" [disabled]="loading() || savingHero()">
