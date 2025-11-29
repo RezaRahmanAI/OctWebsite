@@ -49,11 +49,13 @@ export class HomeHeroComponent implements AfterViewInit, OnDestroy, OnChanges {
   private timeline?: any;
   private parallaxTween?: any;
 
+  // Remember last src so we don't keep reloading the same video (prevents glitches)
+  private lastVideoSrc: string | null = null;
+
   protected get displayTitleWords(): string[] {
     return (this.hero?.title ?? '').split(' ').filter((word) => word.length > 0);
   }
 
-  /** Effective values that the template + video setup will use */
   private get effectiveVideoSrc(): string {
     return (this.hero?.video?.src || this.videoSrc || '').trim();
   }
@@ -76,7 +78,7 @@ export class HomeHeroComponent implements AfterViewInit, OnDestroy, OnChanges {
       gsap.registerPlugin(ScrollTrigger);
     }
 
-    // ✅ First attempt to initialize and autoplay the video
+    // First attempt to initialize and autoplay the video
     this.setupVideoPlayback();
 
     // -------------- Animations --------------
@@ -143,9 +145,8 @@ export class HomeHeroComponent implements AfterViewInit, OnDestroy, OnChanges {
   }
 
   /**
-   * 🔁 This is the key fix.
-   * When hero or videoSrc input changes (e.g. after API response),
-   * we re-run the video setup so autoplay works on first normal load.
+   * When hero / videoSrc / videoPoster change (e.g. after API call),
+   * re-run video setup so it can start smoothly on first load.
    */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['hero'] || changes['videoSrc'] || changes['videoPoster']) {
@@ -164,21 +165,27 @@ export class HomeHeroComponent implements AfterViewInit, OnDestroy, OnChanges {
   private setupVideoPlayback(): void {
     const video = this.heroVideo?.nativeElement;
     if (!video) {
-      // View might not be initialized yet; ngAfterViewInit will try again.
+      // View not ready yet – ngAfterViewInit will call this again
       return;
     }
 
     const src = this.effectiveVideoSrc;
     if (!src) {
-      // No valid src yet – nothing to load/play
+      // No valid src yet
       return;
     }
 
-    // Ensure muted for autoplay policies
+    // If src hasn't changed and video is already ready & playing, don't touch it (prevents glitches)
+    if (this.lastVideoSrc === src && video.readyState >= 2 && !video.paused) {
+      return;
+    }
+
+    this.lastVideoSrc = src;
+
+    // Ensure muted to satisfy autoplay policies
     video.muted = true;
 
-    // Force browser to reload the source if it changed
-    // (the [src] binding in the template updates the <source> src attribute)
+    // Let the browser reload the <source> if needed
     video.load();
 
     const attemptPlay = () => {

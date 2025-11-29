@@ -49,7 +49,7 @@ export class ContentService {
 
   private readonly defaultNavigation: NavigationContent = {
     brand: {
-      name: 'ObjectCanvas Technology',
+      name: 'ObjectCanvas',
       tagline: '',
       logo: '/images/logo/oct_logo.png',
       link: '/',
