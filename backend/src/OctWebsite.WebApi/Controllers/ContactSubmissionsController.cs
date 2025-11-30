@@ -15,6 +15,26 @@ public sealed class ContactSubmissionsController(IContactSubmissionService servi
         [FromBody] SubmitContactFormRequest request,
         CancellationToken cancellationToken)
     {
+        if (string.IsNullOrWhiteSpace(request.Name))
+        {
+            ModelState.AddModelError(nameof(request.Name), "Name is required.");
+        }
+
+        if (string.IsNullOrWhiteSpace(request.Email))
+        {
+            ModelState.AddModelError(nameof(request.Email), "Email is required.");
+        }
+
+        if (string.IsNullOrWhiteSpace(request.Message))
+        {
+            ModelState.AddModelError(nameof(request.Message), "Message is required.");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return ValidationProblem(ModelState);
+        }
+
         var created = await service.SubmitAsync(request, cancellationToken);
         return CreatedAtAction(nameof(GetRecentAsync), new { }, created);
     }

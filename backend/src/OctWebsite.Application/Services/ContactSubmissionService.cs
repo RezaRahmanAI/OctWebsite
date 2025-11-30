@@ -9,7 +9,7 @@ internal sealed class ContactSubmissionService(IContactSubmissionRepository repo
 {
     public async Task<ContactSubmissionDto> SubmitAsync(SubmitContactFormRequest request, CancellationToken cancellationToken = default)
     {
-        Validate(request);
+        ArgumentNullException.ThrowIfNull(request);
 
         var submission = new ContactSubmission(
             Guid.NewGuid(),
@@ -29,12 +29,5 @@ internal sealed class ContactSubmissionService(IContactSubmissionRepository repo
         var capped = Math.Clamp(take, 1, 500);
         var submissions = await repository.GetRecentAsync(capped, cancellationToken);
         return submissions.Select(submission => submission.ToDto()).ToArray();
-    }
-
-    private static void Validate(SubmitContactFormRequest request)
-    {
-        ArgumentException.ThrowIfNullOrWhiteSpace(request.Name);
-        ArgumentException.ThrowIfNullOrWhiteSpace(request.Email);
-        ArgumentException.ThrowIfNullOrWhiteSpace(request.Message);
     }
 }
