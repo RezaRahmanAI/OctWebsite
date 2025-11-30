@@ -37,6 +37,8 @@ The dashboard reads its API base URL at runtime so you can deploy the same build
   window.__env = { apiUrl: 'https://eshoptest.octimsbd.com' };
   ```
 
+During local development, the Angular dev server proxies `/api/*` requests to the production host defined in `proxy.conf.json`, so you can work without CORS errors while keeping the runtime override available for other environments.
+
 ## Folder Structure
 
 ```
