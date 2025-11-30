@@ -28,7 +28,7 @@ builder.Services.AddCors(options =>
         CorsPolicyName,
         policy =>
         {
-            policy.WithOrigins("https://eshoptest.octimsbd.com")
+            policy.AllowAnyOrigin()
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
