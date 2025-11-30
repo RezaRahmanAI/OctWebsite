@@ -28,11 +28,13 @@ export interface ContactPageModel {
   officesDescription: string;
   offices: ContactOfficeModel[];
   mapEmbedUrl: string;
+  mapEmbedHtml: string;
   mapTitle: string;
   headquarters: string;
   businessHours: string[];
   profileDownloadLabel: string;
   profileDownloadUrl: string;
+  officeImages?: NullableFile[];
 }
 
 export interface SaveContactPageRequest {
@@ -55,6 +57,7 @@ export interface SaveContactPageRequest {
   officesDescription: string;
   offices: ContactOfficeModel[];
   mapEmbedUrl: string;
+  mapEmbedHtml: string;
   mapTitle: string;
   headquarters: string;
   businessHours: string[];
@@ -68,6 +71,8 @@ export interface ContactOfficeModel {
   address: string;
   imageUrl: string;
 }
+
+export type NullableFile = File | null | undefined;
 
 @Injectable({ providedIn: 'root' })
 export class ContactPageApiService {
@@ -111,11 +116,19 @@ export class ContactPageApiService {
     form.append('officesDescription', request.officesDescription);
     form.append('officesJson', JSON.stringify(request.offices));
     form.append('mapEmbedUrl', request.mapEmbedUrl);
+    if (request.mapEmbedHtml) {
+      form.append('mapEmbedHtml', request.mapEmbedHtml);
+    }
     form.append('mapTitle', request.mapTitle);
     form.append('headquarters', request.headquarters);
     request.businessHours.forEach((entry, index) => form.append(`businessHours[${index}]`, entry));
     form.append('profileDownloadLabel', request.profileDownloadLabel);
     form.append('profileDownloadUrl', request.profileDownloadUrl);
+    request.officeImages?.forEach((file, index) => {
+      if (file) {
+        form.append(`officeImages[${index}]`, file);
+      }
+    });
 
     return this.http
       .put<ContactPageModel>(`${this.baseUrl}/api/contact-page`, form)

@@ -433,6 +433,10 @@ namespace OctWebsite.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("MapEmbedHtml")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("MapTitle")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

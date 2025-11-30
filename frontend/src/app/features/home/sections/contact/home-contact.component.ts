@@ -71,6 +71,7 @@ export class HomeContactComponent {
     this.submissionsApi.submit(request).subscribe({
       next: () => {
         this.loading.set(false);
+        this.error.set(null);
         this.submitted.set(true);
         this.contactForm.reset();
         this.toast.show('Thanks! We have received your message.', 'success');

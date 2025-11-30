@@ -17,6 +17,7 @@ namespace OctWebsite.WebApi.Controllers;
 public sealed class ContactPageController(IContactPageService contactPageService, IWebHostEnvironment environment) : ControllerBase
 {
     private const string HeroFolder = "uploads/contact";
+    private const string OfficesFolder = "uploads/contact/offices";
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
 
     [HttpGet]
@@ -34,6 +35,7 @@ public sealed class ContactPageController(IContactPageService contactPageService
         CancellationToken cancellationToken)
     {
         var heroVideoFileName = await StoreMediaIfNeededAsync(form.HeroVideo, HeroFolder, form.HeroVideoFileName, cancellationToken);
+        var offices = await StoreOfficeImagesAsync(ParseOffices(form.OfficesJson), form.OfficeImages, cancellationToken);
 
         var request = new SaveContactPageRequest(
             form.HeaderEyebrow ?? string.Empty,
@@ -52,8 +54,9 @@ public sealed class ContactPageController(IContactPageService contactPageService
             form.OfficesEyebrow ?? string.Empty,
             form.OfficesTitle ?? string.Empty,
             form.OfficesDescription ?? string.Empty,
-            ParseOffices(form.OfficesJson),
+            offices,
             form.MapEmbedUrl ?? string.Empty,
+            form.MapEmbedHtml ?? string.Empty,
             form.MapTitle ?? string.Empty,
             form.Headquarters ?? string.Empty,
             form.BusinessHours?.Where(e => !string.IsNullOrWhiteSpace(e)).Select(e => e.Trim()).ToArray() ?? Array.Empty<string>(),
@@ -79,6 +82,45 @@ public sealed class ContactPageController(IContactPageService contactPageService
         var relativePath = BuildRelativePath(dto.HeroVideo.FileName, HeroFolder);
         var url = $"{Request.Scheme}://{Request.Host}/{relativePath}";
         return dto with { HeroVideo = dto.HeroVideo with { Url = url } };
+    }
+
+    private async Task<IReadOnlyList<ContactOfficeDto>> StoreOfficeImagesAsync(
+        IReadOnlyList<ContactOfficeDto> offices,
+        IList<IFormFile>? officeImages,
+        CancellationToken cancellationToken)
+    {
+        if (offices.Count == 0)
+        {
+            return Array.Empty<ContactOfficeDto>();
+        }
+
+        var images = officeImages ?? Array.Empty<IFormFile>();
+        var result = new List<ContactOfficeDto>(offices.Count);
+
+        for (var i = 0; i < offices.Count; i++)
+        {
+            var office = offices[i];
+            var file = i < images.Count ? images[i] : null;
+
+            if (file is not null && file.Length > 0)
+            {
+                var storedFileName = await StoreMediaIfNeededAsync(file, OfficesFolder, office.ImageUrl, cancellationToken);
+                var imagePath = storedFileName is null ? office.ImageUrl : BuildRelativePath(storedFileName, OfficesFolder);
+                result.Add(office with { ImageUrl = imagePath ?? string.Empty });
+                continue;
+            }
+
+            if (string.IsNullOrWhiteSpace(office.ImageUrl))
+            {
+                result.Add(office);
+                continue;
+            }
+
+            var normalizedPath = BuildRelativePath(office.ImageUrl, OfficesFolder);
+            result.Add(office with { ImageUrl = normalizedPath });
+        }
+
+        return result;
     }
 
     private static string BuildRelativePath(string fileName, string folder)
@@ -200,6 +242,8 @@ public sealed class SaveContactPageFormRequest
 
     public string? MapEmbedUrl { get; set; }
 
+    public string? MapEmbedHtml { get; set; }
+
     public string? MapTitle { get; set; }
 
     public string? Headquarters { get; set; }
@@ -209,4 +253,6 @@ public sealed class SaveContactPageFormRequest
     public string? ProfileDownloadLabel { get; set; }
 
     public string? ProfileDownloadUrl { get; set; }
+
+    public IList<IFormFile>? OfficeImages { get; set; }
 }

@@ -93,13 +93,19 @@
     </div>
 
     <div class="overflow-hidden border border-slate-200 shadow-[0_24px_80px_-40px_rgba(15,23,42,0.35)]">
-      <iframe
-        [title]="contactPage.mapTitle"
-        [src]="contactPage.mapEmbedUrl"
-        class="h-[420px] w-full border-0"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-      ></iframe>
+      <ng-container *ngIf="contactPage.mapEmbedHtml; else mapUrl">
+        <div class="map-embed" [innerHTML]="contactPage.mapEmbedHtml"></div>
+      </ng-container>
+      <ng-template #mapUrl>
+        <iframe
+          *ngIf="contactPage.mapEmbedUrl"
+          [title]="contactPage.mapTitle"
+          [src]="contactPage.mapEmbedUrl"
+          class="h-[420px] w-full border-0"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </ng-template>
     </div>
   </div>
 </section>

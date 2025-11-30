@@ -139,6 +139,7 @@ namespace OctWebsite.Infrastructure.Migrations
                     OfficesDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Offices = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MapEmbedUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MapEmbedHtml = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MapTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Headquarters = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BusinessHours = table.Column<string>(type: "nvarchar(max)", nullable: false),

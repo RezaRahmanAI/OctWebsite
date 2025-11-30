@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ContactOfficeModel, ContactPageApiService, ContactPageModel, SaveContactPageRequest } from '../../core/services/contact-page-api.service';
+import { ContactOfficeModel, ContactPageApiService, ContactPageModel, NullableFile, SaveContactPageRequest } from '../../core/services/contact-page-api.service';
 import { ToastService } from '../../core/services/toast.service';
 
 @Component({
@@ -18,6 +18,7 @@ export class ContactAdminComponent implements OnInit {
 
   readonly loading = signal(false);
   private heroVideoFile: File | null = null;
+  private officeImageFiles: Record<number, NullableFile> = {};
 
   readonly form = this.fb.group({
     headerEyebrow: ['', Validators.required],
@@ -37,7 +38,8 @@ export class ContactAdminComponent implements OnInit {
     officesTitle: ['', Validators.required],
     officesDescription: ['', Validators.required],
     offices: this.fb.array([]),
-    mapEmbedUrl: ['', Validators.required],
+    mapEmbedUrl: [''],
+    mapEmbedHtml: [''],
     mapTitle: ['', Validators.required],
     headquarters: ['', Validators.required],
     businessHours: this.fb.array([]),
@@ -90,10 +92,16 @@ export class ContactAdminComponent implements OnInit {
         imageUrl: [value?.imageUrl ?? '', Validators.required],
       })
     );
+    this.officeImageFiles[this.offices.length - 1] = null;
   }
 
   removeOffice(index: number): void {
     this.offices.removeAt(index);
+    const next: Record<number, NullableFile> = {};
+    this.offices.controls.forEach((_, idx) => {
+      next[idx] = this.officeImageFiles[idx >= index ? idx + 1 : idx] ?? null;
+    });
+    this.officeImageFiles = next;
   }
 
   addBusinessHour(value = ''): void {
@@ -109,9 +117,21 @@ export class ContactAdminComponent implements OnInit {
     this.heroVideoFile = file;
   }
 
+  onOfficeImageSelected(index: number, event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0] ?? null;
+    this.officeImageFiles[index] = file;
+  }
+
   submit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      return;
+    }
+
+    const mapUrl = (this.form.value.mapEmbedUrl ?? '').trim();
+    const mapHtml = (this.form.value.mapEmbedHtml ?? '').trim();
+    if (!mapUrl && !mapHtml) {
+      this.toast.show('Please provide a map URL or iframe embed.', 'error');
       return;
     }
 
@@ -161,6 +181,7 @@ export class ContactAdminComponent implements OnInit {
       officesTitle: page.officesTitle,
       officesDescription: page.officesDescription,
       mapEmbedUrl: page.mapEmbedUrl,
+      mapEmbedHtml: page.mapEmbedHtml,
       mapTitle: page.mapTitle,
       headquarters: page.headquarters,
       profileDownloadLabel: page.profileDownloadLabel,
@@ -174,6 +195,7 @@ export class ContactAdminComponent implements OnInit {
     page.formOptions.forEach(option => this.addFormOption(option));
 
     this.offices.clear();
+    this.officeImageFiles = {};
     page.offices.forEach(office => this.addOffice(office));
 
     this.businessHours.clear();
@@ -204,11 +226,13 @@ export class ContactAdminComponent implements OnInit {
       officesDescription: raw.officesDescription ?? '',
       offices: (raw.offices as ContactOfficeModel[] | undefined)?.filter(Boolean) ?? [],
       mapEmbedUrl: raw.mapEmbedUrl ?? '',
+      mapEmbedHtml: raw.mapEmbedHtml ?? '',
       mapTitle: raw.mapTitle ?? '',
       headquarters: raw.headquarters ?? '',
       businessHours: (raw.businessHours as string[] | undefined)?.filter(Boolean) ?? [],
       profileDownloadLabel: raw.profileDownloadLabel ?? '',
       profileDownloadUrl: raw.profileDownloadUrl ?? '',
+      officeImages: this.offices.controls.map((_, index) => this.officeImageFiles[index] ?? null),
     } satisfies SaveContactPageRequest;
   }
 }
