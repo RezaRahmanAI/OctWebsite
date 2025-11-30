@@ -40,7 +40,7 @@ export class BlogComponent {
     this.featuredPost()?.headerVideo?.url ||
     this.pageContent()?.heroVideo?.url ||
     this.pageContent()?.heroVideo?.fileName ||
-    '/video/blog.mp4',
+    null,
   );
 
   ngOnInit(): void {
