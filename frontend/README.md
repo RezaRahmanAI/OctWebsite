@@ -26,6 +26,17 @@ The development server is available at `http://localhost:4200/`.
 - `npm run build` – generate a production build
 - `npm run test` – execute unit tests
 
+## Configuring the API URL
+
+The dashboard reads its API base URL at runtime so you can deploy the same build to multiple environments.
+
+- By default, it targets the same origin as the page (unless you are running on `localhost:4200`, where it falls back to the production API).
+- To override the target without rebuilding, set `window.__env.apiUrl` in `public/env.config.js` before deploying the built assets, for example:
+
+  ```js
+  window.__env = { apiUrl: 'https://eshoptest.octimsbd.com' };
+  ```
+
 ## Folder Structure
 
 ```
