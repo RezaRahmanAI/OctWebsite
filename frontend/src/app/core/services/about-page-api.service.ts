@@ -134,7 +134,7 @@ export class AboutPageApiService {
     }
 
     return this.http
-      .put<AboutPageModel>(`${this.baseUrl}/api/about-page`, form)
+      .post<AboutPageModel>(`${this.baseUrl}/api/about-page`, form)
       .pipe(tap(page => this.content.set(page)));
   }
 }
