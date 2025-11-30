@@ -60,14 +60,14 @@
           <div class="relative aspect-[4/3]">
             <video
               class="absolute inset-0 h-full w-full object-cover"
-              autoplay
-              loop
-              muted
-              playsinline
-            >
-            <source [src]="heroVideoSrc() | assetUrl" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+            autoplay
+            loop
+            muted
+            playsinline
+          >
+            <source [attr.src]="heroVideoSrc() | assetUrl" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
           </div>
 
           <!-- same gradient overlay as academy -->

@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { PricingComponent } from '../../shared/components/pricing/pricing.component';
 import { AcademyPageApiService, AcademyPageModel } from '../../core/services/academy-page-api.service';
+import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
 
 type TrackSummary = AcademyPageModel['tracks'][number];
 
 @Component({
   selector: 'app-academy',
   standalone: true,
-  imports: [CommonModule, RouterLink, PricingComponent],
+  imports: [CommonModule, RouterLink, PricingComponent, AssetUrlPipe],
   templateUrl: './academy.component.html',
   styleUrl: './academy.component.css',
 })
@@ -46,6 +47,6 @@ export class AcademyComponent implements OnInit {
   }
 
   heroVideoSource(): string {
-    return this.page()?.heroVideo?.url ?? this.page()?.heroVideo?.fileName ?? 'video/academy.mp4';
+    return this.page()?.heroVideo?.url ?? this.page()?.heroVideo?.fileName ?? '/video/academy/hero.mp4';
   }
 }
