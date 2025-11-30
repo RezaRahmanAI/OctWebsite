@@ -29,13 +29,14 @@
       >
         <div class="relative aspect-[4/3]">
           <video
+            #academyVideo
             class="absolute inset-0 h-full w-full object-cover"
             autoplay
             loop
             muted
             playsinline
           >
-            <source [src]="heroVideoSource()" type="video/mp4" />
+            <source [attr.src]="heroVideoSource() | assetUrl" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>
