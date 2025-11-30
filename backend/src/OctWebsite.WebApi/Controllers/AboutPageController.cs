@@ -27,6 +27,7 @@ public sealed class AboutPageController(IAboutPageService aboutPageService, IWeb
     }
 
     [HttpPut]
+    [HttpPost]
     [RequestFormLimits(MultipartBodyLengthLimit = 104_857_600)]
     public async Task<ActionResult<AboutPageDto>> UpsertAsync(
         [FromForm] SaveAboutPageFormRequest form,
