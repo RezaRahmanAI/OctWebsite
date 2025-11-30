@@ -21,7 +21,7 @@ public sealed class HomeHeroController(IHomeHeroService heroService, IWebHostEnv
         return Ok(ResolveHero(hero));
     }
 
-    [HttpPut]
+    [HttpPost]
     [RequestFormLimits(MultipartBodyLengthLimit = 104_857_600)]
     public async Task<ActionResult<HomeHeroDto>> UpsertAsync([FromForm] SaveHomeHeroFormRequest form, CancellationToken cancellationToken)
     {

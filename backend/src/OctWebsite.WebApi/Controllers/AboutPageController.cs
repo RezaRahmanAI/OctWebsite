@@ -26,7 +26,7 @@ public sealed class AboutPageController(IAboutPageService aboutPageService, IWeb
         return Ok(ResolveMediaUrls(page));
     }
 
-    [HttpPut]
+    
     [HttpPost]
     [RequestFormLimits(MultipartBodyLengthLimit = 104_857_600)]
     public async Task<ActionResult<AboutPageDto>> UpsertAsync(

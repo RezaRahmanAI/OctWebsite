@@ -118,8 +118,11 @@ export class HomePageApiService {
       trust: this.http.get<HomeTrustModel>(`${this.baseUrl}/api/home-trust`),
       testimonials: this.http.get<HomeTestimonialModel[]>(`${this.baseUrl}/api/home-testimonials`),
     }).pipe(
-      map(({ hero, trust, testimonials }) => ({ id: hero.id, hero, trust, testimonials } satisfies HomePageModel)),
-      tap(page => this.content.set(page))
+      map(
+        ({ hero, trust, testimonials }) =>
+          ({ id: hero.id, hero, trust, testimonials } satisfies HomePageModel)
+      ),
+      tap((page) => this.content.set(page))
     );
   }
 
@@ -131,18 +134,24 @@ export class HomePageApiService {
     form.append('primaryCtaLabel', request.primaryCta.label);
     if (request.primaryCta.routerLink) form.append('primaryCtaLink', request.primaryCta.routerLink);
     if (request.primaryCta.fragment) form.append('primaryCtaFragment', request.primaryCta.fragment);
-    if (request.primaryCta.externalUrl) form.append('primaryCtaExternalUrl', request.primaryCta.externalUrl);
+    if (request.primaryCta.externalUrl)
+      form.append('primaryCtaExternalUrl', request.primaryCta.externalUrl);
     if (request.primaryCta.style) form.append('primaryCtaStyle', request.primaryCta.style);
 
     form.append('secondaryCtaLabel', request.secondaryCta.label);
-    if (request.secondaryCta.routerLink) form.append('secondaryCtaLink', request.secondaryCta.routerLink);
-    if (request.secondaryCta.fragment) form.append('secondaryCtaFragment', request.secondaryCta.fragment);
-    if (request.secondaryCta.externalUrl) form.append('secondaryCtaExternalUrl', request.secondaryCta.externalUrl);
+    if (request.secondaryCta.routerLink)
+      form.append('secondaryCtaLink', request.secondaryCta.routerLink);
+    if (request.secondaryCta.fragment)
+      form.append('secondaryCtaFragment', request.secondaryCta.fragment);
+    if (request.secondaryCta.externalUrl)
+      form.append('secondaryCtaExternalUrl', request.secondaryCta.externalUrl);
     if (request.secondaryCta.style) form.append('secondaryCtaStyle', request.secondaryCta.style);
 
     form.append('heroHighlightTitle', request.highlightCard.title);
     form.append('heroHighlightDescription', request.highlightCard.description);
-    request.highlightList.forEach((item, index) => form.append(`heroHighlightList[${index}]`, item));
+    request.highlightList.forEach((item, index) =>
+      form.append(`heroHighlightList[${index}]`, item)
+    );
 
     if (request.videoFileName) form.append('heroVideoFileName', request.videoFileName);
     if (request.videoFile) form.append('heroVideo', request.videoFile);
@@ -160,9 +169,9 @@ export class HomePageApiService {
     form.append('partnerLabel', request.featurePanel.partner.label);
     form.append('partnerDescription', request.featurePanel.partner.description);
 
-    return this.http.put<HomeHeroModel>(`${this.baseUrl}/api/home-hero`, form).pipe(
-      tap(hero => this.mergeContent({ hero, id: hero.id }))
-    );
+    return this.http
+      .post<HomeHeroModel>(`${this.baseUrl}/api/home-hero`, form)
+      .pipe(tap((hero) => this.mergeContent({ hero, id: hero.id })));
   }
 
   updateTrust(request: SaveHomeTrustRequest): Observable<HomeTrustModel> {
@@ -182,33 +191,42 @@ export class HomePageApiService {
       }
     });
 
-    return this.http.put<HomeTrustModel>(`${this.baseUrl}/api/home-trust`, form).pipe(
-      tap(trust => this.mergeContent({ trust }))
-    );
+    return this.http
+      .put<HomeTrustModel>(`${this.baseUrl}/api/home-trust`, form)
+      .pipe(tap((trust) => this.mergeContent({ trust })));
   }
 
   createTestimonial(request: SaveHomeTestimonialRequest): Observable<HomeTestimonialModel> {
     const form = this.toTestimonialFormData(request);
     return this.http.post<HomeTestimonialModel>(`${this.baseUrl}/api/home-testimonials`, form).pipe(
-      tap(testimonial => this.mergeContent({ testimonials: [...(this.content()?.testimonials ?? []), testimonial] }))
+      tap((testimonial) =>
+        this.mergeContent({
+          testimonials: [...(this.content()?.testimonials ?? []), testimonial],
+        })
+      )
     );
   }
 
-  updateTestimonial(id: string, request: SaveHomeTestimonialRequest): Observable<HomeTestimonialModel> {
+  updateTestimonial(
+    id: string,
+    request: SaveHomeTestimonialRequest
+  ): Observable<HomeTestimonialModel> {
     const form = this.toTestimonialFormData(request);
-    return this.http.put<HomeTestimonialModel>(`${this.baseUrl}/api/home-testimonials/${id}`, form).pipe(
-      tap(testimonial => {
-        const existing = this.content()?.testimonials ?? [];
-        const updated = existing.map(item => (item.id === id ? testimonial : item));
-        this.mergeContent({ testimonials: updated });
-      })
-    );
+    return this.http
+      .put<HomeTestimonialModel>(`${this.baseUrl}/api/home-testimonials/${id}`, form)
+      .pipe(
+        tap((testimonial) => {
+          const existing = this.content()?.testimonials ?? [];
+          const updated = existing.map((item) => (item.id === id ? testimonial : item));
+          this.mergeContent({ testimonials: updated });
+        })
+      );
   }
 
   deleteTestimonial(id: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/api/home-testimonials/${id}`).pipe(
       tap(() => {
-        const remaining = (this.content()?.testimonials ?? []).filter(t => t.id !== id);
+        const remaining = (this.content()?.testimonials ?? []).filter((t) => t.id !== id);
         this.mergeContent({ testimonials: remaining });
       })
     );
@@ -230,7 +248,13 @@ export class HomePageApiService {
   private mergeContent(update: Partial<HomePageModel>) {
     const current = this.content();
     const next: HomePageModel | null = current
-      ? { ...current, ...update, hero: update.hero ?? current.hero, trust: update.trust ?? current.trust, testimonials: update.testimonials ?? current.testimonials }
+      ? {
+          ...current,
+          ...update,
+          hero: update.hero ?? current.hero,
+          trust: update.trust ?? current.trust,
+          testimonials: update.testimonials ?? current.testimonials,
+        }
       : null;
     if (next) {
       this.content.set(next);
