@@ -43,6 +43,8 @@ public sealed class ContactPage
 
     public string MapEmbedUrl { get; set; } = string.Empty;
 
+    public string MapEmbedHtml { get; set; } = string.Empty;
+
     public string MapTitle { get; set; } = string.Empty;
 
     public string Headquarters { get; set; } = string.Empty;

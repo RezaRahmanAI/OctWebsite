@@ -85,7 +85,8 @@ internal sealed class ContactPageService(IContactPageRepository repository) : IC
                 "Fri-Sat: Closed"
             },
             "Download Company Profile (PDF)",
-            "https://objectcanvas.com/company-profile.pdf");
+            "https://objectcanvas.com/company-profile.pdf",
+            string.Empty);
 
         return await UpsertAsync(defaults, cancellationToken);
     }
@@ -114,6 +115,7 @@ internal sealed class ContactPageService(IContactPageRepository repository) : IC
         entity.OfficesDescription = request.OfficesDescription.Trim();
         entity.Offices = request.Offices.Select(MapToEntity).ToList();
         entity.MapEmbedUrl = request.MapEmbedUrl.Trim();
+        entity.MapEmbedHtml = request.MapEmbedHtml.Trim();
         entity.MapTitle = request.MapTitle.Trim();
         entity.Headquarters = request.Headquarters.Trim();
         entity.BusinessHours = request.BusinessHours.Select(hour => hour.Trim()).ToList();
@@ -149,6 +151,7 @@ internal sealed class ContactPageService(IContactPageRepository repository) : IC
         page.OfficesDescription,
         page.Offices.Select(MapToDto).ToArray(),
         page.MapEmbedUrl,
+        page.MapEmbedHtml,
         page.MapTitle,
         page.Headquarters,
         page.BusinessHours,
@@ -191,7 +194,10 @@ internal sealed class ContactPageService(IContactPageRepository repository) : IC
             throw new ArgumentException("At least one office location is required.");
         }
 
-        ArgumentException.ThrowIfNullOrWhiteSpace(request.MapEmbedUrl);
+        if (string.IsNullOrWhiteSpace(request.MapEmbedUrl) && string.IsNullOrWhiteSpace(request.MapEmbedHtml))
+        {
+            throw new ArgumentException("A map embed URL or iframe snippet is required.");
+        }
         ArgumentException.ThrowIfNullOrWhiteSpace(request.MapTitle);
         ArgumentException.ThrowIfNullOrWhiteSpace(request.Headquarters);
         if (request.BusinessHours.Count == 0)
