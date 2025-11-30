@@ -3,5 +3,5 @@ interface EnvironmentConfig {
 }
 
 export const environment: EnvironmentConfig = {
-  apiUrl: 'https://ceshop.octimsbd.com',
+  apiUrl: 'https://eshoptest.octimsbd.com',
 };
