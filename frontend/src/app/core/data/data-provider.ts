@@ -1,14 +1,5 @@
 import { Signal } from '@angular/core';
-import {
-  AcademyTrack,
-  BlogPost,
-  CompanyAbout,
-  Lead,
-  ProductItem,
-  ServiceItem,
-  SiteSettings,
-  TeamMember,
-} from '../models';
+import { AcademyTrack, BlogPost, CompanyAbout, Lead, ProductItem, ServiceItem, TeamMember } from '../models';
 
 export interface EntityStore<T> {
   readonly items: Signal<T[]>;
@@ -30,5 +21,4 @@ export interface DataProvider {
   readonly academy: EntityStore<AcademyTrack>;
   readonly blog: EntityStore<BlogPost>;
   readonly leads: EntityStore<Lead>;
-  readonly settings: EntityStore<SiteSettings>;
 }

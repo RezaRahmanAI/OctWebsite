@@ -1,14 +1,5 @@
 import { Injectable, computed, signal } from '@angular/core';
-import {
-  AcademyTrack,
-  BlogPost,
-  CompanyAbout,
-  Lead,
-  ProductItem,
-  ServiceItem,
-  SiteSettings,
-  TeamMember,
-} from '../models';
+import { AcademyTrack, BlogPost, CompanyAbout, Lead, ProductItem, ServiceItem, TeamMember } from '../models';
 import { DataProvider, EntityStore } from './data-provider';
 
 interface StoreOptions<T> {
@@ -32,7 +23,6 @@ export class SignalStoreProvider implements DataProvider {
     slug: item => (item as { slug?: string }).slug,
   });
   readonly leads = this.createStore<Lead>();
-  readonly settings = this.createStore<SiteSettings>();
 
   private createStore<T extends { id: string }>(options: StoreOptions<T> = {}): EntityStore<T> {
     const state = signal<T[]>([]);
