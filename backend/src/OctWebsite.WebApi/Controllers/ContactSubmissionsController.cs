@@ -15,6 +15,12 @@ public sealed class ContactSubmissionsController(IContactSubmissionService servi
         [FromBody] SubmitContactFormRequest request,
         CancellationToken cancellationToken)
     {
+        if (request is null)
+        {
+            ModelState.AddModelError(string.Empty, "Request body is required.");
+            return ValidationProblem(ModelState);
+        }
+
         if (string.IsNullOrWhiteSpace(request.Name))
         {
             ModelState.AddModelError(nameof(request.Name), "Name is required.");
