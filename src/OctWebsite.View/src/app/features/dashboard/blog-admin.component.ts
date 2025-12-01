@@ -246,7 +246,7 @@ export class BlogAdminComponent implements OnInit {
     this.heroVideoFile = file;
     if (file) {
       this.heroVideoName.set(file.name);
-      this.headerForm.patchValue({ heroVideoFileName: '' });
+      this.headerForm.patchValue({ heroVideoFileName: file.name });
     }
   }
 
@@ -283,7 +283,7 @@ export class BlogAdminComponent implements OnInit {
       headerEyebrow: page.headerEyebrow,
       headerTitle: page.headerTitle,
       headerSubtitle: page.headerSubtitle,
-      heroVideoFileName: page.heroVideo?.fileName ?? page.heroVideo?.url ?? '',
+      heroVideoFileName: page.heroVideo?.fileName ?? '',
     });
 
     this.heroVideoFile = null;

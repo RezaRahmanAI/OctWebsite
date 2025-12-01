@@ -62,6 +62,11 @@ public sealed class BlogPageController(IBlogPageService blogPageService, IWebHos
         }
 
         var relative = BuildRelativePath(media.FileName, MediaFolder);
+        if (Uri.TryCreate(relative, UriKind.Absolute, out var absolute))
+        {
+            return media with { Url = absolute.ToString() };
+        }
+
         var url = $"{Request.Scheme}://{Request.Host}/{relative}";
         return media with { Url = url };
     }
