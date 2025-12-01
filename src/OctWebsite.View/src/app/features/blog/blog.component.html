@@ -2,58 +2,39 @@
 <section class="section-padding">
   <div class="container-wide space-y-12">
     <div class="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-      <!-- LEFT: text + email subscribe -->
-      <div class="max-w-3xl space-y-6">
-        <p
-          class="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/70 px-4 py-1
-                 text-xs font-semibold uppercase tracking-[0.35em] text-primary"
-        >
-          <span class="h-2 w-2 rounded-full bg-secondary-400"></span>
-          {{ pageContent()?.headerEyebrow || 'Insights & Updates' }}
+      <div class="space-y-6">
+        <app-section-heading
+          [eyebrow]="heroEyebrow()"
+          [title]="heroTitle()"
+          [subtitle]="heroSubtitle()"
+          align="left"
+        ></app-section-heading>
+
+        <p class="max-w-2xl text-sm text-slate-600 md:text-base">
+          Browse updates from our engineering, delivery, and academy teams. Watch the reel to see how we launch product stories
+          with ObjectCanvas.
         </p>
 
-        <div class="space-y-2">
-          <h1 class="text-3xl font-bold sm:text-4xl md:text-5xl">
-            {{ pageContent()?.headerTitle || 'Stories from the studio' }}
-          </h1>
-          <p class="max-w-2xl text-sm text-slate-600 md:text-base">
-            {{ pageContent()?.headerSubtitle ||
-              'Explore lessons from our product experiments, engineering playbooks, and academy cohorts. Filter by topic or jump straight into the latest releases.'
-            }}
-          </p>
-        </div>
-
-        <form
-          class="flex flex-wrap items-center gap-3 text-xs text-slate-600"
-          (submit)="$event.preventDefault()"
-        >
-          <div class="min-w-[220px] flex-1">
-            <label class="sr-only" for="blog-subscribe-email">Email address</label>
-            <input
-              id="blog-subscribe-email"
-              type="email"
-              placeholder="Get new stories in your inbox"
-              class="w-full rounded-full border border-slate-200 bg-white px-4 py-2.5
-                     text-xs text-slate-800 placeholder:text-slate-400
-                     focus:border-primary focus:outline-none"
-            />
-          </div>
-          <button
-            type="submit"
-            class="inline-flex items-center justify-center rounded-full bg-primary
-                   px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.25em]
-                   text-white shadow-md transition hover:bg-primary/90"
+        <div class="flex flex-wrap items-center gap-3">
+          <a
+            routerLink="/contact"
+            class="inline-flex items-center justify-center rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition hover:translate-y-0.5 hover:bg-primary/90"
           >
-            Subscribe
-          </button>
-        </form>
+            Talk to the team →
+          </a>
+          <a
+            routerLink="/insights"
+            class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+          >
+            View all insights
+          </a>
+        </div>
       </div>
 
-      <!-- RIGHT: video card uses same treatment as product hero -->
       <div class="header-video-wrapper">
         <video
           class="header-video"
-          [src]="heroVideoSrc() | assetUrl"
+          [src]="heroVideoUrl()"
           autoplay
           loop
           muted
