@@ -236,55 +236,107 @@ internal static class SeedData
     public static IReadOnlyList<ProductItem> Products { get; } =
         [
             new ProductItem(
-                Guid.Parse("11111111-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                "Product Strategy",
-                "product-strategy",
-                "North-star vision, roadmaps, and measurable outcomes for each release.",
-                "🧭",
+                Guid.Parse("4fb0c5ec-41f9-44ac-b0a9-ccb8717345d5"),
+                "Accounting-Inventory",
+                "accounting-inventory",
+                "A single source of truth for finances, inventory, and compliance.",
+                "file-text",
                 new[]
                 {
-                    "Discovery workshops to align user needs and business goals",
-                    "Outcome-driven roadmaps with clear success metrics",
-                    "Experiment backlogs with validation criteria"
+                    "Automated ledgers",
+                    "Purchase & sales workflows",
+                    "Compliance ready reports"
                 },
                 true),
             new ProductItem(
-                Guid.Parse("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                "Experience Design",
-                "experience-design",
-                "Interfaces, flows, and content systems that stay consistent across platforms.",
-                "🎨",
+                Guid.Parse("1b238c58-9086-47d9-8c9a-a71a15fe4f27"),
+                "POS Software",
+                "pos-software",
+                "Modern POS across retail channels with real-time stock syncing.",
+                "credit-card",
                 new[]
                 {
-                    "Design systems with reusable tokens and components",
-                    "Accessibility-first UI patterns with real device QA",
-                    "Motion, microcopy, and localization guardrails"
+                    "Multi-branch support",
+                    "Inventory reconciliation",
+                    "Offline billing"
                 },
                 true),
             new ProductItem(
-                Guid.Parse("33333333-cccc-cccc-cccc-cccccccccccc"),
-                "Engineering Enablement",
-                "engineering-enablement",
-                "APIs, pipelines, and quality gates that keep delivery predictable.",
-                "⚙️",
+                Guid.Parse("0ee8f3dc-0162-4ba3-9faf-7d3bce84185f"),
+                "Real Estate Management",
+                "real-estate-management",
+                "Lead-to-lease pipelines and smart property upkeep dashboards.",
+                "home",
                 new[]
                 {
-                    "API-first contracts with monitoring and tracing",
-                    "Automated pipelines with security and quality checks",
-                    "Progressive delivery with feature flags and rollback plans"
+                    "Unit availability tracking",
+                    "Tenant portal",
+                    "Expense analytics"
                 },
                 true),
             new ProductItem(
-                Guid.Parse("44444444-dddd-dddd-dddd-dddddddddddd"),
-                "Customer Success",
-                "customer-success",
-                "Lifecycle programs that keep adopters engaged and supported post-launch.",
-                "🤝",
+                Guid.Parse("9d7a8452-bd34-42a2-b51a-2e9f7dcc5b1e"),
+                "Production Management",
+                "production-management",
+                "Monitor production cycles, downtime, and yield insights in one view.",
+                "factory",
                 new[]
                 {
-                    "Onboarding journeys with in-product education",
-                    "Usage analytics with playbooks for churn risks",
-                    "Feedback loops feeding the roadmap backlog"
+                    "Workflow automation",
+                    "Maintenance alerts",
+                    "Operational dashboards"
+                },
+                true),
+            new ProductItem(
+                Guid.Parse("4cf942ed-1af5-4a92-bf66-1b7e24fabd90"),
+                "Hardware Business",
+                "hardware-business",
+                "Distribution-ready platform for hardware inventory and procurement.",
+                "cpu",
+                new[]
+                {
+                    "Supplier management",
+                    "Warranty tracking",
+                    "Analytics & forecasting"
+                },
+                true),
+            new ProductItem(
+                Guid.Parse("4c6e2c27-49c0-44cb-b881-d919cb0124a1"),
+                "Mobile Shop Management",
+                "mobile-shop-management",
+                "Point of sale, buyback, and repair workflows in one simplified interface.",
+                "smartphone",
+                new[]
+                {
+                    "IMEI tracking",
+                    "Repair management",
+                    "Bundle promotions"
+                },
+                true),
+            new ProductItem(
+                Guid.Parse("e9fc36dc-5983-4e61-8265-bc2a27c893fa"),
+                "Electronics Showroom",
+                "electronics-showroom",
+                "Delightful catalog-first experience with AR/VR-ready modules.",
+                "tv",
+                new[]
+                {
+                    "Product comparison",
+                    "Assisted selling tools",
+                    "Warranty automation"
+                },
+                true),
+            new ProductItem(
+                Guid.Parse("3a6e3b68-9175-4c76-a163-46339ca774b0"),
+                "Distribution Management",
+                "distribution-management",
+                "Optimize distribution with intelligent routing and demand forecasting.",
+                "truck",
+                new[]
+                {
+                    "Route planning",
+                    "Distributor portal",
+                    "Sales gamification"
                 },
                 true)
         ];
