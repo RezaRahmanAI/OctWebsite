@@ -22,7 +22,9 @@ public static class DependencyInjection
         services.AddScoped<IBlogService, BlogService>();
         services.AddScoped<IBlogPageService, BlogPageService>();
         services.AddScoped<IServicesPageService, ServicesPageService>();
+        services.AddScoped<IProductPageService, ProductPageService>();
         services.AddScoped<IServiceCatalog, ServiceCatalog>();
+        services.AddScoped<IProductCatalog, ProductCatalog>();
         return services;
     }
 }

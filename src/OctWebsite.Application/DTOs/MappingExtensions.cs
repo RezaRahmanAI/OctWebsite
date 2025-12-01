@@ -54,4 +54,13 @@ public static class MappingExtensions
 
         return new ServiceMediaDto(fileName, null);
     }
+
+    public static ProductDto ToDto(this ProductItem product) => new(
+        product.Id,
+        product.Title,
+        product.Slug,
+        product.Summary,
+        product.Icon,
+        product.Features,
+        product.Active);
 }

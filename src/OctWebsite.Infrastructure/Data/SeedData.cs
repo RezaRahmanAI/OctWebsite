@@ -233,6 +233,62 @@ internal static class SeedData
             "service-bg-12.jpg")
     ];
 
+    public static IReadOnlyList<ProductItem> Products { get; } =
+        [
+            new ProductItem(
+                Guid.Parse("11111111-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
+                "Product Strategy",
+                "product-strategy",
+                "North-star vision, roadmaps, and measurable outcomes for each release.",
+                "🧭",
+                new[]
+                {
+                    "Discovery workshops to align user needs and business goals",
+                    "Outcome-driven roadmaps with clear success metrics",
+                    "Experiment backlogs with validation criteria"
+                },
+                true),
+            new ProductItem(
+                Guid.Parse("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
+                "Experience Design",
+                "experience-design",
+                "Interfaces, flows, and content systems that stay consistent across platforms.",
+                "🎨",
+                new[]
+                {
+                    "Design systems with reusable tokens and components",
+                    "Accessibility-first UI patterns with real device QA",
+                    "Motion, microcopy, and localization guardrails"
+                },
+                true),
+            new ProductItem(
+                Guid.Parse("33333333-cccc-cccc-cccc-cccccccccccc"),
+                "Engineering Enablement",
+                "engineering-enablement",
+                "APIs, pipelines, and quality gates that keep delivery predictable.",
+                "⚙️",
+                new[]
+                {
+                    "API-first contracts with monitoring and tracing",
+                    "Automated pipelines with security and quality checks",
+                    "Progressive delivery with feature flags and rollback plans"
+                },
+                true),
+            new ProductItem(
+                Guid.Parse("44444444-dddd-dddd-dddd-dddddddddddd"),
+                "Customer Success",
+                "customer-success",
+                "Lifecycle programs that keep adopters engaged and supported post-launch.",
+                "🤝",
+                new[]
+                {
+                    "Onboarding journeys with in-product education",
+                    "Usage analytics with playbooks for churn risks",
+                    "Feedback loops feeding the roadmap backlog"
+                },
+                true)
+        ];
+
     public static ContactPage ContactPage { get; } = new()
     {
         Id = Guid.Parse("c8c9d5b2-b4e6-4f1f-b75d-0d5b4ce9f924"),
@@ -562,6 +618,15 @@ internal static class SeedData
         HeaderEyebrow = "Services",
         HeaderTitle = "Services shaped to match your brand energy",
         HeaderSubtitle = "Engineering, cloud, security, content, and outsourcing squads that mirror the tone of your product and customers.",
+        HeroVideoFileName = null
+    };
+
+    public static ProductPage ProductPage { get; } = new()
+    {
+        Id = Guid.Parse("7e5f8e9b-1d24-4b82-8d60-2f6a7c86f45d"),
+        HeaderEyebrow = "Products",
+        HeaderTitle = "Product playbooks to ship, learn, and iterate",
+        HeaderSubtitle = "Modular squads that co-design strategy, experience, and delivery so your roadmap stays aligned to outcomes.",
         HeroVideoFileName = null
     };
 
