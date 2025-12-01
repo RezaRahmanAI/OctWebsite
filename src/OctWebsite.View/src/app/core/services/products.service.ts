@@ -1,17 +1,19 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { DATA_PROVIDER } from '../data';
 import { ProductItem } from '../models';
 import { STATIC_PRODUCTS } from '../data/static-products';
+import { ProductsApiService, SaveProductRequest } from './products-api.service';
 
 @Injectable({ providedIn: 'root' })
 export class ProductsService {
   private readonly provider = inject(DATA_PROVIDER);
   private readonly store = this.provider.products;
+  private readonly api = inject(ProductsApiService);
   private readonly query = signal('');
-
-  constructor() {
-    this.seedFromStatic();
-  }
+  private readonly loaded = signal(false);
+  private readonly loading = signal(false);
+  private seeding: Promise<ProductItem[]> | null = null;
 
   readonly products = computed(() => {
     const term = this.query().toLowerCase().trim();
@@ -27,6 +29,8 @@ export class ProductsService {
   });
 
   readonly all = this.store.items;
+
+  readonly isLoading = this.loading.asReadonly();
 
   search(term: string): void {
     this.query.set(term);
@@ -44,46 +48,90 @@ export class ProductsService {
     return this.store.getBySlug?.(slug);
   }
 
-  async create(product: ProductItem): Promise<ProductItem> {
-    const created = { ...product, id: product.id ?? this.generateId() };
+  async create(product: SaveProductRequest): Promise<ProductItem> {
+    const created = await firstValueFrom(this.api.create(product));
     this.store.create(created);
-    return Promise.resolve(created);
+    return created;
   }
 
-  async update(id: string, patch: Partial<ProductItem>): Promise<ProductItem | undefined> {
-    const current = this.store.getById(id);
-    if (!current) {
-      return undefined;
+  async update(id: string, request: SaveProductRequest): Promise<ProductItem | undefined> {
+    const updated = await firstValueFrom(this.api.update(id, request));
+    if (updated) {
+      this.store.update(id, updated);
     }
-    const updated = { ...current, ...patch } as ProductItem;
-    this.store.update(id, updated);
-    return Promise.resolve(updated);
+    return updated ?? undefined;
   }
 
   async delete(id: string): Promise<void> {
+    await firstValueFrom(this.api.delete(id));
     this.store.delete(id);
-    return Promise.resolve();
   }
 
-  async refresh(): Promise<void> {
-    this.seedFromStatic(true);
+  async refresh(seedIfEmpty = false): Promise<void> {
+    if (this.loading()) {
+      return;
+    }
+
+    this.loading.set(true);
+
+    try {
+      const products = await firstValueFrom(this.api.list());
+      if (seedIfEmpty && products.length === 0) {
+        const seeded = await this.seedFromStatic();
+        if (seeded.length > 0) {
+          this.store.replace(seeded);
+          this.loaded.set(true);
+          return;
+        }
+      }
+
+      this.store.replace(products);
+      this.loaded.set(true);
+    } finally {
+      this.loading.set(false);
+    }
   }
 
   async ensureLoaded(): Promise<void> {
-    this.seedFromStatic(true);
-  }
-
-  private seedFromStatic(force = false): void {
-    if (!force && this.store.list().length > 0) {
+    if (this.loaded()) {
       return;
     }
-    this.store.replace(STATIC_PRODUCTS);
+
+    await this.refresh(true);
   }
 
-  private generateId(): string {
-    if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
-      return crypto.randomUUID();
+  async seedFromStatic(): Promise<ProductItem[]> {
+    if (this.store.list().length > 0) {
+      return this.store.list();
     }
-    return Math.random().toString(36).slice(2);
+
+    if (this.seeding) {
+      return this.seeding;
+    }
+
+    this.seeding = (async () => {
+      const created: ProductItem[] = [];
+      for (const product of STATIC_PRODUCTS) {
+        const payload: SaveProductRequest = {
+          title: product.title,
+          slug: product.slug,
+          summary: product.summary,
+          icon: product.icon ?? '',
+          features: product.features,
+          active: product.active,
+        };
+
+        const createdProduct = await firstValueFrom(this.api.create(payload));
+        created.push(createdProduct);
+      }
+
+      this.store.replace(created);
+      this.loaded.set(true);
+      return created;
+    })();
+
+    return this.seeding.finally(() => {
+      this.seeding = null;
+    });
   }
 }
