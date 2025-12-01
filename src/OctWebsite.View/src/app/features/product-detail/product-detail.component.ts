@@ -18,4 +18,8 @@ export class ProductDetailComponent {
 
   private readonly slug = toSignal(this.route.paramMap.pipe(map(params => params.get('slug'))));
   readonly product = computed(() => (this.slug() ? this.productsService.getBySlug(this.slug()!) : undefined));
+
+  constructor() {
+    void this.productsService.ensureLoaded();
+  }
 }

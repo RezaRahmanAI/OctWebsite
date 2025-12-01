@@ -3,9 +3,9 @@
     <div class="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
       <div class="space-y-6">
         <app-section-heading
-          eyebrow="Product"
-          title="ObjectCanvas industry solutions"
-          subtitle="Configured platforms ready to deploy for your vertical."
+          [eyebrow]="heroEyebrow()"
+          [title]="heroTitle()"
+          [subtitle]="heroSubtitle()"
           align="left"
         ></app-section-heading>
         <p class="max-w-2xl text-sm text-slate-600 md:text-base">
@@ -30,7 +30,7 @@
       <div class="product-video-wrapper">
         <video
           class="product-video"
-          src="/video/project/project.mp4"
+          [src]="heroVideoUrl()"
           autoplay
           loop
           muted

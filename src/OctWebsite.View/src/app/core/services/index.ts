@@ -1,6 +1,7 @@
 export * from './about.service';
 export * from './services.service';
 export * from './products.service';
+export * from './products-api.service';
 export * from './academy.service';
 export * from './academy-page-api.service';
 export * from './blog-page-api.service';
@@ -18,3 +19,4 @@ export * from './contact-submissions-api.service';
 export * from './services-api.service';
 export * from './services-page-api.service';
 export * from './home-page-api.service';
+export * from './product-page-api.service';
