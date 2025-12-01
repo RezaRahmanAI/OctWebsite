@@ -1,0 +1,60 @@
+<section
+  class="mx-auto mt-20 w-full overflow-hidden"
+  aria-labelledby="tech-stack-heading"
+  appScrollReveal
+  [revealOffset]="40"
+>
+  <div class="px-8 py-16" appScrollReveal>
+    <!-- Intro at top center -->
+    <div class="mx-auto max-w-2xl text-center space-y-5" appScrollReveal>
+      <p
+        class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-5 py-2 text-xs font-semibold uppercase tracking-[0.45em] text-secondary"
+      >
+        Technology agnostic
+      </p>
+
+      <h2 id="tech-stack-heading" class="text-3xl font-semibold sm:text-4xl">
+        We thrive across modern stacks.
+      </h2>
+
+      <p class="text-base text-slate-600 sm:text-lg">
+        From enterprise Java to real-time JavaScript, AI copilots, and low-code
+        integrations—Object Canvas Technology assembles the right toolkit for every
+        engagement.
+      </p>
+    </div>
+
+    <!-- Marquees -->
+    <div class="mt-12 space-y-8" appScrollReveal [revealDelay]="0.05">
+      <!-- Row 1: left → right (actually content moves left) -->
+      <div class="relative w-full overflow-hidden py-4" appScrollReveal [revealDelay]="0.1">
+        <div class="flex w-max animate-[marquee-left_60s_linear_infinite]">
+          <ng-container *ngFor="let tech of techRow1; let i = index">
+            <div
+              class="flex-shrink-0 px-10 text-2xl font-semibold uppercase tracking-[0.35em]"
+              appScrollReveal
+              [revealDelay]="i * 0.04"
+            >
+              <span [class]="tech.color">{{ tech.name }}</span>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- Row 2: opposite direction -->
+      <div class="relative w-full overflow-hidden py-4" appScrollReveal [revealDelay]="0.16">
+        <div class="flex w-max animate-[marquee-right_60s_linear_infinite]">
+          <ng-container *ngFor="let tech of techRow2; let i = index">
+            <div
+              class="flex-shrink-0 px-10 text-2xl font-semibold uppercase tracking-[0.35em]"
+              appScrollReveal
+              [revealDelay]="i * 0.04"
+            >
+              <span [class]="tech.color">{{ tech.name }}</span>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

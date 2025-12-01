@@ -1,0 +1,135 @@
+<section
+  class="container-wide overflow-hidden py-16 space-y-16"
+>
+
+  <!-- Header -->
+<header class="section-padding">
+  <div class="grid items-center gap-10 lg:grid-cols-2">
+    <!-- Left: text content -->
+    <div class="space-y-4">
+      <p
+        class="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/70 px-4 py-1
+               text-xs font-semibold uppercase tracking-[0.35em] text-primary"
+      >
+        Zero Programming Academy
+      </p>
+      <h1 class="text-3xl font-bold sm:text-4xl md:text-5xl">
+        Ignite imagination with code, creativity, and community.
+      </h1>
+      <p class="text-sm text-slate-600 md:text-base">
+        Our academy fuses vibrant visuals, interactive labs, and compassionate mentorship
+        to empower children, teens, and young professionals to thrive.
+      </p>
+    </div>
+
+    <!-- Right: video -->
+    <div class="relative">
+      <div
+        class="group relative overflow-hidden rounded-[2.5rem]  shadow-xl"
+      >
+        <div class="relative aspect-[4/3]">
+          <video
+            #academyVideo
+            class="absolute inset-0 h-full w-full object-cover"
+            autoplay
+            loop
+            muted
+            playsinline
+          >
+            <source [attr.src]="heroVideoSource() | assetUrl" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <!-- subtle gradient + overlay for readability / vibe -->
+        <div
+          class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-primary/40 via-transparent to-secondary/40
+                 opacity-40 transition-opacity duration-300 group-hover:opacity-20"
+        ></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+  <!-- Kids Computing -->
+  <section class="space-y-8" id="kids">
+    <h2 class="text-3xl font-semibold">Kids Computing</h2>
+    <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+      <article
+        *ngFor="let feature of kidsComputingFeatures()"
+        class="relative overflow-hidden rounded-[2.5rem] border border-white/60 bg-white/90 p-8 shadow-xl transition-transform duration-300 ease-out hover:-translate-y-3 hover:shadow-2xl"
+      >
+        <span class="text-3xl">{{ feature.icon }}</span>
+        <h3 class="mt-4 text-xl font-semibold">{{ feature.title }}</h3>
+        <p class="mt-2 text-sm text-slate-600">
+          {{ feature.description }}
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Zero Programming Tracks -->
+  <section class="space-y-8" id="zero">
+    <h2 class="text-3xl font-semibold">Zero Programming</h2>
+    <div class="grid gap-8 md:grid-cols-3">
+      <article
+        *ngFor="let track of zeroProgrammingTracks()"
+        class="relative overflow-hidden rounded-[2.5rem] border border-white/60 bg-gradient-to-br from-white to-primary/10 p-8 shadow-xl transition-transform duration-300 ease-out hover:-translate-y-3 hover:shadow-2xl"
+      >
+        <h3 class="text-xl font-semibold">{{ track.title }}</h3>
+        <p
+          class="mt-2 text-xs font-semibold uppercase tracking-[0.35em] text-primary"
+        >
+          {{ track.ageRange }}
+        </p>
+        <p class="mt-2 text-sm text-slate-600">
+          {{ track.summary }}
+        </p>
+        <div class="mt-6 flex flex-wrap items-center gap-3">
+          <a
+            routerLink="/contact"
+            fragment="trial"
+            class="rounded-full border border-primary/40 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-primary transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-primary/10"
+          >
+            Register
+          </a>
+          <a
+            [routerLink]="['/academy', track.slug]"
+            class="text-xs font-semibold uppercase tracking-[0.3em] text-primary transition hover:text-primary/80"
+          >
+            View Details →
+          </a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Freelancing Launchpad -->
+  <section class="space-y-8" id="freelancing">
+    <h2 class="text-3xl font-semibold">Freelancing Launchpad</h2>
+    <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+      <article
+        *ngFor="let course of freelancingCourses()"
+        class="relative overflow-hidden rounded-[2.5rem] border border-white/60 bg-white/90 p-8 shadow-xl transition-transform duration-300 ease-out hover:-translate-y-3 hover:shadow-2xl"
+      >
+        <span class="text-3xl">{{ course.icon }}</span>
+        <h3 class="mt-4 text-xl font-semibold">{{ course.title }}</h3>
+        <p class="mt-2 text-sm text-slate-600">
+          {{ course.description }}
+        </p>
+        <a
+          routerLink="/contact"
+          fragment="quote"
+          class="mt-4 inline-flex rounded-full border border-primary/40 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-primary transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-primary/10"
+        >
+          Enroll Now
+        </a>
+      </article>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="mt-10">
+    <app-pricing></app-pricing>
+  </section>
+</section>

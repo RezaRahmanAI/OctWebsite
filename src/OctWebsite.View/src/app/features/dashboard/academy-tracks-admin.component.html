@@ -1,0 +1,326 @@
+<div class="card-surface mt-2" [class.opacity-60]="loading()">
+  <div class="flex items-center justify-between gap-4">
+    <div>
+      <p class="text-xs font-semibold uppercase text-primary-600">Academy</p>
+      <h2 class="text-xl font-semibold text-slate-900">Zero Programming Tracks</h2>
+      <p class="text-sm text-slate-600">
+        Manage tracks, levels, tools, and admission steps for Zero Programming Academy.
+      </p>
+    </div>
+    <button class="btn" type="button" (click)="resetForm()">New track</button>
+  </div>
+
+  <div class="mt-6 grid gap-6 md:grid-cols-[2fr_3fr]">
+    <!-- Track list -->
+    <div class="space-y-3">
+      <div
+        *ngFor="let track of tracks()"
+        class="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-3 py-2"
+      >
+        <div>
+          <p class="text-sm font-semibold text-slate-900">{{ track.title }}</p>
+          <p class="text-xs text-slate-600">{{ track.ageRange }} · {{ track.duration }}</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button class="btn ghost" type="button" (click)="select(track.id)">Edit</button>
+          <button class="btn danger" type="button" (click)="delete(track.id)">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Track editor form -->
+    <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-6">
+      <!-- Basic track info -->
+      <div class="space-y-4">
+        <div>
+          <p class="text-sm font-semibold text-slate-900">Track details</p>
+          <p class="text-xs text-slate-600">Title, slug, audience, format, and track summary.</p>
+        </div>
+
+        <div class="grid gap-3 md:grid-cols-2">
+          <label class="form-field">
+            <span>Title</span>
+            <input type="text" formControlName="title" />
+          </label>
+          <label class="form-field">
+            <span>Slug</span>
+            <input type="text" formControlName="slug" />
+          </label>
+          <label class="form-field">
+            <span>Age range</span>
+            <input type="text" formControlName="ageRange" />
+          </label>
+          <label class="form-field">
+            <span>Duration</span>
+            <input type="text" formControlName="duration" />
+          </label>
+          <label class="form-field">
+            <span>Price label</span>
+            <input type="text" formControlName="priceLabel" />
+          </label>
+          <label class="form-field">
+            <span>Audience</span>
+            <input type="text" formControlName="audience" />
+          </label>
+          <label class="form-field">
+            <span>Format</span>
+            <input type="text" formControlName="format" />
+          </label>
+          <label class="form-field md:col-span-2">
+            <span>Summary</span>
+            <textarea rows="3" formControlName="summary"></textarea>
+          </label>
+        </div>
+      </div>
+
+      <!-- Media & CTA -->
+      <div class="space-y-4">
+        <div class="grid gap-3 md:grid-cols-2">
+          <label class="form-field">
+            <span>Hero video</span>
+            <input type="file" accept="video/*" (change)="onHeroVideoSelected($event)" />
+            <small *ngIf="form.value.heroVideoFileName; else noHeroVideo">
+              Current: {{ form.value.heroVideoFileName }}
+            </small>
+            <ng-template #noHeroVideo>
+              <small>Leave blank to keep the existing video.</small>
+            </ng-template>
+          </label>
+
+          <label class="form-field">
+            <span>Hero poster</span>
+            <input type="file" accept="image/*" (change)="onHeroPosterSelected($event)" />
+            <small *ngIf="form.value.heroPosterFileName; else noHeroPoster">
+              Current: {{ form.value.heroPosterFileName }}
+            </small>
+            <ng-template #noHeroPoster>
+              <small>Leave blank to keep the existing image.</small>
+            </ng-template>
+          </label>
+
+          <label class="form-field">
+            <span>CTA label</span>
+            <input type="text" formControlName="callToActionLabel" />
+          </label>
+
+          <div class="flex items-center md:items-end">
+            <label class="inline-flex items-center gap-2 text-sm text-slate-700">
+              <input
+                type="checkbox"
+                formControlName="active"
+                class="h-4 w-4 rounded border-slate-300 text-primary-600"
+              />
+              <span>Active track</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Highlights -->
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-semibold text-slate-900">Highlights</p>
+            <p class="text-xs text-slate-600">
+              Short bullets that appear near the track hero section.
+            </p>
+          </div>
+          <button type="button" class="btn ghost" (click)="addHighlight()">Add highlight</button>
+        </div>
+
+        <div class="space-y-2" formArrayName="highlights">
+          <div
+            class="flex items-center gap-2 rounded-xl border border-slate-200 px-3 py-2"
+            *ngFor="let control of highlights.controls; let i = index"
+          >
+            <input
+              class="flex-1 border-none bg-transparent p-0 text-sm focus:ring-0"
+              [formControlName]="i"
+              placeholder="Highlight text"
+            />
+            <button type="button" class="text-xs text-rose-600" (click)="removeHighlight(i)">
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Learning outcomes -->
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-semibold text-slate-900">Learning outcomes</p>
+            <p class="text-xs text-slate-600">
+              Key outcomes learners should achieve by the end of the track.
+            </p>
+          </div>
+          <button type="button" class="btn ghost" (click)="addOutcome()">Add outcome</button>
+        </div>
+
+        <div class="space-y-2" formArrayName="learningOutcomes">
+          <div
+            class="flex items-center gap-2 rounded-xl border border-slate-200 px-3 py-2"
+            *ngFor="let control of learningOutcomes.controls; let i = index"
+          >
+            <input
+              class="flex-1 border-none bg-transparent p-0 text-sm focus:ring-0"
+              [formControlName]="i"
+              placeholder="Outcome text"
+            />
+            <button type="button" class="text-xs text-rose-600" (click)="removeOutcome(i)">
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Levels -->
+      <div class="space-y-3" formArrayName="levels">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-semibold text-slate-900">Levels</p>
+            <p class="text-xs text-slate-600">
+              Structure each track into levels with tools and mini outcomes.
+            </p>
+          </div>
+          <button type="button" class="btn ghost" (click)="addLevel()">Add level</button>
+        </div>
+
+        <div class="space-y-3">
+          <div
+            class="rounded-xl border border-slate-200 p-4 space-y-3"
+            *ngFor="let level of levels.controls; let i = index"
+            [formGroupName]="i"
+          >
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-slate-900">Level {{ i + 1 }}</h3>
+              <button type="button" class="text-xs text-rose-600" (click)="removeLevel(i)">
+                Remove level
+              </button>
+            </div>
+
+            <div class="grid gap-3 md:grid-cols-2">
+              <label class="form-field">
+                <span>Title</span>
+                <input type="text" formControlName="title" />
+              </label>
+              <label class="form-field">
+                <span>Duration</span>
+                <input type="text" formControlName="duration" />
+              </label>
+            </div>
+
+            <label class="form-field">
+              <span>Description</span>
+              <textarea rows="2" formControlName="description"></textarea>
+            </label>
+
+            <div class="grid gap-3 md:grid-cols-2">
+              <label class="form-field">
+                <span>Project</span>
+                <input type="text" formControlName="project" />
+              </label>
+              <label class="form-field">
+                <span>Level image</span>
+                <input type="file" accept="image/*" (change)="onLevelImageSelected(i, $event)" />
+                <small *ngIf="level.value.image; else noLevelImage">
+                  Current: {{ level.value.image }}
+                </small>
+                <ng-template #noLevelImage>
+                  <small>Leave blank to keep the existing image.</small>
+                </ng-template>
+              </label>
+            </div>
+
+            <!-- Tools -->
+            <div class="space-y-2" formArrayName="tools">
+              <p class="text-sm font-semibold text-slate-900">Tools</p>
+              <div
+                class="flex items-center gap-2 rounded-xl border border-slate-200 px-3 py-2"
+                *ngFor="let tool of getLevelTools(i).controls; let t = index"
+              >
+                <input
+                  class="flex-1 border-none bg-transparent p-0 text-sm focus:ring-0"
+                  [formControlName]="t"
+                  placeholder="Tool (e.g. Scratch, Python)"
+                />
+                <button type="button" class="text-xs text-rose-600" (click)="removeTool(i, t)">
+                  Remove
+                </button>
+              </div>
+              <button type="button" class="btn ghost" (click)="addTool(i)">Add tool</button>
+            </div>
+
+            <!-- Level outcomes -->
+            <div class="space-y-2" formArrayName="outcomes">
+              <p class="text-sm font-semibold text-slate-900">Level outcomes</p>
+              <div
+                class="flex items-center gap-2 rounded-xl border border-slate-200 px-3 py-2"
+                *ngFor="let outcome of getLevelOutcomes(i).controls; let o = index"
+              >
+                <input
+                  class="flex-1 border-none bg-transparent p-0 text-sm focus:ring-0"
+                  [formControlName]="o"
+                  placeholder="Outcome (e.g. Build a game...)"
+                />
+                <button
+                  type="button"
+                  class="text-xs text-rose-600"
+                  (click)="removeOutcomeFromLevel(i, o)"
+                >
+                  Remove
+                </button>
+              </div>
+              <button type="button" class="btn ghost" (click)="addOutcomeToLevel(i)">
+                Add outcome
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admission steps -->
+      <div class="space-y-3" formArrayName="admissionSteps">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-semibold text-slate-900">Admission steps</p>
+            <p class="text-xs text-slate-600">Short step-by-step guide for parents and learners.</p>
+          </div>
+          <button type="button" class="btn ghost" (click)="addAdmissionStep()">Add step</button>
+        </div>
+
+        <div class="space-y-2">
+          <div
+            class="grid gap-2 md:grid-cols-[1fr_2fr_auto]"
+            *ngFor="let step of admissionSteps.controls; let i = index"
+            [formGroupName]="i"
+          >
+            <input
+              class="rounded-lg border border-slate-200 px-3 py-2 text-sm"
+              formControlName="title"
+              placeholder="Title (e.g. Register)"
+            />
+            <input
+              class="rounded-lg border border-slate-200 px-3 py-2 text-sm"
+              formControlName="description"
+              placeholder="Description"
+            />
+            <button
+              type="button"
+              class="text-xs text-rose-600 justify-self-end"
+              (click)="removeAdmissionStep(i)"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-end">
+        <button type="submit" class="btn" [disabled]="loading()">
+          {{ loading() ? 'Saving...' : 'Save track' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

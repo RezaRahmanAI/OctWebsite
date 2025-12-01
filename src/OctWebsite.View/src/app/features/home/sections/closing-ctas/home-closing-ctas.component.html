@@ -1,0 +1,54 @@
+<section class="section-padding" appScrollReveal>
+  <div class="container-wide grid gap-6 rounded-[36px] border border-slate-100 bg-white p-10 shadow-glow md:grid-cols-2">
+    <div class="rounded-3xl bg-slate-50 p-8" [appScrollReveal]="{ y: 28 }">
+      <h3 class="text-2xl font-semibold text-primary">{{ data.business.title }}</h3>
+      <p class="mt-4 text-sm text-slate-600">{{ data.business.description }}</p>
+      <ng-container *ngIf="data.business.cta as businessCta">
+        <a
+          *ngIf="businessCta.routerLink; else businessExternal"
+          [routerLink]="businessCta.routerLink"
+          [fragment]="businessCta.fragment"
+          class="mt-6 inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:-translate-y-0.5"
+        >
+          {{ businessCta.label }}
+        </a>
+        <ng-template #businessExternal>
+          <a
+            *ngIf="businessCta.externalUrl"
+            [href]="businessCta.externalUrl"
+            target="_blank"
+            rel="noopener"
+            class="mt-6 inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:-translate-y-0.5"
+          >
+            {{ businessCta.label }}
+          </a>
+        </ng-template>
+      </ng-container>
+    </div>
+    <div class="rounded-3xl bg-accent/10 p-8" [appScrollReveal]="{ delay: 0.1, y: 28 }">
+      <h3 class="text-2xl font-semibold text-primary">{{ data.academy.title }}</h3>
+      <p class="mt-4 text-sm text-slate-600">{{ data.academy.description }}</p>
+      <ng-container *ngIf="data.academy.cta as academyCta">
+        <a
+          *ngIf="academyCta.routerLink; else academyExternal"
+          [routerLink]="academyCta.routerLink"
+          [fragment]="academyCta.fragment"
+          class="mt-6 inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-accent/25 transition hover:-translate-y-0.5"
+        >
+          {{ academyCta.label }}
+        </a>
+        <ng-template #academyExternal>
+          <a
+            *ngIf="academyCta.externalUrl"
+            [href]="academyCta.externalUrl"
+            target="_blank"
+            rel="noopener"
+            class="mt-6 inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-accent/25 transition hover:-translate-y-0.5"
+          >
+            {{ academyCta.label }}
+          </a>
+        </ng-template>
+      </ng-container>
+    </div>
+  </div>
+</section>

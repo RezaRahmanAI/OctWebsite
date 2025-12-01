@@ -1,0 +1,125 @@
+<section
+  #heroSection
+  class="relative isolate flex min-h-screen items-center overflow-hidden bg-slate-950 text-slate-50"
+>
+  <!-- Background video -->
+  <video
+    #heroVideo
+    class="absolute inset-0 h-full w-full object-cover opacity-40"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+    [attr.poster]="(hero.video.poster || videoPoster || null) | assetUrl"
+  >
+    <source [src]="(hero.video.src || videoSrc) | assetUrl" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Dark overlay for contrast -->
+  <!-- <div
+    #heroOverlay
+    class="pointer-events-none absolute inset-0 bg-slate-950/50 mix-blend-multiply"
+  ></div> -->
+
+  <div class="relative z-10 mx-auto max-w-7xl px-6 py-28 lg:py-40 lg:flex lg:items-center lg:gap-16">
+    <div class="flex-1 space-y-6 text-center lg:text-left">
+      <div class="flex items-center justify-center gap-3 lg:justify-start" *ngIf="hero.badge">
+        <span
+          #heroBadge
+          class="hero-badge inline-flex items-center gap-2 rounded-full bg-sky-500/10 px-4 py-2 text-sm font-medium text-sky-100 ring-1 ring-sky-500/40"
+        >
+          <span class="h-2 w-2 rounded-full bg-sky-400"></span>
+          {{ hero.badge }}
+        </span>
+        <span class="text-xs uppercase tracking-[0.3em] text-slate-300/80">
+          Global delivery
+        </span>
+      </div>
+
+      <h1 class="text-3xl font-semibold leading-tight sm:text-5xl" aria-label="{{ hero.title }}">
+        <ng-container *ngFor="let word of displayTitleWords">
+          <span #titleWord class="inline-block will-change-transform">{{ word }}</span>
+          <span class="inline-block" aria-hidden="true"> </span>
+        </ng-container>
+      </h1>
+
+      <p #heroDescription class="text-base text-slate-200/90 sm:text-lg">
+        {{ hero.description }}
+      </p>
+
+      <div class="flex flex-wrap items-center justify-center gap-4 lg:justify-start">
+        <a
+          #ctaButton
+          *ngIf="hero.primaryCta"
+          class="inline-flex items-center justify-center rounded-full bg-sky-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-sky-500/30 transition hover:bg-sky-400"
+          [routerLink]="hero.primaryCta.routerLink"
+          [fragment]="hero.primaryCta.fragment"
+        >
+          {{ hero.primaryCta.label }}
+        </a>
+
+        <a
+          #ctaButton
+          *ngIf="hero.secondaryCta"
+          class="inline-flex items-center justify-center rounded-full border border-slate-700 px-5 py-3 text-sm font-semibold text-slate-100 transition hover:border-slate-500 hover:text-white"
+          [routerLink]="hero.secondaryCta.routerLink"
+          [fragment]="hero.secondaryCta.fragment"
+        >
+          {{ hero.secondaryCta.label }}
+        </a>
+      </div>
+    </div>
+
+    <!-- Optional right-side media / metrics card 
+         (kept commented out, same as your previous version)
+    <div class="mt-12 flex-1 space-y-4 lg:mt-0">
+      <div
+        #mediaCard
+        class="relative overflow-hidden rounded-2xl bg-slate-900/70 p-6 ring-1 ring-white/10 backdrop-blur"
+      >
+        <div class="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-slate-400">
+          <span>{{ hero.featurePanel.eyebrow }}</span>
+          <span class="flex items-center gap-2 text-emerald-300">
+            <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+            Live
+          </span>
+        </div>
+
+        <div class="mt-4 space-y-2">
+          <h2 class="text-xl font-semibold text-white">{{ hero.featurePanel.title }}</h2>
+          <p class="text-sm text-slate-200/80">{{ hero.featurePanel.description }}</p>
+        </div>
+
+        <div class="mt-6 grid gap-3 sm:grid-cols-2">
+          <div
+            #floatingCard
+            class="rounded-xl bg-sky-500/10 px-4 py-3 text-sky-100 ring-1 ring-sky-500/30"
+            *ngFor="let metric of hero.featurePanel.metrics"
+          >
+            <p class="text-xs uppercase tracking-[0.25em] text-sky-200/80">
+              {{ metric.label }}
+            </p>
+            <p class="text-lg font-semibold">{{ metric.value }}</p>
+          </div>
+        </div>
+
+        <div class="mt-5 flex items-start gap-3 rounded-xl bg-slate-950/60 px-4 py-3 ring-1 ring-white/5">
+          <img
+            #mediaImage
+            class="h-12 w-12 flex-none rounded-full object-cover"
+            [src]="(hero.video.poster || '/img/partner.jpg') | assetUrl"
+            [alt]="hero.featurePanel.partner.label || 'Partner'"
+            loading="lazy"
+          />
+          <div class="space-y-1 text-sm">
+            <p class="font-semibold text-white">{{ hero.featurePanel.partner.label }}</p>
+            <p class="text-slate-200/80">{{ hero.featurePanel.partner.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    -->
+  </div>
+</section>

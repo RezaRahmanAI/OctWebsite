@@ -1,0 +1,17 @@
+<section class="section-padding">
+  <div class="container-wide">
+    <app-section-header
+      [eyebrow]="header.eyebrow"
+      [title]="header.title"
+      [subtitle]="header.subtitle"
+    ></app-section-header>
+    <div class="mt-12 grid gap-6 md:grid-cols-3">
+      <article *ngFor="let entry of entries" class="rounded-3xl border border-slate-100 bg-white p-8 shadow-glow">
+        <span class="text-xs font-semibold uppercase tracking-[0.3em] text-accent">{{ entry.category }}</span>
+        <h2 class="mt-4 text-2xl font-semibold text-primary">{{ entry.title }}</h2>
+        <p class="mt-4 text-sm text-slate-600">{{ entry.excerpt }}</p>
+        <p class="mt-6 text-xs uppercase tracking-[0.3em] text-slate-500">{{ entry.readTime }}</p>
+      </article>
+    </div>
+  </div>
+</section>

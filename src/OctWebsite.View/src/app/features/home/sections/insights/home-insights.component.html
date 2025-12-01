@@ -1,0 +1,64 @@
+<section class="section-padding bg-white" appScrollReveal>
+  <div class="container-wide">
+    <app-section-header
+      [eyebrow]="header.eyebrow"
+      [title]="header.title"
+      [subtitle]="header.subtitle"
+    ></app-section-header>
+    <div class="mt-12 grid gap-6 md:grid-cols-3">
+      <article
+        *ngFor="let insight of cards; let i = index"
+        class="group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-glow transition hover:-translate-y-2 hover:shadow-2xl"
+        appScrollReveal
+        [revealDelay]="i * 0.08"
+        [revealOffset]="36"
+      >
+        <div class="aspect-[16/10] w-full overflow-hidden bg-slate-100">
+          <img
+            *ngIf="insight.coverUrl; else coverFallback"
+            [src]="insight.coverUrl"
+            [alt]="insight.title"
+            class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
+            loading="lazy"
+          />
+          <ng-template #coverFallback>
+            <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/10 via-slate-100 to-amber-50 text-sm font-semibold text-primary">
+              {{ insight.category }}
+            </div>
+          </ng-template>
+        </div>
+
+        <div class="flex h-full flex-col justify-between p-8">
+          <div class="space-y-4">
+            <div class="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.26em] text-accent">
+              <span class="rounded-full bg-primary/10 px-2 py-1 text-primary">{{ insight.category }}</span>
+              <span *ngIf="insight.publishedAt" class="text-[11px] text-slate-500">{{ insight.publishedAt | date: 'mediumDate' }}</span>
+            </div>
+            <h3 class="text-2xl font-semibold text-primary">{{ insight.title }}</h3>
+            <p class="text-sm text-slate-600">{{ insight.summary }}</p>
+          </div>
+          <div class="mt-6 flex items-center justify-between text-sm text-slate-500">
+            <span>{{ insight.readTime }}</span>
+            <a
+              [routerLink]="insight.slug ? ['/blog', insight.slug] : '/insights'"
+              class="inline-flex items-center gap-2 text-sm font-semibold text-primary transition hover:translate-x-1"
+            >
+              Read More
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </article>
+    </div>
+    <div class="mt-10 flex justify-center">
+      <a routerLink="/blog" class="inline-flex items-center gap-2 rounded-full border border-primary/20 px-6 py-3 text-sm font-semibold text-primary transition hover:border-primary">
+        Read More Articles
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>

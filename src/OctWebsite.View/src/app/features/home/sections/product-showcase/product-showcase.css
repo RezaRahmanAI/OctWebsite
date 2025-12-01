@@ -1,0 +1,13 @@
+/* Viewport: exactly 3 cards (360px) + 2 gaps (48px = gap-12) */
+.carousel-viewport {
+  width: calc(3 * 360px + 2 * 48px);
+  max-width: 100%;
+}
+
+/* Remove old marquee animation if present */
+/*
+.card-marquee {
+  animation: marquee-left 22s linear infinite;
+  will-change: transform;
+}
+*/

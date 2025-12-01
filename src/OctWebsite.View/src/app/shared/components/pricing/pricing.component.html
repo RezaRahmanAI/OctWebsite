@@ -1,0 +1,22 @@
+<section class="pricing" id="pricing">
+  <div class="pricing__shapes">
+    <span class="shape shape--one"></span>
+    <span class="shape shape--two"></span>
+  </div>
+  <header class="pricing__header">
+    <h2>Flexible Pricing, Inspired Learning</h2>
+    <p>Choose the best learning journey for your child with vibrant, interactive classes.</p>
+  </header>
+  <div class="pricing__grid">
+    <article *ngFor="let plan of plans(); trackBy: trackById" class="pricing-card">
+      <div class="pricing-card__glow"></div>
+      <h3>{{ plan.name }}</h3>
+      <p class="pricing-card__price">{{ plan.duration }}</p>
+      <p class="pricing-card__subtitle">Premium benefits designed for curious minds.</p>
+      <ul class="pricing-card__features">
+        <li *ngFor="let feature of plan.features">{{ feature }}</li>
+      </ul>
+      <button type="button" class="pricing-card__cta">Start Now</button>
+    </article>
+  </div>
+</section>

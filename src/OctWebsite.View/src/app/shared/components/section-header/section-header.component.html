@@ -1,0 +1,42 @@
+<div
+  [ngClass]="align === 'center' ? 'text-center mx-auto max-w-3xl' : 'mx-auto max-w-full'"
+  class="animated-card"
+>
+  <!-- Centered layout -->
+  <ng-container *ngIf="align === 'center'; else splitLayout">
+    <div *ngIf="eyebrow" class="inline-flex items-center gap-2 rounded-full bg-accent/10 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-accent">
+      <span class="h-2 w-2 rounded-full bg-accent"></span>
+      {{ eyebrow }}
+    </div>
+    <h2 class="mt-4 text-3xl font-semibold leading-tight text-slate-900 sm:text-4xl">
+      {{ title }}
+    </h2>
+    <p *ngIf="subtitle" class="mt-4 text-base text-slate-600 sm:text-lg">
+      {{ subtitle }}
+    </p>
+  </ng-container>
+
+  <!-- Left title + right subtitle layout (but centered on small screens) -->
+  <ng-template #splitLayout>
+    <div class="flex flex-col items-center gap-4 sm:flex-row sm:items-start sm:justify-between">
+      <!-- Left side: eyebrow + title -->
+      <div class="text-center sm:text-left">
+        <div *ngIf="eyebrow" class="inline-flex items-center gap-2 rounded-full bg-accent/10 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-accent">
+          <span class="h-2 w-2 rounded-full bg-accent"></span>
+          {{ eyebrow }}
+        </div>
+        <h2 class="mt-4 text-3xl font-semibold leading-tight text-slate-900 sm:text-4xl">
+          {{ title }}
+        </h2>
+      </div>
+
+      <!-- Right side: subtitle -->
+      <p
+        *ngIf="subtitle"
+        class="mt-12 text-center text-base text-slate-600 sm:text-lg sm:text-left sm:max-w-md"
+      >
+        {{ subtitle }}
+      </p>
+    </div>
+  </ng-template>
+</div>

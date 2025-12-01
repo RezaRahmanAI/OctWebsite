@@ -1,0 +1,432 @@
+<div class="space-y-6 mt-2" [class.opacity-60]="loading()">
+  <!-- HERO + FEATURE PANEL -->
+  <div class="card-surface">
+    <div class="flex items-center justify-between gap-4">
+      <div>
+        <p class="text-xs font-semibold uppercase text-primary-600">Home</p>
+        <h2 class="text-xl font-semibold text-slate-900">Edit Hero & Feature Panel</h2>
+        <p class="text-sm text-slate-600">
+          Update home hero copy, highlights, media, and feature panel metrics.
+        </p>
+      </div>
+      <!-- <button
+        type="button"
+        class="btn"
+        (click)="submitHero()"
+        [disabled]="loading() || savingHero()"
+      >
+        {{ savingHero() ? 'Saving...' : 'Save Hero Section' }}
+      </button> -->
+    </div>
+
+    <form class="mt-6 space-y-6" [formGroup]="heroForm" (ngSubmit)="submitHero()">
+      <!-- Basic hero copy -->
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-field">
+          <span>Badge</span>
+          <input type="text" formControlName="badge" />
+        </label>
+        <label class="form-field">
+          <span>Title</span>
+          <input type="text" formControlName="title" />
+        </label>
+        <label class="form-field md:col-span-2">
+          <span>Description</span>
+          <textarea rows="3" formControlName="description"></textarea>
+        </label>
+      </div>
+
+      <!-- CTAs -->
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-field">
+          <span>Primary CTA label</span>
+          <input type="text" formControlName="primaryLabel" />
+        </label>
+        <label class="form-field">
+          <span>Primary CTA link</span>
+          <input type="text" formControlName="primaryLink" />
+        </label>
+        <label class="form-field">
+          <span>Secondary CTA label</span>
+          <input type="text" formControlName="secondaryLabel" />
+        </label>
+        <label class="form-field">
+          <span>Secondary CTA link</span>
+          <input type="text" formControlName="secondaryLink" />
+        </label>
+      </div>
+
+      <!-- Highlight main copy -->
+      <!-- <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-field">
+          <span>Highlight title</span>
+          <input type="text" formControlName="highlightTitle" />
+        </label>
+        <label class="form-field">
+          <span>Highlight description</span>
+          <textarea rows="3" formControlName="highlightDescription"></textarea>
+        </label>
+      </div> -->
+
+      <!-- Highlight items list -->
+      <!-- <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-semibold text-slate-900">Highlight items</p>
+            <p class="text-xs text-slate-600">Short bullets shown under the hero section.</p>
+          </div>
+          <button type="button" class="btn ghost" (click)="addHighlight()">Add item</button>
+        </div>
+        <div class="space-y-3">
+          <div
+            *ngFor="let control of highlightList.controls; let i = index"
+            class="flex items-center gap-3 rounded-xl border border-slate-200 px-3 py-2"
+          >
+            <input
+              type="text"
+              class="flex-1 border-none bg-transparent p-0 text-sm focus:ring-0"
+              [formControl]="control"
+              placeholder="Highlight line"
+            />
+            <button type="button" class="text-xs text-rose-600" (click)="removeHighlight(i)">
+              Remove
+            </button>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- Hero media -->
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-field">
+          <span>Hero video</span>
+          <input type="file" accept="video/*" (change)="onHeroVideoSelected($event)" />
+          <!-- We keep using the same control that stores the file name -->
+          <small *ngIf="heroForm.value.videoFileName; else noHeroVideo">
+            Current: {{ heroForm.value.videoFileName }}
+          </small>
+          <ng-template #noHeroVideo>
+            <small>Leave blank to keep the existing video.</small>
+          </ng-template>
+        </label>
+
+        <label class="form-field">
+          <span>Hero video file name</span>
+          <input type="text" formControlName="videoFileName" placeholder="/video/bg.mp4" />
+        </label>
+      </div>
+
+      <!-- <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-field">
+          <span>Poster image</span>
+          <input type="file" accept="image/*" (change)="onHeroPosterSelected($event)" />
+          <small *ngIf="heroForm.value.posterFileName; else noHeroPoster">
+            Current: {{ heroForm.value.posterFileName }}
+          </small>
+          <ng-template #noHeroPoster>
+            <small>Leave blank to keep the existing image.</small>
+          </ng-template>
+        </label>
+
+        <label class="form-field">
+          <span>Poster file name</span>
+          <input type="text" formControlName="posterFileName" />
+        </label>
+      </div> -->
+
+      <!-- Feature panel -->
+      <!-- <div class="space-y-4">
+        <div>
+          <p class="text-sm font-semibold text-slate-900">Feature panel</p>
+          <p class="text-xs text-slate-600">
+            Panel displayed beside the hero video with metrics and partner copy.
+          </p>
+        </div>
+
+        <div class="grid gap-4 md:grid-cols-2">
+          <label class="form-field">
+            <span>Eyebrow</span>
+            <input type="text" formControlName="featureEyebrow" />
+          </label>
+          <label class="form-field">
+            <span>Title</span>
+            <input type="text" formControlName="featureTitle" />
+          </label>
+          <label class="form-field md:col-span-2">
+            <span>Description</span>
+            <textarea rows="3" formControlName="featureDescription"></textarea>
+          </label>
+        </div>
+
+        <div class="grid gap-4 md:grid-cols-2">
+          <label class="form-field">
+            <span>Partner label</span>
+            <input type="text" formControlName="partnerLabel" />
+          </label>
+          <label class="form-field">
+            <span>Partner description</span>
+            <input type="text" formControlName="partnerDescription" />
+          </label>
+        </div>
+
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-semibold text-slate-900">Metrics</p>
+              <p class="text-xs text-slate-600">Small stats shown under the feature panel.</p>
+            </div>
+            <button type="button" class="btn ghost" (click)="addMetric()">Add metric</button>
+          </div>
+
+          <div class="space-y-3">
+            <div
+              *ngFor="let control of metrics.controls; let i = index"
+              class="grid gap-3 md:grid-cols-4 rounded-xl border border-slate-200 p-3"
+              [formGroup]="control"
+            >
+              <label class="form-field">
+                <span>Label</span>
+                <input type="text" formControlName="label" />
+              </label>
+              <label class="form-field">
+                <span>Value</span>
+                <input type="text" formControlName="value" />
+              </label>
+              <label class="form-field">
+                <span>Theme</span>
+                <input type="text" formControlName="theme" placeholder="accent / emerald" />
+              </label>
+              <div class="flex items-end justify-end">
+                <button type="button" class="text-xs text-rose-600" (click)="removeMetric(i)">
+                  Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+      <div class="flex justify-end">
+        <button class="btn" type="submit" [disabled]="loading() || savingHero()">
+          {{ savingHero() ? 'Saving...' : 'Save Hero Section' }}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- TRUST SECTION -->
+  <div class="card-surface">
+    <div class="flex items-center justify-between gap-4">
+      <div>
+        <p class="text-xs font-semibold uppercase text-primary-600">Home</p>
+        <h2 class="text-xl font-semibold text-slate-900">Edit Trust Section</h2>
+        <p class="text-sm text-slate-600">
+          Manage logos and stats for the “Trusted by teams at” section.
+        </p>
+      </div>
+      <button
+        type="button"
+        class="btn"
+        (click)="submitTrust()"
+        [disabled]="loading() || savingTrust()"
+      >
+        {{ savingTrust() ? 'Saving...' : 'Save Trust Section' }}
+      </button>
+    </div>
+
+    <form class="mt-6 space-y-6" [formGroup]="trustForm" (ngSubmit)="submitTrust()">
+      <label class="form-field">
+        <span>Tagline</span>
+        <input type="text" formControlName="tagline" />
+      </label>
+
+      <!-- Logos -->
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-semibold text-slate-900">Logos</p>
+            <p class="text-xs text-slate-600">Add logo file names or URLs; upload if needed.</p>
+          </div>
+          <button type="button" class="btn ghost" (click)="addLogo()">Add logo</button>
+        </div>
+
+        <div class="space-y-3">
+          <div
+            *ngFor="let control of logos.controls; let i = index"
+            class="rounded-xl border border-slate-200 p-3"
+          >
+            <div class="grid gap-3 md:grid-cols-[minmax(0,1fr)_auto] items-start">
+              <div class="space-y-2">
+                <input
+                  type="text"
+                  class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
+                  [formControl]="control"
+                  placeholder="Logo file name or URL"
+                />
+                <input
+                  type="file"
+                  accept="image/*"
+                  (change)="onTrustLogoSelected(i, $event)"
+                  class="block w-full text-xs text-slate-500"
+                />
+              </div>
+              <button
+                type="button"
+                class="text-xs text-rose-600 justify-self-end"
+                (click)="removeLogo(i)"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-semibold text-slate-900">Stats</p>
+            <p class="text-xs text-slate-600">Short numeric stats shown under the trust logos.</p>
+          </div>
+          <button type="button" class="btn ghost" (click)="addStat()">Add stat</button>
+        </div>
+
+        <div class="space-y-3">
+          <div
+            *ngFor="let control of stats.controls; let i = index"
+            class="grid gap-3 md:grid-cols-5 rounded-xl border border-slate-200 p-3"
+            [formGroup]="control"
+          >
+            <label class="form-field">
+              <span>Label</span>
+              <input type="text" formControlName="label" />
+            </label>
+            <label class="form-field">
+              <span>Value</span>
+              <input type="number" formControlName="value" />
+            </label>
+            <label class="form-field">
+              <span>Suffix</span>
+              <input type="text" formControlName="suffix" placeholder="+ / K+ / % etc." />
+            </label>
+            <label class="form-field">
+              <span>Decimals</span>
+              <input type="number" formControlName="decimals" />
+            </label>
+            <div class="flex items-end justify-end">
+              <button type="button" class="text-xs text-rose-600" (click)="removeStat(i)">
+                Remove
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-end">
+        <button class="btn" type="submit" [disabled]="loading() || savingTrust()">
+          {{ savingTrust() ? 'Saving...' : 'Save Trust Section' }}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- TESTIMONIALS -->
+  <div class="card-surface">
+    <div class="flex items-center justify-between gap-4">
+      <div>
+        <p class="text-xs font-semibold uppercase text-primary-600">Home</p>
+        <h2 class="text-xl font-semibold text-slate-900">Edit Testimonials</h2>
+        <p class="text-sm text-slate-600">Manage featured testimonials shown on the home page.</p>
+      </div>
+      <button
+        type="button"
+        class="btn"
+        (click)="submitTestimonials()"
+        [disabled]="loading() || savingTestimonials()"
+      >
+        {{ savingTestimonials() ? 'Saving...' : 'Save Testimonials' }}
+      </button>
+    </div>
+
+    <form class="mt-6 space-y-6" (ngSubmit)="submitTestimonials()">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-semibold text-slate-900">Testimonials</p>
+          <p class="text-xs text-slate-600">
+            Add client or student quotes that appear on the home page.
+          </p>
+        </div>
+        <button type="button" class="btn ghost" (click)="addTestimonial()">Add testimonial</button>
+      </div>
+
+      <div class="space-y-4">
+        <div
+          class="rounded-xl border border-slate-200 p-4"
+          *ngFor="let control of testimonialForm.controls; let i = index"
+          [formGroup]="control"
+        >
+          <div class="grid gap-4 md:grid-cols-2">
+            <label class="form-field">
+              <span>Name</span>
+              <input type="text" formControlName="name" />
+            </label>
+            <label class="form-field">
+              <span>Title</span>
+              <input type="text" formControlName="title" />
+            </label>
+            <label class="form-field">
+              <span>Location</span>
+              <input type="text" formControlName="location" />
+            </label>
+            <label class="form-field">
+              <span>Type</span>
+              <select formControlName="type">
+                <option value="client">Client</option>
+                <option value="student">Student</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="form-field mt-3">
+            <span>Quote</span>
+            <textarea rows="3" formControlName="quote"></textarea>
+          </label>
+
+          <div class="grid gap-4 md:grid-cols-2 mt-3">
+            <label class="form-field">
+              <span>Rating</span>
+              <input type="number" min="1" max="5" formControlName="rating" />
+            </label>
+          </div>
+
+          <div class="grid gap-4 md:grid-cols-2 mt-3">
+            <label class="form-field">
+              <span>Image file name</span>
+              <input type="text" formControlName="imageFileName" />
+            </label>
+            <label class="form-field">
+              <span>Upload image</span>
+              <input
+                type="file"
+                accept="image/*"
+                (change)="onTestimonialImageSelected(i, $event)"
+              />
+            </label>
+          </div>
+
+          <div class="mt-3 flex justify-end">
+            <button type="button" class="text-xs text-rose-600" (click)="removeTestimonial(i)">
+              Remove testimonial
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-end">
+        <button class="btn" type="submit" [disabled]="loading() || savingTestimonials()">
+          {{ savingTestimonials() ? 'Saving...' : 'Save Testimonials' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

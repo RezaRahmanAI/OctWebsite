@@ -1,0 +1,97 @@
+<section class="section-padding bg-academy-gradient">
+  <div class="container-wide relative p-10 text-white">
+    <div class=" space-y-8 pr-0 lg:pr-4 lg:pt-6">
+      <div appScrollReveal [revealOffset]="28">
+        <app-section-header [eyebrow]="data.header.eyebrow"
+                            [title]="data.header.title"></app-section-header>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <span *ngFor="let category of data.categories"
+                class="rounded-full bg-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-wide">
+            {{ category }}
+          </span>
+        </div>
+
+        <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div *ngFor="let stat of data.stats; let i = index"
+               class="rounded-3xl bg-white/10 p-6 text-center"
+               appScrollReveal
+               [revealDelay]="i * 0.04"
+               [revealOffset]="26">
+            <span class="text-3xl font-semibold">{{ stat | formatStat }}</span>
+            <p class="mt-2 text-xs font-semibold uppercase tracking-wide text-white/80">
+              {{ stat.label }}
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-10 flex flex-wrap gap-4">
+          <a routerLink="/academy"
+             class="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-primary shadow-lg shadow-white/20 transition hover:-translate-y-0.5">
+            Browse All Courses
+          </a>
+          <a routerLink="/academy"
+             fragment="demo"
+             class="inline-flex items-center justify-center rounded-full border border-white/60 px-6 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5">
+            Watch Free Demo Class
+          </a>
+        </div>
+      </div>
+
+      <!-- ROW 2: Three cards -->
+      <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <article *ngFor="let program of programCards; let i = index"
+                 class="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/25 bg-white/10 p-6 shadow-xl backdrop-blur"
+                 appScrollReveal
+                 [revealDelay]="0.1 + i * 0.08">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-white/60">
+                Academy Program
+              </p>
+              <h4 class="mt-2 text-xl font-semibold">
+                {{ program.title }}
+              </h4>
+              <p class="mt-2 text-sm text-white/80">
+                {{ program.summary }}
+              </p>
+            </div>
+            <span class="text-3xl shrink-0">
+              {{ program.icon }}
+            </span>
+          </div>
+
+          <p class="mt-4 text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-white/60">
+            {{ program.audience }}
+          </p>
+
+          <ul class="mt-3 space-y-2 text-sm text-white/90">
+            <li *ngFor="let highlight of program.highlights"
+                class="flex items-start gap-2">
+              <span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/10 text-[0.6rem] font-semibold">
+                •
+              </span>
+              <span>{{ highlight }}</span>
+            </li>
+          </ul>
+
+          <div class="mt-5 flex flex-wrap gap-2">
+            <a [routerLink]="program.cta.routerLink"
+               [fragment]="program.cta.fragment"
+               class="inline-flex items-center justify-center rounded-full bg-white px-4 py-2 text-[0.7rem] font-semibold uppercase tracking-wide text-primary shadow-lg shadow-white/25 transition duration-300 hover:-translate-y-0.5">
+              {{ program.cta.label }}
+            </a>
+            <a routerLink="/academy"
+               fragment="courses"
+               class="inline-flex items-center justify-center rounded-full border border-white/40 px-4 py-2 text-[0.7rem] font-semibold uppercase tracking-wide text-white transition duration-300 hover:-translate-y-0.5">
+              All Courses
+            </a>
+          </div>
+
+          <div class="pointer-events-none absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100 group-hover:bg-white/5"></div>
+        </article>
+      </div>
+    </div>
+    <div class="academy-overlay pointer-events-none absolute inset-0 rounded-[36px]"></div>
+  </div>
+</section>

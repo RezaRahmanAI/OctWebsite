@@ -1,0 +1,49 @@
+:host { display: block; }
+
+/* wrapper sizing */
+.method-wrap { min-height: 40rem; } /* fallback for small screens */
+@media (min-width: 768px) {
+  .method-wrap { height: 80vh; } /* full viewport on desktop */
+}
+
+/* connector path styling */
+.connector {
+  fill: none;
+  stroke: rgba(99,102,241,0.16); /* subtle accent - you can change color */
+  stroke-width: 0.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  /* soft shadow effect using duplicate path (optional) */
+  filter: drop-shadow(0 6px 18px rgba(2,6,23,0.06));
+}
+
+/* card default (mobile stacked) */
+.method-cards { display: grid; gap: 1.5rem; }
+
+/* method-card desktop absolute placement using CSS custom properties set from template */
+.method-card {
+  transition: transform 0.6s cubic-bezier(.2,.9,.2,1), opacity 0.45s;
+}
+
+/* on md+ use CSS vars --left and --top (set inline from template via [style.--left] bindings) */
+@media (min-width: 768px) {
+  .method-cards { position: relative; height: 100%; }
+  .method-card {
+    width: 14.5rem; /* consistent card width on desktop */
+    left: var(--left, 50%);
+    top: var(--top, 50%);
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* tweak sizing for larger screens */
+@media (min-width: 1024px) {
+  .method-card { width: 18rem; }
+}
+
+/* small visual polish for card hover/focus */
+.method-card:focus,
+.method-card:hover {
+  transform: translate(-50%, -50%) translateY(-6px);
+  box-shadow: 0 12px 30px rgba(2,6,23,0.08);
+}

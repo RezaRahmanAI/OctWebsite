@@ -2,7 +2,6 @@ using System.Linq;
 using OctWebsite.Application.Abstractions;
 using OctWebsite.Application.DTOs;
 using OctWebsite.Domain.Entities;
-
 namespace OctWebsite.Application.Services;
 
 internal sealed class ContactSubmissionService(IContactSubmissionRepository repository) : IContactSubmissionService

@@ -1,0 +1,137 @@
+<div class="card mt-2" [class.opacity-60]="pageLoading()">
+  <div class="flex items-center justify-between">
+    <div>
+      <p class="text-xs font-semibold uppercase text-primary">Services Page</p>
+      <h2 class="text-xl font-semibold text-slate-900">Hero content</h2>
+    </div>
+    <span *ngIf="pageLoading()" class="text-xs text-slate-500">Saving...</span>
+  </div>
+
+  <form [formGroup]="pageForm" class="mt-4 grid gap-4 md:grid-cols-2" (ngSubmit)="submitPage()">
+    <label class="form-field">
+      <span>Eyebrow</span>
+      <input type="text" formControlName="headerEyebrow" />
+    </label>
+    <label class="form-field">
+      <span>Hero Title</span>
+      <input type="text" formControlName="headerTitle" />
+    </label>
+    <label class="form-field md:col-span-2">
+      <span>Hero Subtitle</span>
+      <textarea rows="2" formControlName="headerSubtitle"></textarea>
+    </label>
+
+    <div class="grid gap-2 md:col-span-2">
+      <label class="font-semibold text-sm text-slate-700">Hero Video (mp4)</label>
+      <input type="file" accept="video/mp4" (change)="onHeroVideoSelected($event)" />
+      <p class="text-xs text-slate-500" *ngIf="pageForm.value.heroVideoFileName">{{ pageForm.value.heroVideoFileName }}</p>
+    </div>
+
+    <div class="md:col-span-2 flex items-center gap-3">
+      <button class="btn primary" type="submit" [disabled]="pageLoading()">Save hero</button>
+      <span *ngIf="pageContent()?.heroVideo?.url" class="text-xs text-slate-500">Current video will remain unless replaced.</span>
+    </div>
+  </form>
+</div>
+
+<div class="card">
+  <div class="flex items-center justify-between">
+    <div>
+      <p class="text-xs font-semibold uppercase text-primary">Services</p>
+      <h2 class="text-xl font-semibold text-slate-900">Manage service catalogue</h2>
+    </div>
+    <div class="flex items-center gap-2">
+      <button class="btn ghost" type="button" (click)="seedServices()">Seed Defaults</button>
+      <button class="btn ghost" type="button" (click)="reset()">New Service</button>
+    </div>
+  </div>
+
+  <form [formGroup]="form" class="grid gap-4 md:grid-cols-2 mt-4" (ngSubmit)="submit()">
+    <label class="form-field">
+      <span>Title</span>
+      <input formControlName="title" type="text" />
+    </label>
+    <label class="form-field">
+      <span>Subtitle</span>
+      <input formControlName="subtitle" type="text" />
+    </label>
+    <label class="form-field">
+      <span>Slug</span>
+      <input formControlName="slug" type="text" />
+    </label>
+    <label class="form-field">
+      <span>Icon</span>
+      <input formControlName="icon" type="text" />
+    </label>
+    <label class="form-field md:col-span-2">
+      <span>Summary</span>
+      <textarea formControlName="summary" rows="2"></textarea>
+    </label>
+    <label class="form-field md:col-span-2">
+      <span>Description</span>
+      <textarea formControlName="description" rows="3"></textarea>
+    </label>
+    <label class="form-field md:col-span-2">
+      <span>Features (one per line)</span>
+      <textarea formControlName="features" rows="4"></textarea>
+    </label>
+
+    <div class="flex items-center gap-4 md:col-span-2">
+      <label class="flex items-center gap-2">
+        <input type="checkbox" formControlName="active" /> Active
+      </label>
+      <label class="flex items-center gap-2">
+        <input type="checkbox" formControlName="featured" /> Featured
+      </label>
+    </div>
+
+    <div class="grid gap-2">
+      <label class="font-semibold text-sm text-slate-700">Background Image</label>
+      <input type="file" accept="image/*" (change)="onBackgroundSelected($event)" />
+      <p class="text-xs text-slate-500" *ngIf="backgroundName()">{{ backgroundName() }}</p>
+    </div>
+
+    <div class="grid gap-2">
+      <label class="font-semibold text-sm text-slate-700">Header Video (mp4)</label>
+      <input type="file" accept="video/mp4" (change)="onHeaderVideoSelected($event)" />
+      <p class="text-xs text-slate-500" *ngIf="headerVideoName()">{{ headerVideoName() }}</p>
+    </div>
+
+    <div class="grid gap-2 md:col-span-2">
+      <label class="font-semibold text-sm text-slate-700">Gallery Images</label>
+      <input type="file" accept="image/*" (change)="onGallerySelected($event)" multiple />
+      <p class="text-xs text-slate-500" *ngIf="galleryNames().length">{{ galleryNames().join(', ') }}</p>
+    </div>
+
+    <div class="md:col-span-2 flex items-center gap-3">
+      <button class="btn primary" type="submit" [disabled]="loading()">{{ editingId() ? 'Update' : 'Create' }} Service</button>
+      <span *ngIf="loading()" class="text-sm text-slate-500">Working...</span>
+    </div>
+  </form>
+
+  <div class="mt-6 overflow-x-auto">
+    <table class="w-full text-left text-sm">
+      <thead>
+        <tr class="text-slate-500">
+          <th class="py-2">Title</th>
+          <th class="py-2">Slug</th>
+          <th class="py-2">Active</th>
+          <th class="py-2">Featured</th>
+          <th class="py-2 text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let service of services()" class="border-t">
+          <td class="py-2">{{ service.title }}</td>
+          <td class="py-2">{{ service.slug }}</td>
+          <td class="py-2">{{ service.active ? 'Yes' : 'No' }}</td>
+          <td class="py-2">{{ service.featured ? 'Yes' : 'No' }}</td>
+          <td class="py-2 text-right space-x-2">
+            <button class="btn ghost" type="button" (click)="edit(service)">Edit</button>
+            <button class="btn danger" type="button" (click)="delete(service.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

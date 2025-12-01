@@ -1,0 +1,97 @@
+<footer class="bg-slate-900 text-slate-100">
+  <div class="container-wide section-padding">
+    <div class="grid gap-12 lg:grid-cols-6">
+      <div class="lg:col-span-2">
+        <div class="flex items-center gap-3">
+          <span class="inline-flex items-center justify-center ">
+            <img src="images/logo/oct_logo.png" alt="ObjectCanvas Technology Logo" class="h-full w-full" />
+          </span>
+          <div class="flex flex-col">
+            <span class="font-heading text-2xl font-semibold text-white">ObjectCanvas Technology</span>
+          </div>
+        </div>
+        <p class="mt-6 text-sm leading-relaxed text-slate-300">
+          Empowering businesses and careers through transformative technology solutions and world-class education.
+        </p>
+        <div class="mt-6 flex flex-wrap items-center gap-3">
+          <a
+            *ngFor="let social of socialLinks"
+            [href]="social.url"
+            target="_blank"
+            rel="noopener"
+            class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-100 transition hover:-translate-y-0.5 hover:bg-white hover:text-primary"
+            [attr.aria-label]="social.label"
+          >
+            <span class="text-xs font-semibold">{{ social.label[0] }}</span>
+          </a>
+        </div>
+        <a
+          routerLink="/contact"
+          class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-white underline-offset-4 hover:underline"
+        >
+          Schedule a Free Consultation
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14m-7-7l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+
+      <div class="space-y-4">
+        <h3 class="text-lg font-semibold text-white">Our Services</h3>
+        <ul class="space-y-2 text-sm text-slate-300">
+          <li><a routerLink="/services" class="transition hover:text-white">Digital Marketing</a></li>
+          <li><a routerLink="/services" class="transition hover:text-white">Software Development</a></li>
+          <li><a routerLink="/services" class="transition hover:text-white">Website Building</a></li>
+          <li><a routerLink="/contact" class="transition hover:text-white">Consultation</a></li>
+          <li><a routerLink="/portfolio" class="transition hover:text-white">Portfolio</a></li>
+        </ul>
+      </div>
+
+      <div class="space-y-4">
+        <h3 class="text-lg font-semibold text-white">Academy</h3>
+        <ul class="space-y-2 text-sm text-slate-300">
+          <li><a routerLink="/academy" class="transition hover:text-white">Browse Courses</a></li>
+          <li><a routerLink="/academy" class="transition hover:text-white">Become an Instructor</a></li>
+          <li><a routerLink="/academy" class="transition hover:text-white">Student Success Stories</a></li>
+          <li><a routerLink="/academy" class="transition hover:text-white">Free Resources</a></li>
+          <li><a routerLink="/academy" class="transition hover:text-white">Course Calendar</a></li>
+        </ul>
+      </div>
+
+      <div class="space-y-4">
+        <h3 class="text-lg font-semibold text-white">Company</h3>
+        <ul class="space-y-2 text-sm text-slate-300">
+          <li><a routerLink="/about" class="transition hover:text-white">About Us</a></li>
+          <li><a routerLink="/about" fragment="team" class="transition hover:text-white">Our Team</a></li>
+          <li><a routerLink="/portfolio" class="transition hover:text-white">Portfolio</a></li>
+          <li><a routerLink="/about" fragment="careers" class="transition hover:text-white">Careers</a></li>
+          <li><a routerLink="/insights" class="transition hover:text-white">Blog &amp; Press</a></li>
+        </ul>
+      </div>
+
+      <div class="space-y-4">
+        <h3 class="text-lg font-semibold text-white">Support</h3>
+        <ul class="space-y-2 text-sm text-slate-300">
+          <li><a routerLink="/contact" class="transition hover:text-white">Contact Us</a></li>
+          <li><a routerLink="/contact" fragment="faq" class="transition hover:text-white">FAQ</a></li>
+          <li><a routerLink="/contact" class="transition hover:text-white">Support Center</a></li>
+          <li><a routerLink="/legal/privacy" class="transition hover:text-white">Privacy Policy</a></li>
+          <li><a routerLink="/legal/terms" class="transition hover:text-white">Terms of Service</a></li>
+          <li><a routerLink="/legal/refund" class="transition hover:text-white">Refund Policy</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10 bg-slate-950 py-6 text-sm text-slate-300">
+    <div class="container-wide flex flex-col items-center justify-between gap-4 md:flex-row">
+      <p>© {{ currentYear }} ObjectCanvas Technology All rights reserved. | Proudly Made in Bangladesh 🇧🇩</p>
+      <div class="flex flex-wrap items-center gap-4">
+        <a routerLink="/legal/privacy" class="hover:text-white">Privacy Policy</a>
+        <a routerLink="/legal/terms" class="hover:text-white">Terms</a>
+        <a routerLink="/sitemap" class="hover:text-white">Sitemap</a>
+        <a href="https://www.humtech.academy/assets/company-profile.pdf" target="_blank" rel="noopener" class="hover:text-white">Download Company Profile</a>
+      </div>
+    </div>
+  </div>
+</footer>

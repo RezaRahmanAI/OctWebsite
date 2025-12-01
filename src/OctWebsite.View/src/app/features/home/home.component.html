@@ -1,0 +1,48 @@
+<div class="home-sections" [class.snap-active]="snapEnabled()">
+  <section class="home-section">
+    <app-home-hero [hero]="heroData()" [videoSrc]="heroVideoSrc()" [videoPoster]="heroVideoPoster()" />
+  </section>
+
+  <section class="">
+    <app-home-trust [data]="trustData()" />
+  </section>
+
+  <section class="home-section">
+    <app-home-services [header]="home().services.header" />
+  </section>
+
+  <section class="home-section">
+    <app-product-showcase />
+  </section>
+
+  <section class="home-section">
+    <app-home-methodology [data]="home().methodology" />
+  </section>
+
+  <section class="home-section">
+    <app-home-collaboration [data]="home().collaboration" />
+  </section>
+
+  <section class="home-section">
+    <app-home-academy [data]="home().academy" />
+  </section>
+
+  <section class="home-section">
+    <app-tech-stack />
+  </section>
+
+  <section class="home-section">
+    <app-home-testimonials
+      [header]="testimonialsHeader()"
+      [testimonials]="testimonialsItems()"
+    />
+  </section>
+
+  <section class="home-section">
+    <app-home-insights [data]="home().insights" [posts]="featuredPosts()" />
+  </section>
+
+  <section>
+    <app-home-closing-ctas [data]="home().closingCtas" />
+  </section>
+</div>

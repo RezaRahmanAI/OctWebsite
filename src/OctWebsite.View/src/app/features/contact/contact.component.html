@@ -1,0 +1,107 @@
+<section class="container-wide overflow-hidden py-16 space-y-16" *ngIf="contactPage() as contactPage">
+  <header class="section-padding">
+    <div class="grid items-center gap-10 lg:grid-cols-2">
+      <div class="space-y-6">
+        <p
+          class="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/70 px-4 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-primary"
+        >
+          {{ contactPage.header.eyebrow }}
+        </p>
+
+        <h1 class="text-3xl font-bold sm:text-4xl md:text-5xl text-slate-900">
+          {{ contactPage.header.title }}
+        </h1>
+
+        <p class="max-w-xl text-sm text-slate-600 md:text-base">
+          {{ contactPage.header.subtitle }}
+        </p>
+
+        <div class="flex flex-wrap items-center gap-4 pt-2">
+          <a
+            class="inline-flex items-center justify-center rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/40 transition hover:translate-y-0.5 hover:bg-primary/90"
+            [routerLink]="contactPage.primaryCtaLink"
+          >
+            {{ contactPage.primaryCtaLabel }}
+          </a>
+          <button class="text-sm font-semibold text-primary" type="button" (click)="scrollToOffices()">
+            View offices ↓
+          </button>
+        </div>
+
+        <p class="text-xs text-slate-500">
+          {{ contactPage.responseTime }}
+        </p>
+      </div>
+
+      <div class="relative" *ngIf="heroVideoUrl() as heroUrl">
+        <div class="group relative overflow-hidden rounded-[2.5rem] shadow-xl">
+          <div class="relative aspect-[4/3]">
+            <video class="absolute inset-0 h-full w-full object-cover" autoplay loop muted playsinline>
+              <source [src]="heroUrl | assetUrl" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+
+          <div
+            class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-primary/40 via-transparent to-secondary/40 opacity-40 transition-opacity duration-300 group-hover:opacity-20"
+          ></div>
+
+          <div class="absolute inset-x-6 bottom-6 flex items-center justify-between rounded-2xl bg-white/90 px-4 py-3 text-xs text-slate-700 shadow-lg">
+            <span>{{ contactPage.heroMetaLine }}</span>
+            <span class="inline-flex items-center gap-1">
+              <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+              Live support
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+</section>
+
+<section class="section-padding bg-slate-50" *ngIf="contactPage() as contactPage">
+  <div class="container-wide space-y-10" id="offices">
+    <header class="mx-auto max-w-2xl text-center space-y-4">
+      <p class="inline-flex items-center justify-center gap-2 rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-indigo-700">
+        {{ contactPage.officesEyebrow }}
+      </p>
+      <h2 class="text-3xl font-semibold sm:text-4xl">
+        {{ contactPage.officesTitle }}
+      </h2>
+      <p class="text-slate-600">
+        {{ contactPage.officesDescription }}
+      </p>
+    </header>
+
+    <div class="grid gap-8 lg:grid-cols-2">
+      <article class="flex flex-col overflow-hidden lg:flex-row" *ngFor="let office of contactPage.offices">
+        <div class="relative h-44 w-64 overflow-hidden">
+          <img [src]="office.imageUrl | assetUrl" [alt]="office.name" class="h-full w-full object-cover" />
+        </div>
+        <div class="flex-1 space-y-3 p-6 sm:p-8">
+          <p class="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+            {{ office.name }}
+          </p>
+          <h3 class="text-xl font-semibold text-slate-900">
+            {{ office.headline }}
+          </h3>
+          <p class="text-sm leading-relaxed text-slate-700">
+            {{ office.address }}
+          </p>
+        </div>
+      </article>
+    </div>
+
+    <div class="overflow-hidden border border-slate-200 shadow-[0_24px_80px_-40px_rgba(15,23,42,0.35)]">
+      <iframe
+        [title]="contactPage.mapTitle"
+        [src]="contactPage.mapEmbedUrl"
+        class="h-[420px] w-full border-0"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+  </div>
+</section>
+
+<app-home-contact *ngIf="contactData() as contactData" [data]="contactData" [formOptions]="formOptions()"></app-home-contact>

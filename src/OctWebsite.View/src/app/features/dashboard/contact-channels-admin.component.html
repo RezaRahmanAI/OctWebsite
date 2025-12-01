@@ -1,0 +1,147 @@
+<div class="card-surface mt-2" [class.opacity-60]="loading()">
+  <div class="flex items-center justify-between gap-4">
+    <div>
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-primary-600">
+        Social &amp; Contact
+      </p>
+      <h2 class="text-xl font-semibold text-slate-900">Manage social links and contact info</h2>
+      <p class="text-sm text-slate-600">
+        Update phone numbers, emails, WhatsApp channels, and social profiles used across the site.
+      </p>
+    </div>
+    <button class="btn" type="button" (click)="submit()" [disabled]="loading()">
+      {{ loading() ? 'Saving...' : 'Save' }}
+    </button>
+  </div>
+
+  <form class="mt-6 space-y-8" [formGroup]="form" (ngSubmit)="submit()">
+    <!-- Phone numbers -->
+    <div class="space-y-4">
+      <div>
+        <p class="text-sm font-semibold text-slate-900">Phone numbers</p>
+        <p class="text-xs text-slate-600">Shown in the site header, footer, and contact blocks.</p>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-field">
+          <span>Local phone number</span>
+          <input type="text" formControlName="localPhoneNumber" />
+        </label>
+        <label class="form-field">
+          <span>International phone number</span>
+          <input type="text" formControlName="internationalPhoneNumber" />
+        </label>
+      </div>
+    </div>
+
+    <!-- Emails -->
+    <div class="space-y-4">
+      <div>
+        <p class="text-sm font-semibold text-slate-900">Emails</p>
+        <p class="text-xs text-slate-600">Primary business and support email addresses.</p>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-field">
+          <span>Business email</span>
+          <input type="email" formControlName="businessEmail" />
+        </label>
+        <label class="form-field">
+          <span>Support email</span>
+          <input type="email" formControlName="supportEmail" />
+        </label>
+      </div>
+    </div>
+
+    <!-- Local WhatsApp -->
+    <div class="space-y-4" formGroupName="localWhatsapp">
+      <div>
+        <p class="text-sm font-semibold text-slate-900">Local WhatsApp</p>
+        <p class="text-xs text-slate-600">Channel for Bangladesh-based WhatsApp enquiries.</p>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-field">
+          <span>Local WhatsApp label</span>
+          <input type="text" formControlName="label" placeholder="WhatsApp (BD)" />
+        </label>
+        <label class="form-field">
+          <span>Local WhatsApp number</span>
+          <input type="text" formControlName="number" />
+        </label>
+        <label class="form-field md:col-span-2">
+          <span>Local WhatsApp URL</span>
+          <input type="text" formControlName="url" placeholder="https://wa.me/..." />
+        </label>
+      </div>
+    </div>
+
+    <!-- International WhatsApp -->
+    <div class="space-y-4" formGroupName="internationalWhatsapp">
+      <div>
+        <p class="text-sm font-semibold text-slate-900">International WhatsApp</p>
+        <p class="text-xs text-slate-600">Channel for global enquiries outside Bangladesh.</p>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-field">
+          <span>International WhatsApp label</span>
+          <input type="text" formControlName="label" placeholder="WhatsApp (Global)" />
+        </label>
+        <label class="form-field">
+          <span>International WhatsApp number</span>
+          <input type="text" formControlName="number" />
+        </label>
+        <label class="form-field md:col-span-2">
+          <span>International WhatsApp URL</span>
+          <input type="text" formControlName="url" placeholder="https://wa.me/..." />
+        </label>
+      </div>
+    </div>
+
+    <!-- Social links -->
+    <div class="space-y-3" formArrayName="socialLinks">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-semibold text-slate-900">Social links</p>
+          <p class="text-xs text-slate-600">
+            Profiles used in the footer and contact sections (e.g. LinkedIn, Facebook, YouTube).
+          </p>
+        </div>
+        <button class="btn ghost" type="button" (click)="addSocialLink()">Add link</button>
+      </div>
+
+      <div class="space-y-2">
+        <div
+          class="grid items-center gap-2 md:grid-cols-[1fr_1fr_auto]"
+          *ngFor="let control of socialLinks.controls; let i = index"
+          [formGroupName]="i"
+        >
+          <input
+            class="rounded-lg border border-slate-200 px-3 py-2 text-sm"
+            formControlName="label"
+            placeholder="LinkedIn"
+          />
+          <input
+            class="rounded-lg border border-slate-200 px-3 py-2 text-sm"
+            formControlName="url"
+            placeholder="https://"
+          />
+          <button
+            class="text-xs text-rose-600 justify-self-end"
+            type="button"
+            (click)="removeSocialLink(i)"
+          >
+            Remove
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-end">
+      <button class="btn" type="submit" [disabled]="loading()">
+        {{ loading() ? 'Saving...' : 'Save contact channels' }}
+      </button>
+    </div>
+  </form>
+</div>

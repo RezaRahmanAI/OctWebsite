@@ -1,0 +1,19 @@
+<div class="space-y-4">
+  <div
+    *ngFor="let item of items; let i = index"
+    class="overflow-hidden rounded-2xl border border-primary-50 bg-base shadow-xl shadow-slate-200/60"
+  >
+    <button
+      class="flex w-full items-center justify-between gap-4 px-6 py-4 text-left text-base font-semibold text-ink"
+      type="button"
+      (click)="toggle(i)"
+      [attr.aria-expanded]="isExpanded(i)"
+    >
+      <span>{{ item.question }}</span>
+      <span class="flex h-8 w-8 items-center justify-center rounded-full border border-outline/70 text-primary-100">{{ isExpanded(i) ? '−' : '+' }}</span>
+    </button>
+    <div *ngIf="isExpanded(i)" class="border-t border-primary-50 bg-surface px-6 py-4 text-sm text-muted">
+      {{ item.answer }}
+    </div>
+  </div>
+</div>

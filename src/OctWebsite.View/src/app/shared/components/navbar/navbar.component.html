@@ -1,0 +1,115 @@
+<header
+  class="fixed inset-x-0 top-0 z-50 transition-transform duration-300"
+  [class.-translate-y-full]="isHidden()"
+>
+  <div class="backdrop-blur-md bg-base/85">
+    <div class="container-responsive flex items-center justify-between py-4">
+      <!-- Logo -->
+      <a routerLink="/" class="flex items-center gap-2">
+        <!-- your logo here -->
+      </a>
+
+      <!-- Desktop nav -->
+      <nav class="hidden items-center gap-3 lg:flex">
+        <!-- Home -->
+        <ng-container *ngFor="let item of navItems">
+          <a
+            *ngIf="item.label === 'Home'"
+            [routerLink]="item.link"
+            routerLinkActive="text-primary-50 bg-white shadow-[0_12px_30px_rgba(15,23,42,0.55)] ring-0"
+            [routerLinkActiveOptions]="{ exact: item.link === '/' }"
+            class="inline-flex items-center rounded-xl bg-white/5 px-4 py-2
+                   text-sm font-semibold text-ink/90 ring-1 ring-white/10
+                   transition-all duration-200
+                   hover:-translate-y-[1px] hover:bg-primary-500/15
+                   hover:text-primary-50 hover:ring-primary-400/70"
+          >
+            {{ item.label }}
+          </a>
+        </ng-container>
+
+        <!-- About dropdown trigger -->
+        <div class="relative group">
+          <button
+            type="button"
+            class="inline-flex items-center gap-1 rounded-xl bg-white/5 px-4 py-2
+                   text-sm font-semibold text-ink/90 ring-1 ring-white/10
+                   transition-all duration-200
+                   group-hover:-translate-y-[1px] group-hover:bg-primary-500/15
+                   group-hover:text-primary-50 group-hover:ring-primary-400/70"
+          >
+            About Us
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4 transition-transform duration-200 group-hover:rotate-180"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
+
+          <!-- Dropdown -->
+          <div
+            class="invisible absolute left-0 top-full mt-2 w-56 rounded-xl border border-primary-50/40
+                   bg-base/95 p-3 opacity-0 shadow-xl backdrop-blur-sm
+                   transition-all duration-200
+                   group-hover:visible group-hover:translate-y-1 group-hover:opacity-100"
+          >
+            <button
+              *ngFor="let about of aboutLinks"
+              (click)="navigateToAbout(about.fragment)"
+              class="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left
+                     text-sm font-medium text-muted
+                     transition-colors duration-150
+                     hover:bg-primary-50 hover:text-primary-700"
+            >
+              <span
+                class="mt-[2px] h-2 w-2 rounded-xl bg-gradient-to-r from-primary-500 to-accent-500"
+              ></span>
+              {{ about.label }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Other nav items -->
+        <ng-container *ngFor="let item of navItems">
+          <a
+            *ngIf="item.label !== 'Home' && item.label !== 'About Us'"
+            [routerLink]="item.link"
+            routerLinkActive="text-primary-50 bg-primary-600 shadow-[0_12px_30px_rgba(15,23,42,0.55)] ring-0"
+            [routerLinkActiveOptions]="{ exact: item.link === '/' }"
+            class="inline-flex items-center rounded-xl bg-white/5 px-4 py-2
+                   text-sm font-semibold text-ink/90 ring-1 ring-white/10
+                   transition-all duration-200
+                   hover:-translate-y-[1px] hover:bg-primary-500/15
+                   hover:text-primary-50 hover:ring-primary-400/70"
+          >
+            {{ item.label }}
+          </a>
+        </ng-container>
+      </nav>
+
+      <!-- Right side actions (desktop) -->
+      <div class="hidden items-center gap-3 lg:flex">
+        <!-- add CTA buttons here if needed -->
+      </div>
+
+      <!-- Mobile menu button -->
+      <button
+        type="button"
+        class="inline-flex items-center justify-center rounded-xl bg-primary-600 px-4 py-2
+               text-sm font-semibold text-white shadow-lg shadow-primary-500/40 transition hover:bg-primary-700 lg:hidden"
+        (click)="toggleMenu()"
+      >
+        Menu
+      </button>
+    </div>
+  </div>
+</header>

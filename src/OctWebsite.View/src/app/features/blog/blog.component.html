@@ -1,0 +1,267 @@
+<!-- BLOG HEADER – styled like Academy header -->
+<section class="container-wide overflow-hidden py-16 space-y-16">
+  <header class="section-padding">
+    <div class="grid items-center gap-10 lg:grid-cols-2">
+      <!-- LEFT: text + search + email subscribe -->
+      <div class="max-w-3xl space-y-6">
+        <!-- pill, same style as academy -->
+        <p
+          class="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/70 px-4 py-1
+                 text-xs font-semibold uppercase tracking-[0.35em] text-primary"
+        >
+          <span class="h-2 w-2 rounded-full bg-secondary-400"></span>
+          {{ pageContent()?.headerEyebrow || 'Insights & Updates' }}
+        </p>
+
+        <!-- title + copy, same scale as academy -->
+        <div class="space-y-2">
+          <h1 class="text-3xl font-bold sm:text-4xl md:text-5xl">
+            {{ pageContent()?.headerTitle || 'Stories from the studio' }}
+          </h1>
+          <p class="max-w-2xl text-sm text-slate-600 md:text-base">
+            {{ pageContent()?.headerSubtitle ||
+              'Explore lessons from our product experiments, engineering playbooks, and academy cohorts. Filter by topic or jump straight into the latest releases.'
+            }}
+          </p>
+        </div>
+
+        <!-- Email subscribe, academy-style colors -->
+        <form
+          class="flex flex-wrap items-center gap-3 text-xs text-slate-600"
+          (submit)="$event.preventDefault()"
+        >
+          <div class="min-w-[220px] flex-1">
+            <label class="sr-only" for="blog-subscribe-email">Email address</label>
+            <input
+              id="blog-subscribe-email"
+              type="email"
+              placeholder="Get new stories in your inbox"
+              class="w-full rounded-full border border-slate-200 bg-white px-4 py-2.5
+                     text-xs text-slate-800 placeholder:text-slate-400
+                     focus:border-primary focus:outline-none"
+            />
+          </div>
+          <button
+            type="submit"
+            class="inline-flex items-center justify-center rounded-full bg-primary
+                   px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.25em]
+                   text-white shadow-md transition hover:bg-primary/90"
+          >
+            Subscribe
+          </button>
+        </form>
+      </div>
+
+      <!-- RIGHT: video – same card style as Academy -->
+      <div class="relative">
+        <div
+          class="group relative overflow-hidden rounded-[2.5rem] shadow-xl"
+        >
+          <div class="relative aspect-[4/3]">
+            <video
+              class="absolute inset-0 h-full w-full object-cover"
+            autoplay
+            loop
+            muted
+            playsinline
+          >
+            <source [attr.src]="heroVideoSrc() | assetUrl" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          </div>
+
+          <!-- same gradient overlay as academy -->
+          <div
+            class="pointer-events-none absolute inset-0 bg-gradient-to-tr
+                   from-primary/40 via-transparent to-secondary/40
+                   opacity-40 transition-opacity duration-300 group-hover:opacity-20"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </header>
+</section>
+
+
+<section class="section-padding">
+  <div class="container-wide grid gap-10 lg:grid-cols-4">
+    <aside class="lg:col-span-1">
+      <div class="sticky top-6 space-y-6 rounded-2xl bg-white p-6 shadow-card">
+        <div class="space-y-2">
+          <p class="text-xs font-semibold uppercase tracking-wide text-primary-600">
+            Browse topics
+          </p>
+          <p class="text-sm text-slate-600">
+            Switch between focus areas inspired by our latest shipping reports.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button
+            type="button"
+            class="filter-chip"
+            [class.chip-active]="!activeTag()"
+            (click)="setTag(null)"
+          >
+            All stories
+          </button>
+          <button
+            *ngFor="let tag of tags()"
+            type="button"
+            class="filter-chip"
+            [class.chip-active]="activeTag() === tag"
+            (click)="setTag(tag)"
+          >
+            #{{ tag }}
+          </button>
+        </div>
+        <div class="rounded-xl bg-primary-50 p-4 text-sm text-primary-800">
+          <p class="font-semibold">Tip</p>
+          <p>Use search to pinpoint a framework, tool, or delivery story.</p>
+        </div>
+      </div>
+    </aside>
+
+    <div class="lg:col-span-3 space-y-8">
+      <ng-container *ngIf="posts().length; else emptyState">
+        <article
+          *ngIf="featuredPost() as featured"
+          class="featured-card relative overflow-hidden rounded-3xl bg-white shadow-card"
+        >
+          <div class="grid gap-6 lg:grid-cols-2">
+            <div class="relative h-full">
+              <div
+                class="absolute inset-0 bg-gradient-to-br from-primary-900/80 via-primary-700/70 to-primary-500/60"
+              ></div>
+              <img
+                *ngIf="featured.coverUrl"
+                [src]="featured.coverUrl"
+                [alt]="featured.title"
+                class="h-full w-full object-cover"
+              />
+              <div class="absolute inset-0 flex items-end p-6 text-white">
+                <div class="space-y-3">
+                  <p class="text-xs font-semibold uppercase tracking-wide text-primary-100">
+                    Featured release
+                  </p>
+                  <h2 class="text-3xl font-bold leading-tight">{{ featured.title }}</h2>
+                  <p class="text-sm text-white/80">{{ featured.excerpt }}</p>
+                  <div class="flex flex-wrap gap-2 text-xs">
+                    <span class="tag-chip" *ngFor="let tag of featured.tags">#{{ tag }}</span>
+                  </div>
+                  <a
+                    [routerLink]="['/blog', featured.slug]"
+                    class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-primary-700"
+                  >
+                    Read the story
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-col justify-between gap-6 p-6">
+              <div class="space-y-3">
+                <p class="text-xs font-semibold uppercase tracking-wide text-primary-600">
+                  {{ featured.publishedAt | date : 'fullDate' }}
+                </p>
+                <p class="text-sm text-slate-600">
+                  A snapshot pulled from our latest drops in mobile, cloud, and data engineering.
+                </p>
+              </div>
+              <div class="grid gap-3 sm:grid-cols-3">
+                <div class="stat-card">
+                  <p class="text-xs font-semibold text-slate-500">Reading time</p>
+                  <p class="text-lg font-bold text-slate-900">6-8 mins</p>
+                </div>
+                <div class="stat-card">
+                  <p class="text-xs font-semibold text-slate-500">Fresh ideas</p>
+                  <p class="text-lg font-bold text-slate-900">{{ featured.tags.length }} themes</p>
+                </div>
+                <div class="stat-card">
+                  <p class="text-xs font-semibold text-slate-500">Released</p>
+                  <p class="text-lg font-bold text-slate-900">
+                    {{ featured.publishedAt | date : 'MMM d' }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <article
+            *ngFor="let post of remainingPosts()"
+            class="card-surface group flex flex-col overflow-hidden rounded-2xl bg-white shadow-card"
+          >
+            <div class="relative h-48 w-full overflow-hidden">
+              <img
+                *ngIf="post.coverUrl"
+                [src]="post.coverUrl"
+                [alt]="post.title"
+                class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/0 to-slate-900/0"
+              ></div>
+              <p
+                class="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-primary-700"
+              >
+                {{ post.publishedAt | date : 'mediumDate' }}
+              </p>
+            </div>
+            <div class="flex flex-1 flex-col gap-4 p-6">
+              <h3 class="text-xl font-semibold text-slate-900 group-hover:text-primary-700">
+                {{ post.title }}
+              </h3>
+              <p class="flex-1 text-sm text-slate-600">{{ post.excerpt }}</p>
+              <div class="flex flex-wrap gap-2 text-xs text-primary-700">
+                <span *ngFor="let tag of post.tags" class="rounded-full bg-primary-50 px-2 py-1"
+                  >#{{ tag }}</span
+                >
+              </div>
+              <div
+                class="flex items-center justify-between pt-2 text-sm font-semibold text-primary-700"
+              >
+                <a [routerLink]="['/blog', post.slug]" class="inline-flex items-center gap-2">
+                  Read more
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </a>
+                <span class="text-xs font-medium text-slate-500">{{
+                  post.publishedAt | date : 'MMM d, y'
+                }}</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </ng-container>
+
+      <ng-template #emptyState>
+        <div
+          class="rounded-2xl border border-dashed border-slate-200 bg-white p-10 text-center text-slate-600"
+        >
+          <p class="text-lg font-semibold text-slate-800">No posts match your filters yet.</p>
+          <p class="mt-2 text-sm">Try clearing the topic filter or adjusting your search.</p>
+          <button
+            type="button"
+            class="mt-6 rounded-full bg-primary-600 px-6 py-2 text-sm font-semibold text-white shadow-glow"
+            (click)="setTag(null); searchTerm.set('')"
+          >
+            Reset filters
+          </button>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</section>

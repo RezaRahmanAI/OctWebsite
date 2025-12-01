@@ -1,0 +1,38 @@
+<section class="section-padding bg-slate-50 min-h-screen">
+  <div class="container-responsive space-y-6">
+    <div class="flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <p class="text-xs font-semibold uppercase text-primary-600">Dashboard</p>
+        <h1 class="text-3xl font-bold text-slate-900">Admin Console</h1>
+        <p class="text-sm text-slate-600">Manage site content including About, Academy, and Team sections.</p>
+      </div>
+      <button class="btn ghost" type="button" (click)="logout()">Logout</button>
+    </div>
+
+    <div class="flex flex-wrap gap-2">
+      <button class="tab-button" [ngClass]="activeTab() === 'home' ? 'active' : 'inactive'" (click)="select('home')">Home</button>
+      <button class="tab-button" [ngClass]="activeTab() === 'about' ? 'active' : 'inactive'" (click)="select('about')">About</button>
+      <button class="tab-button" [ngClass]="activeTab() === 'academy' ? 'active' : 'inactive'" (click)="select('academy')">Academy</button>
+      <button class="tab-button" [ngClass]="activeTab() === 'tracks' ? 'active' : 'inactive'" (click)="select('tracks')">Tracks</button>
+      <button class="tab-button" [ngClass]="activeTab() === 'team' ? 'active' : 'inactive'" (click)="select('team')">Team</button>
+      <button class="tab-button" [ngClass]="activeTab() === 'services' ? 'active' : 'inactive'" (click)="select('services')">Services</button>
+      <button class="tab-button" [ngClass]="activeTab() === 'blog' ? 'active' : 'inactive'" (click)="select('blog')">Blog</button>
+      <button class="tab-button" [ngClass]="activeTab() === 'contact' ? 'active' : 'inactive'" (click)="select('contact')">Contact</button>
+      <button class="tab-button" [ngClass]="activeTab() === 'channels' ? 'active' : 'inactive'" (click)="select('channels')">Social Links</button>
+      <button class="tab-button" [ngClass]="activeTab() === 'submissions' ? 'active' : 'inactive'" (click)="select('submissions')">Submissions</button>
+    </div>
+
+    <ng-container [ngSwitch]="activeTab()">
+      <app-home-admin *ngSwitchCase="'home'"></app-home-admin>
+      <app-about-admin *ngSwitchCase="'about'"></app-about-admin>
+      <app-academy-admin *ngSwitchCase="'academy'"></app-academy-admin>
+      <app-academy-tracks-admin *ngSwitchCase="'tracks'"></app-academy-tracks-admin>
+      <app-team-admin *ngSwitchCase="'team'"></app-team-admin>
+      <app-services-admin *ngSwitchCase="'services'"></app-services-admin>
+      <app-blog-admin *ngSwitchCase="'blog'"></app-blog-admin>
+      <app-contact-admin *ngSwitchCase="'contact'"></app-contact-admin>
+      <app-contact-channels-admin *ngSwitchCase="'channels'"></app-contact-channels-admin>
+      <app-contact-submissions-admin *ngSwitchCase="'submissions'"></app-contact-submissions-admin>
+    </ng-container>
+  </div>
+</section>

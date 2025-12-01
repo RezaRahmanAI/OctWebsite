@@ -1,0 +1,46 @@
+<div class="card mt-2" [class.opacity-60]="loading()">
+  <div class="card-header">
+    <div>
+      <p class="eyebrow">Contact</p>
+      <h2 class="card-title">Contact Form Submissions</h2>
+      <p class="card-subtitle">Review recent inquiries submitted from the public contact form.</p>
+    </div>
+    <button class="btn ghost" type="button" (click)="load()" [disabled]="loading()">
+      {{ loading() ? 'Refreshing…' : 'Refresh' }}
+    </button>
+  </div>
+
+  <div *ngIf="loading()" class="status-chip info">Loading submissions…</div>
+  <div *ngIf="!loading() && submissions().length === 0" class="status-chip muted">
+    No submissions yet.
+  </div>
+
+  <div class="overflow-x-auto" *ngIf="submissions().length > 0">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Interest</th>
+          <th>Message</th>
+          <th>Submitted</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let submission of submissions()">
+          <td class="font-semibold">{{ submission.name }}</td>
+          <td>
+            <a class="text-primary underline" [href]="'mailto:' + submission.email">{{
+              submission.email
+            }}</a>
+          </td>
+          <td>{{ submission.phone || '—' }}</td>
+          <td>{{ submission.interest || '—' }}</td>
+          <td class="max-w-xl whitespace-pre-wrap text-sm">{{ submission.message }}</td>
+          <td class="text-sm text-slate-500">{{ submission.createdAt | date : 'medium' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

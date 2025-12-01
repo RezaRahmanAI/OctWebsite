@@ -1,0 +1,91 @@
+<div class="card-surface mt-2" [class.opacity-60]="loading()">
+  <div class="flex items-center justify-between gap-4">
+    <div>
+      <p class="text-xs font-semibold uppercase text-primary-600">Team</p>
+      <h2 class="text-xl font-semibold text-slate-900">Manage Team Members</h2>
+      <p class="text-sm text-slate-600">Create, update, and remove profiles.</p>
+    </div>
+    <button type="button" class="btn" (click)="submit()">{{ editingId() ? 'Update' : 'Create' }} member</button>
+  </div>
+
+  <form [formGroup]="form" class="mt-6 space-y-4" (ngSubmit)="submit()" enctype="multipart/form-data">
+    <div class="grid gap-4 md:grid-cols-2">
+      <label class="form-field">
+        <span>Name</span>
+        <input type="text" formControlName="name" />
+      </label>
+      <label class="form-field">
+        <span>Role</span>
+        <input type="text" formControlName="role" />
+      </label>
+      <label class="form-field">
+        <span>Profile photo</span>
+        <input type="file" accept="image/*" (change)="onPhotoSelected($event)" />
+        <p class="text-xs text-slate-500">
+          {{ photoName() ? 'Selected file: ' + photoName() : 'Upload a JPG or PNG image.' }}
+        </p>
+      </label>
+      <label class="form-field">
+        <span>Email</span>
+        <input type="email" formControlName="email" />
+      </label>
+      <label class="form-field md:col-span-2">
+        <span>Bio</span>
+        <textarea rows="3" formControlName="bio"></textarea>
+      </label>
+    </div>
+
+    <div class="flex items-center justify-between">
+      <label class="flex items-center space-x-2 text-sm text-slate-700">
+        <input type="checkbox" formControlName="active" class="h-4 w-4 rounded border-slate-300 text-primary-600" />
+        <span>Active</span>
+      </label>
+      <div class="flex gap-2">
+        <button type="submit" class="btn" [disabled]="loading()">{{ editingId() ? 'Update' : 'Create' }} member</button>
+        <button type="button" class="btn ghost" (click)="reset()">Reset form</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="card-surface">
+  <div class="flex items-center justify-between">
+    <div>
+      <p class="text-xs font-semibold uppercase text-primary-600">Roster</p>
+      <h3 class="text-lg font-semibold text-slate-900">Team list</h3>
+    </div>
+    <span class="text-sm text-slate-600">{{ members().length }} members</span>
+  </div>
+
+  <div class="mt-4 overflow-auto">
+    <table class="min-w-full text-left text-sm">
+      <thead class="text-xs uppercase text-slate-500">
+        <tr>
+          <th class="px-3 py-2">Name</th>
+          <th class="px-3 py-2">Role</th>
+          <th class="px-3 py-2">Status</th>
+          <th class="px-3 py-2"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let member of members()" class="border-t border-slate-200">
+          <td class="px-3 py-2 font-medium text-slate-900">{{ member.name }}</td>
+          <td class="px-3 py-2 text-slate-700">{{ member.role }}</td>
+          <td class="px-3 py-2">
+            <span class="rounded-full px-3 py-1 text-xs font-semibold"
+              [class.bg-emerald-100]="member.active"
+              [class.text-emerald-700]="member.active"
+              [class.bg-slate-100]="!member.active"
+              [class.text-slate-700]="!member.active">
+              {{ member.active ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+          <td class="px-3 py-2 text-right text-sm font-semibold">
+            <button class="text-primary-600" (click)="edit(member)">Edit</button>
+            <button class="ml-3 text-rose-600" (click)="delete(member.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

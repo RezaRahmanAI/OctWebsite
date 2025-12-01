@@ -1,0 +1,360 @@
+<section
+  class="relative overflow-hidden text-white bg-[radial-gradient(circle_at_10%_20%,rgba(16,175,240,0.35),transparent_45%),radial-gradient(circle_at_90%_10%,rgba(255,255,255,0.2),transparent_40%),linear-gradient(120deg,#0f172a_0%,#0b1030_45%,#0c1b46_100%)]"
+  *ngIf="post() as post; else fallback"
+>
+  <!-- Hero background image overlay -->
+  <div
+    *ngIf="post.coverUrl"
+    class="absolute inset-0 z-0 bg-cover bg-center opacity-20 blur-[1px]"
+    [ngStyle]="{ 'background-image': 'url(' + post.coverUrl + ')' }"
+  ></div>
+
+  <div class="container-responsive relative z-10 grid gap-10 py-16 lg:grid-cols-[1.4fr_1fr]">
+    <div class="space-y-6">
+      <div class="flex flex-wrap items-center gap-3 text-sm text-white/80">
+        <a
+          routerLink="/blog"
+          class="inline-flex items-center gap-2 font-semibold text-white transition hover:text-secondary-100"
+        >
+          ← Back to insights
+        </a>
+
+        <span class="h-1 w-1 rounded-full bg-white/50"></span>
+
+        <!-- pill -->
+        <span
+          class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.18em]"
+        >
+          {{ post.publishedAt | date: 'fullDate' }}
+        </span>
+
+        <!-- pill faint -->
+        <span
+          class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-white/90"
+          *ngIf="readTime()"
+        >
+          {{ readTime() }}
+        </span>
+      </div>
+
+      <div class="space-y-4">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-secondary-200">
+          Inside the build room
+        </p>
+        <h1 class="text-4xl font-bold leading-tight md:text-5xl">
+          {{ post.title }}
+        </h1>
+        <p class="max-w-3xl text-lg text-white/85">
+          {{ post.excerpt }}
+        </p>
+      </div>
+
+      <div class="flex flex-wrap gap-2 text-xs">
+        <span
+          *ngFor="let tag of post.tags"
+          class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-white/90"
+        >
+          #{{ tag }}
+        </span>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-4 text-sm text-white/90">
+        <div class="flex items-center gap-3 rounded-2xl bg-white/5 px-4 py-3 backdrop-blur">
+          <!-- avatar -->
+          <div
+            class="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-white/20 via-sky-400/40 to-sky-400/10 font-bold"
+          >
+            {{ post.author?.charAt(0) || 'O' }}
+          </div>
+          <div>
+            <p class="font-semibold leading-tight">
+              {{ post.author || 'Octave Team' }}
+            </p>
+            <p class="text-white/70">
+              {{ post.authorTitle || 'Product & Engineering' }}
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 rounded-2xl bg-white/5 px-4 py-3 text-white/80 backdrop-blur">
+          <span
+            class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-lg"
+          >
+            ★
+          </span>
+          <div>
+            <p class="text-sm font-semibold">Proof-led story</p>
+            <p class="text-xs">Built from real delivery rituals and playbooks</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="relative h-full">
+      <!-- hero card: video -->
+      <div
+        class="relative min-h-[280px] overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 shadow-[0_30px_80px_rgba(0,0,0,0.35)] isolate"
+        *ngIf="post.headerVideoUrl || post.headerVideo?.url; else imageBlock"
+      >
+        <video
+          class="block h-full w-full object-cover"
+          [src]="post.headerVideoUrl || post.headerVideo?.url || ''"
+          controls
+          playsinline
+          muted
+          loop
+        ></video>
+        <div
+          class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(16,175,240,0.35),transparent_45%)] mix-blend-screen"
+        ></div>
+      </div>
+
+      <!-- hero card: image -->
+      <ng-template #imageBlock>
+        <div
+          *ngIf="post.coverUrl; else gradientBlock"
+          class="relative min-h-[280px] overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 shadow-[0_30px_80px_rgba(0,0,0,0.35)] isolate"
+        >
+          <img
+            [src]="post.coverUrl"
+            [alt]="post.title"
+            class="block h-full w-full object-cover"
+          />
+          <div
+            class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(16,175,240,0.35),transparent_45%)] mix-blend-screen"
+          ></div>
+        </div>
+      </ng-template>
+
+      <!-- hero card: placeholder -->
+      <ng-template #gradientBlock>
+        <div
+          class="relative grid min-h-[280px] gap-2 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-10 text-white shadow-[0_30px_80px_rgba(0,0,0,0.35)]"
+        >
+          <p class="text-base font-semibold">Stories crafted for builders</p>
+          <p class="mt-2 text-sm text-white/80">
+            We turn delivery lessons, experiments, and rituals into ready-to-use patterns.
+          </p>
+          <div
+            class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(16,175,240,0.35),transparent_45%)] mix-blend-screen"
+          ></div>
+        </div>
+      </ng-template>
+
+      <!-- metrics -->
+      <div
+        class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 md:absolute md:inset-x-0 md:-bottom-6 md:mt-0"
+        *ngIf="post.stats?.length"
+      >
+        <div
+          class="rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-white shadow-[0_15px_40px_rgba(0,0,0,0.25)] backdrop-blur"
+          *ngFor="let stat of post.stats"
+        >
+          <p class="text-lg font-bold">
+            {{ stat.value }}
+          </p>
+          <p class="mt-[0.15rem] text-[0.85rem] text-white/80">
+            {{ stat.label }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- shape blur -->
+  <div
+    class="pointer-events-none absolute right-[8%] top-2 h-80 w-80 bg-[radial-gradient(circle,rgba(255,255,255,0.2),transparent_60%)] blur-[80px]"
+  ></div>
+
+  <!-- dotted grid -->
+  <div
+    class="pointer-events-none absolute bottom-[-3rem] left-[4%] h-72 w-72 opacity-35 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.16)_2px,transparent_0)] bg-[length:18px_18px]"
+  ></div>
+</section>
+
+<ng-template #fallback>
+  <div class="section-padding" *ngIf="isLoading(); else notFound">
+    <div class="container-responsive text-center text-slate-600">
+      Loading post...
+    </div>
+  </div>
+</ng-template>
+
+<section class="section-padding bg-background" *ngIf="post() as post">
+  <div class="container-responsive grid gap-10 lg:grid-cols-[1.7fr_1fr]">
+    <!-- content card -->
+    <article
+      class="rounded-3xl bg-gradient-to-br from-sky-400/20 via-white to-white p-[1px] shadow-[0_30px_70px_rgba(15,23,42,0.12)]"
+    >
+      <div class="rounded-3xl bg-white p-6 md:p-10">
+        <!-- callout -->
+        <div
+          class="mb-7 rounded-2xl border border-sky-400/20 bg-gradient-to-br from-sky-400/20 to-indigo-500/20 p-6"
+          *ngIf="post.heroQuote"
+        >
+          <p class="text-xs font-bold uppercase tracking-[0.16em] text-blue-600">
+            Field Note
+          </p>
+          <p class="mt-1 text-[1.1rem] font-semibold text-slate-900">
+            {{ post.heroQuote }}
+          </p>
+        </div>
+
+        <!-- content -->
+        <div
+          class="prose prose-slate max-w-none leading-relaxed prose-h2:mt-10 prose-h2:text-slate-900 prose-p:text-slate-700 prose-li:text-slate-700"
+          [innerHTML]="safeContent()"
+        ></div>
+
+        <!-- highlights -->
+        <div
+          class="mt-10 rounded-2xl border border-white/10 bg-slate-950 p-6 text-white"
+          *ngIf="post.keyPoints?.length"
+        >
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-primary-600">
+              Playbook highlights
+            </p>
+            <p class="text-sm text-slate-200/80">
+              Use these as prompts for your next retro or planning session.
+            </p>
+          </div>
+          <div class="mt-4 grid gap-4">
+            <div
+              class="grid grid-cols-[auto,1fr] items-start gap-3 rounded-xl bg-white/5 px-3 py-2"
+              *ngFor="let point of post.keyPoints; let i = index"
+            >
+              <span class="font-bold text-sky-300 tabular-nums">
+                0{{ i + 1 }}
+              </span>
+              <p class="m-0 text-white/90">
+                {{ point }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- sidebar -->
+    <aside class="space-y-6">
+      <!-- details card -->
+      <div
+        class="space-y-3 rounded-2xl bg-white p-5 shadow-[0_18px_48px_rgba(15,23,42,0.12)]"
+      >
+        <p class="text-xs font-bold uppercase tracking-[0.14em] text-blue-600">
+          Story details
+        </p>
+        <div class="mt-1 grid gap-3">
+          <div
+            class="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3 text-slate-900"
+          >
+            <span class="font-semibold text-slate-600">Published</span>
+            <span class="font-semibold">
+              {{ post.publishedAt | date: 'mediumDate' }}
+            </span>
+          </div>
+          <div
+            class="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3 text-slate-900"
+          >
+            <span class="font-semibold text-slate-600">Topics</span>
+            <span class="font-semibold">
+              {{ post.tags.join(', ') }}
+            </span>
+          </div>
+          <div
+            class="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3 text-slate-900"
+          >
+            <span class="font-semibold text-slate-600">Reading time</span>
+            <span class="font-semibold">
+              {{ readTime() || '—' }}
+            </span>
+          </div>
+          <div
+            class="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3 text-slate-900"
+          >
+            <span class="font-semibold text-slate-600">Author</span>
+            <span class="font-semibold">
+              {{ post.author || 'Octave Studio' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- related posts -->
+      <div
+        class="rounded-2xl border border-white/10 bg-gradient-to-b from-slate-900 to-slate-950 p-5 text-white shadow-[0_18px_48px_rgba(15,23,42,0.4)]"
+      >
+        <p class="text-xs font-bold uppercase tracking-[0.14em] text-sky-300">
+          Latest from the lab
+        </p>
+
+        <div class="mt-3 flex flex-col gap-3" *ngIf="relatedPosts().length; else emptyRelated">
+          <a
+            *ngFor="let related of relatedPosts()"
+            [routerLink]="['/blog', related.slug]"
+            class="grid grid-cols-[80px,1fr] items-center gap-3 rounded-xl border border-transparent bg-white/5 p-3 text-inherit no-underline transition hover:-translate-y-0.5 hover:border-white/20"
+          >
+            <div
+              class="h-16 w-16 rounded-xl bg-cover bg-center shadow-[0_12px_30px_rgba(0,0,0,0.25)]"
+              *ngIf="related.coverUrl"
+              [style.backgroundImage]="'url(' + related.coverUrl + ')'"
+              aria-hidden="true"
+            ></div>
+            <div class="space-y-0.5">
+              <p class="text-xs uppercase tracking-[0.14em] text-sky-300">
+                {{ related.tags[0] || 'Blog' }}
+              </p>
+              <p class="text-sm font-bold text-white">
+                {{ related.title }}
+              </p>
+              <p class="text-xs text-white/75">
+                {{ related.publishedAt | date: 'mediumDate' }} •
+                {{ related.readTime || 'Quick read' }}
+              </p>
+            </div>
+          </a>
+        </div>
+
+        <ng-template #emptyRelated>
+          <p class="mt-3 text-sm text-slate-200/80">
+            More stories are on the way.
+          </p>
+        </ng-template>
+      </div>
+
+      <!-- CTA card -->
+      <div
+        class="rounded-2xl border border-dashed border-sky-400/40 bg-gradient-to-br from-sky-400/20 to-sky-400/5 p-6 text-primary-900 shadow-[0_18px_48px_rgba(56,189,248,0.35)]"
+      >
+        <p class="text-base font-semibold">
+          Keep shipping new ideas
+        </p>
+        <p class="mt-2 text-sm text-primary-900/80">
+          Browse more stories on delivery best practices, engineering culture, and product experiments.
+        </p>
+        <a
+          routerLink="/blog"
+          class="mt-3 inline-flex items-center gap-1 font-bold text-sky-500"
+        >
+          Back to blog
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<ng-template #notFound>
+  <div class="section-padding">
+    <div class="container-responsive text-center">
+      <p class="text-lg font-semibold text-slate-600">Post not found.</p>
+      <a
+        routerLink="/blog"
+        class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary-600"
+      >
+        Browse posts
+      </a>
+    </div>
+  </div>
+</ng-template>

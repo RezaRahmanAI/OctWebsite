@@ -1,0 +1,187 @@
+<section class="section-padding bg-gradient-to-b from-white via-background to-white" *ngIf="service() as currentService; else notFound">
+  <div class="container-wide space-y-16">
+    <!-- HERO -->
+    <header class="grid items-start gap-10 lg:grid-cols-[1.25fr_1fr]">
+      <div class="space-y-6">
+        <div class="inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/80 px-4 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-primary shadow-sm">
+          Services
+          <span class="h-2 w-2 rounded-full bg-secondary-500"></span>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2 text-sm text-slate-500">
+          <a routerLink="/services" class="font-semibold text-primary transition hover:text-primary/80">Services</a>
+          <span aria-hidden="true">/</span>
+          <span class="font-semibold text-slate-700">{{ currentService.title }}</span>
+        </div>
+
+        <h1 class="font-heading text-3xl leading-tight text-title sm:text-4xl md:text-5xl">
+          {{ currentService.title }}
+        </h1>
+
+        <p class="max-w-2xl text-sm text-slate-600 md:text-base">
+          {{ currentService.summary }}
+        </p>
+
+        <div class="flex flex-wrap gap-3">
+          <a
+            routerLink="/contact"
+            class="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-primary/90"
+          >
+            Plan this engagement
+          </a>
+          <a
+            routerLink="/services"
+            class="inline-flex items-center justify-center gap-2 rounded-xl border border-primary/20 bg-white px-6 py-3 text-sm font-semibold text-primary transition hover:-translate-y-0.5 hover:bg-primary/10"
+          >
+            Back to all services
+          </a>
+        </div>
+
+      </div>
+
+      <div class="hero-panel rounded-[28px] border border-slate-100 bg-white p-8 shadow-card">
+        <div class="flex items-start justify-between gap-6">
+          <div class="space-y-2">
+            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Built for measurable outcomes</p>
+            <p class="text-lg font-semibold text-slate-900">Aligned pods and squads</p>
+            <p class="text-sm text-slate-600">We match staffing to the risk profile of your initiative and the maturity of your roadmap.</p>
+          </div>
+          <span class="rounded-full bg-primary/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">
+            Strategy • Build • Run
+          </span>
+        </div>
+
+        <div class="mt-6 grid gap-4 sm:grid-cols-2">
+          <article class="info-chip">
+            <p class="text-xs font-semibold uppercase tracking-[0.16em] text-primary">Engagement style</p>
+            <p class="text-base font-semibold text-slate-900">Pods · Squads · Outsourcing</p>
+            <p class="text-sm text-slate-600">Cross-functional teams with delivery rituals, design, engineering, QA, and DevOps baked in.</p>
+          </article>
+          <article class="info-chip">
+            <p class="text-xs font-semibold uppercase tracking-[0.16em] text-primary">Delivery rhythm</p>
+            <p class="text-base font-semibold text-slate-900">Transparent sprints</p>
+            <p class="text-sm text-slate-600">Show-and-tell demos, observability, and KPI reviews so stakeholders stay aligned.</p>
+          </article>
+        </div>
+      </div>
+    </header>
+
+    <!-- DETAILS GRID -->
+    <section class="grid gap-8 lg:grid-cols-[1.2fr_1fr]">
+      <article class="detail-card space-y-4">
+        <p class="text-xs font-semibold uppercase tracking-[0.18em] text-primary">What we deliver</p>
+        <h2 class="text-2xl font-semibold text-title">Playbooks tailored to your goals</h2>
+        <p class="text-sm leading-relaxed text-slate-600">
+          Each engagement follows our house playbooks for research, design, engineering, security, and rollout. We align to your internal teams and bring the right mix of specialists and apprentices.
+        </p>
+        <ul class="space-y-3 text-sm text-slate-700">
+          <li *ngFor="let feature of currentService.features" class="flex items-start gap-3">
+            <span class="mt-1 h-2 w-2 rounded-full bg-primary"></span>
+            <span>{{ feature }}</span>
+          </li>
+        </ul>
+      </article>
+
+      <aside class="detail-card space-y-5 border-primary/10 bg-gradient-to-br from-white via-primary/5 to-accent/10">
+        <div class="flex items-center justify-between gap-4">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Engagement snapshot</p>
+            <h3 class="text-lg font-semibold text-slate-900">From alignment to outcomes</h3>
+          </div>
+          <span class="rounded-full bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary shadow-sm">
+            Guided
+          </span>
+        </div>
+        <ul class="space-y-3">
+          <li class="rounded-2xl border border-white/70 bg-white/70 p-4 shadow-sm">
+            <p class="text-sm font-semibold text-slate-900">Alignment</p>
+            <p class="text-sm text-slate-600">Discovery, co-planning, and a shared backlog tailored to your governance.</p>
+          </li>
+          <li class="rounded-2xl border border-white/70 bg-white/70 p-4 shadow-sm">
+            <p class="text-sm font-semibold text-slate-900">Execution</p>
+            <p class="text-sm text-slate-600">Multi-disciplinary pods with quality gates, observability, and security baked in.</p>
+          </li>
+          <li class="rounded-2xl border border-white/70 bg-white/70 p-4 shadow-sm">
+            <p class="text-sm font-semibold text-slate-900">Outcomes</p>
+            <p class="text-sm text-slate-600">Measurable KPIs—uptime, conversions, adoption, or operational savings.</p>
+          </li>
+        </ul>
+        <a
+          routerLink="/contact"
+          class="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/20 transition hover:-translate-y-0.5 hover:bg-slate-800"
+        >
+          Book a discovery call
+        </a>
+      </aside>
+    </section>
+
+    <section class="rounded-[28px] border border-slate-100 bg-white p-8 shadow-card">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Confidence to launch</p>
+          <h3 class="text-2xl font-semibold text-title">Delivery clarity, risk controls, and enablement</h3>
+          <p class="text-sm text-slate-600">Transparent sprints, recorded demos, and documentation ensure your teams stay informed and empowered.</p>
+        </div>
+        <div class="flex gap-3">
+          <span class="rounded-full bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary">Security-first</span>
+          <span class="rounded-full bg-accent/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary">Enablement</span>
+        </div>
+      </div>
+    </section>
+
+    <section *ngIf="currentService?.gallery?.length" class="space-y-4">
+      <h3 class="text-xl font-semibold text-title">Recent visuals</h3>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <figure *ngFor="let media of currentService?.gallery" class="overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
+          <img
+            *ngIf="media.url"
+            [src]="media.url"
+            [alt]="currentService?.title || 'Service media'"
+            class="h-48 w-full object-cover"
+          />
+        </figure>
+      </div>
+    </section>
+
+    <!-- RELATED SERVICES -->
+    <section *ngIf="relatedServices().length > 0" class="space-y-6">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Related services</p>
+          <h3 class="text-xl font-semibold text-title">Explore adjacent capabilities</h3>
+        </div>
+        <a routerLink="/services" class="text-sm font-semibold text-primary hover:text-primary/80">See full catalog →</a>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <article *ngFor="let related of relatedServices()" class="related-tile">
+          <div class="flex items-start gap-3">
+            <div *ngIf="related.icon" class="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-lg font-semibold text-primary">
+              {{ related.icon }}
+            </div>
+            <div class="space-y-1">
+              <h4 class="text-lg font-semibold text-slate-900">{{ related.title }}</h4>
+              <p class="text-sm text-slate-600">{{ related.summary }}</p>
+            </div>
+          </div>
+          <ul class="space-y-2 text-sm text-slate-700">
+            <li *ngFor="let feature of related.features | slice: 0: 2" class="flex items-start gap-2">
+              <span class="mt-1 h-1.5 w-1.5 rounded-full bg-primary"></span>
+              <span>{{ feature }}</span>
+            </li>
+          </ul>
+          <a [routerLink]="['/services', related.slug]" class="text-sm font-semibold text-primary transition hover:text-primary/80">View details →</a>
+        </article>
+      </div>
+    </section>
+  </div>
+</section>
+
+<ng-template #notFound>
+  <div class="section-padding">
+    <div class="container-responsive text-center">
+      <p class="text-lg font-semibold text-slate-700">Service not found.</p>
+      <a routerLink="/services" class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary">Browse services</a>
+    </div>
+  </div>
+</ng-template>

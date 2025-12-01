@@ -1,0 +1,194 @@
+<section class="section-padding bg-gradient-to-b from-white via-background to-white" *ngIf="track() as track; else notFound">
+  <div class="container-wide space-y-14">
+    <!-- HERO -->
+    <header class="grid items-start gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+      <div class="space-y-6">
+        <a routerLink="/academy" class="inline-flex items-center gap-2 text-sm font-semibold text-primary">
+          ← Back to academy
+        </a>
+
+        <p class="inline-flex items-center gap-2 rounded-full border border-primary/10 bg-primary/5 px-4 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-primary">
+          ZeroProgramming Academy
+          <span class="h-2 w-2 rounded-full bg-secondary-500"></span>
+        </p>
+
+        <div class="space-y-3">
+          <h1 class="font-heading text-3xl leading-tight text-title sm:text-4xl md:text-5xl">
+            {{ track.title }}
+          </h1>
+          <p class="max-w-2xl text-sm text-slate-600 md:text-base">
+            {{ track.summary }}
+          </p>
+        </div>
+
+        <div class="flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-[0.24em] text-primary">
+          <span class="rounded-full bg-white px-4 py-2 shadow-sm">{{ track.audience }}</span>
+          <span class="rounded-full bg-white px-4 py-2 shadow-sm">Duration: {{ track.duration }}</span>
+          <span class="rounded-full bg-white px-4 py-2 shadow-sm">{{ track.format }}</span>
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+          <a
+            routerLink="/contact"
+            fragment="trial"
+            class="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-primary/90"
+          >
+            {{ track.callToActionLabel }}
+          </a>
+          <a
+            routerLink="/contact"
+            class="inline-flex items-center justify-center gap-2 rounded-xl border border-primary/20 bg-white px-6 py-3 text-sm font-semibold text-primary transition hover:-translate-y-0.5 hover:bg-primary/10"
+          >
+            Talk to a mentor
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-panel rounded-[28px] border border-slate-100 bg-white p-4 shadow-card">
+        <div class="relative overflow-hidden rounded-3xl">
+          <div class="absolute inset-0 bg-gradient-to-tr from-primary/30 via-transparent to-secondary/30 pointer-events-none"></div>
+          <video
+            class="aspect-[4/3] w-full rounded-3xl object-cover"
+            [attr.poster]="track.heroPoster?.url || track.heroPoster?.fileName"
+            autoplay
+            loop
+            muted
+            playsinline
+          >
+            <source [attr.src]="track.heroVideo?.url || track.heroVideo?.fileName | assetUrl" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+          <li *ngFor="let highlight of track.highlights" class="rounded-2xl border border-slate-100 bg-slate-50 p-4 text-sm text-slate-700 shadow-sm">
+            <div class="flex items-start gap-3">
+              <span class="mt-1 h-2 w-2 rounded-full bg-primary"></span>
+              <span>{{ highlight }}</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- LEARNING OUTCOMES -->
+    <section class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+      <article class="detail-card space-y-4">
+        <p class="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Learning outcomes</p>
+        <h2 class="text-2xl font-semibold text-title">What learners take away</h2>
+        <ul class="grid gap-3 sm:grid-cols-2">
+          <li *ngFor="let outcome of track.learningOutcomes" class="flex items-start gap-3 rounded-2xl border border-slate-100 bg-white p-4 text-sm text-slate-700 shadow-sm">
+            <span class="mt-1 h-2 w-2 rounded-full bg-secondary-500"></span>
+            <span>{{ outcome }}</span>
+          </li>
+        </ul>
+      </article>
+
+      <aside class="detail-card space-y-4 border-primary/10 bg-gradient-to-br from-white via-primary/5 to-accent/10">
+        <div class="flex items-center justify-between gap-4">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Weekly rhythm</p>
+            <h3 class="text-lg font-semibold text-slate-900">Live labs + showcase</h3>
+            <p class="text-sm text-slate-600">Two live sessions, one project lab, and feedback recorded for parents.</p>
+          </div>
+          <span class="rounded-full bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary shadow-sm">
+            Supportive
+          </span>
+        </div>
+        <ul class="space-y-3 text-sm text-slate-700">
+          <li class="flex items-start gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-primary"></span>Progress dashboard shared weekly</li>
+          <li class="flex items-start gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-primary"></span>Maker kits and resources sent digitally</li>
+          <li class="flex items-start gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-primary"></span>Mentor Q&A with parents every month</li>
+        </ul>
+      </aside>
+    </section>
+
+    <!-- LEVELS -->
+    <section class="space-y-6">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Level breakdown</p>
+          <h3 class="text-xl font-semibold text-title">Step-by-step journey</h3>
+        </div>
+        <span class="rounded-full bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary">{{ track.duration }} total</span>
+      </div>
+
+      <div class="grid gap-6 lg:grid-cols-3">
+        <article
+          *ngFor="let level of track.levels; let i = index"
+          class="flex flex-col overflow-hidden rounded-[22px] border border-slate-100 bg-white shadow-card"
+        >
+          <div class="relative h-40 w-full overflow-hidden">
+            <img [src]="level.image" [alt]="level.title" class="h-full w-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-secondary/20"></div>
+            <span class="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-primary">Level {{ i + 1 }}</span>
+          </div>
+          <div class="flex flex-1 flex-col gap-3 p-5">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-primary">{{ level.duration }}</p>
+                <h4 class="text-lg font-semibold text-slate-900">{{ level.title }}</h4>
+              </div>
+            </div>
+            <p class="text-sm text-slate-600">{{ level.description }}</p>
+            <div class="space-y-2 text-sm text-slate-700">
+              <p class="font-semibold text-slate-900">Tools</p>
+              <div class="flex flex-wrap gap-2">
+                <span *ngFor="let tool of level.tools" class="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-primary">{{ tool }}</span>
+              </div>
+            </div>
+            <div class="space-y-2 text-sm text-slate-700">
+              <p class="font-semibold text-slate-900">Outcomes</p>
+              <ul class="space-y-1">
+                <li *ngFor="let outcome of level.outcomes" class="flex items-start gap-2">
+                  <span class="mt-1 h-1.5 w-1.5 rounded-full bg-secondary-500"></span>
+                  <span>{{ outcome }}</span>
+                </li>
+              </ul>
+            </div>
+            <div class="rounded-xl bg-slate-50 p-3 text-sm text-slate-700">
+              <p class="font-semibold text-slate-900">Signature project</p>
+              <p>{{ level.project }}</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ADMISSION -->
+    <section class="rounded-[28px] border border-slate-100 bg-white p-8 shadow-card">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Admission process</p>
+          <h3 class="text-2xl font-semibold text-title">How to get started</h3>
+          <p class="text-sm text-slate-600">Clear steps so learners and parents know exactly what comes next.</p>
+        </div>
+        <a
+          routerLink="/contact"
+          fragment="trial"
+          class="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/20 transition hover:-translate-y-0.5 hover:bg-slate-800"
+        >
+          {{ track.callToActionLabel }}
+        </a>
+      </div>
+
+      <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <article *ngFor="let step of track.admissionSteps; let i = index" class="rounded-2xl border border-slate-100 bg-slate-50 p-4 shadow-sm">
+          <div class="flex items-center justify-between">
+            <p class="text-sm font-semibold text-slate-900">Step {{ i + 1 }} · {{ step.title }}</p>
+            <span class="rounded-full bg-white px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">{{ i + 1 | number: '2.0' }}</span>
+          </div>
+          <p class="mt-2 text-sm text-slate-700">{{ step.description }}</p>
+        </article>
+      </div>
+    </section>
+  </div>
+</section>
+
+<ng-template #notFound>
+  <div class="section-padding">
+    <div class="container-responsive text-center">
+      <p class="text-lg font-semibold text-slate-700">Track not found.</p>
+      <a routerLink="/academy" class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary">Browse tracks</a>
+    </div>
+  </div>
+</ng-template>

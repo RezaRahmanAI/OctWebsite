@@ -1,0 +1,46 @@
+:host {
+  display: block;
+}
+
+.hero-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 15% 20%, rgba(16, 175, 240, 0.25), transparent 45%),
+    radial-gradient(circle at 80% 0%, rgba(249, 115, 22, 0.15), transparent 40%);
+  pointer-events: none;
+}
+
+.info-chip {
+  @apply rounded-2xl border border-slate-100 bg-white/80 p-4 shadow-sm backdrop-blur-sm;
+}
+
+.detail-card {
+  @apply rounded-[28px] border border-slate-100 bg-white p-8 shadow-card backdrop-blur-sm;
+}
+
+.related-tile {
+  @apply rounded-2xl border border-slate-100 bg-white/80 p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md;
+  position: relative;
+  overflow: hidden;
+}
+
+.related-tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 20%, rgba(16, 175, 240, 0.15), transparent 45%),
+    radial-gradient(circle at 80% 10%, rgba(249, 115, 22, 0.12), transparent 40%);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.related-tile > * {
+  position: relative;
+  z-index: 1;
+}

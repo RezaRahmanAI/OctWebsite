@@ -1,0 +1,68 @@
+.pricing {
+  @apply relative overflow-hidden py-16 ;
+}
+
+.pricing__shapes {
+  @apply pointer-events-none absolute inset-0 -z-10;
+}
+
+.shape {
+  @apply absolute rounded-full blur-2xl;
+}
+
+.shape--one {
+  @apply left-10 top-8 h-48 w-48 bg-primary/20;
+}
+
+.shape--two {
+  @apply right-12 bottom-6 h-56 w-56 bg-secondary/20;
+}
+
+.pricing__header {
+  @apply mx-auto max-w-2xl text-center;
+}
+
+.pricing__header h2 {
+  @apply text-3xl font-semibold;
+}
+
+.pricing__header p {
+  @apply mt-2;
+}
+
+.pricing__grid {
+  @apply mt-12 grid gap-8 md:grid-cols-3;
+}
+
+.pricing-card {
+  @apply relative overflow-hidden rounded-[2.5rem] border border-white/60 bg-white/90 px-8 py-10 text-center shadow-xl transition-transform duration-300 ease-out will-change-transform hover:-translate-y-3 hover:shadow-2xl;
+}
+
+.pricing-card__glow {
+  @apply pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300;
+  background: radial-gradient(circle at top, rgba(0, 123, 255, 0.18), transparent 65%);
+}
+
+.pricing-card:hover .pricing-card__glow {
+  @apply opacity-100;
+}
+
+.pricing-card h3 {
+  @apply text-xl font-semibold;
+}
+
+.pricing-card__price {
+  @apply mt-4 text-4xl font-bold text-primary;
+}
+
+.pricing-card__subtitle {
+  @apply mt-2 text-sm;
+}
+
+.pricing-card__features {
+  @apply mt-6 space-y-2 text-sm;
+}
+
+.pricing-card__cta {
+  @apply  mt-8 w-full justify-center;
+}
