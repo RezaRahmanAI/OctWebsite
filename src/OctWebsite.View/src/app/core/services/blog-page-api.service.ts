@@ -28,11 +28,13 @@ export class BlogPageApiService {
   readonly content = signal<BlogPageModel | null>(null);
 
   load() {
-    return this.fetch().subscribe(page => this.content.set(page));
+    this.fetch().subscribe();
   }
 
   fetch(): Observable<BlogPageModel> {
-    return this.http.get<BlogPageModel>(`${this.baseUrl}/api/blog-page`);
+    return this.http
+      .get<BlogPageModel>(`${this.baseUrl}/api/blog-page`)
+      .pipe(tap(page => this.content.set(page)));
   }
 
   update(request: SaveBlogPageRequest): Observable<BlogPageModel> {

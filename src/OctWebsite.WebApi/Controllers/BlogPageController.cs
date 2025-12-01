@@ -43,32 +43,24 @@ public sealed class BlogPageController(IBlogPageService blogPageService, IWebHos
 
     private BlogPageDto Resolve(BlogPageDto dto)
     {
-        return dto with
+        if (dto.HeroVideo is null || string.IsNullOrWhiteSpace(dto.HeroVideo.FileName))
         {
-            HeroVideo = Resolve(dto.HeroVideo)
-        };
-    }
-
-    private MediaResourceDto? Resolve(MediaResourceDto? media)
-    {
-        if (media is null || !string.IsNullOrWhiteSpace(media.Url))
-        {
-            return media;
+            return dto;
         }
 
-        if (string.IsNullOrWhiteSpace(media.FileName))
+        if (!string.IsNullOrWhiteSpace(dto.HeroVideo.Url))
         {
-            return media;
+            return dto;
         }
 
-        var relative = BuildRelativePath(media.FileName, MediaFolder);
+        var relative = BuildRelativePath(dto.HeroVideo.FileName, MediaFolder);
         if (Uri.TryCreate(relative, UriKind.Absolute, out var absolute))
         {
-            return media with { Url = absolute.ToString() };
+            return dto with { HeroVideo = dto.HeroVideo with { Url = absolute.ToString() } };
         }
 
         var url = $"{Request.Scheme}://{Request.Host}/{relative}";
-        return media with { Url = url };
+        return dto with { HeroVideo = dto.HeroVideo with { Url = url } };
     }
 
     private static string BuildRelativePath(string fileName, string folder)
