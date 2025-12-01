@@ -16,6 +16,7 @@
       <button class="tab-button" [ngClass]="activeTab() === 'tracks' ? 'active' : 'inactive'" (click)="select('tracks')">Tracks</button>
       <button class="tab-button" [ngClass]="activeTab() === 'team' ? 'active' : 'inactive'" (click)="select('team')">Team</button>
       <button class="tab-button" [ngClass]="activeTab() === 'services' ? 'active' : 'inactive'" (click)="select('services')">Services</button>
+      <button class="tab-button" [ngClass]="activeTab() === 'products' ? 'active' : 'inactive'" (click)="select('products')">Products</button>
       <button class="tab-button" [ngClass]="activeTab() === 'blog' ? 'active' : 'inactive'" (click)="select('blog')">Blog</button>
       <button class="tab-button" [ngClass]="activeTab() === 'contact' ? 'active' : 'inactive'" (click)="select('contact')">Contact</button>
       <button class="tab-button" [ngClass]="activeTab() === 'channels' ? 'active' : 'inactive'" (click)="select('channels')">Social Links</button>
@@ -29,6 +30,7 @@
       <app-academy-tracks-admin *ngSwitchCase="'tracks'"></app-academy-tracks-admin>
       <app-team-admin *ngSwitchCase="'team'"></app-team-admin>
       <app-services-admin *ngSwitchCase="'services'"></app-services-admin>
+      <app-product-admin *ngSwitchCase="'products'"></app-product-admin>
       <app-blog-admin *ngSwitchCase="'blog'"></app-blog-admin>
       <app-contact-admin *ngSwitchCase="'contact'"></app-contact-admin>
       <app-contact-channels-admin *ngSwitchCase="'channels'"></app-contact-channels-admin>

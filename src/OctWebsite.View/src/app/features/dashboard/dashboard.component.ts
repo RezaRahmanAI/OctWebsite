@@ -12,6 +12,7 @@ import { ContactSubmissionsAdminComponent } from './contact-submissions-admin.co
 import { AuthService } from '../../core/auth';
 import { ServicesAdminComponent } from './services-admin.component';
 import { HomeAdminComponent } from './home-admin.component';
+import { ProductAdminComponent } from './product-admin.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,6 +29,7 @@ import { HomeAdminComponent } from './home-admin.component';
     ContactSubmissionsAdminComponent,
     ServicesAdminComponent,
     HomeAdminComponent,
+    ProductAdminComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
@@ -47,6 +49,7 @@ export class DashboardComponent {
     | 'channels'
     | 'submissions'
     | 'services'
+    | 'products'
   >('home');
 
   select(
@@ -61,6 +64,7 @@ export class DashboardComponent {
       | 'channels'
       | 'submissions'
       | 'services'
+      | 'products'
   ): void {
     this.activeTab.set(tab);
   }
