@@ -1,4 +1,41 @@
-<div class="card-surface mt-2" [class.opacity-60]="loading()">
+<div class="card-surface mt-2" [class.opacity-60]="pageLoading()">
+  <div class="flex items-center justify-between gap-4">
+    <div>
+      <p class="text-xs font-semibold uppercase text-primary-600">Products Page</p>
+      <h2 class="text-xl font-semibold text-slate-900">Header content</h2>
+      <p class="text-sm text-slate-600">Update the hero eyebrow, title, and subtitle for the products page.</p>
+    </div>
+    <button type="button" class="btn" (click)="submitPage()">Save header</button>
+  </div>
+
+  <form [formGroup]="pageForm" class="mt-6 grid gap-4 md:grid-cols-2" (ngSubmit)="submitPage()">
+    <label class="form-field">
+      <span>Header eyebrow</span>
+      <input type="text" formControlName="headerEyebrow" />
+    </label>
+    <label class="form-field">
+      <span>Header title</span>
+      <input type="text" formControlName="headerTitle" />
+    </label>
+    <label class="form-field md:col-span-2">
+      <span>Header subtitle</span>
+      <textarea rows="2" formControlName="headerSubtitle"></textarea>
+    </label>
+
+    <div class="grid gap-2 md:col-span-2">
+      <label class="text-sm font-semibold text-slate-700">Hero video (mp4)</label>
+      <input type="file" accept="video/mp4" (change)="onHeroVideoSelected($event)" />
+      <p class="text-xs text-slate-500" *ngIf="pageForm.value.heroVideoFileName">{{ pageForm.value.heroVideoFileName }}</p>
+    </div>
+
+    <div class="md:col-span-2 flex items-center gap-3">
+      <button type="submit" class="btn" [disabled]="pageLoading()">Save header</button>
+      <span *ngIf="pageLoading()" class="text-xs text-slate-500">Saving...</span>
+    </div>
+  </form>
+</div>
+
+<div class="card-surface mt-4" [class.opacity-60]="loading()">
   <div class="flex items-center justify-between gap-4">
     <div>
       <p class="text-xs font-semibold uppercase text-primary-600">Products</p>

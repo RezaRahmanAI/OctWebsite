@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductItem } from '../../core/models';
+import { ProductPageApiService, ProductPageModel, SaveProductPageRequest } from '../../core/services/product-page-api.service';
 import { ProductsService } from '../../core/services/products.service';
 import { ToastService } from '../../core/services/toast.service';
 
@@ -14,12 +15,16 @@ import { ToastService } from '../../core/services/toast.service';
 })
 export class ProductAdminComponent implements OnInit {
   private readonly productsService = inject(ProductsService);
+  private readonly productPageApi = inject(ProductPageApiService);
   private readonly fb = inject(FormBuilder);
   private readonly toast = inject(ToastService);
 
   readonly products = this.productsService.all;
   readonly loading = signal(false);
   readonly editingId = signal<string | null>(null);
+  readonly pageLoading = signal(false);
+
+  private heroVideoFile: File | null = null;
 
   readonly form = this.fb.group({
     title: ['', Validators.required],
@@ -30,8 +35,40 @@ export class ProductAdminComponent implements OnInit {
     active: [true],
   });
 
+  readonly pageForm = this.fb.group({
+    headerEyebrow: ['', Validators.required],
+    headerTitle: ['', Validators.required],
+    headerSubtitle: ['', Validators.required],
+    heroVideoFileName: [''],
+  });
+
   ngOnInit(): void {
+    this.loadPage();
     void this.loadProducts();
+  }
+
+  private loadPage(): void {
+    this.pageLoading.set(true);
+    this.productPageApi.fetch().subscribe({
+      next: page => {
+        this.applyPage(page);
+        this.pageLoading.set(false);
+      },
+      error: () => {
+        this.toast.show('Unable to load product page content', 'error');
+        this.pageLoading.set(false);
+      },
+    });
+  }
+
+  private applyPage(page: ProductPageModel): void {
+    this.heroVideoFile = null;
+    this.pageForm.patchValue({
+      headerEyebrow: page.headerEyebrow,
+      headerTitle: page.headerTitle,
+      headerSubtitle: page.headerSubtitle,
+      heroVideoFileName: page.heroVideo?.fileName ?? '',
+    });
   }
 
   async loadProducts(): Promise<void> {
@@ -61,6 +98,42 @@ export class ProductAdminComponent implements OnInit {
   reset(): void {
     this.editingId.set(null);
     this.form.reset({ active: true });
+  }
+
+  submitPage(): void {
+    if (this.pageForm.invalid) {
+      this.pageForm.markAllAsTouched();
+      return;
+    }
+
+    const payload: SaveProductPageRequest = {
+      headerEyebrow: this.pageForm.value.headerEyebrow ?? '',
+      headerTitle: this.pageForm.value.headerTitle ?? '',
+      headerSubtitle: this.pageForm.value.headerSubtitle ?? '',
+      heroVideoFileName: this.pageForm.value.heroVideoFileName || null,
+      heroVideoFile: this.heroVideoFile,
+    };
+
+    this.pageLoading.set(true);
+    this.productPageApi.update(payload).subscribe({
+      next: page => {
+        this.applyPage(page);
+        this.toast.show('Product page saved', 'success');
+        this.pageLoading.set(false);
+      },
+      error: () => {
+        this.toast.show('Unable to save product page', 'error');
+        this.pageLoading.set(false);
+      },
+    });
+  }
+
+  onHeroVideoSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.heroVideoFile = input.files?.[0] ?? null;
+    if (this.heroVideoFile) {
+      this.pageForm.patchValue({ heroVideoFileName: this.heroVideoFile.name });
+    }
   }
 
   async submit(): Promise<void> {
