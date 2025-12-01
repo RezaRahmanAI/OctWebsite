@@ -87,7 +87,7 @@ public sealed class BlogPageController(IBlogPageService blogPageService, IWebHos
 
         if (trimmed.Contains('/'))
         {
-            return trimmed;
+            return $"uploads/{trimmed}";
         }
 
         var normalizedFolder = folder.Trim('/').Replace("\\", "/");
