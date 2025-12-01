@@ -36,10 +36,12 @@ public static class DependencyInjection
         services.AddScoped<IHomeTestimonialRepository, EfHomeTestimonialRepository>();
         services.AddScoped<IContactPageRepository, EfContactPageRepository>();
         services.AddScoped<IServicesPageRepository, EfServicesPageRepository>();
+        services.AddScoped<IProductPageRepository, EfProductPageRepository>();
         services.AddScoped<IAcademyTrackRepository, EfAcademyTrackRepository>();
         services.AddScoped<IBlogRepository, EfBlogRepository>();
         services.AddScoped<IContactSubmissionRepository, EfContactSubmissionRepository>();
         services.AddScoped<IServiceRepository, EfServiceRepository>();
+        services.AddScoped<IProductRepository, EfProductRepository>();
 
         return services;
     }

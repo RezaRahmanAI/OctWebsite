@@ -22,7 +22,9 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<BlogPost> BlogPosts => Set<BlogPost>();
     public DbSet<ContactSubmission> ContactSubmissions => Set<ContactSubmission>();
     public DbSet<ServiceItem> ServiceItems => Set<ServiceItem>();
+    public DbSet<ProductItem> ProductItems => Set<ProductItem>();
     public DbSet<ServicesPage> ServicesPages => Set<ServicesPage>();
+    public DbSet<ProductPage> ProductPages => Set<ProductPage>();
     public DbSet<HomeHeroSection> HomeHeroSections => Set<HomeHeroSection>();
     public DbSet<HomeTrustSection> HomeTrustSections => Set<HomeTrustSection>();
     public DbSet<HomeTestimonial> HomeTestimonials => Set<HomeTestimonial>();
@@ -225,6 +227,16 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
             entity.Property(page => page.HeaderSubtitle).IsRequired();
         });
 
+        modelBuilder.Entity<ProductPage>(entity =>
+        {
+            entity.ToTable("ProductPages");
+            entity.HasKey(page => page.Id);
+            entity.Property(page => page.Id).ValueGeneratedNever();
+            entity.Property(page => page.HeaderEyebrow).IsRequired();
+            entity.Property(page => page.HeaderTitle).IsRequired();
+            entity.Property(page => page.HeaderSubtitle).IsRequired();
+        });
+
         modelBuilder.Entity<HomeHeroSection>(entity =>
         {
             entity.ToTable("HomeHeroSections");
@@ -291,6 +303,33 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
                 .Metadata.SetValueComparer(stringListComparer);
 
             entity.Property(service => service.AdditionalImageFileNames)
+                .HasConversion(stringListConverter)
+                .Metadata.SetValueComparer(stringListComparer);
+        });
+
+        modelBuilder.Entity<ProductItem>(entity =>
+        {
+            entity.ToTable("Products");
+            entity.HasKey(product => product.Id);
+            entity.Property(product => product.Id).ValueGeneratedNever();
+            entity.Property(product => product.Title).IsRequired();
+            entity.Property(product => product.Slug).IsRequired();
+            entity.HasIndex(product => product.Slug).IsUnique();
+            entity.Property(product => product.Summary).IsRequired();
+            entity.Property(product => product.Icon).IsRequired();
+
+            var stringListConverter = new ValueConverter<IReadOnlyList<string>, string>(
+                list => JsonSerializer.Serialize(list, JsonSerializerOptions.Default),
+                json => (IReadOnlyList<string>)(JsonSerializer.Deserialize<List<string>>(json, JsonSerializerOptions.Default)
+                                                 ?? new List<string>()));
+            var stringListComparer = new ValueComparer<IReadOnlyList<string>>(
+                (left, right) => left.SequenceEqual(right),
+                list => list.Aggregate(0, (hash, value) =>
+                    HashCode.Combine(hash, value == null ? 0 : value.GetHashCode())
+                ),
+                list => list.ToList());
+
+            entity.Property(product => product.Features)
                 .HasConversion(stringListConverter)
                 .Metadata.SetValueComparer(stringListComparer);
         });

@@ -23,7 +23,9 @@ public sealed class ApplicationDbInitializer(
         await SeedCollectionAsync(context.BlogPosts, SeedData.BlogPosts, cancellationToken);
         await SeedCollectionAsync(context.ContactPages, new[] { SeedData.ContactPage }, cancellationToken);
         await SeedCollectionAsync(context.ServicesPages, new[] { SeedData.ServicesPage }, cancellationToken);
+        await SeedCollectionAsync(context.ProductPages, new[] { SeedData.ProductPage }, cancellationToken);
         await SeedCollectionAsync(context.ServiceItems, SeedData.Services, cancellationToken);
+        await SeedCollectionAsync(context.ProductItems, SeedData.Products, cancellationToken);
 
         await EnsureAdminUserAsync(cancellationToken);
 
