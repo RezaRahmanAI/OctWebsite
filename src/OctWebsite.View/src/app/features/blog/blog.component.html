@@ -1,10 +1,9 @@
-<!-- BLOG HEADER – styled like Academy header -->
-<section class="container-wide overflow-hidden py-16 space-y-16">
-  <header class="section-padding">
-    <div class="grid items-center gap-10 lg:grid-cols-2">
-      <!-- LEFT: text + search + email subscribe -->
+<!-- BLOG HEADER – aligned to product hero pattern with video card -->
+<section class="section-padding">
+  <div class="container-wide space-y-12">
+    <div class="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+      <!-- LEFT: text + email subscribe -->
       <div class="max-w-3xl space-y-6">
-        <!-- pill, same style as academy -->
         <p
           class="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/70 px-4 py-1
                  text-xs font-semibold uppercase tracking-[0.35em] text-primary"
@@ -13,7 +12,6 @@
           {{ pageContent()?.headerEyebrow || 'Insights & Updates' }}
         </p>
 
-        <!-- title + copy, same scale as academy -->
         <div class="space-y-2">
           <h1 class="text-3xl font-bold sm:text-4xl md:text-5xl">
             {{ pageContent()?.headerTitle || 'Stories from the studio' }}
@@ -25,7 +23,6 @@
           </p>
         </div>
 
-        <!-- Email subscribe, academy-style colors -->
         <form
           class="flex flex-wrap items-center gap-3 text-xs text-slate-600"
           (submit)="$event.preventDefault()"
@@ -52,34 +49,21 @@
         </form>
       </div>
 
-      <!-- RIGHT: video – same card style as Academy -->
-      <div class="relative">
-        <div
-          class="group relative overflow-hidden rounded-[2.5rem] shadow-xl"
-        >
-          <div class="relative aspect-[4/3]">
-            <video
-              class="absolute inset-0 h-full w-full object-cover"
-            autoplay
-            loop
-            muted
-            playsinline
-          >
-            <source [attr.src]="heroVideoSrc() | assetUrl" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-          </div>
-
-          <!-- same gradient overlay as academy -->
-          <div
-            class="pointer-events-none absolute inset-0 bg-gradient-to-tr
-                   from-primary/40 via-transparent to-secondary/40
-                   opacity-40 transition-opacity duration-300 group-hover:opacity-20"
-          ></div>
-        </div>
+      <!-- RIGHT: video card uses same treatment as product hero -->
+      <div class="header-video-wrapper">
+        <video
+          class="header-video"
+          [src]="heroVideoSrc() | assetUrl"
+          autoplay
+          loop
+          muted
+          playsinline
+          controls
+        ></video>
+        <div class="header-video-overlay"></div>
       </div>
     </div>
-  </header>
+  </div>
 </section>
 
 
