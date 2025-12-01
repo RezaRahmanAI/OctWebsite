@@ -51,30 +51,47 @@ public sealed class BlogPageController(IBlogPageService blogPageService, IWebHos
 
     private MediaResourceDto? Resolve(MediaResourceDto? media)
     {
-        if (media is null || string.IsNullOrWhiteSpace(media.FileName))
+        if (media is null || !string.IsNullOrWhiteSpace(media.Url))
         {
             return media;
         }
 
-        if (!string.IsNullOrWhiteSpace(media.Url))
+        if (string.IsNullOrWhiteSpace(media.FileName))
         {
             return media;
         }
 
-        var normalized = media.FileName.Trim();
-        if (normalized.Contains("://"))
-        {
-            return media;
-        }
-
-        if (normalized.StartsWith("/"))
-        {
-            normalized = normalized.TrimStart('/');
-        }
-
-        var relative = $"{MediaFolder.Trim('/')}/{normalized}";
+        var relative = BuildRelativePath(media.FileName, MediaFolder);
         var url = $"{Request.Scheme}://{Request.Host}/{relative}";
         return media with { Url = url };
+    }
+
+    private static string BuildRelativePath(string fileName, string folder)
+    {
+        var normalized = fileName.Trim().Replace("\\", "/");
+        if (Uri.TryCreate(normalized, UriKind.Absolute, out var absolute))
+        {
+            return absolute.ToString();
+        }
+
+        var trimmed = normalized.TrimStart('/');
+        if (normalized.StartsWith("/"))
+        {
+            return trimmed;
+        }
+
+        if (trimmed.StartsWith("uploads/", StringComparison.OrdinalIgnoreCase))
+        {
+            return trimmed;
+        }
+
+        if (trimmed.Contains('/'))
+        {
+            return trimmed;
+        }
+
+        var normalizedFolder = folder.Trim('/').Replace("\\", "/");
+        return $"{normalizedFolder}/{normalized}";
     }
 
     private async Task<string?> StoreMediaIfNeededAsync(IFormFile? file, string? existingFileName, CancellationToken cancellationToken)

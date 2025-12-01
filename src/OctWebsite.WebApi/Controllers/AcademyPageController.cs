@@ -118,8 +118,30 @@ public sealed class AcademyPageController(IAcademyPageService academyPageService
 
     private static string BuildRelativePath(string fileName, string folder)
     {
+        var normalized = fileName.Trim().Replace("\\", "/");
+        if (Uri.TryCreate(normalized, UriKind.Absolute, out var absolute))
+        {
+            return absolute.ToString();
+        }
+
+        var trimmed = normalized.TrimStart('/');
+        if (normalized.StartsWith("/"))
+        {
+            return trimmed;
+        }
+
+        if (trimmed.StartsWith("uploads/", StringComparison.OrdinalIgnoreCase))
+        {
+            return trimmed;
+        }
+
+        if (trimmed.Contains('/'))
+        {
+            return trimmed;
+        }
+
         var normalizedFolder = folder.Trim('/').Replace("\\", "/");
-        return $"{normalizedFolder}/{fileName.Trim().TrimStart('/').Replace("\\", "/")}";
+        return $"{normalizedFolder}/{normalized}";
     }
 
     private async Task<string?> StoreMediaIfNeededAsync(
