@@ -1,0 +1,98 @@
+<div class="card-surface mt-2" [class.opacity-60]="loading()">
+  <div class="flex items-center justify-between gap-4">
+    <div>
+      <p class="text-xs font-semibold uppercase text-primary-600">Products</p>
+      <h2 class="text-xl font-semibold text-slate-900">Manage product catalog</h2>
+      <p class="text-sm text-slate-600">Create, update, and remove products shown on the solutions page.</p>
+    </div>
+    <button type="button" class="btn" (click)="submit()">{{ editingId() ? 'Update' : 'Create' }} product</button>
+  </div>
+
+  <form [formGroup]="form" class="mt-6 space-y-4" (ngSubmit)="submit()">
+    <div class="grid gap-4 md:grid-cols-2">
+      <label class="form-field">
+        <span>Title</span>
+        <input type="text" formControlName="title" />
+      </label>
+      <label class="form-field">
+        <span>Slug</span>
+        <input type="text" formControlName="slug" />
+        <small>Lowercase and hyphen separated (e.g. fintech-platform).</small>
+      </label>
+      <label class="form-field md:col-span-2">
+        <span>Summary</span>
+        <textarea rows="2" formControlName="summary"></textarea>
+      </label>
+      <label class="form-field">
+        <span>Icon</span>
+        <input type="text" formControlName="icon" />
+        <small>Emoji or icon text displayed with the product card.</small>
+      </label>
+      <label class="form-field md:col-span-2">
+        <span>Features (one per line)</span>
+        <textarea rows="3" formControlName="features"></textarea>
+      </label>
+    </div>
+
+    <div class="flex items-center justify-between">
+      <label class="flex items-center space-x-2 text-sm text-slate-700">
+        <input type="checkbox" formControlName="active" class="h-4 w-4 rounded border-slate-300 text-primary-600" />
+        <span>Active</span>
+      </label>
+      <div class="flex gap-2">
+        <button type="submit" class="btn" [disabled]="loading()">{{ editingId() ? 'Update' : 'Create' }} product</button>
+        <button type="button" class="btn ghost" (click)="reset()">Reset form</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="card-surface">
+  <div class="flex items-center justify-between">
+    <div>
+      <p class="text-xs font-semibold uppercase text-primary-600">Catalog</p>
+      <h3 class="text-lg font-semibold text-slate-900">Product list</h3>
+    </div>
+    <span class="text-sm text-slate-600">{{ products().length }} products</span>
+  </div>
+
+  <div class="mt-4 overflow-auto">
+    <table class="min-w-full text-left text-sm">
+      <thead class="text-xs uppercase text-slate-500">
+        <tr>
+          <th class="px-3 py-2">Title</th>
+          <th class="px-3 py-2">Slug</th>
+          <th class="px-3 py-2">Status</th>
+          <th class="px-3 py-2">Features</th>
+          <th class="px-3 py-2"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products()" class="border-t border-slate-200">
+          <td class="px-3 py-2 font-medium text-slate-900">{{ product.title }}</td>
+          <td class="px-3 py-2 text-slate-700">{{ product.slug }}</td>
+          <td class="px-3 py-2">
+            <span
+              class="rounded-full px-3 py-1 text-xs font-semibold"
+              [class.bg-emerald-100]="product.active"
+              [class.text-emerald-700]="product.active"
+              [class.bg-slate-100]="!product.active"
+              [class.text-slate-700]="!product.active"
+            >
+              {{ product.active ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+          <td class="px-3 py-2 text-slate-600">
+            <div class="flex flex-wrap gap-2">
+              <span *ngFor="let feature of product.features" class="rounded-full bg-slate-100 px-2 py-1 text-xs">{{ feature }}</span>
+            </div>
+          </td>
+          <td class="px-3 py-2 text-right text-sm font-semibold">
+            <button class="text-primary-600" (click)="edit(product)">Edit</button>
+            <button class="ml-3 text-rose-600" (click)="delete(product.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
