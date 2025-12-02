@@ -12,7 +12,7 @@ import {
 import { RouterLink } from '@angular/router';
 import { ProductPageApiService, ProductsService } from '../../core/services';
 import { CardComponent } from '../../shared/components/card/card.component';
-import { SectionHeadingComponent } from '../../shared/components/section-heading/section-heading.component';
+import { SectionHeadingComponent, SectionHeadingCta } from '../../shared/components/section-heading/section-heading.component';
 import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe'; // ← ADD THIS
 
 @Component({
@@ -45,6 +45,17 @@ export class ProductComponent implements OnInit, AfterViewInit {
       'Configured platforms ready to deploy for your vertical.'
   );
   readonly heroVideoUrl = computed(() => this.heroContent()?.heroVideo?.url || null); // ← allow null like Blog
+  readonly heroCtas: SectionHeadingCta[] = [
+    {
+      label: 'Talk to product team →',
+      routerLink: '/contact',
+    },
+    {
+      label: 'See recent launches',
+      routerLink: '/blog',
+      variant: 'secondary',
+    },
+  ];
 
   // ==== VIDEO AUTOPLAY LOGIC (identical to Blog & About) ====
   @ViewChild('heroVideo')

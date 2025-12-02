@@ -7,6 +7,7 @@ import { ContactOfficeModel, ContactPageApiService, ContactPageModel } from '../
 import { ContactChannelsApiService } from '../../core/services/contact-channels-api.service';
 import type { HomeContent } from '../../core/models/home-content.model';
 import { RouterLink } from '@angular/router';
+import { SectionHeadingComponent, SectionHeadingCta } from '../../shared/components/section-heading/section-heading.component';
 
 interface ContactPageContent {
   header: {
@@ -35,7 +36,7 @@ interface ContactPageContent {
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule, HomeContactComponent, AssetUrlPipe, RouterLink],
+  imports: [CommonModule, HomeContactComponent, AssetUrlPipe, RouterLink, SectionHeadingComponent],
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -51,6 +52,22 @@ export class ContactComponent implements OnInit {
   });
   protected readonly heroVideoUrl = computed(() => this.contactPage()?.heroVideoUrl ?? null);
   protected readonly formOptions = computed(() => this.contactPage()?.formOptions?.filter(Boolean) ?? []);
+  protected readonly heroCtas = computed<SectionHeadingCta[]>(() => {
+    const page = this.contactPage();
+    if (!page) return [];
+
+    return [
+      {
+        label: page.primaryCtaLabel,
+        routerLink: page.primaryCtaLink,
+      },
+      {
+        label: 'View offices ↓',
+        onClick: () => this.scrollToOffices(),
+        variant: 'secondary',
+      },
+    ];
+  });
   protected readonly contactData = computed<HomeContent['contact'] | null>(() => {
     const page = this.contactPageApi.content();
     if (!page) {

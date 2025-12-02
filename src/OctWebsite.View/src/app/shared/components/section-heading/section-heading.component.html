@@ -1,7 +1,35 @@
-<div [ngClass]="align === 'center' ? 'text-center' : 'text-left'" class="space-y-3 animated-card">
+<div [ngClass]="align === 'center' ? 'text-center' : 'text-left'" class="space-y-4 animated-card">
   <p *ngIf="eyebrow" class="text-sm font-semibold uppercase tracking-wide text-primary-600">{{ eyebrow }}</p>
   <h2 class="text-3xl font-semibold text-ink sm:text-4xl">{{ title }}</h2>
   <p *ngIf="subtitle" class="text-base text-muted max-w-2xl" [ngClass]="align === 'center' ? 'mx-auto' : ''">
     {{ subtitle }}
   </p>
+
+  <div
+    *ngIf="ctas.length"
+    class="flex flex-wrap items-center gap-3"
+    [ngClass]="align === 'center' ? 'justify-center' : 'justify-start'"
+  >
+    <ng-container *ngFor="let cta of ctas">
+      <a
+        *ngIf="cta.routerLink; else actionButton"
+        [routerLink]="cta.routerLink"
+        [fragment]="cta.fragment"
+        [ngClass]="resolveCtaClasses(cta)"
+      >
+        {{ cta.label }}
+      </a>
+
+      <ng-template #actionButton>
+        <button
+          *ngIf="cta.onClick"
+          type="button"
+          [ngClass]="resolveCtaClasses(cta)"
+          (click)="cta.onClick()"
+        >
+          {{ cta.label }}
+        </button>
+      </ng-template>
+    </ng-container>
+  </div>
 </div>

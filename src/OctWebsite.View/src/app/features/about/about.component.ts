@@ -16,6 +16,7 @@ import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
 import { AboutPageApiService, AboutPageModel } from '../../core/services/about-page-api.service';
 import { TeamApiService } from '../../core/services/team-api.service';
 import { TeamMember as TeamMemberModel } from '../../core/models';
+import { SectionHeadingComponent, SectionHeadingCta } from '../../shared/components/section-heading/section-heading.component';
 
 interface ValueItem {
   title: string;
@@ -67,7 +68,7 @@ interface AboutPageContent {
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule, AssetUrlPipe],
+  imports: [CommonModule, AssetUrlPipe, SectionHeadingComponent],
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -137,6 +138,17 @@ export class AboutComponent implements OnInit, AfterViewInit {
         members: [],
       }
   );
+  readonly heroCtas: SectionHeadingCta[] = [
+    {
+      label: 'Talk to the team →',
+      routerLink: '/contact',
+    },
+    {
+      label: 'Explore services',
+      routerLink: '/services',
+      variant: 'secondary',
+    },
+  ];
 
   ngOnInit(): void {
     this.aboutApi.load();

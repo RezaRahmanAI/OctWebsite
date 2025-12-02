@@ -2,35 +2,15 @@
   <header class="section-padding w-full lg:flex lg:items-center">
     <div class="grid w-full items-center gap-10 lg:grid-cols-2">
       <div class="space-y-6">
-        <p
-          class="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/70 px-4 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-primary"
-        >
-          {{ contactPage.header.eyebrow }}
-        </p>
+        <app-section-heading
+          [eyebrow]="contactPage.header.eyebrow"
+          [title]="contactPage.header.title"
+          [subtitle]="contactPage.header.subtitle"
+          [ctas]="heroCtas()"
+          align="left"
+        ></app-section-heading>
 
-        <h1 class="text-3xl font-bold sm:text-4xl md:text-5xl text-slate-900">
-          {{ contactPage.header.title }}
-        </h1>
-
-        <p class="max-w-xl text-sm text-slate-600 md:text-base">
-          {{ contactPage.header.subtitle }}
-        </p>
-
-        <div class="flex flex-wrap items-center gap-4 pt-2">
-          <a
-            class="inline-flex items-center justify-center rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/40 transition hover:translate-y-0.5 hover:bg-primary/90"
-            [routerLink]="contactPage.primaryCtaLink"
-          >
-            {{ contactPage.primaryCtaLabel }}
-          </a>
-          <button class="text-sm font-semibold text-primary" type="button" (click)="scrollToOffices()">
-            View offices ↓
-          </button>
-        </div>
-
-        <p class="text-xs text-slate-500">
-          {{ contactPage.responseTime }}
-        </p>
+        <p class="text-xs text-slate-500">{{ contactPage.responseTime }}</p>
       </div>
 
       <div class="relative" *ngIf="heroVideoUrl() as heroUrl">
