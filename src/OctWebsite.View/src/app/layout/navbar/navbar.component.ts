@@ -188,12 +188,9 @@ export class NavbarComponent {
     if (nearTop) {
       // Always show at the very top
       this._hidden.set(false);
-    } else if (isScrollingDown) {
-      // Hide when scrolling down
+    } else if (isScrollingDown || isScrollingUp) {
+      // Hide while scrolling away from the top
       this._hidden.set(true);
-    } else if (isScrollingUp) {
-      // Show when scrolling up
-      this._hidden.set(false);
     }
 
     this.lastScrollY = currentY;
