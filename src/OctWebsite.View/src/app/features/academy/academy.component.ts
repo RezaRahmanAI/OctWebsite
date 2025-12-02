@@ -1,4 +1,12 @@
-import { Component, ElementRef, ViewChild, inject, computed, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  ViewChild,
+  inject,
+  computed,
+  AfterViewInit,
+  OnInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { PricingComponent } from '../../shared/components/pricing/pricing.component';
@@ -17,7 +25,7 @@ type TrackSummary = AcademyPageModel['tracks'][number];
   templateUrl: './academy.component.html',
   styleUrl: './academy.component.css',
 })
-export class AcademyComponent implements AfterViewInit {
+export class AcademyComponent implements OnInit, AfterViewInit {
   private readonly api = inject(AcademyPageApiService);
 
   // Robust video handling — same pattern as About & Blog
@@ -36,6 +44,10 @@ export class AcademyComponent implements AfterViewInit {
     (this.page()?.tracks ?? []).filter((track) => track.active)
   );
   readonly freelancingCourses = computed(() => this.page()?.freelancingCourses ?? []);
+
+  ngOnInit(): void {
+    this.api.loadPage();
+  }
 
   ngAfterViewInit(): void {
     this.autoplayVideo(); // Fallback
