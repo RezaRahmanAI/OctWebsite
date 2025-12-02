@@ -15,14 +15,19 @@
         </p>
         <div class="mt-6 flex flex-wrap items-center gap-3">
           <a
-            *ngFor="let social of socialLinks"
+            *ngFor="let social of socialLinks()"
             [href]="social.url"
             target="_blank"
             rel="noopener"
             class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-100 transition hover:-translate-y-0.5 hover:bg-white hover:text-primary"
             [attr.aria-label]="social.label"
           >
-            <span class="text-xs font-semibold">{{ social.label[0] }}</span>
+            <ng-container *ngIf="socialIcons[social.label] as iconPath">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path [attr.d]="iconPath" />
+              </svg>
+            </ng-container>
+            <span class="sr-only">{{ social.label }}</span>
           </a>
         </div>
         <a
