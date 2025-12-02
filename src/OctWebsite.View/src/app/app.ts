@@ -5,6 +5,8 @@ import {
   NgZone,
   OnDestroy,
   OnInit,
+  HostListener,
+  signal,
   inject,
 } from '@angular/core';
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
@@ -27,9 +29,11 @@ import { ContactChannelsApiService } from './core/services/contact-channels-api.
 export class App implements AfterViewInit, OnDestroy, OnInit {
   private scroller?: SmoothScroller;
   private animationFrameId?: number;
+  private readonly scrollThreshold = 220;
 
   private readonly contactChannels = inject(ContactChannelsApiService);
   private readonly router = inject(Router);
+  readonly showScrollTop = signal(false);
 
   // hide navbar/footer on these routes
   private readonly hideChromePrefixes = ['/dashboard', '/login'];
@@ -44,6 +48,7 @@ export class App implements AfterViewInit, OnDestroy, OnInit {
 
   ngOnInit(): void {
     this.contactChannels.load();
+    this.updateScrollIndicator();
   }
 
   ngAfterViewInit(): void {
@@ -68,5 +73,29 @@ export class App implements AfterViewInit, OnDestroy, OnInit {
       cancelAnimationFrame(this.animationFrameId);
     }
     this.scroller?.destroy();
+  }
+
+  @HostListener('window:scroll')
+  onWindowScroll(): void {
+    this.updateScrollIndicator();
+  }
+
+  scrollToTop(): void {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  private updateScrollIndicator(): void {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const shouldShow = window.scrollY > this.scrollThreshold;
+    if (this.showScrollTop() !== shouldShow) {
+      this.showScrollTop.set(shouldShow);
+    }
   }
 }

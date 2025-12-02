@@ -5,3 +5,18 @@
 </main>
 
 <app-footer *ngIf="showShell$ | async"></app-footer>
+
+<button
+  *ngIf="(showShell$ | async) && showScrollTop()"
+  type="button"
+  class="scroll-to-top"
+  aria-label="Scroll to top"
+  (click)="scrollToTop()"
+>
+  <span class="scroll-to-top__pulse" aria-hidden="true"></span>
+  <span class="scroll-to-top__icon" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="m6 10 6-6 6 6M12 4v16" />
+    </svg>
+  </span>
+</button>
