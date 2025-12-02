@@ -1,40 +1,32 @@
-<section class="container-wide overflow-hidden py-16 space-y-16">
-  <header class="section-padding">
-    <div class="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
+<!-- SERVICES HERO – now identical to Blog/Product/About -->
+<section class="container-wide overflow-hidden py-16">
+  <div class="grid items-center gap-10 lg:grid-cols-2">
+    <!-- Left: Text + Stats + CTAs -->
+    <div class="space-y-8">
       <div class="space-y-6">
-        <p
-          class="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/70 px-4 py-1
-                 text-xs font-semibold uppercase tracking-[0.35em] text-primary"
-        >
-          {{ heroEyebrow() }}
-        </p>
-
-        <h1 class="text-3xl font-bold sm:text-4xl md:text-5xl text-slate-900">
-          {{ heroTitle() }}
-        </h1>
-
-        <p class="max-w-2xl text-sm text-slate-600 md:text-base">
-          {{ heroSubtitle() }}
-        </p>
+        <app-section-heading
+          [eyebrow]="heroEyebrow()"
+          [title]="heroTitle()"
+          [subtitle]="heroSubtitle()"
+          align="left"
+        ></app-section-heading>
 
         <div class="flex flex-wrap items-center gap-3">
           <a
             routerLink="/contact"
-            class="inline-flex items-center justify-center rounded-xl bg-primary px-6 py-3
-                   text-sm font-semibold text-white shadow-lg shadow-primary/40
-                   transition hover:translate-y-0.5 hover:bg-primary/90"
+            class="inline-flex items-center justify-center rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/40 transition hover:translate-y-0.5 hover:bg-primary/90"
           >
             Start a project →
           </a>
           <a
             routerLink="/methodology"
-            class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-6 py-3
-                   text-sm font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+            class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
           >
             See how we deliver
           </a>
         </div>
 
+        <!-- Stats (kept exactly as you had them) -->
         <div class="grid gap-4 sm:grid-cols-2">
           <div class="stat-card">
             <p class="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Services</p>
@@ -48,23 +40,47 @@
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="relative">
-        <div class="hero-video-wrapper">
-          <video
-            class="hero-video"
-            [src]="heroVideoUrl()"
-            autoplay
-            loop
-            muted
-            playsinline
-            controls
-          ></video>
-          
+    <!-- Right: Video Card (exact same as Blog/Product) -->
+    <div class="relative">
+      <div class="group relative overflow-hidden rounded-[2.5rem] shadow-xl">
+        <div class="relative aspect-[4/3]">
+          <ng-container *ngIf="heroVideoUrl(); else heroPlaceholder">
+            <video
+              #heroVideo
+              class="absolute inset-0 h-full w-full object-cover"
+              autoplay
+              loop
+              muted
+              playsinline
+            >
+              <source [src]="heroVideoUrl() | assetUrl" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </ng-container>
+
+          <ng-template #heroPlaceholder>
+            <div class="flex h-full w-full items-center justify-center bg-slate-100 text-sm text-slate-500">
+              Media coming soon
+            </div>
+          </ng-template>
+        </div>
+
+        <!-- Gradient overlay on hover -->
+        <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-primary/40 via-transparent to-secondary/40 opacity-40 transition-opacity duration-300 group-hover:opacity-20"></div>
+
+        <!-- Bottom info strip – customized for Services -->
+        <div class="absolute inset-x-6 bottom-6 flex items-center justify-between rounded-2xl bg-white/90 px-4 py-3 text-xs text-slate-700 shadow-lg">
+          <span>{{ heroTitle() }}</span>
+          <span class="inline-flex items-center gap-1">
+            <span class="h-2 w-2 rounded-full bg-primary"></span>
+            End-to-end squads
+          </span>
         </div>
       </div>
     </div>
-  </header>
+  </div>
 </section>
 
 <section class="section-padding ">

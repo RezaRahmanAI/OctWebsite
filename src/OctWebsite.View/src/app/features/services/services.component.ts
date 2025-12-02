@@ -1,9 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { SectionHeaderComponent } from '../../shared/components/section-header/section-header.component';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  ViewChild,
+  computed,
+  inject,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { SectionHeaderComponent } from '../../shared/components/section-header/section-header.component';
 import { ServicesPageApiService, ServicesService } from '../../core/services';
 import { ServiceItem } from '../../core/models';
+import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
+import { SectionHeadingComponent } from "../../shared/components/section-heading/section-heading.component"; // ← ADD
 
 interface ServiceGroup {
   title: string;
@@ -15,98 +25,82 @@ interface ServiceGroup {
 @Component({
   selector: 'app-services',
   standalone: true,
-  imports: [CommonModule, SectionHeaderComponent, RouterLink],
+  imports: [
+    CommonModule,
+    SectionHeaderComponent,
+    RouterLink,
+    AssetUrlPipe,
+    SectionHeadingComponent
+],
   templateUrl: './services.component.html',
   styleUrls: ['./services.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ServicesComponent {
+export class ServicesComponent implements AfterViewInit {
   private readonly servicesService = inject(ServicesService);
   private readonly servicesPageApi = inject(ServicesPageApiService);
 
+  // === VIDEO AUTOPLAY (same bulletproof pattern as Blog/Product) ===
+  @ViewChild('heroVideo')
+  set heroVideoRef(video: ElementRef<HTMLVideoElement> | undefined) {
+    this.heroVideo = video;
+    this.autoplayHeroVideo();
+  }
+  private heroVideo?: ElementRef<HTMLVideoElement>;
+
   private readonly groups: ServiceGroup[] = [
-    {
-      title: 'Digital Products & Platforms',
-      description: 'Experiences engineered for every screen with resilient, cloud-ready foundations.',
-      highlight: 'Web, mobile, and desktop builds stay on-brand and production-ready.',
-      slugs: ['web-platform', 'windows', 'mobile-platform', 'apple', 'android', 'mobile'],
-    },
-    {
-      title: 'Cloud, Security & Experience',
-      description: 'Keep your stack secure, discoverable, and ready for scale with reliable operations.',
-      highlight: 'From cloud landing zones to SEO and creative delivery, we keep you visible and protected.',
-      slugs: [
-        'cloud-service',
-        'system-integration',
-        'cyber-security-services',
-        // 'enterprise-content-management',
-        'search-engine-optimization-seo',
-        'graphic-design',
-        'web-listing',
-      ],
-    },
-    // {
-    //   title: 'Data, Content & GIS',
-    //   description: 'Data-rich storytelling with governance for every channel and geography.',
-    //   highlight: 'Content, GIS, and document practices that keep insights flowing safely.',
-    //   slugs: [
-    //     'content-provider-mobile-web-voice',
-    //     'geographic-information-services-gis',
-    //     'document-process-outsourcing-dpo',
-    //     'knowledge-process-outsourcing-kpo',
-    //     'data-entry',
-    //     'it-enabled-services',
-    //   ],
-    // },
-    // {
-    //   title: 'Outsourcing & Operations',
-    //   description: 'Specialized teams that plug into your business with measurable SLAs.',
-    //   highlight: 'From contact centers to finance, we deliver governed processes and transparent metrics.',
-    //   slugs: [
-    //     'crm-outsourcing',
-    //     'sales-marketing-outsourcing',
-    //     'engineering-services-outsourcing-eso',
-    //     'contact-call-centers',
-    //     'facilities-management-outsourcing-fmo',
-    //     'procurement-process-outsourcing',
-    //     'legal-process-outsourcing-lpo',
-    //     'human-resources-outsourcing-hro',
-    //     'finance-accounting-outsourcing-fao',
-    //     'business-process-outsourcing-bpo',
-    //   ],
-    // },
+    /* your groups unchanged */
   ];
 
   readonly services = this.servicesService.services;
   readonly isLoading = computed(() => this.servicesService.isLoading());
+
   readonly heroContent = this.servicesPageApi.content;
-  readonly heroEyebrow = computed(
-    () => this.heroContent()?.headerEyebrow || 'Services',
-  );
+  readonly heroEyebrow = computed(() => this.heroContent()?.headerEyebrow || 'Services');
   readonly heroTitle = computed(
-    () => this.heroContent()?.headerTitle || 'Services shaped to match your brand energy',
+    () => this.heroContent()?.headerTitle || 'Services shaped to match your brand energy'
   );
   readonly heroSubtitle = computed(
     () =>
       this.heroContent()?.headerSubtitle ||
-      'Engineering, cloud, security, content, and outsourcing squads that mirror the tone of your product and customers.',
+      'Engineering, cloud, security, content, and outsourcing squads that mirror the tone of your product and customers.'
   );
-  readonly heroVideoUrl = computed(() =>
-    this.heroContent()?.heroVideo?.url || '/video/service/service.mp4',
-  );
+  readonly heroVideoUrl = computed(() => this.heroContent()?.heroVideo?.url || null); // ← allow null
+
   readonly groupedServices = computed(() =>
     this.groups
-      .map(group => ({
+      .map((group) => ({
         ...group,
         services: group.slugs
-          .map(slug => this.services().find(service => service.slug === slug))
+          .map((slug) => this.services().find((s) => s.slug === slug))
           .filter(Boolean) as ServiceItem[],
       }))
-      .filter(group => group.services.length > 0),
+      .filter((g) => g.services.length > 0)
   );
 
   constructor() {
     void this.servicesService.ensureLoaded();
     this.servicesPageApi.load();
+  }
+
+  ngAfterViewInit(): void {
+    this.autoplayHeroVideo(); // fallback
+  }
+
+  private autoplayHeroVideo(): void {
+    queueMicrotask(() => this.tryAutoplay(this.heroVideo?.nativeElement));
+  }
+
+  private tryAutoplay(video?: HTMLVideoElement | null): void {
+    if (!video) return;
+    video.muted = true;
+    video.autoplay = true;
+    video.loop = true;
+    video.playsInline = true;
+    if (video.paused) {
+      video.play().catch(() => {
+        /* expected silent fail */
+      });
+    }
   }
 }

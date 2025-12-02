@@ -1,44 +1,79 @@
 <section class="section-padding">
   <div class="container-wide space-y-12">
-    <div class="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-      <div class="space-y-6">
-        <app-section-heading
-          [eyebrow]="heroEyebrow()"
-          [title]="heroTitle()"
-          [subtitle]="heroSubtitle()"
-          align="left"
-        ></app-section-heading>
-        <p class="max-w-2xl text-sm text-slate-600 md:text-base">
-          Browse pre-built accelerators for commerce, finance, and the public sector, then tailor them with our delivery teams to launch faster.
-        </p>
-        <div class="flex flex-wrap items-center gap-3">
-          <a
-            routerLink="/contact"
-            class="inline-flex items-center justify-center rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition hover:translate-y-0.5 hover:bg-primary/90"
-          >
-            Talk to product team →
-          </a>
-          <a
-            routerLink="/blog"
-            class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-          >
-            See recent launches
-          </a>
-        </div>
-        
-      </div>
-      <div class="product-video-wrapper">
-        <video
-          class="product-video"
-          [src]="heroVideoUrl()"
-          autoplay
-          loop
-          muted
-          playsinline
-          controls
-        ></video>
+    <!-- PRODUCT HERO – identical design language to Blog/About -->
+<section class="container-wide overflow-hidden py-16">
+  <div class="grid items-center gap-10 lg:grid-cols-2">
+    <!-- Left: Text + CTAs -->
+    <div class="space-y-6">
+      <app-section-heading
+        [eyebrow]="heroEyebrow()"
+        [title]="heroTitle()"
+        [subtitle]="heroSubtitle()"
+        align="left"
+      ></app-section-heading>
+
+      <p class="max-w-2xl text-sm text-slate-600 md:text-base">
+        Browse pre-built accelerators for commerce, finance, and the public sector, then tailor them with our delivery teams to launch faster.
+      </p>
+
+      <div class="flex flex-wrap items-center gap-3">
+        <a
+          routerLink="/contact"
+          class="inline-flex items-center justify-center rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition hover:translate-y-0.5 hover:bg-primary/90"
+        >
+          Talk to product team →
+        </a>
+        <a
+          routerLink="/blog"
+          class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+        >
+          See recent launches
+        </a>
       </div>
     </div>
+
+    <!-- Right: Video card with same treatment as Blog -->
+    <div class="relative">
+      <div class="group relative overflow-hidden rounded-[2.5rem] shadow-xl">
+        <div class="relative aspect-[4/3]">
+          <ng-container *ngIf="heroVideoUrl(); else heroPlaceholder">
+            <video
+              #heroVideo
+              class="absolute inset-0 h-full w-full object-cover"
+              autoplay
+              loop
+              muted
+              playsinline
+            >
+              <source [src]="heroVideoUrl() | assetUrl" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </ng-container>
+
+          <ng-template #heroPlaceholder>
+            <div class="flex h-full w-full items-center justify-center bg-slate-100 text-sm text-slate-500">
+              Media coming soon
+            </div>
+          </ng-template>
+        </div>
+
+        <!-- Gradient overlay (same as Blog) -->
+        <div
+          class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-primary/40 via-transparent to-secondary/40 opacity-40 transition-opacity duration-300 group-hover:opacity-20"
+        ></div>
+
+        <!-- Bottom info strip – adapted for Product page -->
+        <div class="absolute inset-x-6 bottom-6 flex items-center justify-between rounded-2xl bg-white/90 px-4 py-3 text-xs text-slate-700 shadow-lg">
+          <span>{{ heroTitle() }}</span>
+          <span class="inline-flex items-center gap-1">
+            <span class="h-2 w-2 rounded-full bg-primary"></span>
+            Ready to deploy
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
     <div class="space-y-6">
       <div class="flex flex-wrap items-center justify-between gap-3">
