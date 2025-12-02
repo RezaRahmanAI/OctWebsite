@@ -1,56 +1,66 @@
-<!-- BLOG HEADER – aligned to product hero pattern with video card -->
-<section class="section-padding">
-  <div class="container-wide space-y-12">
-    <div class="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-      <div class="space-y-6">
-        <app-section-heading
-          [eyebrow]="heroEyebrow()"
-          [title]="heroTitle()"
-          [subtitle]="heroSubtitle()"
-          align="left"
-        ></app-section-heading>
+<!-- BLOG HEADER – mirrors About hero video design -->
+<section class="container-wide overflow-hidden py-16">
+  <div class="grid items-center gap-10 lg:grid-cols-2">
+    <div class="space-y-6">
+      <app-section-heading
+        [eyebrow]="heroEyebrow()"
+        [title]="heroTitle()"
+        [subtitle]="heroSubtitle()"
+        align="left"
+      ></app-section-heading>
 
-        <p class="max-w-2xl text-sm text-slate-600 md:text-base">
-          Browse updates from our engineering, delivery, and academy teams. Watch the reel to see how we launch product stories
-          with ObjectCanvas.
-        </p>
+      <p class="max-w-2xl text-sm text-slate-600 md:text-base">
+        Browse updates from our engineering, delivery, and academy teams. Watch the reel to see how we launch product stories
+        with ObjectCanvas.
+      </p>
 
-        <div class="flex flex-wrap items-center gap-3">
-          <a
-            routerLink="/contact"
-            class="inline-flex items-center justify-center rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition hover:translate-y-0.5 hover:bg-primary/90"
-          >
-            Talk to the team →
-          </a>
-          <a
-            routerLink="/insights"
-            class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-          >
-            View all insights
-          </a>
-        </div>
+      <div class="flex flex-wrap items-center gap-3">
+        <a
+          routerLink="/contact"
+          class="inline-flex items-center justify-center rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition hover:translate-y-0.5 hover:bg-primary/90"
+        >
+          Talk to the team →
+        </a>
+        <a
+          routerLink="/insights"
+          class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+        >
+          View all insights
+        </a>
       </div>
+    </div>
 
-      <div class="relative" *ngIf="heroVideoUrl() as heroUrl">
-        <div class="group relative overflow-hidden rounded-[2.5rem] shadow-xl">
-          <div class="relative aspect-[4/3]">
-            <video class="absolute inset-0 h-full w-full object-cover" autoplay loop muted playsinline>
-              <source [src]="heroUrl | assetUrl" type="video/mp4" />
+    <div class="relative">
+      <div class="group relative overflow-hidden rounded-[2.5rem] shadow-xl">
+        <div class="relative aspect-[4/3]">
+          <ng-container *ngIf="heroVideoUrl(); else heroPlaceholder">
+            <video
+              #heroVideo
+              class="absolute inset-0 h-full w-full object-cover"
+              autoplay
+              loop
+              muted
+              playsinline
+            >
+              <source [src]="heroVideoUrl() | assetUrl" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
-          </div>
+          </ng-container>
+          <ng-template #heroPlaceholder>
+            <div class="flex h-full w-full items-center justify-center bg-slate-100 text-sm text-slate-500">Media coming soon</div>
+          </ng-template>
+        </div>
 
-          <div
-            class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-primary/40 via-transparent to-secondary/40 opacity-40 transition-opacity duration-300 group-hover:opacity-20"
-          ></div>
+        <div
+          class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-primary/40 via-transparent to-secondary/40 opacity-40 transition-opacity duration-300 group-hover:opacity-20"
+        ></div>
 
-          <div class="absolute inset-x-6 bottom-6 flex items-center justify-between rounded-2xl bg-white/90 px-4 py-3 text-xs text-slate-700 shadow-lg">
-            <span>{{ heroTitle() }}</span>
-            <span class="inline-flex items-center gap-1">
-              <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-              New stories weekly
-            </span>
-          </div>
+        <div class="absolute inset-x-6 bottom-6 flex items-center justify-between rounded-2xl bg-white/90 px-4 py-3 text-xs text-slate-700 shadow-lg">
+          <span>{{ heroTitle() }}</span>
+          <span class="inline-flex items-center gap-1">
+            <span class="h-2 w-2 rounded-full bg-primary"></span>
+            New stories weekly
+          </span>
         </div>
       </div>
     </div>
