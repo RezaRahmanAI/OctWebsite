@@ -32,6 +32,9 @@ bld/
 [Oo]ut/
 [Ll]og/
 [Ll]ogs/
+# Keep the WebApi stdout log directory so the path exists on deploy
+!src/OctWebsite.WebApi/logs/
+!src/OctWebsite.WebApi/logs/.gitkeep
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
