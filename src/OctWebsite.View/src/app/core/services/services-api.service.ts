@@ -13,10 +13,6 @@ export interface SaveServiceRequest {
   icon?: string | null;
   backgroundImage?: File | null;
   backgroundImageFileName?: string | null;
-  headerVideo?: File | null;
-  headerVideoFileName?: string | null;
-  additionalImages?: File[];
-  additionalImageFileNames?: string[];
   features: string[];
   active: boolean;
   featured: boolean;
@@ -75,17 +71,6 @@ export class ServicesApiService {
     if (request.backgroundImage) {
       formData.append('backgroundImage', request.backgroundImage, request.backgroundImage.name);
     }
-
-    if (request.headerVideoFileName) {
-      formData.append('headerVideoFileName', request.headerVideoFileName);
-    }
-
-    if (request.headerVideo) {
-      formData.append('headerVideo', request.headerVideo, request.headerVideo.name);
-    }
-
-    (request.additionalImageFileNames ?? []).forEach(fileName => formData.append('additionalImageFileNames', fileName));
-    (request.additionalImages ?? []).forEach(file => formData.append('additionalImages', file, file.name));
     request.features.forEach(feature => formData.append('features', feature));
 
     return formData;

@@ -43,19 +43,7 @@ public sealed class ServicesController(IServiceCatalog catalog, IWebHostEnvironm
     public async Task<ActionResult<ServiceDto>> CreateAsync([FromForm] SaveServiceFormRequest form, CancellationToken cancellationToken)
     {
         var backgroundFileName = await StoreMediaIfNeededAsync(form.BackgroundImage, form.BackgroundImageFileName, cancellationToken);
-        var headerVideoFileName = await StoreMediaIfNeededAsync(form.HeaderVideo, form.HeaderVideoFileName, cancellationToken);
-        var galleryFiles = new List<string>(form.AdditionalImageFileNames ?? Array.Empty<string>());
-
-        foreach (var image in form.AdditionalImages ?? Array.Empty<IFormFile>())
-        {
-            var stored = await StoreMediaIfNeededAsync(image, null, cancellationToken);
-            if (!string.IsNullOrWhiteSpace(stored))
-            {
-                galleryFiles.Add(stored);
-            }
-        }
-
-        var request = BuildRequest(form, backgroundFileName, headerVideoFileName, galleryFiles);
+        var request = BuildRequest(form, backgroundFileName);
         var created = await catalog.CreateAsync(request, cancellationToken);
         var hydrated = ResolveMediaUrls(created);
         return CreatedAtAction(nameof(GetByIdAsync), new { id = hydrated.Id }, hydrated);
@@ -72,39 +60,14 @@ public sealed class ServicesController(IServiceCatalog catalog, IWebHostEnvironm
         }
 
         var backgroundFileName = await StoreMediaIfNeededAsync(form.BackgroundImage, form.BackgroundImageFileName ?? existing.BackgroundImage?.FileName, cancellationToken);
-        var headerVideoFileName = await StoreMediaIfNeededAsync(form.HeaderVideo, form.HeaderVideoFileName ?? existing.HeaderVideo?.FileName, cancellationToken);
-
-        var desiredGallery = form.AdditionalImageFileNames is { Count: > 0 }
-            ? new List<string>(form.AdditionalImageFileNames)
-            : existing.Gallery.Select(item => item.FileName ?? string.Empty).Where(file => !string.IsNullOrWhiteSpace(file)).ToList();
-
-        foreach (var image in form.AdditionalImages ?? Array.Empty<IFormFile>())
-        {
-            var stored = await StoreMediaIfNeededAsync(image, null, cancellationToken);
-            if (!string.IsNullOrWhiteSpace(stored))
-            {
-                desiredGallery.Add(stored);
-            }
-        }
-
-        var request = BuildRequest(form, backgroundFileName, headerVideoFileName, desiredGallery);
+        var request = BuildRequest(form, backgroundFileName);
         var updated = await catalog.UpdateAsync(id, request, cancellationToken);
         if (updated is null)
         {
             return NotFound();
         }
 
-        var updatedGalleryFiles = new HashSet<string>(request.AdditionalImageFileNames, StringComparer.OrdinalIgnoreCase);
-        var removedGallery = existing.Gallery
-            .Select(media => media.FileName)
-            .Where(file => !string.IsNullOrWhiteSpace(file) && !updatedGalleryFiles.Contains(file!));
-
         DeleteIfReplaced(existing.BackgroundImage?.FileName, backgroundFileName);
-        DeleteIfReplaced(existing.HeaderVideo?.FileName, headerVideoFileName);
-        foreach (var removed in removedGallery)
-        {
-            DeleteFileIfExists(removed!);
-        }
 
         return Ok(ResolveMediaUrls(updated));
     }
@@ -122,17 +85,12 @@ public sealed class ServicesController(IServiceCatalog catalog, IWebHostEnvironm
         if (deleted)
         {
             DeleteFileIfExists(existing.BackgroundImage?.FileName);
-            DeleteFileIfExists(existing.HeaderVideo?.FileName);
-            foreach (var media in existing.Gallery)
-            {
-                DeleteFileIfExists(media.FileName);
-            }
         }
 
         return deleted ? NoContent() : NotFound();
     }
 
-    private SaveServiceRequest BuildRequest(SaveServiceFormRequest form, string? backgroundImage, string? headerVideo, IReadOnlyList<string> gallery)
+    private SaveServiceRequest BuildRequest(SaveServiceFormRequest form, string? backgroundImage)
     {
         return new SaveServiceRequest(
             form.Title ?? string.Empty,
@@ -142,8 +100,6 @@ public sealed class ServicesController(IServiceCatalog catalog, IWebHostEnvironm
             form.Description,
             form.Icon,
             backgroundImage,
-            headerVideo,
-            gallery,
             form.Features?.ToList() ?? new List<string>(),
             form.Active,
             form.Featured);
@@ -154,8 +110,6 @@ public sealed class ServicesController(IServiceCatalog catalog, IWebHostEnvironm
         return dto with
         {
             BackgroundImage = Resolve(dto.BackgroundImage),
-            HeaderVideo = Resolve(dto.HeaderVideo),
-            Gallery = dto.Gallery.Select(Resolve).Where(media => media is not null)!.ToArray()!
         };
     }
 
@@ -277,14 +231,6 @@ public sealed class SaveServiceFormRequest
     public string? BackgroundImageFileName { get; set; }
 
     public IFormFile? BackgroundImage { get; set; }
-
-    public string? HeaderVideoFileName { get; set; }
-
-    public IFormFile? HeaderVideo { get; set; }
-
-    public IList<string> AdditionalImageFileNames { get; set; } = new List<string>();
-
-    public IList<IFormFile> AdditionalImages { get; set; } = new List<IFormFile>();
 
     public IList<string> Features { get; set; } = new List<string>();
 

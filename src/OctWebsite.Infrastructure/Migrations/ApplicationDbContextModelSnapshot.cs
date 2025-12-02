@@ -650,10 +650,6 @@ namespace OctWebsite.Infrastructure.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<string>("AdditionalImageFileNames")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("BackgroundImageFileName")
                         .HasColumnType("nvarchar(max)");
 
@@ -665,9 +661,6 @@ namespace OctWebsite.Infrastructure.Migrations
 
                     b.Property<string>("Features")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HeaderVideoFileName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Icon")

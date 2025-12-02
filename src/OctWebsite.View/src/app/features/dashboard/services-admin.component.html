@@ -91,18 +91,6 @@
       <p class="text-xs text-slate-500" *ngIf="backgroundName()">{{ backgroundName() }}</p>
     </div>
 
-    <div class="grid gap-2">
-      <label class="font-semibold text-sm text-slate-700">Header Video (mp4)</label>
-      <input type="file" accept="video/mp4" (change)="onHeaderVideoSelected($event)" />
-      <p class="text-xs text-slate-500" *ngIf="headerVideoName()">{{ headerVideoName() }}</p>
-    </div>
-
-    <div class="grid gap-2 md:col-span-2">
-      <label class="font-semibold text-sm text-slate-700">Gallery Images</label>
-      <input type="file" accept="image/*" (change)="onGallerySelected($event)" multiple />
-      <p class="text-xs text-slate-500" *ngIf="galleryNames().length">{{ galleryNames().join(', ') }}</p>
-    </div>
-
     <div class="md:col-span-2 flex items-center gap-3">
       <button class="btn primary" type="submit" [disabled]="loading()">{{ editingId() ? 'Update' : 'Create' }} Service</button>
       <span *ngIf="loading()" class="text-sm text-slate-500">Working...</span>

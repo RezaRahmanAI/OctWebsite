@@ -38,9 +38,6 @@ public static class MappingExtensions
         service.Description,
         service.Icon,
         CreateMedia(service.BackgroundImageFileName),
-        CreateMedia(service.HeaderVideoFileName),
-        service.AdditionalImageFileNames.Select(CreateMedia).Where(media => media is not null)!
-            .ToArray()!,
         service.Features,
         service.Active,
         service.Featured);

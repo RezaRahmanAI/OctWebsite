@@ -470,8 +470,6 @@ internal static class SeedData
             summary,
             icon,
             backgroundFileName,
-            "service/header.mp4",
-            Array.Empty<string>(),
             features,
             active,
             featured);

@@ -9,8 +9,6 @@ public sealed record ServiceItem(
     string? Description,
     string? Icon,
     string? BackgroundImageFileName,
-    string? HeaderVideoFileName,
-    IReadOnlyList<string> AdditionalImageFileNames,
     IReadOnlyList<string> Features,
     bool Active,
     bool Featured

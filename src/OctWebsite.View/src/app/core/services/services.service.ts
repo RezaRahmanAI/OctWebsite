@@ -17,7 +17,7 @@ export class ServicesService {
 
   readonly services = computed(() => {
     const term = this.query().toLowerCase().trim();
-    const list = this.store.list().filter(service => service.active);
+    const list = this.store.list().filter(service => service.active && service.featured);
     if (!term) {
       return list;
     }
@@ -121,12 +121,6 @@ export class ServicesService {
           icon: service.icon ?? '',
           backgroundImage: null,
           backgroundImageFileName: service.backgroundImage?.fileName ?? null,
-          headerVideo: null,
-          headerVideoFileName: service.headerVideo?.fileName ?? null,
-          additionalImages: [],
-          additionalImageFileNames: (service.gallery ?? [])
-            .map(media => media.fileName)
-            .filter(Boolean) as string[],
           features: service.features ?? [],
           active: service.active ?? true,
           featured: service.featured ?? false,

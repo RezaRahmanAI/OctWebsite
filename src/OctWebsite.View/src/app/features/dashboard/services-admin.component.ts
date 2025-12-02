@@ -26,12 +26,8 @@ export class ServicesAdminComponent implements OnInit {
   readonly pageLoading = signal(false);
   readonly pageContent = signal<ServicesPageModel | null>(null);
   readonly backgroundName = signal<string | null>(null);
-  readonly headerVideoName = signal<string | null>(null);
-  readonly galleryNames = signal<string[]>([]);
 
   private backgroundFile: File | null = null;
-  private headerVideoFile: File | null = null;
-  private galleryFiles: File[] = [];
   private heroVideoFile: File | null = null;
 
   readonly form = this.fb.group({
@@ -61,11 +57,7 @@ export class ServicesAdminComponent implements OnInit {
   edit(service: ServiceItem): void {
     this.editingId.set(service.id);
     this.backgroundFile = null;
-    this.headerVideoFile = null;
-    this.galleryFiles = [];
     this.backgroundName.set(service.backgroundImage?.fileName ?? null);
-    this.headerVideoName.set(service.headerVideo?.fileName ?? null);
-    this.galleryNames.set((service.gallery ?? []).map(media => media.fileName || '').filter(Boolean));
 
     this.form.setValue({
       title: service.title,
@@ -83,11 +75,7 @@ export class ServicesAdminComponent implements OnInit {
   reset(): void {
     this.editingId.set(null);
     this.backgroundFile = null;
-    this.headerVideoFile = null;
-    this.galleryFiles = [];
     this.backgroundName.set(null);
-    this.headerVideoName.set(null);
-    this.galleryNames.set([]);
     this.form.reset({ active: true, featured: false });
   }
 
@@ -139,10 +127,6 @@ export class ServicesAdminComponent implements OnInit {
       icon: this.form.value.icon ?? '',
       backgroundImage: this.backgroundFile,
       backgroundImageFileName: this.backgroundName(),
-      headerVideo: this.headerVideoFile,
-      headerVideoFileName: this.headerVideoName(),
-      additionalImages: this.galleryFiles,
-      additionalImageFileNames: this.galleryNames(),
       features,
       active: this.form.value.active ?? false,
       featured: this.form.value.featured ?? false,
@@ -186,27 +170,11 @@ export class ServicesAdminComponent implements OnInit {
     this.backgroundName.set(file?.name ?? this.backgroundName());
   }
 
-  onHeaderVideoSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const file = input.files?.[0] ?? null;
-    this.headerVideoFile = file;
-    this.headerVideoName.set(file?.name ?? this.headerVideoName());
-  }
-
   onHeroVideoSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.heroVideoFile = input.files?.[0] ?? null;
     if (this.heroVideoFile) {
       this.pageForm.patchValue({ heroVideoFileName: this.heroVideoFile.name });
-    }
-  }
-
-  onGallerySelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const files = Array.from(input.files ?? []);
-    this.galleryFiles = files;
-    if (files.length > 0) {
-      this.galleryNames.set(files.map(file => file.name));
     }
   }
 
@@ -228,7 +196,7 @@ export class ServicesAdminComponent implements OnInit {
 
     try {
       await this.servicesService.refresh(true);
-      this.services.set(this.servicesService.list());
+      this.services.set(this.servicesService.list().filter(service => service.featured));
     } catch {
       this.toast.show('Unable to load services', 'error');
     } finally {
