@@ -1,5 +1,5 @@
 <section
-  class="relative overflow-hidden text-white bg-[radial-gradient(circle_at_10%_20%,rgba(16,175,240,0.35),transparent_45%),radial-gradient(circle_at_90%_10%,rgba(255,255,255,0.2),transparent_40%),linear-gradient(120deg,#0f172a_0%,#0b1030_45%,#0c1b46_100%)]"
+  class="relative overflow-hidden text-white bg-[radial-gradient(circle_at_10%_20%,rgba(16,175,240,0.35),transparent_45%),radial-gradient(circle_at_90%_10%,rgba(255,255,255,0.2),transparent_40%),linear-gradient(120deg,#0f172a_0%,#0b1030_45%,#0c1b46_100%)] lg:flex lg:min-h-screen lg:items-center"
   *ngIf="post() as post; else fallback"
 >
   <!-- Hero background image overlay -->
@@ -9,7 +9,7 @@
     [ngStyle]="{ 'background-image': 'url(' + post.coverUrl + ')' }"
   ></div>
 
-  <div class="container-responsive relative z-10 grid gap-10 py-16 lg:grid-cols-[1.4fr_1fr]">
+  <div class="container-wide relative z-10 grid w-full gap-10 py-16 lg:grid-cols-[1.4fr_1fr] lg:py-24">
     <div class="space-y-6">
       <div class="flex flex-wrap items-center gap-3 text-sm text-white/80">
         <a
@@ -91,55 +91,30 @@
     </div>
 
     <div class="relative h-full">
-      <!-- hero card: video -->
       <div
         class="relative min-h-[280px] overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 shadow-[0_30px_80px_rgba(0,0,0,0.35)] isolate"
-        *ngIf="post.headerVideoUrl || post.headerVideo?.url; else imageBlock"
       >
-        <video
-          class="block h-full w-full object-cover"
-          [src]="post.headerVideoUrl || post.headerVideo?.url || ''"
-          controls
-          playsinline
-          muted
-          loop
-        ></video>
-        <div
-          class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(16,175,240,0.35),transparent_45%)] mix-blend-screen"
-        ></div>
-      </div>
-
-      <!-- hero card: image -->
-      <ng-template #imageBlock>
-        <div
-          *ngIf="post.coverUrl; else gradientBlock"
-          class="relative min-h-[280px] overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 shadow-[0_30px_80px_rgba(0,0,0,0.35)] isolate"
-        >
+        <ng-container *ngIf="post.coverUrl; else gradientBlock">
           <img
             [src]="post.coverUrl"
             [alt]="post.title"
             class="block h-full w-full object-cover"
           />
-          <div
-            class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(16,175,240,0.35),transparent_45%)] mix-blend-screen"
-          ></div>
-        </div>
-      </ng-template>
+        </ng-container>
 
-      <!-- hero card: placeholder -->
-      <ng-template #gradientBlock>
+        <ng-template #gradientBlock>
+          <div class="relative grid min-h-[280px] gap-2 overflow-hidden p-10 text-white">
+            <p class="text-base font-semibold">Stories crafted for builders</p>
+            <p class="mt-2 text-sm text-white/80">
+              We turn delivery lessons, experiments, and rituals into ready-to-use patterns.
+            </p>
+          </div>
+        </ng-template>
+
         <div
-          class="relative grid min-h-[280px] gap-2 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-10 text-white shadow-[0_30px_80px_rgba(0,0,0,0.35)]"
-        >
-          <p class="text-base font-semibold">Stories crafted for builders</p>
-          <p class="mt-2 text-sm text-white/80">
-            We turn delivery lessons, experiments, and rituals into ready-to-use patterns.
-          </p>
-          <div
-            class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(16,175,240,0.35),transparent_45%)] mix-blend-screen"
-          ></div>
-        </div>
-      </ng-template>
+          class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(16,175,240,0.35),transparent_45%)] mix-blend-screen"
+        ></div>
+      </div>
 
       <!-- metrics -->
       <div
