@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BlogPageApiService, BlogService } from '../../core/services';
-import { SectionHeadingComponent } from '../../shared/components/section-heading/section-heading.component';
+import { SectionHeadingComponent, SectionHeadingCta } from '../../shared/components/section-heading/section-heading.component';
 import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
 
 @Component({
@@ -18,6 +18,18 @@ export class BlogComponent implements OnInit, AfterViewInit {
 
   readonly searchTerm = signal('');
   readonly activeTag = signal<string | null>(null);
+
+  readonly heroCtas: SectionHeadingCta[] = [
+    {
+      label: 'Talk to the team →',
+      routerLink: '/contact',
+    },
+    {
+      label: 'View all insights',
+      routerLink: '/insights',
+      variant: 'secondary',
+    },
+  ];
 
   // This setter ensures autoplay runs EVERY time the video element appears
   @ViewChild('heroVideo')

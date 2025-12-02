@@ -15,13 +15,14 @@ import {
   AcademyPageModel,
 } from '../../core/services/academy-page-api.service';
 import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
+import { SectionHeadingComponent, SectionHeadingCta } from '../../shared/components/section-heading/section-heading.component';
 
 type TrackSummary = AcademyPageModel['tracks'][number];
 
 @Component({
   selector: 'app-academy',
   standalone: true,
-  imports: [CommonModule, RouterLink, PricingComponent, AssetUrlPipe],
+  imports: [CommonModule, RouterLink, PricingComponent, AssetUrlPipe, SectionHeadingComponent],
   templateUrl: './academy.component.html',
   styleUrl: './academy.component.css',
 })
@@ -38,6 +39,19 @@ export class AcademyComponent implements OnInit, AfterViewInit {
 
   readonly page = computed(() => this.api.page());
   readonly heroVideoUrl = computed(() => this.page()?.heroVideo?.url ?? null);
+  readonly heroCtas: SectionHeadingCta[] = [
+    {
+      label: 'Join the academy',
+      routerLink: '/contact',
+      fragment: 'trial',
+    },
+    {
+      label: 'Explore tracks',
+      routerLink: '/academy',
+      fragment: 'zero',
+      variant: 'secondary',
+    },
+  ];
 
   readonly kidsComputingFeatures = computed(() => this.page()?.kidsFeatures ?? []);
   readonly zeroProgrammingTracks = computed<TrackSummary[]>(() =>

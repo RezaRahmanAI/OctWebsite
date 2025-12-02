@@ -3,17 +3,13 @@
   <div class="grid w-full items-center gap-10 lg:grid-cols-2">
     <!-- LEFT: Text content (same as About page) -->
     <div class="space-y-6">
-      <p class="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/70 px-4 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-primary">
-        {{ page()?.headerEyebrow || 'Zero Programming Academy' }}
-      </p>
-
-      <h1 class="text-3xl font-bold sm:text-4xl md:text-5xl text-slate-900">
-        {{ page()?.headerTitle || 'Ignite imagination with code, creativity, and community.' }}
-      </h1>
-
-      <p class="max-w-2xl text-sm text-slate-600 md:text-base">
-        {{ page()?.headerSubtitle || 'Our academy fuses vibrant visuals, interactive labs, and compassionate mentorship to empower children, teens, and young professionals to thrive.' }}
-      </p>
+      <app-section-heading
+        [eyebrow]="page()?.headerEyebrow || 'Zero Programming Academy'"
+        [title]="page()?.headerTitle || 'Ignite imagination with code, creativity, and community.'"
+        [subtitle]="page()?.headerSubtitle || 'Our academy fuses vibrant visuals, interactive labs, and compassionate mentorship to empower children, teens, and young professionals to thrive.'"
+        [ctas]="heroCtas"
+        align="left"
+      ></app-section-heading>
     </div>
 
     <!-- RIGHT: Video card — EXACT same as About & Blog -->
