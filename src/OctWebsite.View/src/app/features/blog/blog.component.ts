@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BlogPageApiService, BlogService } from '../../core/services';
 import { SectionHeadingComponent } from '../../shared/components/section-heading/section-heading.component';
@@ -12,11 +12,18 @@ import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
   templateUrl: './blog.component.html',
   styleUrls: ['./blog.component.css'],
 })
-export class BlogComponent implements OnInit {
+export class BlogComponent implements OnInit, AfterViewInit {
   private readonly blogService = inject(BlogService);
   private readonly blogPageApi = inject(BlogPageApiService);
   readonly searchTerm = signal('');
   readonly activeTag = signal<string | null>(null);
+
+  @ViewChild('heroVideo')
+  set heroVideoRef(video: ElementRef<HTMLVideoElement> | undefined) {
+    this.heroVideo = video;
+    this.autoplayHeroVideo();
+  }
+  private heroVideo?: ElementRef<HTMLVideoElement>;
 
   readonly tags = this.blogService.tags;
 
@@ -49,7 +56,26 @@ export class BlogComponent implements OnInit {
     this.blogPageApi.load();
   }
 
+  ngAfterViewInit(): void {
+    this.autoplayHeroVideo();
+  }
+
   setTag(tag: string | null): void {
     this.activeTag.set(tag);
+  }
+
+  private autoplayHeroVideo(): void {
+    queueMicrotask(() => this.tryAutoplay(this.heroVideo?.nativeElement));
+  }
+
+  private tryAutoplay(video?: HTMLVideoElement | null): void {
+    if (!video) return;
+
+    video.muted = true;
+    video.autoplay = true;
+    video.playsInline = true;
+    if (video.paused) {
+      void video.play().catch(() => undefined);
+    }
   }
 }
