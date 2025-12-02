@@ -15,13 +15,15 @@ import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
 export class BlogComponent implements OnInit, AfterViewInit {
   private readonly blogService = inject(BlogService);
   private readonly blogPageApi = inject(BlogPageApiService);
+
   readonly searchTerm = signal('');
   readonly activeTag = signal<string | null>(null);
 
+  // This setter ensures autoplay runs EVERY time the video element appears
   @ViewChild('heroVideo')
   set heroVideoRef(video: ElementRef<HTMLVideoElement> | undefined) {
     this.heroVideo = video;
-    this.autoplayHeroVideo();
+    this.autoplayHeroVideo(); // ← Critical: runs every time video is set
   }
   private heroVideo?: ElementRef<HTMLVideoElement>;
 
@@ -33,22 +35,24 @@ export class BlogComponent implements OnInit, AfterViewInit {
   readonly heroSubtitle = computed(
     () =>
       this.pageContent()?.headerSubtitle ||
-      'Explore lessons from our product experiments, engineering playbooks, and academy cohorts. Filter by topic or jump straight into the latest releases.',
+      'Explore lessons from our product experiments, engineering playbooks, and academy cohorts. Filter by topic or jump straight into the latest releases.'
   );
-  readonly heroVideoUrl = computed(() => this.pageContent()?.heroVideo?.url || '/video/blog/hero.mp4');
+  readonly heroVideoUrl = computed(() => this.pageContent()?.heroVideo?.url || null); // ← Allow null!
 
   readonly posts = computed(() => {
     const term = this.searchTerm().toLowerCase();
     const tag = this.activeTag();
-    return this.blogService.posts().filter(post => {
-      const matchesTerm = !term || post.title.toLowerCase().includes(term) || post.excerpt.toLowerCase().includes(term);
+    return this.blogService.posts().filter((post) => {
+      const matchesTerm =
+        !term ||
+        post.title.toLowerCase().includes(term) ||
+        post.excerpt.toLowerCase().includes(term);
       const matchesTag = !tag || post.tags.includes(tag);
       return matchesTerm && matchesTag;
     });
   });
 
   readonly featuredPost = computed(() => this.posts()[0] ?? null);
-
   readonly remainingPosts = computed(() => this.posts().slice(1));
 
   ngOnInit(): void {
@@ -57,15 +61,18 @@ export class BlogComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.autoplayHeroVideo();
+    this.autoplayHeroVideo(); // Still good to have as fallback
   }
 
   setTag(tag: string | null): void {
     this.activeTag.set(tag);
   }
 
+  // Exactly the same as AboutComponent — robust autoplay
   private autoplayHeroVideo(): void {
-    queueMicrotask(() => this.tryAutoplay(this.heroVideo?.nativeElement));
+    queueMicrotask(() => {
+      this.tryAutoplay(this.heroVideo?.nativeElement);
+    });
   }
 
   private tryAutoplay(video?: HTMLVideoElement | null): void {
@@ -73,9 +80,14 @@ export class BlogComponent implements OnInit, AfterViewInit {
 
     video.muted = true;
     video.autoplay = true;
+    video.loop = true;
     video.playsInline = true;
+
     if (video.paused) {
-      void video.play().catch(() => undefined);
+      video.play().catch(() => {
+        // Silently fail — browsers block autoplay sometimes
+        // This is expected and safe
+      });
     }
   }
 }

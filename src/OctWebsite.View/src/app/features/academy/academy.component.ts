@@ -1,8 +1,11 @@
-import { Component, ElementRef, OnInit, ViewChild, inject, computed } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject, computed, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { PricingComponent } from '../../shared/components/pricing/pricing.component';
-import { AcademyPageApiService, AcademyPageModel } from '../../core/services/academy-page-api.service';
+import {
+  AcademyPageApiService,
+  AcademyPageModel,
+} from '../../core/services/academy-page-api.service';
 import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
 
 type TrackSummary = AcademyPageModel['tracks'][number];
@@ -14,39 +17,49 @@ type TrackSummary = AcademyPageModel['tracks'][number];
   templateUrl: './academy.component.html',
   styleUrl: './academy.component.css',
 })
-export class AcademyComponent implements OnInit {
-  @ViewChild('academyVideo', { static: false })
-  academyVideo?: ElementRef<HTMLVideoElement>;
-
+export class AcademyComponent implements AfterViewInit {
   private readonly api = inject(AcademyPageApiService);
 
+  // Robust video handling — same pattern as About & Blog
+  @ViewChild('academyVideo')
+  set academyVideoRef(video: ElementRef<HTMLVideoElement> | undefined) {
+    this.academyVideo = video;
+    this.autoplayVideo();
+  }
+  private academyVideo?: ElementRef<HTMLVideoElement>;
+
   readonly page = computed(() => this.api.page());
+  readonly heroVideoUrl = computed(() => this.page()?.heroVideo?.url ?? null);
+
   readonly kidsComputingFeatures = computed(() => this.page()?.kidsFeatures ?? []);
   readonly zeroProgrammingTracks = computed<TrackSummary[]>(() =>
-    (this.page()?.tracks ?? []).filter(track => track.active)
+    (this.page()?.tracks ?? []).filter((track) => track.active)
   );
   readonly freelancingCourses = computed(() => this.page()?.freelancingCourses ?? []);
 
-  ngOnInit(): void {
-    this.api.loadPage();
+  ngAfterViewInit(): void {
+    this.autoplayVideo(); // Fallback
   }
 
-  ngAfterViewInit(): void {
-    const video = this.academyVideo?.nativeElement;
+  // Same bulletproof autoplay as About & Blog pages
+  private autoplayVideo(): void {
+    queueMicrotask(() => {
+      this.tryAutoplay(this.academyVideo?.nativeElement);
+    });
+  }
+
+  private tryAutoplay(video?: HTMLVideoElement | null): void {
     if (!video) return;
 
-    video.muted = true; // ensure muted for autoplay policies
+    video.muted = true;
+    video.autoplay = true;
+    video.loop = true;
+    video.playsInline = true;
 
-    const playPromise = video.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(err => {
-        // Autoplay might still be blocked until user interaction
-        console.warn('Autoplay prevented by browser:', err);
+    if (video.paused) {
+      video.play().catch(() => {
+        // Autoplay blocked — expected in some browsers
       });
     }
-  }
-
-  heroVideoSource(): string {
-    return this.page()?.heroVideo?.url ?? this.page()?.heroVideo?.fileName ?? '/video/academy/hero.mp4';
   }
 }

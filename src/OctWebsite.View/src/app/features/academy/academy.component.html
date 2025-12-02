@@ -1,41 +1,62 @@
 <section class="section-padding">
   <div class="container-wide space-y-16">
-    <!-- Header -->
-    <header>
-      <div class="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-        <!-- Left: text content -->
-        <div class="space-y-4">
-          <p
-            class="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/70 px-4 py-1
-                   text-xs font-semibold uppercase tracking-[0.35em] text-primary"
-          >
-            Zero Programming Academy
-          </p>
-          <h1 class="text-3xl font-bold sm:text-4xl md:text-5xl">
-            Ignite imagination with code, creativity, and community.
-          </h1>
-          <p class="text-sm text-slate-600 md:text-base">
-            Our academy fuses vibrant visuals, interactive labs, and compassionate mentorship
-            to empower children, teens, and young professionals to thrive.
-          </p>
+    <header class="section-padding">
+  <div class="grid items-center gap-10 lg:grid-cols-2">
+    <!-- LEFT: Text content (same as About page) -->
+    <div class="space-y-6">
+      <p class="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/70 px-4 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-primary">
+        {{ page()?.headerEyebrow || 'Zero Programming Academy' }}
+      </p>
+
+      <h1 class="text-3xl font-bold sm:text-4xl md:text-5xl text-slate-900">
+        {{ page()?.headerTitle || 'Ignite imagination with code, creativity, and community.' }}
+      </h1>
+
+      <p class="max-w-2xl text-sm text-slate-600 md:text-base">
+        {{ page()?.headerSubtitle || 'Our academy fuses vibrant visuals, interactive labs, and compassionate mentorship to empower children, teens, and young professionals to thrive.' }}
+      </p>
+    </div>
+
+    <!-- RIGHT: Video card — EXACT same as About & Blog -->
+    <div class="relative">
+      <div class="group relative overflow-hidden rounded-[2.5rem] shadow-xl">
+        <div class="relative aspect-[4/3]">
+          <ng-container *ngIf="heroVideoUrl(); else placeholder">
+            <video
+              #academyVideo
+              class="absolute inset-0 h-full w-full object-cover"
+              autoplay
+              loop
+              muted
+              playsinline
+            >
+              <source [src]="heroVideoUrl() | assetUrl" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </ng-container>
+
+          <ng-template #placeholder>
+            <div class="flex h-full w-full items-center justify-center bg-slate-100 text-sm text-slate-500">
+              Media coming soon
+            </div>
+          </ng-template>
         </div>
 
-        <!-- Right: video -->
-        <div class="header-video-wrapper">
-          <video
-            #academyVideo
-            class="header-video"
-            [src]="heroVideoSource() | assetUrl"
-            autoplay
-            loop
-            muted
-            playsinline
-            controls
-          ></video>
-          <div class="header-video-overlay"></div>
+        <!-- Gradient overlay -->
+        <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-primary/40 via-transparent to-secondary/40 opacity-40 transition-opacity duration-300 group-hover:opacity-20"></div>
+
+        <!-- Bottom info strip -->
+        <div class="absolute inset-x-6 bottom-6 flex items-center justify-between rounded-2xl bg-white/90 px-4 py-3 text-xs text-slate-700 shadow-lg">
+          <span>Zero Programming Academy</span>
+          <span class="inline-flex items-center gap-1">
+            <span class="h-2 w-2 rounded-full bg-primary"></span>
+            Hands-on · Project-based · Fun
+          </span>
         </div>
       </div>
-    </header>
+    </div>
+  </div>
+</header>
 
     <!-- Kids Computing -->
     <section class="space-y-8" id="kids">
@@ -83,7 +104,7 @@
               [routerLink]="['/academy', track.slug]"
               class="text-xs font-semibold uppercase tracking-[0.3em] text-primary transition hover:text-primary/80"
             >
-              View Details →
+              View Details → 
             </a>
           </div>
         </article>
