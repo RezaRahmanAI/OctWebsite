@@ -36,7 +36,7 @@ interface ContactPageContent {
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule, HomeContactComponent, AssetUrlPipe, RouterLink, SectionHeadingComponent],
+  imports: [CommonModule, HomeContactComponent, AssetUrlPipe, SectionHeadingComponent],
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

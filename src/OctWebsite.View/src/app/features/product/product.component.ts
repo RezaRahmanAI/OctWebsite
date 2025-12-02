@@ -22,7 +22,6 @@ import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe'; // ← ADD THIS
     CommonModule,
     SectionHeadingComponent,
     CardComponent,
-    RouterLink,
     AssetUrlPipe, // ← ADD THIS
   ],
   templateUrl: './product.component.html',
