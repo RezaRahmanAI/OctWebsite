@@ -11,8 +11,6 @@ public sealed record ServiceDto(
     string? Description,
     string? Icon,
     ServiceMediaDto? BackgroundImage,
-    ServiceMediaDto? HeaderVideo,
-    IReadOnlyList<ServiceMediaDto> Gallery,
     IReadOnlyList<string> Features,
     bool Active,
     bool Featured);
@@ -25,8 +23,6 @@ public sealed record SaveServiceRequest(
     string? Description,
     string? Icon,
     string? BackgroundImageFileName,
-    string? HeaderVideoFileName,
-    IReadOnlyList<string> AdditionalImageFileNames,
     IReadOnlyList<string> Features,
     bool Active,
     bool Featured);

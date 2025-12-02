@@ -20,6 +20,7 @@ export class ServiceDetailComponent {
   readonly service = computed(() => (this.slug() ? this.servicesService.getBySlug(this.slug()!) : undefined));
   readonly relatedServices = computed(() =>
     (this.servicesService.all() || [])
+      .filter(item => item.active && item.featured)
       .filter(item => item.slug !== this.service()?.slug)
       .slice(0, 3),
   );

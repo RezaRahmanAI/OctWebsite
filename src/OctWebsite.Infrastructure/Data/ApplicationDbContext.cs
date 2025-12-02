@@ -301,10 +301,6 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
             entity.Property(service => service.Features)
                 .HasConversion(stringListConverter)
                 .Metadata.SetValueComparer(stringListComparer);
-
-            entity.Property(service => service.AdditionalImageFileNames)
-                .HasConversion(stringListConverter)
-                .Metadata.SetValueComparer(stringListComparer);
         });
 
         modelBuilder.Entity<ProductItem>(entity =>

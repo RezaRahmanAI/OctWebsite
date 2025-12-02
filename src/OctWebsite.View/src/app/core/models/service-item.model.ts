@@ -12,8 +12,6 @@ export interface ServiceItem {
   description?: string | null;
   icon?: string | null;
   backgroundImage?: ServiceMedia | null;
-  headerVideo?: ServiceMedia | null;
-  gallery?: ServiceMedia[];
   features: string[];
   active: boolean;
   featured?: boolean;

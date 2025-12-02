@@ -62,8 +62,6 @@ internal sealed class ServiceCatalog(IServiceRepository repository) : IServiceCa
             request.Description?.Trim(),
             request.Icon?.Trim(),
             request.BackgroundImageFileName?.Trim(),
-            request.HeaderVideoFileName?.Trim(),
-            request.AdditionalImageFileNames.Where(file => !string.IsNullOrWhiteSpace(file)).ToArray(),
             request.Features.Where(feature => !string.IsNullOrWhiteSpace(feature)).Select(feature => feature.Trim()).ToArray(),
             request.Active,
             request.Featured);
