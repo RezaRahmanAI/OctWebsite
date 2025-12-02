@@ -49,7 +49,60 @@ export class ServicesComponent implements AfterViewInit {
   private heroVideo?: ElementRef<HTMLVideoElement>;
 
   private readonly groups: ServiceGroup[] = [
-    /* your groups unchanged */
+    {
+      title: 'Digital product & platform squads',
+      description:
+        'Build and evolve modern applications with cross-functional engineers, architects, and QA baked in.',
+      highlight: 'BUILD',
+      slugs: ['web-platform', 'windows', 'apple', 'android', 'system-integration', 'cloud-service'],
+    },
+    {
+      title: 'Security, IT, and governance',
+      description:
+        'Keep operations resilient with proactive security, IT services, and content governance foundations.',
+      highlight: 'SECURE',
+      slugs: ['it-enabled-services', 'cyber-security-services', 'enterprise-content-management'],
+    },
+    {
+      title: 'Growth, experience, and brand',
+      description: 'Visibility, storytelling, and conversion programs that stay on-brand across every touchpoint.',
+      highlight: 'AMPLIFY',
+      slugs: [
+        'web-listing',
+        'search-engine-optimization-seo',
+        'graphic-design',
+        'content-provider-mobile-web-voice',
+        'crm-outsourcing',
+        'sales-marketing-outsourcing',
+      ],
+    },
+    {
+      title: 'Data, insights, and automation',
+      description: 'Data entry, research, and workflow automation teams that keep decisions and operations sharp.',
+      highlight: 'DATA',
+      slugs: [
+        'geographic-information-services-gis',
+        'data-entry',
+        'knowledge-process-outsourcing-kpo',
+        'document-process-outsourcing-dpo',
+        'business-process-outsourcing-bpo',
+      ],
+    },
+    {
+      title: 'Operations and managed services',
+      description:
+        'Managed pods for customer care, facilities, procurement, legal, HR, finance, and engineering delivery.',
+      highlight: 'OPERATE',
+      slugs: [
+        'engineering-services-outsourcing-eso',
+        'contact-call-centers',
+        'facilities-management-outsourcing-fmo',
+        'procurement-process-outsourcing',
+        'legal-process-outsourcing-lpo',
+        'human-resources-outsourcing-hro',
+        'finance-accounting-outsourcing-fao',
+      ],
+    },
   ];
 
   readonly services = this.servicesService.services;
