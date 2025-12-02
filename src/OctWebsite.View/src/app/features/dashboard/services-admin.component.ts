@@ -196,7 +196,7 @@ export class ServicesAdminComponent implements OnInit {
 
     try {
       await this.servicesService.refresh(true);
-      this.services.set(this.servicesService.list().filter(service => service.featured));
+      this.services.set(this.servicesService.list());
     } catch {
       this.toast.show('Unable to load services', 'error');
     } finally {
