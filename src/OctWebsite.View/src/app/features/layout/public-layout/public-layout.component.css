@@ -10,6 +10,22 @@
     radial-gradient(circle at 80% 20%, rgba(249, 115, 22, 0.12), transparent 45%),
     radial-gradient(circle at 55% 80%, rgba(16, 107, 151, 0.12), transparent 45%),
     linear-gradient(135deg, #f7fbff 0%, #ffffff 55%, #fff5ed 100%);
+  isolation: isolate;
+}
+
+.public-layout::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: linear-gradient(rgba(15, 23, 42, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.05) 1px, transparent 1px),
+    radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.07), transparent 35%),
+    radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.07), transparent 30%),
+    radial-gradient(circle at 50% 75%, rgba(168, 85, 247, 0.06), transparent 28%);
+  background-size: 140px 140px, 140px 140px, 80% 80%, 70% 70%, 60% 60%;
+  background-position: 0 0, 0 0, center, center, center;
+  pointer-events: none;
 }
 
 .public-layout__content {
