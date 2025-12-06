@@ -67,7 +67,9 @@ public static class MappingExtensions
         item.Slug,
         item.Description,
         item.ImageUrl,
+        item.ImageUrl,
         item.BackgroundColor,
+        item.ProjectScreenshotUrl,
         item.ProjectScreenshotUrl,
         item.Highlights);
 

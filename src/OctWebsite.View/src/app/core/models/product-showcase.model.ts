@@ -4,7 +4,9 @@ export interface ProductShowcaseItem {
   slug: string;
   description: string;
   imageUrl: string;
+  imageFileName?: string | null;
   backgroundColor: string;
   projectScreenshotUrl: string;
+  projectScreenshotFileName?: string | null;
   highlights: string[];
 }

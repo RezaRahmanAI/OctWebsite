@@ -20,14 +20,18 @@ export class ProductShowcaseAdminComponent implements OnInit {
   readonly products = this.showcaseService.products;
   readonly loading = signal(false);
   readonly editingId = signal<string | null>(null);
+  readonly primaryImageName = signal<string | null>(null);
+  readonly screenshotName = signal<string | null>(null);
+  private primaryImageFile: File | null = null;
+  private screenshotFile: File | null = null;
 
   readonly form = this.fb.group({
     name: ['', Validators.required],
     slug: ['', Validators.required],
     description: ['', Validators.required],
-    imageUrl: ['', Validators.required],
     backgroundColor: ['', Validators.required],
-    projectScreenshotUrl: ['', Validators.required],
+    imageUrl: [''],
+    projectScreenshotUrl: [''],
     highlights: [''],
   });
 
@@ -49,19 +53,27 @@ export class ProductShowcaseAdminComponent implements OnInit {
 
   edit(product: ProductShowcaseItem): void {
     this.editingId.set(product.id);
+    this.primaryImageFile = null;
+    this.screenshotFile = null;
+    this.primaryImageName.set(product.imageFileName ?? product.imageUrl ?? null);
+    this.screenshotName.set(product.projectScreenshotFileName ?? product.projectScreenshotUrl ?? null);
     this.form.setValue({
       name: product.name,
       slug: product.slug,
       description: product.description,
-      imageUrl: product.imageUrl,
       backgroundColor: product.backgroundColor,
-      projectScreenshotUrl: product.projectScreenshotUrl,
+      imageUrl: product.imageFileName ?? product.imageUrl ?? '',
+      projectScreenshotUrl: product.projectScreenshotFileName ?? product.projectScreenshotUrl ?? '',
       highlights: product.highlights.join('\n'),
     });
   }
 
   reset(): void {
     this.editingId.set(null);
+    this.primaryImageFile = null;
+    this.screenshotFile = null;
+    this.primaryImageName.set(null);
+    this.screenshotName.set(null);
     this.form.reset();
   }
 
@@ -71,17 +83,24 @@ export class ProductShowcaseAdminComponent implements OnInit {
       return;
     }
 
+    if (!this.editingId() && !this.primaryImageFile) {
+      this.toast.show('Please upload a primary image for the showcase item', 'error');
+      return;
+    }
+
     const payload = {
       name: this.form.value.name ?? '',
       slug: this.form.value.slug ?? '',
       description: this.form.value.description ?? '',
-      imageUrl: this.form.value.imageUrl ?? '',
       backgroundColor: this.form.value.backgroundColor ?? '',
-      projectScreenshotUrl: this.form.value.projectScreenshotUrl ?? '',
+      imageUrl: this.form.value.imageUrl ?? this.primaryImageName(),
+      projectScreenshotUrl: this.form.value.projectScreenshotUrl ?? this.screenshotName(),
       highlights: (this.form.value.highlights || '')
         .split('\n')
         .map(line => line.trim())
         .filter(Boolean),
+      primaryImage: this.primaryImageFile,
+      projectScreenshot: this.screenshotFile,
     };
 
     this.loading.set(true);
@@ -100,6 +119,20 @@ export class ProductShowcaseAdminComponent implements OnInit {
       this.toast.show('Unable to save showcase product', 'error');
       this.loading.set(false);
     }
+  }
+
+  onPrimaryImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0] ?? null;
+    this.primaryImageFile = file;
+    this.primaryImageName.set(file?.name ?? this.primaryImageName());
+  }
+
+  onScreenshotSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0] ?? null;
+    this.screenshotFile = file;
+    this.screenshotName.set(file?.name ?? this.screenshotName());
   }
 
   async delete(id: string): Promise<void> {
