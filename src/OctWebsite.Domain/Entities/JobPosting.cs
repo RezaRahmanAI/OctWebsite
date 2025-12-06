@@ -6,7 +6,6 @@ public sealed record JobPosting(
     string Location,
     string EmploymentType,
     string Summary,
-    string? DetailsUrl,
     bool Active,
     DateTimeOffset PublishedAt
 );

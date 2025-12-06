@@ -27,7 +27,6 @@ export class CareerPostingsAdminComponent implements OnInit {
     location: ['', Validators.required],
     employmentType: ['', Validators.required],
     summary: ['', [Validators.required, Validators.minLength(10)]],
-    detailsUrl: ['', Validators.required],
     active: [true, Validators.required],
   });
 
@@ -47,7 +46,6 @@ export class CareerPostingsAdminComponent implements OnInit {
       location: posting.location,
       employmentType: posting.employmentType,
       summary: posting.summary,
-      detailsUrl: posting.detailsUrl ?? '',
       active: posting.active,
     });
   }
@@ -63,7 +61,6 @@ export class CareerPostingsAdminComponent implements OnInit {
       location: this.postingForm.value.location ?? '',
       employmentType: this.postingForm.value.employmentType ?? '',
       summary: this.postingForm.value.summary ?? '',
-      detailsUrl: this.postingForm.value.detailsUrl ?? '',
       active: this.postingForm.value.active ?? false,
     };
 
