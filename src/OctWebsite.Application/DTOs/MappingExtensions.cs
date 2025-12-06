@@ -61,6 +61,16 @@ public static class MappingExtensions
         product.Features,
         product.Active);
 
+    public static ProductShowcaseDto ToDto(this ProductShowcaseItem item) => new(
+        item.Id,
+        item.Name,
+        item.Slug,
+        item.Description,
+        item.ImageUrl,
+        item.BackgroundColor,
+        item.ProjectScreenshotUrl,
+        item.Highlights);
+
     public static JobPostingDto ToDto(this JobPosting posting) => new(
         posting.Id,
         posting.Title,

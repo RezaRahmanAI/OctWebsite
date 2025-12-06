@@ -341,6 +341,66 @@ internal static class SeedData
                 true)
         ];
 
+    public static IReadOnlyList<ProductShowcaseItem> ProductShowcaseItems { get; } =
+        [
+            new ProductShowcaseItem(
+                Guid.Parse("1383ae9b-dfd0-4a20-b6c1-5e3cd2c25a20"),
+                "DMS",
+                "dms",
+                "Smart distribution business management with accounting, purchase, sales, SR control, and stock management.",
+                "/images/project/dms.jpg",
+                "bg-[#06ac30]",
+                "/images/project/dms.jpg",
+                new[]
+                {
+                    "Mobile and web access for field and back-office teams",
+                    "Realtime stock and ledger visibility",
+                    "Built-in SR control and order governance"
+                }),
+            new ProductShowcaseItem(
+                Guid.Parse("5b606b63-20a7-4f7c-9f7a-16bd6f5ce3a7"),
+                "Ebike",
+                "ebike",
+                "Motorcycle showroom software covering settlements, stock, sales, purchases, and registration paperwork.",
+                "/images/project/ebike.jpg",
+                "bg-[#8b0101]",
+                "/images/project/ebike.jpg",
+                new[]
+                {
+                    "Integrated sales and registration workflows",
+                    "Stock, installment, and receivable tracking",
+                    "Alerts for renewals and compliance paperwork"
+                }),
+            new ProductShowcaseItem(
+                Guid.Parse("7f90b753-5a0b-4fdc-9e79-d62f7272bdfa"),
+                "Ezone",
+                "ezone",
+                "Electronics showroom platform with stock control, cash sales, hire sales, and installment reminders.",
+                "/images/project/ezone.png",
+                "bg-[#0d85ba]",
+                "/images/project/ezone.png",
+                new[]
+                {
+                    "Cash, hire, and installment sales flows",
+                    "Inventory sync across counters",
+                    "Customer reminders and notifications"
+                }),
+            new ProductShowcaseItem(
+                Guid.Parse("8e4d4412-bb1c-4d7e-93e2-4c6cda7ad2f7"),
+                "Real Estate Management",
+                "real-estate-showcase",
+                "Accounts, project-wise estimates, flat booking, and installment reminders for real estate operators.",
+                "/images/project/realstate.jpg",
+                "bg-[#9d7a54]",
+                "/images/project/realstate.jpg",
+                new[]
+                {
+                    "Project budgeting with unit-level rollups",
+                    "Booking, installment, and receivable tracking",
+                    "Customer communications and document kits"
+                })
+        ];
+
     public static ContactPage ContactPage { get; } = new()
     {
         Id = Guid.Parse("c8c9d5b2-b4e6-4f1f-b75d-0d5b4ce9f924"),

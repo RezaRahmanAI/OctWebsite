@@ -1,84 +1,85 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { Injectable, computed, effect, inject, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-
-export interface ProductShowcaseItem {
-  name: string;
-  description: string;
-  imageUrl: string;
-  backgroundColor: string; // Tailwind background classes
-  projectScreenshotUrl: string; // Image shown in the card
-}
-
-const STATIC_SHOWCASE_PRODUCTS: ProductShowcaseItem[] = [
-  {
-    name: 'DMS',
-    description:
-      'DMS is a smart Distribution Business Management System that provides accounting, purchase, sales, SR control, and stock management via mobile app or website so you can fully control your products.',
-    imageUrl: '/images/project/dms.jpg',
-    backgroundColor: 'bg-[#06ac30]', // soft mint
-    projectScreenshotUrl: '/images/project/dms.jpg',
-  },
-  {
-    name: 'Ebike',
-    description:
-      'Ebike is software for motorcycle showrooms, covering account settlement, stock, sales, purchases, and registration document preparation—an essential part of your showroom management.',
-    imageUrl: '/images/project/ebike.jpg',
-    backgroundColor: 'bg-[#8b0101]', // soft blue
-    projectScreenshotUrl: '/images/project/ebike.jpg',
-  },
-  {
-    name: 'Ezone',
-    description:
-      'A software for electronics showrooms that gives you account settlement, stock, cash sales, hire sales, installment reminders, and more—becoming a core part of your showroom management.',
-    imageUrl: '/images/project/ezone.png',
-    backgroundColor: 'bg-[#0d85ba]',
-    projectScreenshotUrl: '/images/project/ezone.png',
-  },
-  {
-    name: 'Real Estate Management',
-    description:
-      'Software for real estate businesses with accounts, project-wise estimates, flat booking, installment date reminders, and more—making your real estate operations much easier.',
-    imageUrl: '/images/project/realstate.jpg',
-    backgroundColor: 'bg-[#9d7a54]', // soft peach
-    projectScreenshotUrl: '/images/project/realstate.jpg',
-  },
-];
+import { ProductShowcaseItem } from '../models';
+import { ProductShowcaseApiService, SaveProductShowcaseRequest } from './product-showcase-api.service';
 
 @Injectable({ providedIn: 'root' })
 export class ProductShowcaseService {
-  private readonly http = inject(HttpClient);
+  private readonly api = inject(ProductShowcaseApiService);
   private readonly productsSignal = signal<ProductShowcaseItem[]>([]);
-
-  constructor() {
-    this.seedFromStatic();
-  }
+  private readonly loaded = signal(false);
+  private readonly loading = signal(false);
 
   readonly products = computed(() => this.productsSignal());
+  readonly isLoading = this.loading.asReadonly();
 
-  /**
-   * Replace the current showcase products with new data.
-   */
+  constructor() {
+    effect(() => {
+      if (this.productsSignal().length === 0 && !this.loading()) {
+        void this.refresh();
+      }
+    });
+  }
+
   setProducts(products: ProductShowcaseItem[]): void {
     this.productsSignal.set(products);
   }
 
-  async loadFromApi(endpoint: string): Promise<void> {
+  async refresh(): Promise<void> {
+    if (this.loading()) {
+      return;
+    }
+
+    this.loading.set(true);
     try {
-      const products = await firstValueFrom(
-        this.http.get<ProductShowcaseItem[]>(endpoint),
-      );
+      const products = await firstValueFrom(this.api.list());
       this.productsSignal.set(products);
+      this.loaded.set(true);
     } catch (error) {
-      console.error('Failed to load showcase products from API. Using static data.', error);
-      this.seedFromStatic(true);
+      console.error('Failed to load showcase products from API.', error);
+    } finally {
+      this.loading.set(false);
     }
   }
 
-  private seedFromStatic(force = false): void {
-    if (!force && this.productsSignal().length > 0) {
+  async ensureLoaded(): Promise<void> {
+    if (this.loaded()) {
       return;
     }
-    this.productsSignal.set(STATIC_SHOWCASE_PRODUCTS);
+
+    await this.refresh();
+  }
+
+  async getBySlug(slug: string): Promise<ProductShowcaseItem | undefined> {
+    const existing = this.productsSignal().find(item => item.slug === slug);
+    if (existing) {
+      return existing;
+    }
+
+    try {
+      const item = await firstValueFrom(this.api.getBySlug(slug));
+      this.productsSignal.update(items => [...items, item]);
+      return item;
+    } catch (error) {
+      console.error('Unable to fetch showcase product', error);
+      return undefined;
+    }
+  }
+
+  async create(request: SaveProductShowcaseRequest): Promise<ProductShowcaseItem> {
+    const created = await firstValueFrom(this.api.create(request));
+    this.productsSignal.update(items => [...items, created]);
+    return created;
+  }
+
+  async update(id: string, request: SaveProductShowcaseRequest): Promise<ProductShowcaseItem | undefined> {
+    const updated = await firstValueFrom(this.api.update(id, request));
+    this.productsSignal.update(items => items.map(item => (item.id === id ? updated : item)));
+    return updated;
+  }
+
+  async delete(id: string): Promise<void> {
+    await firstValueFrom(this.api.delete(id));
+    this.productsSignal.update(items => items.filter(item => item.id !== id));
   }
 }

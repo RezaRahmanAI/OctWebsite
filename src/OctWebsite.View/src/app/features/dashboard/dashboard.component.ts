@@ -13,6 +13,7 @@ import { AuthService } from '../../core/auth';
 import { ServicesAdminComponent } from './services-admin.component';
 import { HomeAdminComponent } from './home-admin.component';
 import { ProductAdminComponent } from './product-admin.component';
+import { ProductShowcaseAdminComponent } from './product-showcase-admin.component';
 import { CareerPostingsAdminComponent } from './career-postings-admin.component';
 import { CareerApplicationsAdminComponent } from './career-applications-admin.component';
 import { CareerPageAdminComponent } from './career-page-admin.component';
@@ -33,6 +34,7 @@ import { CareerPageAdminComponent } from './career-page-admin.component';
     ServicesAdminComponent,
     HomeAdminComponent,
     ProductAdminComponent,
+    ProductShowcaseAdminComponent,
     CareerPostingsAdminComponent,
     CareerApplicationsAdminComponent,
     CareerPageAdminComponent,
@@ -56,6 +58,7 @@ export class DashboardComponent {
     | 'submissions'
     | 'services'
     | 'products'
+    | 'showcase'
     | 'careers'
   >('home');
 
@@ -72,6 +75,7 @@ export class DashboardComponent {
       | 'submissions'
       | 'services'
       | 'products'
+      | 'showcase'
       | 'careers'
   ): void {
     this.activeTab.set(tab);

@@ -1,8 +1,9 @@
-import { Component, inject, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, inject, AfterViewInit, OnDestroy, OnInit, ViewChild, ElementRef, computed, effect } from '@angular/core';
 import { NgFor, NgClass } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { SectionHeaderComponent } from '../../../../shared/components/section-header/section-header.component';
+import { ProductShowcaseItem } from '../../../../core/models';
 import { ProductShowcaseService } from '../../../../core/services/product-showcase.service';
-import type { ProductShowcaseItem } from '../../../../core/services/product-showcase.service';
 import { ScrollRevealDirective } from '../../../../shared/directives/scroll-reveal.directive';
 
 const CARD_WIDTH = 360;
@@ -14,9 +15,9 @@ const SLIDE_DISTANCE = CARD_WIDTH + CARD_GAP;
   standalone: true,
   templateUrl: './product-showcase.html',
   styleUrls: ['./product-showcase.css'],
-  imports: [NgFor, NgClass, SectionHeaderComponent, ScrollRevealDirective],
+  imports: [NgFor, NgClass, RouterModule, SectionHeaderComponent, ScrollRevealDirective],
 })
-export class ProductShowcaseComponent implements AfterViewInit, OnDestroy {
+export class ProductShowcaseComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('cardTrack') cardTrack!: ElementRef<HTMLDivElement>;
 
   private readonly showcaseService = inject(ProductShowcaseService);
@@ -28,10 +29,13 @@ export class ProductShowcaseComponent implements AfterViewInit, OnDestroy {
     'We build robust, scalable, and efficient software products tailored to your business.';
 
   // Data
-  public products: ProductShowcaseItem[] = this.showcaseService.products();
+  public readonly products = this.showcaseService.products;
 
   // Duplicate products so the carousel can loop seamlessly
-  public marqueeProducts: ProductShowcaseItem[] = [...this.products, ...this.products];
+  public readonly marqueeProducts = computed<ProductShowcaseItem[]>(() => {
+    const items = this.products();
+    return [...items, ...items];
+  });
 
   // Animation config
   private carouselTimeoutId: any;
@@ -45,10 +49,23 @@ export class ProductShowcaseComponent implements AfterViewInit, OnDestroy {
     if (!track) return;
 
     // Initial state
-    track.style.transform = 'translateX(0)';
-    track.style.transition = 'none';
+    this.resetTrackPosition(track);
 
     this.scheduleNextSlide();
+
+    effect(() => {
+      const items = this.marqueeProducts();
+      if (!items.length || !this.cardTrack?.nativeElement) {
+        return;
+      }
+
+      this.currentIndex = 0;
+      this.resetTrackPosition(this.cardTrack.nativeElement);
+    });
+  }
+
+  async ngOnInit(): Promise<void> {
+    await this.showcaseService.ensureLoaded();
   }
 
   ngOnDestroy(): void {
@@ -57,12 +74,17 @@ export class ProductShowcaseComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  private resetTrackPosition(track: HTMLDivElement): void {
+    track.style.transform = 'translateX(0)';
+    track.style.transition = 'none';
+  }
+
   /** Slide by one card: leftmost moves out of view, new one enters from right */
   private slideOnce(): void {
     const track = this.cardTrack?.nativeElement;
     if (!track) return;
 
-    const baseLength = this.products.length;
+    const baseLength = this.products().length;
     if (baseLength === 0) return;
 
     // Move to next card

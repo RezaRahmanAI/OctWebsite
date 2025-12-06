@@ -2,6 +2,8 @@ export * from './about.service';
 export * from './services.service';
 export * from './products.service';
 export * from './products-api.service';
+export * from './product-showcase.service';
+export * from './product-showcase-api.service';
 export * from './academy.service';
 export * from './academy-page-api.service';
 export * from './blog-page-api.service';

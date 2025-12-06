@@ -1,0 +1,49 @@
+<div class="section-padding bg-slate-50">
+  <div class="container-responsive">
+    <ng-container *ngIf="!loading(); else loadingState">
+      <ng-container *ngIf="product() as item; else missing">
+        <div class="rounded-3xl bg-white shadow-sm ring-1 ring-slate-200">
+          <div class="flex flex-col gap-10 p-8 md:flex-row md:items-center md:p-12">
+            <div class="flex-1 space-y-4">
+              <a routerLink="/" class="text-sm font-semibold text-primary-600">← Back to home</a>
+              <p class="text-sm font-semibold uppercase tracking-wide text-primary-600">Product Showcase</p>
+              <h1 class="text-4xl font-bold text-slate-900">{{ item.name }}</h1>
+              <p class="text-lg text-slate-600">{{ item.description }}</p>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  *ngFor="let highlight of item.highlights"
+                  class="rounded-full bg-primary-50 px-3 py-1 text-sm font-medium text-primary-700"
+                >
+                  {{ highlight }}
+                </span>
+              </div>
+            </div>
+            <div class="flex-1">
+              <div class="relative overflow-hidden rounded-[28px] bg-white shadow-xl ring-4 ring-white" [ngClass]="item.backgroundColor">
+                <img
+                  [src]="item.projectScreenshotUrl"
+                  [alt]="item.name + ' preview'"
+                  class="block h-full w-full object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #missing>
+  <div class="text-center">
+    <h2 class="text-2xl font-semibold text-slate-900">Product not found</h2>
+    <p class="text-slate-600">We could not find the showcase entry you were looking for.</p>
+    <a routerLink="/" class="mt-4 inline-flex items-center gap-2 text-primary-600">Back to home</a>
+  </div>
+</ng-template>
+
+<ng-template #loadingState>
+  <div class="flex items-center justify-center py-16">
+    <div class="h-12 w-12 animate-spin rounded-full border-4 border-slate-200 border-t-primary-600"></div>
+  </div>
+</ng-template>

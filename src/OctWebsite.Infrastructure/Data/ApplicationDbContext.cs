@@ -23,6 +23,7 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<ContactSubmission> ContactSubmissions => Set<ContactSubmission>();
     public DbSet<ServiceItem> ServiceItems => Set<ServiceItem>();
     public DbSet<ProductItem> ProductItems => Set<ProductItem>();
+    public DbSet<ProductShowcaseItem> ProductShowcaseItems => Set<ProductShowcaseItem>();
     public DbSet<ServicesPage> ServicesPages => Set<ServicesPage>();
     public DbSet<ProductPage> ProductPages => Set<ProductPage>();
     public DbSet<HomeHeroSection> HomeHeroSections => Set<HomeHeroSection>();
@@ -343,6 +344,36 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
                 list => list.ToList());
 
             entity.Property(product => product.Features)
+                .HasConversion(stringListConverter)
+                .Metadata.SetValueComparer(stringListComparer);
+        });
+
+        modelBuilder.Entity<ProductShowcaseItem>(entity =>
+        {
+            entity.ToTable("ProductShowcaseItems");
+            entity.HasKey(item => item.Id);
+            entity.Property(item => item.Id).ValueGeneratedNever();
+            entity.Property(item => item.Name).IsRequired();
+            entity.Property(item => item.Slug).IsRequired();
+            entity.HasIndex(item => item.Slug).IsUnique();
+            entity.Property(item => item.Description).IsRequired();
+            entity.Property(item => item.ImageUrl).IsRequired();
+            entity.Property(item => item.BackgroundColor).IsRequired();
+            entity.Property(item => item.ProjectScreenshotUrl).IsRequired();
+
+            var stringListConverter = new ValueConverter<IReadOnlyList<string>, string>(
+                list => JsonSerializer.Serialize(list, JsonSerializerOptions.Default),
+                json => (IReadOnlyList<string>)(JsonSerializer.Deserialize<List<string>>(json, JsonSerializerOptions.Default)
+                                                 ?? new List<string>()));
+
+            var stringListComparer = new ValueComparer<IReadOnlyList<string>>(
+                (left, right) => left.SequenceEqual(right),
+                list => list.Aggregate(0, (hash, value) =>
+                    HashCode.Combine(hash, value == null ? 0 : value.GetHashCode())
+                ),
+                list => list.ToList());
+
+            entity.Property(item => item.Highlights)
                 .HasConversion(stringListConverter)
                 .Metadata.SetValueComparer(stringListComparer);
         });
