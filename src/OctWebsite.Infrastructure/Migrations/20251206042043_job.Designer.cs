@@ -631,6 +631,10 @@ namespace OctWebsite.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -649,6 +653,19 @@ namespace OctWebsite.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("JobPostings", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("a63c52f0-a0b8-4f1f-9efb-2b9a2b0313c5"),
+                            Active = true,
+                            Description = "Full Stack .NET Engineer\nWe are looking for an experienced and skilled Full Stack .NET Engineer to join our dynamic development team. The ideal candidate should be proficient in Blazor, .NET Core, and have extensive experience in both backend and frontend technologies. This role demands expertise in modern software development practices, including clean architecture, microservices, Agile methodologies, and comprehensive understanding of full-stack development.\nResponsibilities and Requirements\n Job Responsibilities:\n\nDevelop and Maintain Applications:\n\n• Design, develop, and maintain robust, scalable applications using .NET Core and Blazor frameworks.\n\n• Build responsive and efficient Web APIs to support frontend applications and integrations with third-party systems.\n\n• Employ Entity Framework Core for efficient database operations, including data modeling, querying, and optimization.\n\n• Apply principles of .NET clean architecture for clear separation of concerns, maintainability, and scalability.\n\n• Develop minimal APIs for efficient microservices implementation.\n\n• Design intuitive and responsive UI using Blazor for rich client-side experiences.\n\nEducational Requirements:\n\n• Bachelor’s or Master’s degree in Computer Science, Engineering, or a related field.\n\n \n\nExperience Requirements:\n\n• 2-7 years of experience in full-stack .NET development with a proven track record of designing, implementing, and deploying complex software solutions.\n\n \n\nPreferred Technical Skills:\n\n• Strong proficiency in full-stack .NET development, specifically .NET Core.\n\n• Proven experience developing interactive web applications using Blazor.\n\n• Proficient in modern JavaScript frameworks and CSS libraries.\n\n• Solid understanding of MVVM and MVC architecture patterns.\n\n• Hands-on experience with Entity Framework Core and proficient database design skills (SQL Server, PostgreSQL).\n\n• Expertise in microservices architecture and .NET clean architecture.\n\n• Experience building and consuming RESTful Web APIs.\n\n• Familiarity with WPF development for desktop applications (optional but preferred).\n\n• Knowledge of MAUI for cross-platform application development (optional but advantageous).\n\n• Experience with cloud platforms such as AWS or Azure.\n\n• Familiarity with CI/CD pipelines and DevOps tools (Azure DevOps, Jenkins, GitHub Actions).\n\n• Practical experience with containerization technologies (Docker, Kubernetes).\n\nDetails: https://forms.gle/x43m62emAj3zhpBo6\nApplication Form\nName*\nName\nGender*\nGender\nDate of Birth*\nDate of Birth\nPhone*\nPhone\nEmail*\nEmail\nNationality*\nNationality\nAddress*\nAddress\nCover Letter\nCover Letter\nAttach CV*\nfile icon\nUload file less than 3 MB. PDF or DOCX\nCancel\nCancel\nApply",
+                            EmploymentType = "Full-time",
+                            Location = "Dhaka / Remote",
+                            PublishedAt = new DateTimeOffset(new DateTime(2025, 6, 15, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Summary = "Lead full-stack solutions with Blazor, .NET Core, and modern cloud practices.",
+                            Title = "Full Stack .NET Engineer"
+                        });
                 });
 
             modelBuilder.Entity("OctWebsite.Domain.Entities.ProductItem", b =>

@@ -66,6 +66,7 @@ public static class MappingExtensions
         posting.Title,
         posting.Location,
         posting.EmploymentType,
+        posting.Description,
         posting.Summary,
         posting.Active,
         posting.PublishedAt);
