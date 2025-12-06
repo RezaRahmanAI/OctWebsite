@@ -341,6 +341,7 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
             entity.Property(posting => posting.Location).IsRequired();
             entity.Property(posting => posting.EmploymentType).IsRequired();
             entity.Property(posting => posting.Summary).IsRequired();
+            entity.Property(posting => posting.DetailsUrl);
             entity.Property(posting => posting.PublishedAt).IsRequired();
             entity.Property(posting => posting.Active).IsRequired();
         });

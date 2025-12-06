@@ -29,6 +29,11 @@
       <textarea rows="2" formControlName="summary" placeholder="Short description of the role"></textarea>
     </label>
 
+    <label class="form-field">
+      <span>Details or apply URL</span>
+      <input type="url" formControlName="detailsUrl" placeholder="https://forms.gle/..." />
+    </label>
+
     <label class="flex items-center gap-2 text-sm font-semibold text-slate-700">
       <input type="checkbox" formControlName="active" />
       Visible on site
@@ -51,6 +56,7 @@
             <th>Title</th>
             <th>Location</th>
             <th>Type</th>
+            <th>Details URL</th>
             <th>Published</th>
             <th>Status</th>
             <th></th>
@@ -61,6 +67,12 @@
             <td class="font-semibold">{{ role.title }}</td>
             <td>{{ role.location }}</td>
             <td>{{ role.employmentType }}</td>
+            <td class="max-w-xs truncate text-sm">
+              <a *ngIf="role.detailsUrl" class="text-primary underline" [href]="role.detailsUrl" target="_blank" rel="noreferrer">
+                {{ role.detailsUrl }}
+              </a>
+              <span *ngIf="!role.detailsUrl" class="status-chip muted">None</span>
+            </td>
             <td>{{ role.publishedAt | date : 'medium' }}</td>
             <td>
               <span class="status-chip" [class.success]="role.active" [class.muted]="!role.active">

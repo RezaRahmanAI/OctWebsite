@@ -9,6 +9,7 @@ export interface JobPosting {
   location: string;
   employmentType: string;
   summary: string;
+  detailsUrl?: string | null;
   active: boolean;
   publishedAt: string;
 }
@@ -18,6 +19,7 @@ export interface SaveJobPostingRequest {
   location: string;
   employmentType: string;
   summary: string;
+  detailsUrl?: string | null;
   active: boolean;
 }
 
