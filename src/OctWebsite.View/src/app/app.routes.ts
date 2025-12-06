@@ -61,6 +61,13 @@ export const routes: Routes = [
         ],
       },
       {
+        path: 'showcase/:slug',
+        loadComponent: () =>
+          import('./features/product-showcase-detail/product-showcase-detail.component').then(
+            (m) => m.ProductShowcaseDetailComponent,
+          ),
+      },
+      {
         path: 'academy',
         children: [
           {

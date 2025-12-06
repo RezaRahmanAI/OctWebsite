@@ -38,6 +38,7 @@ public static class DependencyInjection
         services.AddScoped<ICareerPageRepository, EfCareerPageRepository>();
         services.AddScoped<IServicesPageRepository, EfServicesPageRepository>();
         services.AddScoped<IProductPageRepository, EfProductPageRepository>();
+        services.AddScoped<IProductShowcaseRepository, EfProductShowcaseRepository>();
         services.AddScoped<IAcademyTrackRepository, EfAcademyTrackRepository>();
         services.AddScoped<IBlogRepository, EfBlogRepository>();
         services.AddScoped<IContactSubmissionRepository, EfContactSubmissionRepository>();

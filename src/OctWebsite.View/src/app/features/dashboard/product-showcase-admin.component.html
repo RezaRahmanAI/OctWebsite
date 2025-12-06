@@ -1,0 +1,74 @@
+<section class="space-y-6 rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+  <div class="space-y-2">
+    <h2 class="text-2xl font-semibold text-slate-900">Product Showcase</h2>
+    <p class="text-sm text-slate-600">Manage the home page product showcase carousel.</p>
+  </div>
+
+  <form class="grid gap-4 md:grid-cols-2" (ngSubmit)="submit()" [formGroup]="form">
+    <label class="form-control">
+      <span class="label">Name</span>
+      <input class="input" formControlName="name" placeholder="DMS" />
+    </label>
+    <label class="form-control">
+      <span class="label">Slug</span>
+      <input class="input" formControlName="slug" placeholder="dms" />
+    </label>
+    <label class="form-control md:col-span-2">
+      <span class="label">Description</span>
+      <textarea class="input" formControlName="description" rows="3"></textarea>
+    </label>
+    <label class="form-control">
+      <span class="label">Primary Image URL</span>
+      <input class="input" formControlName="imageUrl" placeholder="/images/project/dms.jpg" />
+      <small>Used as the thumbnail and background placeholder.</small>
+    </label>
+    <label class="form-control">
+      <span class="label">Background Color</span>
+      <input class="input" formControlName="backgroundColor" placeholder="bg-[#06ac30]" />
+      <small>Tailwind-compatible class to tint the card.</small>
+    </label>
+    <label class="form-control">
+      <span class="label">Screenshot URL</span>
+      <input class="input" formControlName="projectScreenshotUrl" placeholder="/images/project/dms.jpg" />
+    </label>
+    <label class="form-control md:col-span-2">
+      <span class="label">Highlights (one per line)</span>
+      <textarea class="input" formControlName="highlights" rows="4"></textarea>
+    </label>
+
+    <div class="md:col-span-2 flex items-center gap-3">
+      <button type="submit" class="btn" [disabled]="loading()">
+        {{ editingId() ? 'Update showcase item' : 'Create showcase item' }}
+      </button>
+      <button type="button" class="btn ghost" (click)="reset()">Reset</button>
+    </div>
+  </form>
+
+  <div class="overflow-x-auto rounded-lg border border-slate-200">
+    <table class="min-w-full divide-y divide-slate-200">
+      <thead class="bg-slate-50">
+        <tr>
+          <th class="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-slate-600">Name</th>
+          <th class="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-slate-600">Slug</th>
+          <th class="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-slate-600">Highlights</th>
+          <th class="px-3 py-2 text-right text-xs font-semibold uppercase tracking-wide text-slate-600">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-200 bg-white">
+        <tr *ngFor="let product of products()">
+          <td class="px-3 py-2 font-medium text-slate-900">{{ product.name }}</td>
+          <td class="px-3 py-2 text-slate-700">{{ product.slug }}</td>
+          <td class="px-3 py-2 text-slate-700">
+            <span *ngFor="let highlight of product.highlights" class="mr-2 inline-flex rounded-full bg-slate-100 px-2 py-1 text-xs">
+              {{ highlight }}
+            </span>
+          </td>
+          <td class="px-3 py-2 text-right text-sm">
+            <button type="button" class="text-primary-600" (click)="edit(product)">Edit</button>
+            <button type="button" class="ml-3 text-rose-600" (click)="delete(product.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
