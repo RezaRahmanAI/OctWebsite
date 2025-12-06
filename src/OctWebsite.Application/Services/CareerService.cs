@@ -31,7 +31,6 @@ internal sealed class CareerService(
             request.Location.Trim(),
             request.EmploymentType.Trim(),
             request.Summary.Trim(),
-            string.IsNullOrWhiteSpace(request.DetailsUrl) ? null : request.DetailsUrl.Trim(),
             request.Active,
             DateTimeOffset.UtcNow);
 
@@ -54,7 +53,6 @@ internal sealed class CareerService(
             Location = request.Location.Trim(),
             EmploymentType = request.EmploymentType.Trim(),
             Summary = request.Summary.Trim(),
-            DetailsUrl = string.IsNullOrWhiteSpace(request.DetailsUrl) ? null : request.DetailsUrl.Trim(),
             Active = request.Active
         };
 
@@ -105,7 +103,6 @@ internal sealed class CareerService(
         ArgumentException.ThrowIfNullOrWhiteSpace(request.Location);
         ArgumentException.ThrowIfNullOrWhiteSpace(request.EmploymentType);
         ArgumentException.ThrowIfNullOrWhiteSpace(request.Summary);
-        ArgumentException.ThrowIfNullOrWhiteSpace(request.DetailsUrl);
     }
 
     private static void ValidateApplication(SubmitCareerApplicationRequest request)
