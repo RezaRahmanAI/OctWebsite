@@ -1,27 +1,56 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CareersApiService, CareerApplicationRequest, JobPosting } from '../../core/services/careers-api.service';
+import { CareerPageApiService, type CareerPageModel } from '../../core/services/career-page-api.service';
 import { ToastService } from '../../core/services/toast.service';
+import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
+import { SectionHeadingComponent, SectionHeadingCta } from '../../shared/components/section-heading/section-heading.component';
 
 @Component({
   selector: 'app-careers',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, AssetUrlPipe, SectionHeadingComponent],
   templateUrl: './careers.component.html',
   styleUrls: ['./careers.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CareersComponent implements OnInit {
   private readonly careersApi = inject(CareersApiService);
+  private readonly careerPageApi = inject(CareerPageApiService);
   private readonly fb = inject(FormBuilder);
   private readonly toast = inject(ToastService);
+  private readonly document = inject(DOCUMENT);
 
   protected readonly openings = signal<JobPosting[]>([]);
   protected readonly loading = signal(false);
   protected readonly submitting = signal(false);
   protected readonly error = signal<string | null>(null);
   protected selectedCv: File | null = null;
+
+  protected readonly careerPage = computed(() => {
+    const page = this.careerPageApi.content();
+    return page ? this.mapFromApi(page) : null;
+  });
+
+  protected readonly heroVideoUrl = computed(() => this.careerPage()?.heroVideoUrl ?? null);
+
+  protected readonly heroCtas = computed<SectionHeadingCta[]>(() => {
+    const page = this.careerPage();
+    if (!page) return [];
+
+    return [
+      {
+        label: page.primaryCtaLabel,
+        routerLink: page.primaryCtaLink,
+      },
+      {
+        label: 'Browse roles ↓',
+        onClick: () => this.scrollToRoles(),
+        variant: 'secondary',
+      },
+    ];
+  });
 
   protected toBulletPoints(summary: string): string[] {
     const points = summary
@@ -41,6 +70,7 @@ export class CareersComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.careerPageApi.load();
     this.fetchOpenings();
   }
 
@@ -100,5 +130,25 @@ export class CareersComponent implements OnInit {
         this.error.set('Unable to load open positions at the moment.');
       },
     });
+  }
+
+  private scrollToRoles(): void {
+    const el = this.document.getElementById('open-roles');
+    el?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  private mapFromApi(model: CareerPageModel) {
+    return {
+      header: {
+        eyebrow: model.headerEyebrow,
+        title: model.headerTitle,
+        subtitle: model.headerSubtitle,
+      },
+      heroVideoUrl: model.heroVideo?.url ?? model.heroVideo?.fileName ?? null,
+      heroMetaLine: model.heroMetaLine,
+      primaryCtaLabel: model.primaryCtaLabel,
+      primaryCtaLink: model.primaryCtaLink,
+      responseTime: model.responseTime,
+    } as const;
   }
 }

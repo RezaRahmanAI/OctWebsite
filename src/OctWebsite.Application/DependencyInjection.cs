@@ -15,6 +15,7 @@ public static class DependencyInjection
         services.AddScoped<IHomeTestimonialService, HomeTestimonialService>();
         services.AddScoped<IHomePageService, HomePageService>();
         services.AddScoped<IContactPageService, ContactPageService>();
+        services.AddScoped<ICareerPageService, CareerPageService>();
         services.AddScoped<IContactChannelsService, ContactChannelsService>();
         services.AddScoped<IContactSubmissionService, ContactSubmissionService>();
         services.AddScoped<IAcademyTrackService, AcademyTrackService>();
