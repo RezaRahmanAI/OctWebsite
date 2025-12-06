@@ -6,8 +6,10 @@ public sealed record ProductShowcaseDto(
     string Slug,
     string Description,
     string ImageUrl,
+    string? ImageFileName,
     string BackgroundColor,
     string ProjectScreenshotUrl,
+    string? ProjectScreenshotFileName,
     IReadOnlyList<string> Highlights
 );
 
