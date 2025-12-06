@@ -30,6 +30,7 @@ internal sealed class CareerService(
             request.Title.Trim(),
             request.Location.Trim(),
             request.EmploymentType.Trim(),
+            request.Description.Trim(),
             request.Summary.Trim(),
             request.Active,
             DateTimeOffset.UtcNow);
@@ -52,6 +53,7 @@ internal sealed class CareerService(
             Title = request.Title.Trim(),
             Location = request.Location.Trim(),
             EmploymentType = request.EmploymentType.Trim(),
+            Description = request.Description.Trim(),
             Summary = request.Summary.Trim(),
             Active = request.Active
         };
@@ -102,6 +104,7 @@ internal sealed class CareerService(
         ArgumentException.ThrowIfNullOrWhiteSpace(request.Title);
         ArgumentException.ThrowIfNullOrWhiteSpace(request.Location);
         ArgumentException.ThrowIfNullOrWhiteSpace(request.EmploymentType);
+        ArgumentException.ThrowIfNullOrWhiteSpace(request.Description);
         ArgumentException.ThrowIfNullOrWhiteSpace(request.Summary);
     }
 

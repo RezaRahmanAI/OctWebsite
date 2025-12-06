@@ -5,6 +5,7 @@ public sealed record JobPosting(
     string Title,
     string Location,
     string EmploymentType,
+    string Description,
     string Summary,
     bool Active,
     DateTimeOffset PublishedAt

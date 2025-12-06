@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CareersApiService, CareerApplicationRequest, JobPosting } from '../../core/services/careers-api.service';
 import { ToastService } from '../../core/services/toast.service';
+import { SectionHeadingComponent, SectionHeadingCta } from '../../shared/components/section-heading/section-heading.component';
 
 @Component({
   selector: 'app-careers',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, SectionHeadingComponent],
   templateUrl: './careers.component.html',
   styleUrls: ['./careers.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,6 +22,19 @@ export class CareersComponent implements OnInit {
   protected readonly loading = signal(false);
   protected readonly submitting = signal(false);
   protected readonly error = signal<string | null>(null);
+  protected readonly selectedJobId = signal<string | null>(null);
+  protected readonly selectedJob = computed(() =>
+    this.openings().find((job) => job.id === this.selectedJobId()) ?? null
+  );
+  protected readonly heroCtas: SectionHeadingCta[] = [
+    { label: 'View openings', fragment: 'openings' },
+    { label: 'Apply now', fragment: 'apply', variant: 'secondary' },
+  ];
+  protected readonly heroHighlights = [
+    'Blazor, .NET Core, and modern JavaScript practices.',
+    'Clean architecture and microservices in production.',
+    'Mentorship, code reviews, and collaborative shipping.',
+  ];
   protected selectedCv: File | null = null;
 
   protected readonly applicationForm = this.fb.group({
@@ -32,6 +46,11 @@ export class CareersComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.applicationForm.controls.jobPostingId.valueChanges.subscribe((value) => {
+      if (value) {
+        this.selectedJobId.set(value);
+      }
+    });
     this.fetchOpenings();
   }
 
@@ -83,7 +102,9 @@ export class CareersComponent implements OnInit {
         this.openings.set(openings);
         this.loading.set(false);
         if (openings.length > 0) {
-          this.applicationForm.controls.jobPostingId.setValue(openings[0].id);
+          const firstId = openings[0].id;
+          this.applicationForm.controls.jobPostingId.setValue(firstId);
+          this.selectedJobId.set(firstId);
         }
       },
       error: () => {
@@ -91,5 +112,14 @@ export class CareersComponent implements OnInit {
         this.error.set('Unable to load open positions at the moment.');
       },
     });
+  }
+
+  protected selectJob(role: JobPosting): void {
+    this.selectedJobId.set(role.id);
+    this.applicationForm.controls.jobPostingId.setValue(role.id);
+  }
+
+  protected trackById(index: number, role: JobPosting): string {
+    return role.id;
   }
 }

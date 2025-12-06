@@ -8,6 +8,7 @@ export interface JobPosting {
   title: string;
   location: string;
   employmentType: string;
+  description: string;
   summary: string;
   active: boolean;
   publishedAt: string;
@@ -17,6 +18,7 @@ export interface SaveJobPostingRequest {
   title: string;
   location: string;
   employmentType: string;
+  description: string;
   summary: string;
   active: boolean;
 }
