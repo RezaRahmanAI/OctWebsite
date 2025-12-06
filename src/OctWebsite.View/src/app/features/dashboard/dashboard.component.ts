@@ -15,6 +15,7 @@ import { HomeAdminComponent } from './home-admin.component';
 import { ProductAdminComponent } from './product-admin.component';
 import { CareerPostingsAdminComponent } from './career-postings-admin.component';
 import { CareerApplicationsAdminComponent } from './career-applications-admin.component';
+import { CareerPageAdminComponent } from './career-page-admin.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -34,6 +35,7 @@ import { CareerApplicationsAdminComponent } from './career-applications-admin.co
     ProductAdminComponent,
     CareerPostingsAdminComponent,
     CareerApplicationsAdminComponent,
+    CareerPageAdminComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],

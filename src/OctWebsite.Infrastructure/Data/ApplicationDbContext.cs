@@ -30,6 +30,7 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<HomeTestimonial> HomeTestimonials => Set<HomeTestimonial>();
     public DbSet<JobPosting> JobPostings => Set<JobPosting>();
     public DbSet<CareerApplication> CareerApplications => Set<CareerApplication>();
+    public DbSet<CareerPage> CareerPages => Set<CareerPage>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -217,6 +218,20 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
             entity.Property(page => page.Offices)
                 .HasConversion(officeConverter)
                 .Metadata.SetValueComparer(officeComparer);
+        });
+
+        modelBuilder.Entity<CareerPage>(entity =>
+        {
+            entity.ToTable("CareerPages");
+            entity.HasKey(page => page.Id);
+            entity.Property(page => page.Id).ValueGeneratedNever();
+            entity.Property(page => page.HeaderEyebrow).IsRequired();
+            entity.Property(page => page.HeaderTitle).IsRequired();
+            entity.Property(page => page.HeaderSubtitle).IsRequired();
+            entity.Property(page => page.HeroMetaLine).IsRequired();
+            entity.Property(page => page.PrimaryCtaLabel).IsRequired();
+            entity.Property(page => page.PrimaryCtaLink).IsRequired();
+            entity.Property(page => page.ResponseTime).IsRequired();
         });
 
         modelBuilder.Entity<ServicesPage>(entity =>

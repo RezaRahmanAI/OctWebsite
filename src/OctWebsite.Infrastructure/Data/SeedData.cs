@@ -397,6 +397,19 @@ internal static class SeedData
         ProfileDownloadUrl = "https://objectcanvas.com/company-profile.pdf"
     };
 
+    public static CareerPage CareerPage { get; } = new()
+    {
+        Id = Guid.Parse("b0c2b7fa-1ed3-4b3c-8c83-0dd9efed3a5c"),
+        HeaderEyebrow = "Careers",
+        HeaderTitle = "Build products and skills with us",
+        HeaderSubtitle = "Join a team shipping ambitious products for clients while investing in your growth.",
+        HeroVideoFileName = "video/careers.mp4",
+        HeroMetaLine = "Hybrid teams across Dhaka, Rajshahi, and remote",
+        PrimaryCtaLabel = "View open roles",
+        PrimaryCtaLink = "/careers#open-roles",
+        ResponseTime = "We review all applications within 3 business days.",
+    };
+
     private static SaveAboutPageRequest DefaultAboutRequest => new(
         "About Us",
         "ObjectCanvas Technology",

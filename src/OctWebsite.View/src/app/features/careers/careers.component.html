@@ -1,34 +1,49 @@
-<section class="section-padding bg-slate-50">
-  <div class="container-responsive space-y-10">
-    <div class="rounded-3xl bg-gradient-to-br from-primary-600 via-primary-500 to-indigo-500 p-10 text-white shadow-2xl">
-      <p class="eyebrow text-white/80">Join our team</p>
-      <div class="mt-4 grid gap-6 md:grid-cols-2 md:items-center">
-        <div class="space-y-4">
-          <h1 class="text-3xl font-bold md:text-4xl">Shape the future with us</h1>
-          <p class="max-w-2xl text-lg text-white/90">
-            We're looking for curious minds and builders who want to make an impact. Explore our open roles and send us your
-            resume to start the conversation.
-          </p>
-        </div>
-        <div class="rounded-2xl bg-white/15 p-6 backdrop-blur">
-          <ul class="space-y-3 text-sm text-white/80">
-            <li class="flex items-start gap-3">
-              <span class="mt-1 h-2.5 w-2.5 rounded-full bg-emerald-300"></span>
-              Hybrid-friendly roles with flexible schedules
-            </li>
-            <li class="flex items-start gap-3">
-              <span class="mt-1 h-2.5 w-2.5 rounded-full bg-amber-300"></span>
-              Mentorship, training, and clear growth paths
-            </li>
-            <li class="flex items-start gap-3">
-              <span class="mt-1 h-2.5 w-2.5 rounded-full bg-sky-200"></span>
-              Meaningful products shipped to real users
-            </li>
-          </ul>
+<section
+  class="container-wide overflow-hidden py-16 space-y-16 lg:min-h-screen lg:flex lg:items-center"
+  *ngIf="careerPage() as page"
+>
+  <header class="section-padding w-full lg:flex lg:items-center">
+    <div class="grid w-full items-center gap-10 lg:grid-cols-2">
+      <div class="space-y-6">
+        <app-section-heading
+          [eyebrow]="page.header.eyebrow"
+          [title]="page.header.title"
+          [subtitle]="page.header.subtitle"
+          [ctas]="heroCtas()"
+          align="left"
+        ></app-section-heading>
+
+        <p class="text-xs text-slate-500">{{ page.responseTime }}</p>
+      </div>
+
+      <div class="relative" *ngIf="heroVideoUrl() as heroUrl">
+        <div class="group relative overflow-hidden rounded-[2.5rem] shadow-xl">
+          <div class="relative aspect-[4/3]">
+            <video class="absolute inset-0 h-full w-full object-cover" autoplay loop muted playsinline>
+              <source [src]="heroUrl | assetUrl" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+
+          <div
+            class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-primary/40 via-transparent to-secondary/40 opacity-40 transition-opacity duration-300 group-hover:opacity-20"
+          ></div>
+
+          <div class="absolute inset-x-6 bottom-6 flex items-center justify-between rounded-2xl bg-white/90 px-4 py-3 text-xs text-slate-700 shadow-lg">
+            <span>{{ page.heroMetaLine }}</span>
+            <span class="inline-flex items-center gap-1">
+              <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+              Now hiring
+            </span>
+          </div>
         </div>
       </div>
     </div>
+  </header>
+</section>
 
+<section class="section-padding bg-slate-50" id="open-roles">
+  <div class="container-responsive space-y-10">
     <div class="grid gap-8 lg:grid-cols-[2fr_1fr] lg:items-start">
       <div class="space-y-4">
         <div class="flex items-center justify-between gap-4">

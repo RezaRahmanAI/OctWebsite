@@ -1,0 +1,86 @@
+<div class="card-surface mt-2" [class.opacity-60]="loading()">
+  <div class="flex items-center justify-between gap-4">
+    <div>
+      <p class="text-xs font-semibold uppercase text-primary-600 tracking-[0.2em]">Careers</p>
+      <h2 class="text-xl font-semibold text-slate-900">Edit Career Hero</h2>
+      <p class="text-sm text-slate-600">Match the careers hero section to the contact page layout.</p>
+    </div>
+    <button class="btn" type="button" (click)="submit()" [disabled]="loading()">
+      {{ loading() ? 'Saving...' : 'Save Careers Page' }}
+    </button>
+  </div>
+
+  <form class="mt-6 space-y-8" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="space-y-4">
+      <div>
+        <p class="text-sm font-semibold text-slate-900">Hero header</p>
+        <p class="text-xs text-slate-600">Controls the eyebrow, title, and subtitle at the top of the page.</p>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-field">
+          <span>Eyebrow</span>
+          <input type="text" formControlName="headerEyebrow" placeholder="Careers" />
+        </label>
+        <label class="form-field">
+          <span>Title</span>
+          <input type="text" formControlName="headerTitle" placeholder="Build products and skills with us" />
+        </label>
+        <label class="form-field md:col-span-2">
+          <span>Subtitle</span>
+          <textarea rows="2" formControlName="headerSubtitle"></textarea>
+        </label>
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <div>
+        <p class="text-sm font-semibold text-slate-900">Hero media & meta</p>
+        <p class="text-xs text-slate-600">Upload the looping background video and adjust the meta line.</p>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-field">
+          <span>Hero meta line</span>
+          <input type="text" formControlName="heroMetaLine" placeholder="Hybrid teams across Dhaka, Rajshahi, and remote" />
+        </label>
+        <label class="form-field">
+          <span>Response time</span>
+          <input type="text" formControlName="responseTime" placeholder="We review all applications within 3 business days." />
+        </label>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-field">
+          <span>Hero video</span>
+          <input type="file" accept="video/mp4" (change)="onFileSelected($event)" />
+          <p class="text-xs text-slate-500" *ngIf="form.value.heroVideoFileName">
+            Current file: {{ form.value.heroVideoFileName }}
+          </p>
+        </label>
+        <label class="form-field">
+          <span>Hero video file name (existing)</span>
+          <input type="text" formControlName="heroVideoFileName" placeholder="video/careers.mp4" />
+        </label>
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <div>
+        <p class="text-sm font-semibold text-slate-900">Primary action</p>
+        <p class="text-xs text-slate-600">Label and link for the main call-to-action button.</p>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-field">
+          <span>CTA label</span>
+          <input type="text" formControlName="primaryCtaLabel" placeholder="View open roles" />
+        </label>
+        <label class="form-field">
+          <span>CTA link</span>
+          <input type="text" formControlName="primaryCtaLink" placeholder="/careers#open-roles" />
+        </label>
+      </div>
+    </div>
+  </form>
+</div>
