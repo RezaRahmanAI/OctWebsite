@@ -25,6 +25,7 @@ export class NavbarComponent {
     { label: 'Product', link: '/product' },
     { label: 'Academy', link: '/academy' },
     { label: 'Blog', link: '/blog' },
+    { label: 'Careers', link: '/careers' },
     { label: 'Contact', link: '/contact' },
   ];
 
