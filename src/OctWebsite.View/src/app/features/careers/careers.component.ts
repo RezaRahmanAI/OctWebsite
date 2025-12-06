@@ -23,6 +23,15 @@ export class CareersComponent implements OnInit {
   protected readonly error = signal<string | null>(null);
   protected selectedCv: File | null = null;
 
+  protected toBulletPoints(summary: string): string[] {
+    const points = summary
+      .split(/\r?\n|•/)
+      .map((part) => part.trim())
+      .filter((part) => part.length > 0);
+
+    return points.length > 0 ? points : summary.trim() ? [summary.trim()] : [];
+  }
+
   protected readonly applicationForm = this.fb.group({
     jobPostingId: ['', Validators.required],
     fullName: ['', Validators.required],
