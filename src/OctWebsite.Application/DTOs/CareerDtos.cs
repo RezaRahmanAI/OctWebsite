@@ -5,7 +5,6 @@ public sealed record JobPostingDto(
     string Title,
     string Location,
     string EmploymentType,
-    string Description,
     string Summary,
     bool Active,
     DateTimeOffset PublishedAt
@@ -15,7 +14,6 @@ public sealed record SaveJobPostingRequest(
     string Title,
     string Location,
     string EmploymentType,
-    string Description,
     string Summary,
     bool Active
 );
