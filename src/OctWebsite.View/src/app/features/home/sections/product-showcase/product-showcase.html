@@ -19,7 +19,7 @@
         [revealOffset]="24"
       >
         <div
-          *ngFor="let product of marqueeProducts; let i = index"
+          *ngFor="let product of marqueeProducts(); let i = index"
           class="flex-shrink-0 w-[360px]"
           appScrollReveal
           [revealDelay]="i * 0.06"

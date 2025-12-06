@@ -56,45 +56,6 @@
         </label>
       </div>
 
-      <!-- Highlight main copy -->
-      <!-- <div class="grid gap-4 md:grid-cols-2">
-        <label class="form-field">
-          <span>Highlight title</span>
-          <input type="text" formControlName="highlightTitle" />
-        </label>
-        <label class="form-field">
-          <span>Highlight description</span>
-          <textarea rows="3" formControlName="highlightDescription"></textarea>
-        </label>
-      </div> -->
-
-      <!-- Highlight items list -->
-      <!-- <div class="space-y-3">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm font-semibold text-slate-900">Highlight items</p>
-            <p class="text-xs text-slate-600">Short bullets shown under the hero section.</p>
-          </div>
-          <button type="button" class="btn ghost" (click)="addHighlight()">Add item</button>
-        </div>
-        <div class="space-y-3">
-          <div
-            *ngFor="let control of highlightList.controls; let i = index"
-            class="flex items-center gap-3 rounded-xl border border-slate-200 px-3 py-2"
-          >
-            <input
-              type="text"
-              class="flex-1 border-none bg-transparent p-0 text-sm focus:ring-0"
-              [formControl]="control"
-              placeholder="Highlight line"
-            />
-            <button type="button" class="text-xs text-rose-600" (click)="removeHighlight(i)">
-              Remove
-            </button>
-          </div>
-        </div>
-      </div> -->
-
       <!-- Hero media -->
       <div class="grid gap-4 md:grid-cols-2">
         <label class="form-field">
@@ -115,7 +76,7 @@
         </label>
       </div>
 
-      <!-- <div class="grid gap-4 md:grid-cols-2">
+      <div class="grid gap-4 md:grid-cols-2">
         <label class="form-field">
           <span>Poster image</span>
           <input type="file" accept="image/*" (change)="onHeroPosterSelected($event)" />
@@ -131,10 +92,10 @@
           <span>Poster file name</span>
           <input type="text" formControlName="posterFileName" />
         </label>
-      </div> -->
+      </div> 
 
       <!-- Feature panel -->
-      <!-- <div class="space-y-4">
+      <div class="space-y-4">
         <div>
           <p class="text-sm font-semibold text-slate-900">Feature panel</p>
           <p class="text-xs text-slate-600">
@@ -191,10 +152,10 @@
                 <span>Value</span>
                 <input type="text" formControlName="value" />
               </label>
-              <label class="form-field">
+              <!-- <label class="form-field">
                 <span>Theme</span>
                 <input type="text" formControlName="theme" placeholder="accent / emerald" />
-              </label>
+              </label> -->
               <div class="flex items-end justify-end">
                 <button type="button" class="text-xs text-rose-600" (click)="removeMetric(i)">
                   Remove
@@ -203,7 +164,7 @@
             </div>
           </div>
         </div>
-      </div> -->
+      </div> 
 
       <div class="flex justify-end">
         <button class="btn" type="submit" [disabled]="loading() || savingHero()">
