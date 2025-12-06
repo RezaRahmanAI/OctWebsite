@@ -1,5 +1,15 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CareersApiService, CareerApplicationRequest, JobPosting } from '../../core/services/careers-api.service';
 import { CareerPageApiService, type CareerPageModel } from '../../core/services/career-page-api.service';
@@ -15,12 +25,19 @@ import { SectionHeadingComponent, SectionHeadingCta } from '../../shared/compone
   styleUrls: ['./careers.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CareersComponent implements OnInit {
+export class CareersComponent implements OnInit, AfterViewInit {
   private readonly careersApi = inject(CareersApiService);
   private readonly careerPageApi = inject(CareerPageApiService);
   private readonly fb = inject(FormBuilder);
   private readonly toast = inject(ToastService);
   private readonly document = inject(DOCUMENT);
+
+  @ViewChild('heroVideo')
+  set heroVideoRef(video: ElementRef<HTMLVideoElement> | undefined) {
+    this.heroVideo = video;
+    this.autoplayVideo();
+  }
+  private heroVideo?: ElementRef<HTMLVideoElement>;
 
   protected readonly openings = signal<JobPosting[]>([]);
   protected readonly loading = signal(false);
@@ -72,6 +89,10 @@ export class CareersComponent implements OnInit {
   ngOnInit(): void {
     this.careerPageApi.load();
     this.fetchOpenings();
+  }
+
+  ngAfterViewInit(): void {
+    this.autoplayVideo();
   }
 
   onFileSelected(event: Event): void {
@@ -135,6 +156,21 @@ export class CareersComponent implements OnInit {
   private scrollToRoles(): void {
     const el = this.document.getElementById('open-roles');
     el?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  private autoplayVideo(): void {
+    queueMicrotask(() => this.tryAutoplay(this.heroVideo?.nativeElement));
+  }
+
+  private tryAutoplay(video?: HTMLVideoElement | null): void {
+    if (!video) return;
+
+    video.muted = true;
+    video.autoplay = true;
+    video.playsInline = true;
+    if (video.paused) {
+      void video.play().catch(() => undefined);
+    }
   }
 
   private mapFromApi(model: CareerPageModel) {

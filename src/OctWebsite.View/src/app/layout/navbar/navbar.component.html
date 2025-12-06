@@ -173,6 +173,7 @@
               *ngIf="
                 link.label === 'Product' ||
                 link.label === 'Academy' ||
+                link.label === 'Careers' ||
                 link.label === 'Blog' ||
                 link.label === 'Contact'
               "
@@ -268,6 +269,16 @@
           </a>
         </li>
 
+        <li>
+          <a
+            routerLink="/careers"
+            class="block rounded-lg px-3 py-2 transition hover:bg-slate-50"
+            (click)="closeMenu()"
+          >
+            Careers
+          </a>
+        </li>
+
         
 
         <ng-container *ngFor="let link of navLinks()">
@@ -275,6 +286,7 @@
             *ngIf="
               link.label === 'Product' ||
               link.label === 'Academy' ||
+              link.label === 'Careers' ||
               link.label === 'Blog' ||
               link.label === 'Contact'
             "
