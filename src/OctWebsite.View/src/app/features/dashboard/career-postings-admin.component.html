@@ -1,0 +1,79 @@
+<div class="card mt-2" [class.opacity-60]="loading() || saving()">
+  <div class="card-header">
+    <div>
+      <p class="eyebrow">Careers</p>
+      <h2 class="card-title">Job Postings</h2>
+      <p class="card-subtitle">Publish, update, and archive roles shown on the Careers page.</p>
+    </div>
+    <button class="btn ghost" type="button" (click)="startCreate()">New posting</button>
+  </div>
+
+  <form class="grid gap-4 md:grid-cols-2" [formGroup]="postingForm" (ngSubmit)="save()">
+    <label class="form-field">
+      <span>Job title</span>
+      <input type="text" formControlName="title" placeholder="e.g. Senior Frontend Engineer" />
+    </label>
+
+    <label class="form-field">
+      <span>Location</span>
+      <input type="text" formControlName="location" placeholder="Dhaka, Remote" />
+    </label>
+
+    <label class="form-field">
+      <span>Employment type</span>
+      <input type="text" formControlName="employmentType" placeholder="Full-time" />
+    </label>
+
+    <label class="form-field">
+      <span>Summary</span>
+      <textarea rows="2" formControlName="summary" placeholder="Short description of the role"></textarea>
+    </label>
+
+    <label class="flex items-center gap-2 text-sm font-semibold text-slate-700">
+      <input type="checkbox" formControlName="active" />
+      Visible on site
+    </label>
+
+    <div class="flex items-center gap-3">
+      <button class="btn primary" type="submit" [disabled]="saving()">{{ saving() ? 'Saving…' : 'Save' }}</button>
+      <span *ngIf="editingId" class="status-chip info">Editing existing role</span>
+    </div>
+  </form>
+
+  <div class="mt-6">
+    <div *ngIf="loading()" class="status-chip info">Loading postings…</div>
+    <div *ngIf="!loading() && postings().length === 0" class="status-chip muted">No postings created yet.</div>
+
+    <div class="overflow-x-auto" *ngIf="postings().length > 0">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Location</th>
+            <th>Type</th>
+            <th>Published</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let role of postings()">
+            <td class="font-semibold">{{ role.title }}</td>
+            <td>{{ role.location }}</td>
+            <td>{{ role.employmentType }}</td>
+            <td>{{ role.publishedAt | date : 'medium' }}</td>
+            <td>
+              <span class="status-chip" [class.success]="role.active" [class.muted]="!role.active">
+                {{ role.active ? 'Active' : 'Hidden' }}
+              </span>
+            </td>
+            <td class="space-x-2 text-right">
+              <button class="btn ghost" type="button" (click)="startEdit(role)">Edit</button>
+              <button class="btn danger" type="button" (click)="delete(role)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

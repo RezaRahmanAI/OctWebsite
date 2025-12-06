@@ -28,6 +28,8 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<HomeHeroSection> HomeHeroSections => Set<HomeHeroSection>();
     public DbSet<HomeTrustSection> HomeTrustSections => Set<HomeTrustSection>();
     public DbSet<HomeTestimonial> HomeTestimonials => Set<HomeTestimonial>();
+    public DbSet<JobPosting> JobPostings => Set<JobPosting>();
+    public DbSet<CareerApplication> CareerApplications => Set<CareerApplication>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -328,6 +330,35 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
             entity.Property(product => product.Features)
                 .HasConversion(stringListConverter)
                 .Metadata.SetValueComparer(stringListComparer);
+        });
+
+        modelBuilder.Entity<JobPosting>(entity =>
+        {
+            entity.ToTable("JobPostings");
+            entity.HasKey(posting => posting.Id);
+            entity.Property(posting => posting.Id).ValueGeneratedNever();
+            entity.Property(posting => posting.Title).IsRequired();
+            entity.Property(posting => posting.Location).IsRequired();
+            entity.Property(posting => posting.EmploymentType).IsRequired();
+            entity.Property(posting => posting.Summary).IsRequired();
+            entity.Property(posting => posting.PublishedAt).IsRequired();
+            entity.Property(posting => posting.Active).IsRequired();
+        });
+
+        modelBuilder.Entity<CareerApplication>(entity =>
+        {
+            entity.ToTable("CareerApplications");
+            entity.HasKey(application => application.Id);
+            entity.Property(application => application.Id).ValueGeneratedNever();
+            entity.Property(application => application.FullName).IsRequired();
+            entity.Property(application => application.Email).IsRequired();
+            entity.Property(application => application.CreatedAt).IsRequired();
+            entity.Property(application => application.JobPostingId).IsRequired();
+
+            entity.HasOne(application => application.JobPosting)
+                .WithMany()
+                .HasForeignKey(application => application.JobPostingId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }

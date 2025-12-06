@@ -21,6 +21,7 @@
       <button class="tab-button" [ngClass]="activeTab() === 'contact' ? 'active' : 'inactive'" (click)="select('contact')">Contact</button>
       <button class="tab-button" [ngClass]="activeTab() === 'channels' ? 'active' : 'inactive'" (click)="select('channels')">Social Links</button>
       <button class="tab-button" [ngClass]="activeTab() === 'submissions' ? 'active' : 'inactive'" (click)="select('submissions')">Submissions</button>
+      <button class="tab-button" [ngClass]="activeTab() === 'careers' ? 'active' : 'inactive'" (click)="select('careers')">Careers</button>
     </div>
 
     <ng-container [ngSwitch]="activeTab()">
@@ -35,6 +36,10 @@
       <app-contact-admin *ngSwitchCase="'contact'"></app-contact-admin>
       <app-contact-channels-admin *ngSwitchCase="'channels'"></app-contact-channels-admin>
       <app-contact-submissions-admin *ngSwitchCase="'submissions'"></app-contact-submissions-admin>
+      <ng-container *ngSwitchCase="'careers'">
+        <app-career-postings-admin></app-career-postings-admin>
+        <app-career-applications-admin></app-career-applications-admin>
+      </ng-container>
     </ng-container>
   </div>
 </section>

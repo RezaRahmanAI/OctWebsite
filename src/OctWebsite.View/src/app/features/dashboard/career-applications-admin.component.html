@@ -1,0 +1,47 @@
+<div class="card mt-2" [class.opacity-60]="loading()">
+  <div class="card-header">
+    <div>
+      <p class="eyebrow">Careers</p>
+      <h2 class="card-title">Applications</h2>
+      <p class="card-subtitle">Review CV submissions and see which role candidates selected.</p>
+    </div>
+    <button class="btn ghost" type="button" (click)="load()" [disabled]="loading()">
+      {{ loading() ? 'Refreshing…' : 'Refresh' }}
+    </button>
+  </div>
+
+  <div *ngIf="loading()" class="status-chip info">Loading applications…</div>
+  <div *ngIf="!loading() && applications().length === 0" class="status-chip muted">No applications yet.</div>
+
+  <div class="overflow-x-auto" *ngIf="applications().length > 0">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Applicant</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Role</th>
+          <th>Cover</th>
+          <th>CV</th>
+          <th>Submitted</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let app of applications()">
+          <td class="font-semibold">{{ app.fullName }}</td>
+          <td>
+            <a class="text-primary underline" [href]="'mailto:' + app.email">{{ app.email }}</a>
+          </td>
+          <td>{{ app.phone || '—' }}</td>
+          <td class="max-w-xs text-sm">{{ app.jobTitle }}</td>
+          <td class="max-w-md whitespace-pre-wrap text-sm">{{ app.message || '—' }}</td>
+          <td>
+            <a *ngIf="app.cvUrl" class="btn ghost" [href]="app.cvUrl" target="_blank">Download CV</a>
+            <span *ngIf="!app.cvUrl" class="status-chip muted">No file</span>
+          </td>
+          <td class="text-sm text-slate-500">{{ app.createdAt | date : 'medium' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

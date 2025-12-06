@@ -60,4 +60,25 @@ public static class MappingExtensions
         product.Icon,
         product.Features,
         product.Active);
+
+    public static JobPostingDto ToDto(this JobPosting posting) => new(
+        posting.Id,
+        posting.Title,
+        posting.Location,
+        posting.EmploymentType,
+        posting.Summary,
+        posting.Active,
+        posting.PublishedAt);
+
+    public static CareerApplicationDto ToDto(this CareerApplication application, string jobTitle) => new(
+        application.Id,
+        application.JobPostingId,
+        jobTitle,
+        application.FullName,
+        application.Email,
+        application.Phone,
+        application.Message,
+        application.CvFileName,
+        null,
+        application.CreatedAt);
 }

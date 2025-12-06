@@ -99,6 +99,11 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/contact/contact.component').then((m) => m.ContactComponent),
       },
+      {
+        path: 'careers',
+        loadComponent: () =>
+          import('./features/careers/careers.component').then((m) => m.CareersComponent),
+      },
     ],
   },
   {
