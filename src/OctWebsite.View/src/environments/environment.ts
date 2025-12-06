@@ -3,7 +3,7 @@ interface EnvironmentConfig {
 }
 
 export const environment: EnvironmentConfig = {
-  apiUrl: 'https://ceshop.octimsbd.com',
+  apiUrl: 'http://localhost:5191',
 };
 
 
