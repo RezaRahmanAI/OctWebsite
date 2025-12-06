@@ -19,7 +19,15 @@
       <div class="relative" *ngIf="heroVideoUrl() as heroUrl">
         <div class="group relative overflow-hidden rounded-[2.5rem] shadow-xl">
           <div class="relative aspect-[4/3]">
-            <video class="absolute inset-0 h-full w-full object-cover" autoplay loop muted playsinline>
+            <video
+              #heroVideo
+              class="absolute inset-0 h-full w-full object-cover"
+              autoplay
+              loop
+              muted
+              playsinline
+              preload="auto"
+            >
               <source [src]="heroUrl | assetUrl" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
