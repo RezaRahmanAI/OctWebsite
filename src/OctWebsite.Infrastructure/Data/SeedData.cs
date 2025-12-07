@@ -11,6 +11,7 @@ internal static class SeedData
 {
     private const string AboutStorageKey = "about-page";
     private const string AcademyPageStorageKey = "academy-page";
+    private const string MethodologyPageStorageKey = "methodology-page";
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
 
     public static IReadOnlyList<TeamMember> TeamMembers { get; } =
@@ -62,8 +63,236 @@ internal static class SeedData
         AcademyPageStorageKey,
         Serialize(DefaultAcademyPageRequest));
 
+    public static CompanyAbout MethodologyPage { get; } = new(
+        Guid.Parse("f4042b1d-5a4c-4f24-b2c1-5df3c5e5c8f4"),
+        MethodologyPageStorageKey,
+        Serialize(new MethodologyPageStorage(DefaultMethodologyPageRequest, DefaultMethodologyOfferings)));
+
     public static IReadOnlyList<CompanyAbout> CompanyAboutEntries { get; } =
-        About.Append(AcademyPage).ToArray();
+        About.Append(AcademyPage).Append(MethodologyPage).ToArray();
+
+    private static readonly SaveMethodologyPageRequest DefaultMethodologyPageRequest = new(
+        new[]
+        {
+            new StatHighlightDto("Engagement models", "4 delivery playbooks"),
+            new StatHighlightDto("Tech specialists", "20+ senior engineers"),
+            new StatHighlightDto("Onboarding", "Start in days, not months")
+        },
+        new[]
+        {
+            new MatrixColumnDto("team-augmentation", "Team Augmentation"),
+            new MatrixColumnDto("mvp-development", "MVP Development"),
+            new MatrixColumnDto("end-to-end-development", "Project Development"),
+            new MatrixColumnDto("offshore-development", "Offshore Development")
+        },
+        new[]
+        {
+            new MatrixFeatureDto(
+                "Access Top Industry Talent",
+                new[] { "team-augmentation", "mvp-development", "end-to-end-development", "offshore-development" }),
+            new MatrixFeatureDto(
+                "Customize Solutions to Fit Your Needs",
+                new[] { "team-augmentation", "mvp-development", "end-to-end-development" }),
+            new MatrixFeatureDto("Expand Your Team Quickly", new[] { "team-augmentation", "offshore-development" }),
+            new MatrixFeatureDto("Prototype Your Ideas", new[] { "mvp-development" }),
+            new MatrixFeatureDto("Complete End-to-End Development", new[] { "end-to-end-development" }),
+            new MatrixFeatureDto("Ensure Product Scalability", new[] { "end-to-end-development", "mvp-development" }),
+            new MatrixFeatureDto(
+                "Increase Development Speed",
+                new[] { "team-augmentation", "mvp-development", "end-to-end-development" }),
+            new MatrixFeatureDto(
+                "Cost-Effective Development Solutions",
+                new[] { "team-augmentation", "mvp-development", "end-to-end-development", "offshore-development" })
+        },
+        new[] { "Your name", "Company name", "Business mail", "Phone number", "About the project" });
+
+    private static readonly IReadOnlyList<MethodologyOfferingDto> DefaultMethodologyOfferings =
+    [
+        new MethodologyOfferingDto(
+            Guid.Parse("9a7b3c24-6b02-4ce1-9dd5-0a86a5d49ce0"),
+            "team-augmentation",
+            "IT Team Augmentation",
+            "Maximize Your Team's Potential with Premium Resources",
+            "Looking for top-tier IT staff augmentation services? We offer comprehensive solutions and highly skilled personnel to help you grow and strengthen your team.",
+            new[]
+            {
+                "Don’t let understaffing hold you back. Maximize your team’s performance and reach your business goals with the best IT team augmentation.",
+                "Team augmentation is a powerful outsourcing process that lets you expand your team with skilled professionals on an on-demand basis, without the friction of recruiting and onboarding full-time employees."
+            },
+            new[]
+            {
+                new StatHighlightDto("React engineers on tap", "20+ specialists"),
+                new StatHighlightDto("Engagement start time", "Under 2 weeks"),
+                new StatHighlightDto("Integration style", "Seamless & embedded")
+            },
+            new[]
+            {
+                new BenefitCardDto(
+                    "Interact with the Top 1% of Refined Talent",
+                    "Rigorous screening and extensive vetting lets you interview and select only the best developers who seamlessly integrate into your team."),
+                new BenefitCardDto(
+                    "Scale and Optimize Resources Quickly",
+                    "Scale up or down at will—across roles and tech stacks—without long-term hiring overhead."),
+                new BenefitCardDto(
+                    "Expert Collaboration, On Demand",
+                    "Dedicated developers work exclusively on your project, aligning to your processes and ceremonies while adding best practices."),
+                new BenefitCardDto(
+                    "Cost-Effective and Transparent",
+                    "Predictable pricing and transparent reporting lets you focus on outcomes without surprise costs.")
+            },
+            new[]
+            {
+                new ProcessStepDto("Schedule a Call", "Share your goals and team needs."),
+                new ProcessStepDto("Talent Requirements", "Define the skills, experience levels, and timelines you need."),
+                new ProcessStepDto("Contract Signing", "Finalize agreements and onboarding guardrails."),
+                new ProcessStepDto("Talent Allocation", "We assemble your team and integrate into your workflows."),
+                new ProcessStepDto("Project Continues", "Continuous delivery with transparent communication and reporting.")
+            },
+            new MethodologyClosingDto(
+                "Let Our Expertise Help Redefine Your Business!",
+                new[]
+                {
+                    "Expert teams of dedicated software developers with customized strategies.",
+                    "Trusted technology choices for maximum impact.",
+                    "High-security standards with transparent reporting.",
+                    "Scalable solutions that adapt to changing requirements.",
+                    "Cost-efficient model that maximizes productivity."
+                },
+                "Build Your Tech Team"),
+            true),
+        new MethodologyOfferingDto(
+            Guid.Parse("f89d4c21-3b2f-4a68-9a3e-0e62ea9824a4"),
+            "mvp-development",
+            "MVP Development Services",
+            "Boost Your Product With Expert MVP Development Services",
+            "Transform your vision into reality with our expert MVP software development services. We launch key software features that satisfy potential customers while balancing the project budget.",
+            new[]
+            {
+                "MVP development is about quickly validating your product idea, gathering feedback from users, and iterating based on real-world insights.",
+                "As a leading MVP development company, we help you identify core features and develop the product that meets your needs and goals."
+            },
+            new[]
+            {
+                new StatHighlightDto("Builders available", "20+ MVP specialists"),
+                new StatHighlightDto("Engagement style", "Lean & experiment-driven")
+            },
+            new[]
+            {
+                new BenefitCardDto("Rapid Time-to-Market", "Launch your product quickly, gain user feedback, and validate early."),
+                new BenefitCardDto("Risk Mitigation", "Validate your product concept before making significant investments."),
+                new BenefitCardDto("Cost Efficiency", "Reduce risk and spend by focusing on the smallest lovable product before scaling."),
+                new BenefitCardDto("Iterative Improvement", "Continuously improve based on user insights so the final product meets expectations.")
+            },
+            new[]
+            {
+                new ProcessStepDto("Schedule a Call", "Define your goals and budget guardrails."),
+                new ProcessStepDto("MVP Planning", "Identify the core features that deliver value quickly."),
+                new ProcessStepDto("Product Design", "Shape the MVP experience with a user-first lens."),
+                new ProcessStepDto("Development Phase", "Build in agile sprints with continuous feedback."),
+                new ProcessStepDto("Launch & Iterate", "Release, measure, and refine for full-scale development.")
+            },
+            new MethodologyClosingDto(
+                "Let Our Expertise Help Redefine Your Business!",
+                new[]
+                {
+                    "Expert teams of dedicated software developers with customized strategies.",
+                    "Trusted technology choices for maximum impact.",
+                    "High-security standards with transparent reporting.",
+                    "Scalable solutions that adapt to changing requirements.",
+                    "Cost-efficient model that maximizes productivity."
+                },
+                "Build Your MVP"),
+            true),
+        new MethodologyOfferingDto(
+            Guid.Parse("5f73157d-263c-4e6f-bc26-ef49761e7c68"),
+            "end-to-end-development",
+            "End-to-End Software Development",
+            "End To End Software Development That Delivers Outstanding Solutions",
+            "We offer a complete end-to-end software development process to launch a new product—from idea to exceptional delivery.",
+            new[]
+            {
+                "End-to-end development covers every stage of creating a product, from concept to deployment.",
+                "Our teams handle streamlined communication and decision-making to improve quality and efficiency across the lifecycle."
+            },
+            new[]
+            {
+                new StatHighlightDto("Engineering guilds", "20+ cross-functional builders"),
+                new StatHighlightDto("Delivery coverage", "Discovery to launch"),
+                new StatHighlightDto("Efficiency", "Cohesive & cost-effective")
+            },
+            new[]
+            {
+                new BenefitCardDto(
+                    "Access to the Top 1% of Refined Talent",
+                    "Rigorous screening and vetting ensures you're hiring top-tier talent for end-to-end software development."),
+                new BenefitCardDto("Smooth Communication", "Efficient information flow and seamless collaboration across the lifecycle."),
+                new BenefitCardDto("Skip Recruitment Process", "On-demand expert teams with years of experience mean you avoid hiring overhead."),
+                new BenefitCardDto("Cost-Efficient", "A cohesive build process reduces rework and drives long-term savings.")
+            },
+            new[]
+            {
+                new ProcessStepDto("Schedule a Call", "Align on goals, stakeholders, and timelines."),
+                new ProcessStepDto("Talent Requirements", "Identify the skills and roles needed to deliver."),
+                new ProcessStepDto("End-to-End Development", "Execute with tailored teams to meet your project goals."),
+                new ProcessStepDto("Project Continues", "Integrate with your team to ensure on-time delivery and support.")
+            },
+            new MethodologyClosingDto(
+                "Let Our Expertise Help Redefine Your Business!",
+                new[]
+                {
+                    "Expert teams of dedicated software developers with customized strategies",
+                    "Trusted technology choices for maximum impact",
+                    "High-security standards with transparent reporting",
+                    "Scalable solutions that adapt to changing requirements",
+                    "Cost-efficient model that maximizes productivity"
+                },
+                "Hire The Best Team"),
+            true),
+        new MethodologyOfferingDto(
+            Guid.Parse("0f5edc7a-7aa3-4a5c-9a56-48cf8d5de28e"),
+            "offshore-development",
+            "Offshore Development Services",
+            "Ready to Expand Your Offshore Office?",
+            "Explore boundless opportunities with customized offshore solutions that expand your reach, reduce costs, and unlock global talent.",
+            new[]
+            {
+                "We help you form your offshore software development office, operating as an extension of your in-house team.",
+                "By using our offshore expansion services, you can focus on core activities while we handle resources, compliance, and onboarding."
+            },
+            new[]
+            {
+                new StatHighlightDto("Global talent access", "24/7 operations"),
+                new StatHighlightDto("Cost profile", "Affordable without compromise"),
+                new StatHighlightDto("Scalability", "Scale up or down seamlessly")
+            },
+            new[]
+            {
+                new BenefitCardDto("Access to Global Talent Pool", "Tap into a diverse pool of skilled professionals matched to every project."),
+                new BenefitCardDto("Cost Savings and Efficiency", "Enjoy affordable offshore office expansion while maintaining high-quality standards."),
+                new BenefitCardDto("Scalability and Flexibility", "Scale with your project requirements without the hassle of hiring and firing."),
+                new BenefitCardDto("24/7 Operations", "Teams in different time zones keep work moving and accelerate turnaround times.")
+            },
+            new[]
+            {
+                new ProcessStepDto("Schedule a Call", "Share your offshore goals and target locations."),
+                new ProcessStepDto("Talent Requirements", "Define the team size, functions, and tech stack you need."),
+                new ProcessStepDto("Contract Signing", "Finalize commercial terms and compliance guardrails."),
+                new ProcessStepDto("Talent Allocation", "Deploy ready-to-go teams aligned to your plan."),
+                new ProcessStepDto("Project Continues", "Operate as one team with on-time delivery and shared KPIs.")
+            },
+            new MethodologyClosingDto(
+                "Let Our Expertise Help Expand Your Business Overseas!",
+                new[]
+                {
+                    "Access top-notch professionals with years of experience",
+                    "Trusted technology choices for maximum impact",
+                    "High-security standards with transparent reporting",
+                    "Scalable solutions that adapt to changing requirements",
+                    "Cost-efficient model that maximizes productivity"
+                },
+                "Hire The Best Team"),
+            true)
+    ];
 
     public static IReadOnlyList<AcademyTrack> AcademyTracks { get; } = DefaultAcademyTracks;
 

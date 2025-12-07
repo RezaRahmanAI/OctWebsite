@@ -17,6 +17,8 @@ import { ProductShowcaseAdminComponent } from './product-showcase-admin.componen
 import { CareerPostingsAdminComponent } from './career-postings-admin.component';
 import { CareerApplicationsAdminComponent } from './career-applications-admin.component';
 import { CareerPageAdminComponent } from './career-page-admin.component';
+import { MethodologyAdminComponent } from './methodology-admin.component';
+import { MethodologyOfferingsAdminComponent } from './methodology-offerings-admin.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -38,6 +40,8 @@ import { CareerPageAdminComponent } from './career-page-admin.component';
     CareerPostingsAdminComponent,
     CareerApplicationsAdminComponent,
     CareerPageAdminComponent,
+    MethodologyAdminComponent,
+    MethodologyOfferingsAdminComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
@@ -50,6 +54,8 @@ export class DashboardComponent {
     | 'home'
     | 'about'
     | 'team'
+    | 'methodology'
+    | 'methodology-offerings'
     | 'academy'
     | 'tracks'
     | 'blog'
@@ -67,6 +73,8 @@ export class DashboardComponent {
       | 'home'
       | 'about'
       | 'team'
+      | 'methodology'
+      | 'methodology-offerings'
       | 'academy'
       | 'tracks'
       | 'blog'

@@ -12,6 +12,8 @@
     <div class="flex flex-wrap gap-2">
       <button class="tab-button" [ngClass]="activeTab() === 'home' ? 'active' : 'inactive'" (click)="select('home')">Home</button>
       <button class="tab-button" [ngClass]="activeTab() === 'about' ? 'active' : 'inactive'" (click)="select('about')">About</button>
+      <button class="tab-button" [ngClass]="activeTab() === 'methodology' ? 'active' : 'inactive'" (click)="select('methodology')">Methodology</button>
+      <button class="tab-button" [ngClass]="activeTab() === 'methodology-offerings' ? 'active' : 'inactive'" (click)="select('methodology-offerings')">Methodology Models</button>
       <button class="tab-button" [ngClass]="activeTab() === 'academy' ? 'active' : 'inactive'" (click)="select('academy')">Academy</button>
       <button class="tab-button" [ngClass]="activeTab() === 'tracks' ? 'active' : 'inactive'" (click)="select('tracks')">Tracks</button>
       <button class="tab-button" [ngClass]="activeTab() === 'team' ? 'active' : 'inactive'" (click)="select('team')">Team</button>
@@ -28,6 +30,8 @@
     <ng-container [ngSwitch]="activeTab()">
       <app-home-admin *ngSwitchCase="'home'"></app-home-admin>
       <app-about-admin *ngSwitchCase="'about'"></app-about-admin>
+      <app-methodology-admin *ngSwitchCase="'methodology'"></app-methodology-admin>
+      <app-methodology-offerings-admin *ngSwitchCase="'methodology-offerings'"></app-methodology-offerings-admin>
       <app-academy-admin *ngSwitchCase="'academy'"></app-academy-admin>
       <app-academy-tracks-admin *ngSwitchCase="'tracks'"></app-academy-tracks-admin>
       <app-team-admin *ngSwitchCase="'team'"></app-team-admin>

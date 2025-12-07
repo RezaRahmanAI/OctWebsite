@@ -1,0 +1,104 @@
+<div class="card">
+  <div class="card-header">
+    <div>
+      <p class="eyebrow">Methodology Page</p>
+      <h2 class="card-title">Hero highlights & comparison</h2>
+      <p class="text-sm text-slate-600">Manage the stats, comparison matrix, and contact prompts shown on the methodology page.</p>
+    </div>
+    <button class="btn primary" type="button" (click)="submit()" [disabled]="loading()">Save Changes</button>
+  </div>
+
+  <form class="space-y-8" [formGroup]="form">
+    <section class="grid gap-4 md:grid-cols-2">
+      <div class="card-section">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Hero Highlights</p>
+            <p class="text-sm text-slate-600">Small stats above the fold.</p>
+          </div>
+          <button type="button" class="btn ghost" (click)="addHighlight()">Add highlight</button>
+        </div>
+        <div class="grid gap-3">
+          <div class="input-row" *ngFor="let control of heroHighlights.controls; let i = index" [formGroup]="control">
+            <div class="grid flex-1 gap-2 md:grid-cols-2">
+              <label class="form-control">
+                <span>Label</span>
+                <input type="text" formControlName="label" />
+              </label>
+              <label class="form-control">
+                <span>Value</span>
+                <input type="text" formControlName="value" />
+              </label>
+            </div>
+            <button type="button" class="btn danger ghost" (click)="removeHighlight(i)">Remove</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Contact Fields</p>
+            <p class="text-sm text-slate-600">Controls the lead form labels on the detail pages.</p>
+          </div>
+          <button type="button" class="btn ghost" (click)="addContactField()">Add field</button>
+        </div>
+        <div class="grid gap-3">
+          <div class="input-row" *ngFor="let control of contactFields.controls; let i = index">
+            <label class="form-control flex-1">
+              <span>Label</span>
+              <input type="text" [formControl]="control" />
+            </label>
+            <button type="button" class="btn danger ghost" (click)="removeContactField(i)">Remove</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card-section">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Matrix Columns</p>
+          <p class="text-sm text-slate-600">Displayed across the comparison table.</p>
+        </div>
+        <button class="btn ghost" type="button" (click)="addColumn()">Add column</button>
+      </div>
+      <div class="grid gap-3 md:grid-cols-2">
+        <div class="input-row" *ngFor="let control of matrixColumns.controls; let i = index" [formGroup]="control">
+          <label class="form-control">
+            <span>Key (slug)</span>
+            <input type="text" formControlName="key" />
+          </label>
+          <label class="form-control">
+            <span>Label</span>
+            <input type="text" formControlName="label" />
+          </label>
+          <button class="btn danger ghost" type="button" (click)="removeColumn(i)">Remove</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card-section">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Feature Matrix</p>
+          <p class="text-sm text-slate-600">Each row shows where a capability applies.</p>
+        </div>
+        <button class="btn ghost" type="button" (click)="addFeature()">Add feature</button>
+      </div>
+      <div class="grid gap-3">
+        <div class="input-row" *ngFor="let control of featureMatrix.controls; let i = index" [formGroup]="control">
+          <label class="form-control flex-1">
+            <span>Name</span>
+            <input type="text" formControlName="name" />
+          </label>
+          <label class="form-control flex-1">
+            <span>Applies to (comma separated slugs)</span>
+            <input type="text" formControlName="appliesTo" />
+          </label>
+          <button class="btn danger ghost" type="button" (click)="removeFeature(i)">Remove</button>
+        </div>
+      </div>
+    </section>
+  </form>
+</div>
