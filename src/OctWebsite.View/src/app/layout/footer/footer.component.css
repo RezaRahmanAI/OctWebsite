@@ -2,6 +2,33 @@
   display: block;
 }
 
+.site-footer {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.site-footer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: linear-gradient(rgba(226, 232, 240, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(226, 232, 240, 0.06) 1px, transparent 1px),
+    radial-gradient(circle at 15% 20%, rgba(59, 130, 246, 0.08), transparent 32%),
+    radial-gradient(circle at 80% 12%, rgba(16, 185, 129, 0.06), transparent 30%),
+    radial-gradient(circle at 60% 80%, rgba(14, 165, 233, 0.05), transparent 28%);
+  background-size: 140px 140px, 140px 140px, 80% 80%, 70% 70%, 60% 60%;
+  background-position: 0 0, 0 0, center, center, center;
+  pointer-events: none;
+}
+
+.site-footer__content,
+.site-footer__bottom {
+  position: relative;
+  z-index: 1;
+}
+
 a {
   text-decoration: none;
 }
