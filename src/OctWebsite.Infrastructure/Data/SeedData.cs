@@ -75,6 +75,11 @@ internal static class SeedData
         new[] { MethodologyPage };
 
     private static readonly SaveMethodologyPageRequest DefaultMethodologyPageRequest = new(
+        "Our Methodology to Collaboration",
+        "Engagement models built around how you collaborate",
+        "Explore the four delivery approaches we use to launch and scale products with you.",
+        "We align ownership, delivery speed, and enablement so your team stays in control long after go-live.",
+        new MediaResourceDto("bg.mp4", "/video/bg.mp4"),
         new[]
         {
             new StatHighlightDto("Engagement models", "4 delivery playbooks"),

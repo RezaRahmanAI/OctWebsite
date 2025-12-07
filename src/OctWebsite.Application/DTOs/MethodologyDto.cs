@@ -14,6 +14,8 @@ public sealed record ProcessStepDto(string Title, string Description);
 
 public sealed record MethodologyClosingDto(string Title, IReadOnlyList<string> Bullets, string CtaLabel);
 
+public sealed record MediaResourceDto(string? FileName, string? Url);
+
 public sealed record MethodologyOfferingDto(
     Guid Id,
     string Slug,
@@ -40,12 +42,22 @@ public sealed record SaveMethodologyOfferingRequest(
     bool Active);
 
 public sealed record SaveMethodologyPageRequest(
+    string HeaderEyebrow,
+    string HeaderTitle,
+    string HeaderSubtitle,
+    string HeroDescription,
+    MediaResourceDto? HeroVideo,
     IReadOnlyList<StatHighlightDto> HeroHighlights,
     IReadOnlyList<MatrixColumnDto> MatrixColumns,
     IReadOnlyList<MatrixFeatureDto> FeatureMatrix,
     IReadOnlyList<string> ContactFields);
 
 public sealed record MethodologyPageDto(
+    string HeaderEyebrow,
+    string HeaderTitle,
+    string HeaderSubtitle,
+    string HeroDescription,
+    MediaResourceDto? HeroVideo,
     IReadOnlyList<StatHighlightDto> HeroHighlights,
     IReadOnlyList<MatrixColumnDto> MatrixColumns,
     IReadOnlyList<MatrixFeatureDto> FeatureMatrix,
@@ -58,6 +70,15 @@ public sealed record MethodologyPageStorage(
 {
     [JsonIgnore]
     public static MethodologyPageStorage Empty => new(
-        new SaveMethodologyPageRequest(Array.Empty<StatHighlightDto>(), Array.Empty<MatrixColumnDto>(), Array.Empty<MatrixFeatureDto>(), Array.Empty<string>()),
+        new SaveMethodologyPageRequest(
+            string.Empty,
+            string.Empty,
+            string.Empty,
+            string.Empty,
+            new MediaResourceDto(null, null),
+            Array.Empty<StatHighlightDto>(),
+            Array.Empty<MatrixColumnDto>(),
+            Array.Empty<MatrixFeatureDto>(),
+            Array.Empty<string>()),
         Array.Empty<MethodologyOfferingDto>());
 }
