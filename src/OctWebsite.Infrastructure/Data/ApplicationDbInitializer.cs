@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -97,27 +98,26 @@ public sealed class ApplicationDbInitializer(
 
     private async Task SeedMethodologyDataEntriesAsync(CancellationToken cancellationToken)
     {
+        var seeds = SeedData.MethodologyDataEntries;
+        var seedsByKey = seeds.ToDictionary(entry => entry.Key, StringComparer.OrdinalIgnoreCase);
+
         var existingEntries = await context.MethodologyDataEntries
             .AsNoTracking()
-            .Where(entry => SeedData.MethodologyDataEntries
-                .Select(seed => seed.Key.ToLower())
-                .Contains(entry.Key.ToLower()))
             .ToListAsync(cancellationToken);
 
-        var seedsByKey = SeedData.MethodologyDataEntries
-            .ToDictionary(entry => entry.Key.ToLower());
-
-        foreach (var entry in existingEntries.Where(entry => string.IsNullOrWhiteSpace(entry.Content)))
+        foreach (var entry in existingEntries.Where(entry =>
+                     seedsByKey.ContainsKey(entry.Key) &&
+                     string.IsNullOrWhiteSpace(entry.Content)))
         {
             var updatedEntry = entry with
             {
-                Content = seedsByKey[entry.Key.ToLower()].Content
+                Content = seedsByKey[entry.Key].Content
             };
 
             context.MethodologyDataEntries.Update(updatedEntry);
         }
 
-        var missingEntries = SeedData.MethodologyDataEntries
+        var missingEntries = seeds
             .Where(entry => existingEntries.All(existing =>
                 !string.Equals(existing.Key, entry.Key, StringComparison.OrdinalIgnoreCase)))
             .ToArray();
