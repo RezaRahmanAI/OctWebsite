@@ -15,7 +15,7 @@ const SLIDE_DISTANCE = CARD_WIDTH + CARD_GAP;
   standalone: true,
   templateUrl: './product-showcase.html',
   styleUrls: ['./product-showcase.css'],
-  imports: [NgClass, NgFor, NgStyle, RouterModule, SectionHeaderComponent, ScrollRevealDirective],
+  imports: [NgClass, NgFor, RouterModule, SectionHeaderComponent, ScrollRevealDirective],
 })
 export class ProductShowcaseComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('cardTrack') cardTrack!: ElementRef<HTMLDivElement>;
