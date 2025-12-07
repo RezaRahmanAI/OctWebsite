@@ -98,6 +98,7 @@ public sealed class ApplicationDbInitializer(
     private async Task SeedMethodologyDataEntriesAsync(CancellationToken cancellationToken)
     {
         var existingEntries = await context.MethodologyDataEntries
+            .AsNoTracking()
             .Where(entry => SeedData.MethodologyDataEntries
                 .Select(seed => seed.Key.ToLowerInvariant())
                 .Contains(entry.Key.ToLowerInvariant()))
@@ -108,7 +109,12 @@ public sealed class ApplicationDbInitializer(
 
         foreach (var entry in existingEntries.Where(entry => string.IsNullOrWhiteSpace(entry.Content)))
         {
-            entry.Content = seedsByKey[entry.Key.ToLowerInvariant()].Content;
+            var updatedEntry = entry with
+            {
+                Content = seedsByKey[entry.Key.ToLowerInvariant()].Content
+            };
+
+            context.MethodologyDataEntries.Update(updatedEntry);
         }
 
         var missingEntries = SeedData.MethodologyDataEntries
