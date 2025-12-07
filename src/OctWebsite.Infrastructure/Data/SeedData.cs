@@ -1166,6 +1166,9 @@ internal static class SeedData
     private static string Serialize(SaveAcademyPageRequest request)
         => JsonSerializer.Serialize(request, JsonOptions);
 
+    private static string Serialize(MethodologyPageStorage storage)
+        => JsonSerializer.Serialize(storage, JsonOptions);
+
     private static AcademyTrack Map(Guid id, SaveAcademyTrackRequest request)
     {
         return new AcademyTrack
