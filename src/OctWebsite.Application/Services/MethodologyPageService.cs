@@ -130,12 +130,29 @@ internal sealed class MethodologyPageService(IMethodologyDataRepository reposito
 
     private static MethodologyPageDto MapToPageDto(MethodologyPageStorage storage)
     {
+        var page = NormalizePage(storage.Page);
+        var offerings = storage.Offerings ?? Array.Empty<MethodologyOfferingDto>();
+
         return new MethodologyPageDto(
-            storage.Page.HeroHighlights,
-            storage.Page.MatrixColumns,
-            storage.Page.FeatureMatrix,
-            storage.Page.ContactFields,
-            storage.Offerings);
+            page.HeroHighlights ?? Array.Empty<StatHighlightDto>(),
+            page.MatrixColumns ?? Array.Empty<MatrixColumnDto>(),
+            page.FeatureMatrix ?? Array.Empty<MatrixFeatureDto>(),
+            page.ContactFields ?? Array.Empty<string>(),
+            offerings);
+    }
+
+    private static SaveMethodologyPageRequest NormalizePage(SaveMethodologyPageRequest? page)
+    {
+        if (page is null)
+        {
+            return MethodologyPageStorage.Empty.Page;
+        }
+
+        return new SaveMethodologyPageRequest(
+            page.HeroHighlights ?? Array.Empty<StatHighlightDto>(),
+            page.MatrixColumns ?? Array.Empty<MatrixColumnDto>(),
+            page.FeatureMatrix ?? Array.Empty<MatrixFeatureDto>(),
+            page.ContactFields ?? Array.Empty<string>());
     }
 
     private static MethodologyOfferingDto Map(Guid id, SaveMethodologyOfferingRequest request)
