@@ -32,11 +32,6 @@
           </div>
         </div>
       </div>
-      <div class="grid gap-4 md:grid-cols-2">
-        <p *ngFor="let paragraph of model.intro" class="rounded-2xl bg-white/5 p-4 text-sm leading-relaxed text-slate-200 ring-1 ring-white/10">
-          {{ paragraph }}
-        </p>
-      </div>
     </div>
   </section>
 
@@ -106,32 +101,7 @@
             </li>
           </ul>
         </div>
-        <div class="rounded-3xl bg-white p-6 shadow-lg ring-1 ring-slate-100">
-          <h3 class="text-xl font-semibold text-slate-900">Your Contact Information</h3>
-          <p class="mt-2 text-sm text-slate-600">Share a few details and we will respond within 24 hours.</p>
-          <div class="mt-4 space-y-3">
-            <div *ngFor="let field of contactFields" class="rounded-2xl border border-dashed border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-700">
-              {{ field }}
-            </div>
-          </div>
-          <div class="mt-4 flex flex-wrap gap-3">
-            <a
-              routerLink="/contact"
-              class="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:shadow-primary/40"
-            >
-              Send details
-              <span aria-hidden="true">→</span>
-            </a>
-            <a
-              href="https://calendly.com"
-              target="_blank"
-              rel="noreferrer"
-              class="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-primary transition hover:border-primary hover:bg-primary/5"
-            >
-              Book via Calendly
-            </a>
-          </div>
-        </div>
+        
       </div>
     </div>
   </section>
