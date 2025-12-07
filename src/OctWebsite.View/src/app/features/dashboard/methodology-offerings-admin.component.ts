@@ -1,6 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import {
   BenefitCardModel,
   MethodologyOfferingModel,
@@ -27,17 +34,23 @@ export class MethodologyOfferingsAdminComponent implements OnInit {
   readonly offerings = this.api.offerings;
   readonly selectedId = signal<string | null>(null);
 
-  readonly form = this.fb.group({
+  readonly form = this.fb.nonNullable.group({
     slug: ['', Validators.required],
     badge: ['', Validators.required],
     headline: ['', Validators.required],
     subheadline: ['', Validators.required],
-    intro: this.fb.array([]),
-    stats: this.fb.array([]),
-    benefits: this.fb.array([]),
-    process: this.fb.array([]),
+    intro: this.fb.array<FormControl<string>>([]),
+    stats: this.fb.array<
+      FormGroup<{ label: FormControl<string>; value: FormControl<string> }>
+    >([]),
+    benefits: this.fb.array<
+      FormGroup<{ title: FormControl<string>; description: FormControl<string> }>
+    >([]),
+    process: this.fb.array<
+      FormGroup<{ title: FormControl<string>; description: FormControl<string> }>
+    >([]),
     closingTitle: ['', Validators.required],
-    closingBullets: this.fb.array([]),
+    closingBullets: this.fb.array<FormControl<string>>([]),
     closingCtaLabel: ['', Validators.required],
     active: [true],
   });
@@ -46,28 +59,32 @@ export class MethodologyOfferingsAdminComponent implements OnInit {
     this.load();
   }
 
-  get intro(): FormArray {
-    return this.form.get('intro') as FormArray;
+  get intro(): FormArray<FormControl<string>> {
+    return this.form.controls.intro;
   }
 
-  get stats(): FormArray {
-    return this.form.get('stats') as FormArray;
+  get stats(): FormArray<FormGroup<{ label: FormControl<string>; value: FormControl<string> }>> {
+    return this.form.controls.stats;
   }
 
-  get benefits(): FormArray {
-    return this.form.get('benefits') as FormArray;
+  get benefits(): FormArray<
+    FormGroup<{ title: FormControl<string>; description: FormControl<string> }>
+  > {
+    return this.form.controls.benefits;
   }
 
-  get process(): FormArray {
-    return this.form.get('process') as FormArray;
+  get process(): FormArray<
+    FormGroup<{ title: FormControl<string>; description: FormControl<string> }>
+  > {
+    return this.form.controls.process;
   }
 
-  get closingBullets(): FormArray {
-    return this.form.get('closingBullets') as FormArray;
+  get closingBullets(): FormArray<FormControl<string>> {
+    return this.form.controls.closingBullets;
   }
 
   addIntro(value = ''): void {
-    this.intro.push(this.fb.control(value, Validators.required));
+    this.intro.push(this.createStringControl(value));
   }
 
   removeIntro(index: number): void {
@@ -75,12 +92,7 @@ export class MethodologyOfferingsAdminComponent implements OnInit {
   }
 
   addStat(stat?: StatHighlightModel): void {
-    this.stats.push(
-      this.fb.group({
-        label: [stat?.label ?? '', Validators.required],
-        value: [stat?.value ?? '', Validators.required],
-      })
-    );
+    this.stats.push(this.createStatGroup(stat));
   }
 
   removeStat(index: number): void {
@@ -88,12 +100,7 @@ export class MethodologyOfferingsAdminComponent implements OnInit {
   }
 
   addBenefit(benefit?: BenefitCardModel): void {
-    this.benefits.push(
-      this.fb.group({
-        title: [benefit?.title ?? '', Validators.required],
-        description: [benefit?.description ?? '', Validators.required],
-      })
-    );
+    this.benefits.push(this.createBenefitGroup(benefit));
   }
 
   removeBenefit(index: number): void {
@@ -101,12 +108,7 @@ export class MethodologyOfferingsAdminComponent implements OnInit {
   }
 
   addProcess(step?: ProcessStepModel): void {
-    this.process.push(
-      this.fb.group({
-        title: [step?.title ?? '', Validators.required],
-        description: [step?.description ?? '', Validators.required],
-      })
-    );
+    this.process.push(this.createProcessGroup(step));
   }
 
   removeProcess(index: number): void {
@@ -114,7 +116,7 @@ export class MethodologyOfferingsAdminComponent implements OnInit {
   }
 
   addClosingBullet(value = ''): void {
-    this.closingBullets.push(this.fb.control(value, Validators.required));
+    this.closingBullets.push(this.createStringControl(value));
   }
 
   removeClosingBullet(index: number): void {
@@ -177,6 +179,40 @@ export class MethodologyOfferingsAdminComponent implements OnInit {
     });
   }
 
+  private createStringControl(value = ''): FormControl<string> {
+    return this.fb.nonNullable.control(value, Validators.required);
+  }
+
+  private createStatGroup(stat?: StatHighlightModel): FormGroup<{
+    label: FormControl<string>;
+    value: FormControl<string>;
+  }> {
+    return this.fb.nonNullable.group({
+      label: [stat?.label ?? '', Validators.required],
+      value: [stat?.value ?? '', Validators.required],
+    });
+  }
+
+  private createBenefitGroup(benefit?: BenefitCardModel): FormGroup<{
+    title: FormControl<string>;
+    description: FormControl<string>;
+  }> {
+    return this.fb.nonNullable.group({
+      title: [benefit?.title ?? '', Validators.required],
+      description: [benefit?.description ?? '', Validators.required],
+    });
+  }
+
+  private createProcessGroup(step?: ProcessStepModel): FormGroup<{
+    title: FormControl<string>;
+    description: FormControl<string>;
+  }> {
+    return this.fb.nonNullable.group({
+      title: [step?.title ?? '', Validators.required],
+      description: [step?.description ?? '', Validators.required],
+    });
+  }
+
   private load(): void {
     this.loading.set(true);
     this.api.fetchOfferings().subscribe({
@@ -221,7 +257,7 @@ export class MethodologyOfferingsAdminComponent implements OnInit {
   }
 
   private toRequest(): SaveMethodologyOfferingRequest {
-    const raw = this.form.value;
+    const raw = this.form.getRawValue();
     return {
       slug: raw.slug ?? '',
       badge: raw.badge ?? '',
