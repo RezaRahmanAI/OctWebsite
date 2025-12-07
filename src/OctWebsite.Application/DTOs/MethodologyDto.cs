@@ -14,8 +14,6 @@ public sealed record ProcessStepDto(string Title, string Description);
 
 public sealed record MethodologyClosingDto(string Title, IReadOnlyList<string> Bullets, string CtaLabel);
 
-public sealed record MediaResourceDto(string? FileName, string? Url);
-
 public sealed record MethodologyOfferingDto(
     Guid Id,
     string Slug,
