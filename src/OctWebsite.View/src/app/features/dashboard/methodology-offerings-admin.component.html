@@ -1,0 +1,184 @@
+<div class="card">
+  <div class="card-header">
+    <div>
+      <p class="eyebrow">Engagement Models</p>
+      <h2 class="card-title">Methodology offerings</h2>
+      <p class="text-sm text-slate-600">Create, update, or retire collaboration models shown on the methodology page.</p>
+    </div>
+    <div class="flex items-center gap-2">
+      <button class="btn ghost" type="button" (click)="resetForm()">New</button>
+      <button class="btn primary" type="button" (click)="submit()" [disabled]="loading()">Save offering</button>
+    </div>
+  </div>
+
+  <div class="grid gap-6 lg:grid-cols-[1.1fr,1fr]">
+    <form class="space-y-6" [formGroup]="form">
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-control">
+          <span>Slug</span>
+          <input type="text" formControlName="slug" />
+        </label>
+        <label class="form-control">
+          <span>Badge</span>
+          <input type="text" formControlName="badge" />
+        </label>
+        <label class="form-control md:col-span-2">
+          <span>Headline</span>
+          <input type="text" formControlName="headline" />
+        </label>
+        <label class="form-control md:col-span-2">
+          <span>Subheadline</span>
+          <textarea rows="2" formControlName="subheadline"></textarea>
+        </label>
+      </div>
+
+      <div class="card-section">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Intro paragraphs</p>
+            <p class="text-sm text-slate-600">Lead-in copy for the detail hero.</p>
+          </div>
+          <button type="button" class="btn ghost" (click)="addIntro()">Add paragraph</button>
+        </div>
+        <div class="grid gap-3">
+          <div class="input-row" *ngFor="let control of intro.controls; let i = index">
+            <label class="form-control flex-1">
+              <span>Paragraph</span>
+              <textarea rows="2" [formControl]="control"></textarea>
+            </label>
+            <button type="button" class="btn danger ghost" (click)="removeIntro(i)">Remove</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Stats</p>
+            <p class="text-sm text-slate-600">Highlight metrics in the hero.</p>
+          </div>
+          <button type="button" class="btn ghost" (click)="addStat()">Add stat</button>
+        </div>
+        <div class="grid gap-3">
+          <div class="input-row" *ngFor="let control of stats.controls; let i = index" [formGroup]="control">
+            <label class="form-control flex-1">
+              <span>Label</span>
+              <input type="text" formControlName="label" />
+            </label>
+            <label class="form-control flex-1">
+              <span>Value</span>
+              <input type="text" formControlName="value" />
+            </label>
+            <button type="button" class="btn danger ghost" (click)="removeStat(i)">Remove</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Benefits</p>
+            <p class="text-sm text-slate-600">Reasons why teams choose this model.</p>
+          </div>
+          <button type="button" class="btn ghost" (click)="addBenefit()">Add benefit</button>
+        </div>
+        <div class="grid gap-3">
+          <div class="input-row" *ngFor="let control of benefits.controls; let i = index" [formGroup]="control">
+            <label class="form-control flex-1">
+              <span>Title</span>
+              <input type="text" formControlName="title" />
+            </label>
+            <label class="form-control flex-1">
+              <span>Description</span>
+              <textarea rows="2" formControlName="description"></textarea>
+            </label>
+            <button type="button" class="btn danger ghost" (click)="removeBenefit(i)">Remove</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Process</p>
+            <p class="text-sm text-slate-600">Step-by-step delivery flow.</p>
+          </div>
+          <button type="button" class="btn ghost" (click)="addProcess()">Add step</button>
+        </div>
+        <div class="grid gap-3">
+          <div class="input-row" *ngFor="let control of process.controls; let i = index" [formGroup]="control">
+            <label class="form-control flex-1">
+              <span>Title</span>
+              <input type="text" formControlName="title" />
+            </label>
+            <label class="form-control flex-1">
+              <span>Description</span>
+              <textarea rows="2" formControlName="description"></textarea>
+            </label>
+            <button type="button" class="btn danger ghost" (click)="removeProcess(i)">Remove</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Closing</p>
+            <p class="text-sm text-slate-600">Bullets and CTA after the process grid.</p>
+          </div>
+          <button type="button" class="btn ghost" (click)="addClosingBullet()">Add bullet</button>
+        </div>
+        <div class="grid gap-3">
+          <label class="form-control">
+            <span>Title</span>
+            <input type="text" formControlName="closingTitle" />
+          </label>
+          <label class="form-control">
+            <span>CTA label</span>
+            <input type="text" formControlName="closingCtaLabel" />
+          </label>
+          <div class="input-row" *ngFor="let control of closingBullets.controls; let i = index">
+            <label class="form-control flex-1">
+              <span>Bullet</span>
+              <input type="text" [formControl]="control" />
+            </label>
+            <button type="button" class="btn danger ghost" (click)="removeClosingBullet(i)">Remove</button>
+          </div>
+        </div>
+      </div>
+
+      <label class="inline-flex items-center gap-2 text-sm font-semibold text-slate-700">
+        <input type="checkbox" formControlName="active" class="h-4 w-4" />
+        Active on site
+      </label>
+    </form>
+
+    <div class="card-section">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">All offerings</p>
+          <p class="text-sm text-slate-600">Tap to edit or remove a playbook.</p>
+        </div>
+      </div>
+      <div class="grid gap-3">
+        <div
+          class="flex items-start justify-between gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
+          *ngFor="let offering of offerings()"
+        >
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-primary">{{ offering.badge }}</p>
+            <p class="text-lg font-semibold text-slate-900">{{ offering.headline }}</p>
+            <p class="text-sm text-slate-600">Slug: {{ offering.slug }}</p>
+            <p class="text-xs font-medium" [ngClass]="offering.active ? 'text-emerald-600' : 'text-slate-500'">
+              {{ offering.active ? 'Active' : 'Hidden' }}
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="btn ghost" type="button" (click)="editOffering(offering)">Edit</button>
+            <button class="btn danger ghost" type="button" (click)="deleteOffering(offering)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
