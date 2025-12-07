@@ -2,10 +2,6 @@ using System.Text.Json.Serialization;
 
 namespace OctWebsite.Application.DTOs;
 
-public sealed record MediaResourceDto(
-    string? FileName,
-    string? Url);
-
 public sealed record AboutValueDto(
     string Title,
     string Description,
