@@ -66,7 +66,7 @@ internal static class SeedData
     public static MethodologyData MethodologyPage { get; } = new(
         Guid.Parse("f4042b1d-5a4c-4f24-b2c1-5df3c5e5c8f4"),
         MethodologyPageStorageKey,
-        Serialize(new MethodologyPageStorage(DefaultMethodologyPageRequest, DefaultMethodologyOfferings)));
+        Serialize(MethodologyDefaults.DefaultStorage));
 
     public static IReadOnlyList<CompanyAbout> CompanyAboutEntries { get; } =
         About.Append(AcademyPage).ToArray();

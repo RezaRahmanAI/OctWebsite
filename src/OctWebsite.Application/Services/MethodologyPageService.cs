@@ -1,6 +1,8 @@
 using System.Text.Json;
 using OctWebsite.Application.Abstractions;
+using OctWebsite.Application.Defaults;
 using OctWebsite.Application.DTOs;
+using OctWebsite.Domain.Entities;
 
 namespace OctWebsite.Application.Services;
 
@@ -101,7 +103,7 @@ internal sealed class MethodologyPageService(IMethodologyDataRepository reposito
     private async Task<MethodologyPageStorage> LoadStorageAsync(CancellationToken cancellationToken)
     {
         var entry = await repository.GetByKeyAsync(StorageKey, cancellationToken)
-            ?? throw new InvalidOperationException("Methodology page content has not been initialized.");
+            ?? await SeedDefaultAsync(cancellationToken);
 
         return Deserialize(entry.Content);
     }
@@ -110,7 +112,7 @@ internal sealed class MethodologyPageService(IMethodologyDataRepository reposito
         CancellationToken cancellationToken)
     {
         var entry = await repository.GetByKeyAsync(StorageKey, cancellationToken)
-            ?? throw new InvalidOperationException("Methodology page content has not been initialized.");
+            ?? await SeedDefaultAsync(cancellationToken);
 
         return (entry, Deserialize(entry.Content));
     }
@@ -126,6 +128,16 @@ internal sealed class MethodologyPageService(IMethodologyDataRepository reposito
         var updated = entry with { Content = JsonSerializer.Serialize(storage, JsonOptions) };
         _ = await repository.UpdateAsync(updated, cancellationToken)
             ?? await repository.CreateAsync(updated, cancellationToken);
+    }
+
+    private async Task<MethodologyData> SeedDefaultAsync(CancellationToken cancellationToken)
+    {
+        var entry = new MethodologyData(
+            Guid.Parse("f4042b1d-5a4c-4f24-b2c1-5df3c5e5c8f4"),
+            StorageKey,
+            JsonSerializer.Serialize(MethodologyDefaults.DefaultStorage, JsonOptions));
+
+        return await repository.CreateAsync(entry, cancellationToken);
     }
 
     private static MethodologyPageDto MapToPageDto(MethodologyPageStorage storage)
