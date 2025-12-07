@@ -80,11 +80,11 @@ public sealed class ApplicationDbInitializer(
     private async Task SeedCompanyAboutEntriesAsync(CancellationToken cancellationToken)
     {
         var existingKeys = await context.CompanyAboutEntries.AsNoTracking()
-            .Select(entry => entry.Key.ToLowerInvariant())
+            .Select(entry => entry.Key.ToLower())
             .ToListAsync(cancellationToken);
 
         var missingEntries = SeedData.CompanyAboutEntries
-            .Where(entry => !existingKeys.Contains(entry.Key.ToLowerInvariant()))
+            .Where(entry => !existingKeys.Contains(entry.Key.ToLower()))
             .ToArray();
 
         if (missingEntries.Length == 0)
@@ -100,18 +100,18 @@ public sealed class ApplicationDbInitializer(
         var existingEntries = await context.MethodologyDataEntries
             .AsNoTracking()
             .Where(entry => SeedData.MethodologyDataEntries
-                .Select(seed => seed.Key.ToLowerInvariant())
-                .Contains(entry.Key.ToLowerInvariant()))
+                .Select(seed => seed.Key.ToLower())
+                .Contains(entry.Key.ToLower()))
             .ToListAsync(cancellationToken);
 
         var seedsByKey = SeedData.MethodologyDataEntries
-            .ToDictionary(entry => entry.Key.ToLowerInvariant());
+            .ToDictionary(entry => entry.Key.ToLower());
 
         foreach (var entry in existingEntries.Where(entry => string.IsNullOrWhiteSpace(entry.Content)))
         {
             var updatedEntry = entry with
             {
-                Content = seedsByKey[entry.Key.ToLowerInvariant()].Content
+                Content = seedsByKey[entry.Key.ToLower()].Content
             };
 
             context.MethodologyDataEntries.Update(updatedEntry);
