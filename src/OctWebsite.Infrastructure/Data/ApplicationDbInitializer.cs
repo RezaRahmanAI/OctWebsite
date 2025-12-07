@@ -19,6 +19,7 @@ public sealed class ApplicationDbInitializer(
 
         await SeedCollectionAsync(context.TeamMembers, SeedData.TeamMembers, cancellationToken);
         await SeedCompanyAboutEntriesAsync(cancellationToken);
+        await SeedMethodologyDataEntriesAsync(cancellationToken);
         await SeedCollectionAsync(context.AcademyTracks, SeedData.AcademyTracks, cancellationToken);
         await SeedCollectionAsync(context.BlogPosts, SeedData.BlogPosts, cancellationToken);
         await SeedCollectionAsync(context.ContactPages, new[] { SeedData.ContactPage }, cancellationToken);
@@ -92,5 +93,23 @@ public sealed class ApplicationDbInitializer(
         }
 
         await context.CompanyAboutEntries.AddRangeAsync(missingEntries, cancellationToken);
+    }
+
+    private async Task SeedMethodologyDataEntriesAsync(CancellationToken cancellationToken)
+    {
+        var existingKeys = await context.MethodologyDataEntries.AsNoTracking()
+            .Select(entry => entry.Key.ToLowerInvariant())
+            .ToListAsync(cancellationToken);
+
+        var missingEntries = SeedData.MethodologyDataEntries
+            .Where(entry => !existingKeys.Contains(entry.Key.ToLowerInvariant()))
+            .ToArray();
+
+        if (missingEntries.Length == 0)
+        {
+            return;
+        }
+
+        await context.MethodologyDataEntries.AddRangeAsync(missingEntries, cancellationToken);
     }
 }

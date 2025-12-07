@@ -4,7 +4,7 @@ using OctWebsite.Application.DTOs;
 
 namespace OctWebsite.Application.Services;
 
-internal sealed class MethodologyPageService(ICompanyAboutRepository repository) : IMethodologyPageService
+internal sealed class MethodologyPageService(IMethodologyDataRepository repository) : IMethodologyPageService
 {
     private const string StorageKey = "methodology-page";
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
@@ -106,7 +106,7 @@ internal sealed class MethodologyPageService(ICompanyAboutRepository repository)
         return Deserialize(entry.Content);
     }
 
-    private async Task<(Domain.Entities.CompanyAbout Entry, MethodologyPageStorage Storage)> LoadEntryAsync(
+    private async Task<(Domain.Entities.MethodologyData Entry, MethodologyPageStorage Storage)> LoadEntryAsync(
         CancellationToken cancellationToken)
     {
         var entry = await repository.GetByKeyAsync(StorageKey, cancellationToken)
@@ -121,7 +121,7 @@ internal sealed class MethodologyPageService(ICompanyAboutRepository repository)
             ?? MethodologyPageStorage.Empty;
     }
 
-    private async Task PersistAsync(Domain.Entities.CompanyAbout entry, MethodologyPageStorage storage, CancellationToken cancellationToken)
+    private async Task PersistAsync(Domain.Entities.MethodologyData entry, MethodologyPageStorage storage, CancellationToken cancellationToken)
     {
         var updated = entry with { Content = JsonSerializer.Serialize(storage, JsonOptions) };
         _ = await repository.UpdateAsync(updated, cancellationToken)

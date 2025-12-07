@@ -32,6 +32,7 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<JobPosting> JobPostings => Set<JobPosting>();
     public DbSet<CareerApplication> CareerApplications => Set<CareerApplication>();
     public DbSet<CareerPage> CareerPages => Set<CareerPage>();
+    public DbSet<MethodologyData> MethodologyDataEntries => Set<MethodologyData>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -50,6 +51,14 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
             entity.HasKey(about => about.Id);
             entity.Property(about => about.Id).ValueGeneratedNever();
             entity.HasIndex(about => about.Key).IsUnique();
+        });
+
+        modelBuilder.Entity<MethodologyData>(entity =>
+        {
+            entity.ToTable("MethodologyData");
+            entity.HasKey(data => data.Id);
+            entity.Property(data => data.Id).ValueGeneratedNever();
+            entity.HasIndex(data => data.Key).IsUnique();
         });
 
         modelBuilder.Entity<AcademyTrack>(entity =>
