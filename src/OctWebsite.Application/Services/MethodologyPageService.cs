@@ -119,8 +119,13 @@ internal sealed class MethodologyPageService(IMethodologyDataRepository reposito
 
     private static MethodologyPageStorage Deserialize(string json)
     {
-        return JsonSerializer.Deserialize<MethodologyPageStorage>(json, JsonOptions)
+        var storage = JsonSerializer.Deserialize<MethodologyPageStorage>(json, JsonOptions)
             ?? MethodologyDefaults.DefaultStorage;
+
+        var page = storage.Page ?? MethodologyDefaults.DefaultPage;
+        var offerings = storage.Offerings ?? MethodologyDefaults.DefaultOfferings;
+
+        return new MethodologyPageStorage(page, offerings);
     }
 
     private async Task PersistAsync(Domain.Entities.MethodologyData entry, MethodologyPageStorage storage, CancellationToken cancellationToken)
