@@ -6,6 +6,7 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import {
@@ -33,6 +34,12 @@ export class MethodologyAdminComponent implements OnInit {
   readonly loading = signal(false);
 
   readonly form = this.fb.nonNullable.group({
+    headerEyebrow: this.createStringControl('', Validators.required),
+    headerTitle: this.createStringControl('', Validators.required),
+    headerSubtitle: this.createStringControl('', Validators.required),
+    heroDescription: this.createStringControl('', Validators.required),
+    heroVideoFileName: this.createStringControl('', null),
+    heroVideoUrl: this.createStringControl('', null),
     heroHighlights: this.fb.array<FormGroup<{ label: FormControl<string>; value: FormControl<string> }>>([]),
     matrixColumns: this.fb.array<FormGroup<{ key: FormControl<string>; label: FormControl<string> }>>([]),
     featureMatrix: this.fb.array<
@@ -129,6 +136,15 @@ export class MethodologyAdminComponent implements OnInit {
   }
 
   private apply(page: MethodologyPageModel): void {
+    this.form.patchValue({
+      headerEyebrow: page.headerEyebrow,
+      headerTitle: page.headerTitle,
+      headerSubtitle: page.headerSubtitle,
+      heroDescription: page.heroDescription,
+      heroVideoFileName: page.heroVideo?.fileName ?? '',
+      heroVideoUrl: page.heroVideo?.url ?? '',
+    });
+
     this.heroHighlights.clear();
     page.heroHighlights.forEach(highlight => this.addHighlight(highlight));
 
@@ -145,6 +161,14 @@ export class MethodologyAdminComponent implements OnInit {
   private toRequest(): SaveMethodologyPageRequest {
     const raw = this.form.getRawValue();
     return {
+      headerEyebrow: raw.headerEyebrow ?? '',
+      headerTitle: raw.headerTitle ?? '',
+      headerSubtitle: raw.headerSubtitle ?? '',
+      heroDescription: raw.heroDescription ?? '',
+      heroVideo: {
+        fileName: raw.heroVideoFileName || null,
+        url: raw.heroVideoUrl || null,
+      },
       heroHighlights: this.heroHighlights.controls.map(control => ({
         label: control.value.label ?? '',
         value: control.value.value ?? '',
@@ -191,7 +215,7 @@ export class MethodologyAdminComponent implements OnInit {
     });
   }
 
-  private createStringControl(value = ''): FormControl<string> {
-    return this.fb.nonNullable.control(value, Validators.required);
+  private createStringControl(value = '', validator: ValidatorFn | ValidatorFn[] | null = Validators.required): FormControl<string> {
+    return this.fb.nonNullable.control(value, validator ?? undefined);
   }
 }

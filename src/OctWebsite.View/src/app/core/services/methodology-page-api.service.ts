@@ -3,6 +3,11 @@ import { Injectable, inject, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
+export interface MediaResourceModel {
+  fileName: string | null;
+  url: string | null;
+}
+
 export interface StatHighlightModel {
   label: string;
   value: string;
@@ -49,6 +54,11 @@ export interface MethodologyOfferingModel {
 }
 
 export interface MethodologyPageModel {
+  headerEyebrow: string;
+  headerTitle: string;
+  headerSubtitle: string;
+  heroDescription: string;
+  heroVideo: MediaResourceModel | null;
   heroHighlights: StatHighlightModel[];
   matrixColumns: MatrixColumnModel[];
   featureMatrix: MatrixFeatureModel[];
@@ -57,6 +67,11 @@ export interface MethodologyPageModel {
 }
 
 export interface SaveMethodologyPageRequest {
+  headerEyebrow: string;
+  headerTitle: string;
+  headerSubtitle: string;
+  heroDescription: string;
+  heroVideo: MediaResourceModel | null;
   heroHighlights: StatHighlightModel[];
   matrixColumns: MatrixColumnModel[];
   featureMatrix: MatrixFeatureModel[];
@@ -72,6 +87,10 @@ export class MethodologyPageApiService {
 
   readonly page = signal<MethodologyPageModel | null>(null);
   readonly offerings = signal<MethodologyOfferingModel[]>([]);
+
+  loadPage(): void {
+    this.fetchPage().subscribe();
+  }
 
   fetchPage(): Observable<MethodologyPageModel> {
     return this.http.get<MethodologyPageModel>(`${this.baseUrl}/api/methodology-page`).pipe(

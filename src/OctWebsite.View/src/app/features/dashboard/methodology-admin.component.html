@@ -9,6 +9,45 @@
   </div>
 
   <form class="space-y-8" [formGroup]="form">
+    <section class="card-section">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Hero content</p>
+          <p class="text-sm text-slate-600">Controls the hero headline, supporting copy, and media slot.</p>
+        </div>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-control">
+          <span>Eyebrow</span>
+          <input type="text" formControlName="headerEyebrow" />
+        </label>
+        <label class="form-control">
+          <span>Title</span>
+          <input type="text" formControlName="headerTitle" />
+        </label>
+        <label class="form-control md:col-span-2">
+          <span>Subtitle</span>
+          <input type="text" formControlName="headerSubtitle" />
+        </label>
+        <label class="form-control md:col-span-2">
+          <span>Hero description</span>
+          <textarea formControlName="heroDescription" rows="3"></textarea>
+        </label>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="form-control">
+          <span>Hero video file name</span>
+          <input type="text" formControlName="heroVideoFileName" placeholder="/video/bg.mp4" />
+        </label>
+        <label class="form-control">
+          <span>Hero video URL</span>
+          <input type="text" formControlName="heroVideoUrl" placeholder="https://cdn..." />
+        </label>
+      </div>
+    </section>
+
     <section class="grid gap-4 md:grid-cols-2">
       <div class="card-section">
         <div class="section-header">

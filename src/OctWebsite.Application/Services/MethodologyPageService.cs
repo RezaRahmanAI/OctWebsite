@@ -134,6 +134,11 @@ internal sealed class MethodologyPageService(IMethodologyDataRepository reposito
         var offerings = storage.Offerings ?? Array.Empty<MethodologyOfferingDto>();
 
         return new MethodologyPageDto(
+            page.HeaderEyebrow,
+            page.HeaderTitle,
+            page.HeaderSubtitle,
+            page.HeroDescription,
+            page.HeroVideo,
             page.HeroHighlights ?? Array.Empty<StatHighlightDto>(),
             page.MatrixColumns ?? Array.Empty<MatrixColumnDto>(),
             page.FeatureMatrix ?? Array.Empty<MatrixFeatureDto>(),
@@ -149,6 +154,11 @@ internal sealed class MethodologyPageService(IMethodologyDataRepository reposito
         }
 
         return new SaveMethodologyPageRequest(
+            page.HeaderEyebrow ?? string.Empty,
+            page.HeaderTitle ?? string.Empty,
+            page.HeaderSubtitle ?? string.Empty,
+            page.HeroDescription ?? string.Empty,
+            page.HeroVideo ?? new MediaResourceDto(null, null),
             page.HeroHighlights ?? Array.Empty<StatHighlightDto>(),
             page.MatrixColumns ?? Array.Empty<MatrixColumnDto>(),
             page.FeatureMatrix ?? Array.Empty<MatrixFeatureDto>(),
@@ -176,6 +186,11 @@ internal sealed class MethodologyPageService(IMethodologyDataRepository reposito
         if (request is null)
         {
             throw new ArgumentNullException(nameof(request));
+        }
+
+        if (string.IsNullOrWhiteSpace(request.HeaderTitle))
+        {
+            throw new ArgumentException("A hero title is required.", nameof(request));
         }
 
         if (request.MatrixColumns.Any(column => string.IsNullOrWhiteSpace(column.Key)))
