@@ -44,6 +44,20 @@ export class ProductShowcaseComponent implements OnInit, AfterViewInit, OnDestro
   private readonly maxPause = 3000; // 3s
   private currentIndex = 0;
 
+  resolveBackground(color?: string): string | undefined {
+    if (!color) return undefined;
+
+    const trimmed = color.trim();
+
+    // Support Tailwind-style arbitrary color tokens like "bg-[#06ac30]" by extracting the raw value
+    const arbitraryMatch = trimmed.match(/bg-\[(.+)\]/i);
+    if (arbitraryMatch?.[1]) {
+      return arbitraryMatch[1];
+    }
+
+    return trimmed;
+  }
+
   ngAfterViewInit(): void {
     const track = this.cardTrack?.nativeElement;
     if (!track) return;
