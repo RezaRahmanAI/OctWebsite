@@ -1,6 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import {
   MatrixColumnModel,
   MatrixFeatureModel,
@@ -25,40 +32,37 @@ export class MethodologyAdminComponent implements OnInit {
 
   readonly loading = signal(false);
 
-  readonly form = this.fb.group({
-    heroHighlights: this.fb.array([]),
-    matrixColumns: this.fb.array([]),
-    featureMatrix: this.fb.array([]),
-    contactFields: this.fb.array([])
+  readonly form = this.fb.nonNullable.group({
+    heroHighlights: this.fb.array<FormGroup<{ label: FormControl<string>; value: FormControl<string> }>>([]),
+    matrixColumns: this.fb.array<FormGroup<{ key: FormControl<string>; label: FormControl<string> }>>([]),
+    featureMatrix: this.fb.array<
+      FormGroup<{ name: FormControl<string>; appliesTo: FormControl<string> }>
+    >([]),
+    contactFields: this.fb.array<FormControl<string>>([]),
   });
 
   ngOnInit(): void {
     this.load();
   }
 
-  get heroHighlights(): FormArray {
-    return this.form.get('heroHighlights') as FormArray;
+  get heroHighlights(): FormArray<FormGroup<{ label: FormControl<string>; value: FormControl<string> }>> {
+    return this.form.controls.heroHighlights;
   }
 
-  get matrixColumns(): FormArray {
-    return this.form.get('matrixColumns') as FormArray;
+  get matrixColumns(): FormArray<FormGroup<{ key: FormControl<string>; label: FormControl<string> }>> {
+    return this.form.controls.matrixColumns;
   }
 
-  get featureMatrix(): FormArray {
-    return this.form.get('featureMatrix') as FormArray;
+  get featureMatrix(): FormArray<FormGroup<{ name: FormControl<string>; appliesTo: FormControl<string> }>> {
+    return this.form.controls.featureMatrix;
   }
 
-  get contactFields(): FormArray {
-    return this.form.get('contactFields') as FormArray;
+  get contactFields(): FormArray<FormControl<string>> {
+    return this.form.controls.contactFields;
   }
 
   addHighlight(highlight?: StatHighlightModel): void {
-    this.heroHighlights.push(
-      this.fb.group({
-        label: [highlight?.label ?? '', Validators.required],
-        value: [highlight?.value ?? '', Validators.required]
-      })
-    );
+    this.heroHighlights.push(this.createHighlightGroup(highlight));
   }
 
   removeHighlight(index: number): void {
@@ -66,12 +70,7 @@ export class MethodologyAdminComponent implements OnInit {
   }
 
   addColumn(column?: MatrixColumnModel): void {
-    this.matrixColumns.push(
-      this.fb.group({
-        key: [column?.key ?? '', Validators.required],
-        label: [column?.label ?? '', Validators.required]
-      })
-    );
+    this.matrixColumns.push(this.createColumnGroup(column));
   }
 
   removeColumn(index: number): void {
@@ -79,12 +78,7 @@ export class MethodologyAdminComponent implements OnInit {
   }
 
   addFeature(feature?: MatrixFeatureModel): void {
-    this.featureMatrix.push(
-      this.fb.group({
-        name: [feature?.name ?? '', Validators.required],
-        appliesTo: [feature?.appliesTo?.join(', ') ?? '', Validators.required]
-      })
-    );
+    this.featureMatrix.push(this.createFeatureGroup(feature));
   }
 
   removeFeature(index: number): void {
@@ -92,7 +86,7 @@ export class MethodologyAdminComponent implements OnInit {
   }
 
   addContactField(value = ''): void {
-    this.contactFields.push(this.fb.control(value, Validators.required));
+    this.contactFields.push(this.createStringControl(value));
   }
 
   removeContactField(index: number): void {
@@ -149,7 +143,7 @@ export class MethodologyAdminComponent implements OnInit {
   }
 
   private toRequest(): SaveMethodologyPageRequest {
-    const raw = this.form.value;
+    const raw = this.form.getRawValue();
     return {
       heroHighlights: this.heroHighlights.controls.map(control => ({
         label: control.value.label ?? '',
@@ -165,5 +159,39 @@ export class MethodologyAdminComponent implements OnInit {
       })),
       contactFields: this.contactFields.controls.map(control => control.value ?? ''),
     } satisfies SaveMethodologyPageRequest;
+  }
+
+  private createHighlightGroup(highlight?: StatHighlightModel): FormGroup<{
+    label: FormControl<string>;
+    value: FormControl<string>;
+  }> {
+    return this.fb.nonNullable.group({
+      label: [highlight?.label ?? '', Validators.required],
+      value: [highlight?.value ?? '', Validators.required],
+    });
+  }
+
+  private createColumnGroup(column?: MatrixColumnModel): FormGroup<{
+    key: FormControl<string>;
+    label: FormControl<string>;
+  }> {
+    return this.fb.nonNullable.group({
+      key: [column?.key ?? '', Validators.required],
+      label: [column?.label ?? '', Validators.required],
+    });
+  }
+
+  private createFeatureGroup(feature?: MatrixFeatureModel): FormGroup<{
+    name: FormControl<string>;
+    appliesTo: FormControl<string>;
+  }> {
+    return this.fb.nonNullable.group({
+      name: [feature?.name ?? '', Validators.required],
+      appliesTo: [feature?.appliesTo?.join(', ') ?? '', Validators.required],
+    });
+  }
+
+  private createStringControl(value = ''): FormControl<string> {
+    return this.fb.nonNullable.control(value, Validators.required);
   }
 }
