@@ -97,12 +97,23 @@ public sealed class ApplicationDbInitializer(
 
     private async Task SeedMethodologyDataEntriesAsync(CancellationToken cancellationToken)
     {
-        var existingKeys = await context.MethodologyDataEntries.AsNoTracking()
-            .Select(entry => entry.Key.ToLowerInvariant())
+        var existingEntries = await context.MethodologyDataEntries
+            .Where(entry => SeedData.MethodologyDataEntries
+                .Select(seed => seed.Key.ToLowerInvariant())
+                .Contains(entry.Key.ToLowerInvariant()))
             .ToListAsync(cancellationToken);
 
+        var seedsByKey = SeedData.MethodologyDataEntries
+            .ToDictionary(entry => entry.Key.ToLowerInvariant());
+
+        foreach (var entry in existingEntries.Where(entry => string.IsNullOrWhiteSpace(entry.Content)))
+        {
+            entry.Content = seedsByKey[entry.Key.ToLowerInvariant()].Content;
+        }
+
         var missingEntries = SeedData.MethodologyDataEntries
-            .Where(entry => !existingKeys.Contains(entry.Key.ToLowerInvariant()))
+            .Where(entry => existingEntries.All(existing =>
+                !string.Equals(existing.Key, entry.Key, StringComparison.OrdinalIgnoreCase)))
             .ToArray();
 
         if (missingEntries.Length == 0)

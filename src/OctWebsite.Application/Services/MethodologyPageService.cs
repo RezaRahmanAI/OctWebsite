@@ -31,7 +31,7 @@ internal sealed class MethodologyPageService(IMethodologyDataRepository reposito
     public async Task<IReadOnlyList<MethodologyOfferingDto>> GetOfferingsAsync(CancellationToken cancellationToken = default)
     {
         var storage = await LoadStorageAsync(cancellationToken);
-        return storage.Offerings.ToArray();
+        return storage.Offerings?.ToArray() ?? Array.Empty<MethodologyOfferingDto>();
     }
 
     public async Task<MethodologyOfferingDto?> GetBySlugAsync(string slug, CancellationToken cancellationToken = default)
