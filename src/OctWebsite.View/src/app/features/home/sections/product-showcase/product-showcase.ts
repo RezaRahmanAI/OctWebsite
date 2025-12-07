@@ -1,5 +1,5 @@
 import { Component, inject, AfterViewInit, OnDestroy, OnInit, ViewChild, ElementRef, computed, effect } from '@angular/core';
-import { NgFor, NgClass } from '@angular/common';
+import { NgClass, NgFor, NgStyle } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SectionHeaderComponent } from '../../../../shared/components/section-header/section-header.component';
 import { ProductShowcaseItem } from '../../../../core/models';
@@ -15,7 +15,7 @@ const SLIDE_DISTANCE = CARD_WIDTH + CARD_GAP;
   standalone: true,
   templateUrl: './product-showcase.html',
   styleUrls: ['./product-showcase.css'],
-  imports: [NgFor, NgClass, RouterModule, SectionHeaderComponent, ScrollRevealDirective],
+  imports: [NgClass, NgFor, NgStyle, RouterModule, SectionHeaderComponent, ScrollRevealDirective],
 })
 export class ProductShowcaseComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('cardTrack') cardTrack!: ElementRef<HTMLDivElement>;
