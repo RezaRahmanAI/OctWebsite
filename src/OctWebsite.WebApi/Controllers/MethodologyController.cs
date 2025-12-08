@@ -33,6 +33,7 @@ public sealed class MethodologyController(IMethodologyPageService service, IWebH
         CancellationToken cancellationToken)
     {
         var heroVideoFileName = await StoreMediaIfNeededAsync(form.HeroVideo, MediaFolder, form.HeroVideoFileName, cancellationToken);
+        var heroVideoUploaded = form.HeroVideo is { Length: > 0 };
 
         var heroHighlights = (form.HeroHighlights ?? Array.Empty<StatHighlightFormRequest>())
             .Select(highlight => new StatHighlightDto(highlight.Label ?? string.Empty, highlight.Value ?? string.Empty))
@@ -57,7 +58,7 @@ public sealed class MethodologyController(IMethodologyPageService service, IWebH
             form.HeaderTitle ?? string.Empty,
             form.HeaderSubtitle ?? string.Empty,
             form.HeroDescription ?? string.Empty,
-            new MediaResourceDto(heroVideoFileName, form.HeroVideoUrl),
+            CreateMediaResource(heroVideoFileName, heroVideoUploaded ? null : form.HeroVideoUrl),
             heroHighlights,
             matrixColumns,
             featureMatrix,
@@ -73,6 +74,16 @@ public sealed class MethodologyController(IMethodologyPageService service, IWebH
         {
             HeroVideo = Resolve(dto.HeroVideo, MediaFolder)
         };
+    }
+
+    private static MediaResourceDto? CreateMediaResource(string? fileName, string? url)
+    {
+        if (string.IsNullOrWhiteSpace(fileName) && string.IsNullOrWhiteSpace(url))
+        {
+            return null;
+        }
+
+        return new MediaResourceDto(fileName, url);
     }
 
     private MediaResourceDto? Resolve(MediaResourceDto? media, string folder)
