@@ -44,7 +44,11 @@ export class MethodologyComponent implements OnInit, AfterViewInit {
   private methodologyVideo?: ElementRef<HTMLVideoElement>;
 
   readonly page = computed<MethodologyPageModel | null>(() => this.api.page());
-  readonly heroVideoUrl = computed(() => this.page()?.heroVideo?.url ?? null);
+  readonly heroVideoUrl = computed(() => {
+    const media = this.page()?.heroVideo;
+    const source = media?.url || media?.fileName || null;
+    return source?.trim() ? source : null;
+  });
   readonly heroHighlights = computed<StatHighlightModel[]>(() => this.page()?.heroHighlights ?? []);
   readonly matrixColumns = computed<MatrixColumnModel[]>(() => this.page()?.matrixColumns ?? []);
   readonly featureMatrix = computed<MatrixFeatureModel[]>(() => this.page()?.featureMatrix ?? []);
