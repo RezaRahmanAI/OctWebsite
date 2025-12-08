@@ -48,6 +48,10 @@ public sealed class MethodologyController(IMethodologyPageService service, IWebH
                 feature.AppliesTo?.Where(value => !string.IsNullOrWhiteSpace(value)).ToArray() ?? Array.Empty<string>()))
             .ToArray();
 
+        var contactFields = (form.ContactFields ?? Array.Empty<string>())
+            .Where(value => !string.IsNullOrWhiteSpace(value))
+            .ToArray();
+
         var request = new SaveMethodologyPageRequest(
             form.HeaderEyebrow ?? string.Empty,
             form.HeaderTitle ?? string.Empty,
@@ -57,7 +61,7 @@ public sealed class MethodologyController(IMethodologyPageService service, IWebH
             heroHighlights,
             matrixColumns,
             featureMatrix,
-            form.ContactFields ?? Array.Empty<string>());
+            contactFields);
 
         var page = await service.UpsertPageAsync(request, cancellationToken);
         return Ok(ResolveMedia(page));
