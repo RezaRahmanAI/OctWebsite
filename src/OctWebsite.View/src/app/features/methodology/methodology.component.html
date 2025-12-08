@@ -114,7 +114,7 @@
             {{ offering.badge }}
           </span>
           <a
-            [routerLink]="['/methodology', offering.id]"
+            [routerLink]="['/methodology', offering.slug]"
             class="text-sm font-semibold text-primary underline-offset-4 transition hover:underline"
           >
             View details
@@ -137,7 +137,7 @@
           </div>
         </div>
         <a
-          [routerLink]="['/methodology', offering.id]"
+          [routerLink]="['/methodology', offering.slug]"
           class="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-primary"
         >
           Explore this model
