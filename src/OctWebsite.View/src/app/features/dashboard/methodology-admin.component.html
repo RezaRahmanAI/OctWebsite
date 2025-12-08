@@ -42,11 +42,6 @@
           <small *ngIf="form.value.heroVideoFileName; else noHeroVideo">Current: {{ form.value.heroVideoFileName }}</small>
           <ng-template #noHeroVideo><small>Upload a new file or leave blank to keep the current video.</small></ng-template>
         </label>
-        <label class="form-field">
-          <span>Hero video URL (optional)</span>
-          <input type="text" formControlName="heroVideoUrl" placeholder="https://cdn..." />
-          <small class="text-slate-500">Provide a hosted video URL instead of uploading.</small>
-        </label>
       </div>
     </section>
 

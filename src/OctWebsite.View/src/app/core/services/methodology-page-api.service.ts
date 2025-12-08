@@ -72,7 +72,6 @@ export interface SaveMethodologyPageRequest {
   headerSubtitle: string;
   heroDescription: string;
   heroVideoFileName?: string | null;
-  heroVideoUrl?: string | null;
   heroVideoFile?: File | null;
   heroHighlights: StatHighlightModel[];
   matrixColumns: MatrixColumnModel[];
@@ -111,9 +110,6 @@ export class MethodologyPageApiService {
     form.append('heroDescription', request.heroDescription);
     if (request.heroVideoFileName) {
       form.append('heroVideoFileName', request.heroVideoFileName);
-    }
-    if (request.heroVideoUrl) {
-      form.append('heroVideoUrl', request.heroVideoUrl);
     }
     if (request.heroVideoFile) {
       form.append('heroVideo', request.heroVideoFile);

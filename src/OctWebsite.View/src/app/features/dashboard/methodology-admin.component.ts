@@ -40,7 +40,6 @@ export class MethodologyAdminComponent implements OnInit {
     headerSubtitle: this.createStringControl('', Validators.required),
     heroDescription: this.createStringControl('', Validators.required),
     heroVideoFileName: this.createStringControl('', null),
-    heroVideoUrl: this.createStringControl('', null),
     heroHighlights: this.fb.array<FormGroup<{ label: FormControl<string>; value: FormControl<string> }>>([]),
     matrixColumns: this.fb.array<FormGroup<{ key: FormControl<string>; label: FormControl<string> }>>([]),
     featureMatrix: this.fb.array<
@@ -144,7 +143,6 @@ export class MethodologyAdminComponent implements OnInit {
       headerSubtitle: page.headerSubtitle,
       heroDescription: page.heroDescription,
       heroVideoFileName: page.heroVideo?.fileName ?? '',
-      heroVideoUrl: page.heroVideo?.url ?? '',
     });
 
     this.heroVideoFile = null;
@@ -170,7 +168,6 @@ export class MethodologyAdminComponent implements OnInit {
       headerSubtitle: raw.headerSubtitle ?? '',
       heroDescription: raw.heroDescription ?? '',
       heroVideoFileName: raw.heroVideoFileName || null,
-      heroVideoUrl: raw.heroVideoUrl || null,
       heroVideoFile: this.heroVideoFile,
       heroHighlights: this.heroHighlights.controls.map(control => ({
         label: control.value.label ?? '',
