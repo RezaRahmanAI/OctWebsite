@@ -1,6 +1,7 @@
 import { CommonModule, NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { SectionHeadingComponent, SectionHeadingCta } from '../../shared/components/section-heading/section-heading.component';
 import { SectionHeaderComponent } from '../../shared/components/section-header/section-header.component';
 import {
   MethodologyOfferingModel,
@@ -10,7 +11,7 @@ import {
 @Component({
   selector: 'app-methodology-detail',
   standalone: true,
-  imports: [CommonModule, NgClass, RouterLink, SectionHeaderComponent],
+  imports: [CommonModule, NgClass, RouterLink, SectionHeaderComponent, SectionHeadingComponent],
   templateUrl: './methodology-detail.component.html',
   styleUrls: ['./methodology.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,6 +28,18 @@ export class MethodologyDetailComponent implements OnInit {
       .offerings()
       .filter((item) => item.slug !== this.offering()?.slug && item.active)
   );
+
+  readonly heroCtas: SectionHeadingCta[] = [
+    {
+      label: 'Talk to our team →',
+      routerLink: '/contact',
+    },
+    {
+      label: 'Back to overview',
+      routerLink: '/methodology',
+      variant: 'secondary',
+    },
+  ];
 
   ngOnInit(): void {
     this.api.fetchOfferings().subscribe();
