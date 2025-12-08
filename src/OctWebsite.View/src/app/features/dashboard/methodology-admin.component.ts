@@ -32,6 +32,7 @@ export class MethodologyAdminComponent implements OnInit {
   private readonly toast = inject(ToastService);
 
   readonly loading = signal(false);
+  private heroVideoFile: File | null = null;
 
   readonly form = this.fb.nonNullable.group({
     headerEyebrow: this.createStringControl('', Validators.required),
@@ -113,6 +114,7 @@ export class MethodologyAdminComponent implements OnInit {
         this.apply(page);
         this.toast.show('Methodology page saved', 'success');
         this.loading.set(false);
+        this.heroVideoFile = null;
       },
       error: () => {
         this.toast.show('Unable to save methodology page', 'error');
@@ -145,6 +147,8 @@ export class MethodologyAdminComponent implements OnInit {
       heroVideoUrl: page.heroVideo?.url ?? '',
     });
 
+    this.heroVideoFile = null;
+
     this.heroHighlights.clear();
     page.heroHighlights.forEach(highlight => this.addHighlight(highlight));
 
@@ -165,10 +169,9 @@ export class MethodologyAdminComponent implements OnInit {
       headerTitle: raw.headerTitle ?? '',
       headerSubtitle: raw.headerSubtitle ?? '',
       heroDescription: raw.heroDescription ?? '',
-      heroVideo: {
-        fileName: raw.heroVideoFileName || null,
-        url: raw.heroVideoUrl || null,
-      },
+      heroVideoFileName: raw.heroVideoFileName || null,
+      heroVideoUrl: raw.heroVideoUrl || null,
+      heroVideoFile: this.heroVideoFile,
       heroHighlights: this.heroHighlights.controls.map(control => ({
         label: control.value.label ?? '',
         value: control.value.value ?? '',
@@ -183,6 +186,16 @@ export class MethodologyAdminComponent implements OnInit {
       })),
       contactFields: this.contactFields.controls.map(control => control.value ?? ''),
     } satisfies SaveMethodologyPageRequest;
+  }
+
+  onHeroVideoSelected(event: Event): void {
+    const input = event.target as HTMLInputElement | null;
+    const file = input?.files?.[0] ?? null;
+    this.heroVideoFile = file;
+
+    if (file) {
+      this.form.patchValue({ heroVideoFileName: file.name });
+    }
   }
 
   private createHighlightGroup(highlight?: StatHighlightModel): FormGroup<{

@@ -71,7 +71,9 @@ export interface SaveMethodologyPageRequest {
   headerTitle: string;
   headerSubtitle: string;
   heroDescription: string;
-  heroVideo: MediaResourceModel | null;
+  heroVideoFileName?: string | null;
+  heroVideoUrl?: string | null;
+  heroVideoFile?: File | null;
   heroHighlights: StatHighlightModel[];
   matrixColumns: MatrixColumnModel[];
   featureMatrix: MatrixFeatureModel[];
@@ -102,8 +104,42 @@ export class MethodologyPageApiService {
   }
 
   upsertPage(request: SaveMethodologyPageRequest): Observable<MethodologyPageModel> {
+    const form = new FormData();
+    form.append('headerEyebrow', request.headerEyebrow);
+    form.append('headerTitle', request.headerTitle);
+    form.append('headerSubtitle', request.headerSubtitle);
+    form.append('heroDescription', request.heroDescription);
+    if (request.heroVideoFileName) {
+      form.append('heroVideoFileName', request.heroVideoFileName);
+    }
+    if (request.heroVideoUrl) {
+      form.append('heroVideoUrl', request.heroVideoUrl);
+    }
+    if (request.heroVideoFile) {
+      form.append('heroVideo', request.heroVideoFile);
+    }
+
+    request.heroHighlights.forEach((highlight, index) => {
+      form.append(`heroHighlights[${index}].label`, highlight.label);
+      form.append(`heroHighlights[${index}].value`, highlight.value);
+    });
+
+    request.matrixColumns.forEach((column, index) => {
+      form.append(`matrixColumns[${index}].key`, column.key);
+      form.append(`matrixColumns[${index}].label`, column.label);
+    });
+
+    request.featureMatrix.forEach((feature, featureIndex) => {
+      form.append(`featureMatrix[${featureIndex}].name`, feature.name);
+      feature.appliesTo.forEach((value, applyIndex) =>
+        form.append(`featureMatrix[${featureIndex}].appliesTo[${applyIndex}]`, value)
+      );
+    });
+
+    request.contactFields.forEach((field, index) => form.append(`contactFields[${index}]`, field));
+
     return this.http
-      .put<MethodologyPageModel>(`${this.baseUrl}/api/methodology-page`, request)
+      .put<MethodologyPageModel>(`${this.baseUrl}/api/methodology-page`, form)
       .pipe(tap(page => this.page.set(page)));
   }
 
