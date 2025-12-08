@@ -1,37 +1,39 @@
 <ng-container *ngIf="offering() as model">
-  <section class="section-padding bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white">
-    <div class="container-wide space-y-8">
-      <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-        <div class="space-y-4">
-          <p class="text-sm font-semibold uppercase tracking-[0.35em] text-accent">Our Methodology to Collaboration</p>
-          <h1 class="text-4xl font-bold leading-tight md:text-5xl">{{ model.headline }}</h1>
-          <p class="text-lg text-slate-200">{{ model.subheadline }}</p>
-          <div class="flex flex-wrap gap-3">
-            <a
-              routerLink="/contact"
-              class="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-primary/40"
+  <section class="section-padding bg-slate-900 text-white">
+    <div class="container-wide">
+      <header class="space-y-10 lg:flex lg:min-h-screen lg:items-center">
+        <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div class="space-y-4">
+            <p class="text-sm font-semibold uppercase tracking-[0.35em] text-accent">Our Methodology to Collaboration</p>
+            <h1 class="text-4xl font-bold leading-tight md:text-5xl">{{ model.headline }}</h1>
+            <p class="text-lg text-slate-200">{{ model.subheadline }}</p>
+            <div class="flex flex-wrap gap-3">
+              <a
+                routerLink="/contact"
+                class="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-primary/40"
+              >
+                Talk to our team
+                <span aria-hidden="true">→</span>
+              </a>
+              <a
+                routerLink="/methodology"
+                class="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white transition hover:border-white hover:bg-white/10"
+              >
+                Back to overview
+              </a>
+            </div>
+          </div>
+          <div class="grid w-full max-w-xl gap-4 md:grid-cols-3">
+            <div
+              *ngFor="let stat of model.stats"
+              class="rounded-2xl bg-white/5 p-4 shadow-sm ring-1 ring-white/10"
             >
-              Talk to our team
-              <span aria-hidden="true">→</span>
-            </a>
-            <a
-              routerLink="/methodology"
-              class="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white transition hover:border-white hover:bg-white/10"
-            >
-              Back to overview
-            </a>
+              <p class="text-sm text-slate-200">{{ stat.label }}</p>
+              <p class="mt-2 text-2xl font-semibold">{{ stat.value }}</p>
+            </div>
           </div>
         </div>
-        <div class="grid w-full max-w-xl gap-4 md:grid-cols-3">
-          <div
-            *ngFor="let stat of model.stats"
-            class="rounded-2xl bg-white/5 p-4 shadow-sm ring-1 ring-white/10"
-          >
-            <p class="text-sm text-slate-200">{{ stat.label }}</p>
-            <p class="mt-2 text-2xl font-semibold">{{ stat.value }}</p>
-          </div>
-        </div>
-      </div>
+      </header>
     </div>
   </section>
 
