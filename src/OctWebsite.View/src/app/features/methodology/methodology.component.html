@@ -1,65 +1,63 @@
-<section class="section-padding bg-slate-900 text-white">
-  <div class="container-wide space-y-16">
-    <header class="lg:min-h-screen lg:flex lg:items-center">
-      <div class="grid w-full items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
-        <div class="space-y-8">
-          <app-section-heading
-            [eyebrow]="page()?.headerEyebrow || 'Our Methodology to Collaboration'"
-            [title]="page()?.headerTitle || 'Engagement models built around how you collaborate'"
-            [subtitle]="page()?.heroDescription || 'Explore the four delivery approaches we use to launch and scale products with you.'"
-            [ctas]="heroCtas"
-            align="left"
-          ></app-section-heading>
+<section class="container-wide overflow-hidden py-16 space-y-16 lg:min-h-screen lg:flex lg:items-center">
+  <header class="section-padding w-full lg:flex lg:items-center">
+    <div class="grid w-full items-center gap-10 lg:grid-cols-2">
+      <div class="space-y-6">
+        <app-section-heading
+          [eyebrow]="page()?.headerEyebrow || 'Our Methodology to Collaboration'"
+          [title]="page()?.headerTitle || 'Engagement models built around how you collaborate'"
+          [subtitle]="page()?.heroDescription || 'Explore the four delivery approaches we use to launch and scale products with you.'"
+          [ctas]="heroCtas"
+          align="left"
+        ></app-section-heading>
 
-          <div class="grid gap-4 sm:grid-cols-2 lg:max-w-3xl">
-            <article
-              *ngFor="let stat of heroHighlights()"
-              class="rounded-2xl bg-white/10 p-5 shadow-inner ring-1 ring-white/15"
-            >
-              <p class="text-sm text-white/80">{{ stat.label }}</p>
-              <p class="mt-2 text-2xl font-semibold">{{ stat.value }}</p>
-            </article>
-          </div>
+        <div class="grid gap-4 sm:grid-cols-2 lg:max-w-3xl">
+          <article
+            *ngFor="let stat of heroHighlights()"
+            class="rounded-2xl bg-white p-5 shadow-card ring-1 ring-slate-100"
+          >
+            <p class="text-sm text-slate-600">{{ stat.label }}</p>
+            <p class="mt-2 text-2xl font-semibold text-slate-900">{{ stat.value }}</p>
+          </article>
         </div>
+      </div>
 
-        <div class="relative">
-          <div class="group relative overflow-hidden rounded-[2.5rem] shadow-xl shadow-primary/20">
-            <div class="relative aspect-[4/3]">
-              <ng-container *ngIf="heroVideoUrl(); else placeholder">
-                <video
-                  #methodologyVideo
-                  class="absolute inset-0 h-full w-full object-cover"
-                  autoplay
-                  loop
-                  muted
-                  playsinline
-                >
-                  <source [src]="heroVideoUrl() | assetUrl" type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              </ng-container>
+      <div class="relative">
+        <div class="group relative overflow-hidden rounded-[2.5rem] shadow-xl">
+          <div class="relative aspect-[4/3]">
+            <ng-container *ngIf="heroVideoUrl(); else placeholder">
+              <video
+                #methodologyVideo
+                class="absolute inset-0 h-full w-full object-cover"
+                autoplay
+                loop
+                muted
+                playsinline
+              >
+                <source [src]="heroVideoUrl() | assetUrl" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </ng-container>
 
-              <ng-template #placeholder>
-                <div class="flex h-full w-full items-center justify-center bg-slate-800 text-sm text-slate-200">
-                  Media coming soon
-                </div>
-              </ng-template>
-            </div>
+            <ng-template #placeholder>
+              <div class="flex h-full w-full items-center justify-center bg-slate-100 text-sm text-slate-500">
+                Media coming soon
+              </div>
+            </ng-template>
+          </div>
 
-            <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-primary/40 via-transparent to-secondary/40 opacity-40 transition-opacity duration-300 group-hover:opacity-20"></div>
+          <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-primary/40 via-transparent to-secondary/40 opacity-40 transition-opacity duration-300 group-hover:opacity-20"></div>
 
-            <div class="absolute inset-x-6 bottom-6 flex items-center justify-between rounded-2xl bg-white/90 px-4 py-3 text-xs text-slate-800 shadow-lg">
-              <span>Collaboration Models</span>
-              <span class="inline-flex items-center gap-1 text-primary">
-                <span class="h-2 w-2 rounded-full bg-primary"></span>
-                Transparent · Enablement-led
-              </span>
-            </div>
+          <div class="absolute inset-x-6 bottom-6 flex items-center justify-between rounded-2xl bg-white/90 px-4 py-3 text-xs text-slate-700 shadow-lg">
+            <span>Collaboration Models</span>
+            <span class="inline-flex items-center gap-1">
+              <span class="h-2 w-2 rounded-full bg-primary"></span>
+              Transparent · Enablement-led
+            </span>
           </div>
         </div>
       </div>
-    </header>
-  </div>
+    </div>
+  </header>
 </section>
 
 <section class="section-padding bg-white">
