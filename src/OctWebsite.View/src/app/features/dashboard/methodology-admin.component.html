@@ -74,24 +74,7 @@
         </div>
       </div>
 
-      <div class="card-section">
-        <div class="section-header">
-          <div>
-            <p class="eyebrow">Contact Fields</p>
-            <p class="text-sm text-slate-600">Controls the lead form labels on the detail pages.</p>
-          </div>
-          <button type="button" class="btn ghost" (click)="addContactField()">Add field</button>
-        </div>
-        <div class="grid gap-3">
-          <div class="input-row" *ngFor="let control of contactFields.controls; let i = index">
-            <label class="form-control flex-1">
-              <span>Label</span>
-              <input type="text" [formControl]="control" />
-            </label>
-            <button type="button" class="btn danger ghost" (click)="removeContactField(i)">Remove</button>
-          </div>
-        </div>
-      </div>
+      
     </section>
 
     <section class="card-section">
