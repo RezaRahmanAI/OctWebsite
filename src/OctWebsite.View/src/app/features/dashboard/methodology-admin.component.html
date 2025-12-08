@@ -36,12 +36,16 @@
 
       <div class="grid gap-4 md:grid-cols-2">
         <label class="form-field">
-          <span>Hero video file name</span>
-          <input type="text" formControlName="heroVideoFileName" placeholder="/video/bg.mp4" />
+          <span>Hero video upload</span>
+          <input type="file" accept="video/*" (change)="onHeroVideoSelected($event)" />
+          <input type="hidden" formControlName="heroVideoFileName" />
+          <small *ngIf="form.value.heroVideoFileName; else noHeroVideo">Current: {{ form.value.heroVideoFileName }}</small>
+          <ng-template #noHeroVideo><small>Upload a new file or leave blank to keep the current video.</small></ng-template>
         </label>
         <label class="form-field">
-          <span>Hero video URL</span>
+          <span>Hero video URL (optional)</span>
           <input type="text" formControlName="heroVideoUrl" placeholder="https://cdn..." />
+          <small class="text-slate-500">Provide a hosted video URL instead of uploading.</small>
         </label>
       </div>
     </section>
