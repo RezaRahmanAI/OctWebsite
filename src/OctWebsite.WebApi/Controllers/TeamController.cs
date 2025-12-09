@@ -47,7 +47,7 @@ public sealed class TeamController(ITeamService teamService, IWebHostEnvironment
         return CreatedAtAction(nameof(GetByIdAsync), new { id = created.Id }, hydrated);
     }
 
-    [HttpPut("{id:guid}")]
+    [HttpPost("{id:guid}")]
     [RequestFormLimits(MultipartBodyLengthLimit = 104_857_600)]
     public async Task<ActionResult<TeamMemberDto>> UpdateAsync(
         Guid id,

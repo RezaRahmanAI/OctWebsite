@@ -30,7 +30,7 @@ public sealed class HomeTestimonialsController(IHomeTestimonialService testimoni
         return Ok(ResolveTestimonial(created));
     }
 
-    [HttpPut("{id:guid}")]
+    [HttpPost("{id:guid}")]
     [RequestFormLimits(MultipartBodyLengthLimit = 104_857_600)]
     public async Task<ActionResult<HomeTestimonialDto>> UpdateAsync(Guid id, [FromForm] HomeTestimonialFormRequest form, CancellationToken cancellationToken)
     {

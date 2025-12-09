@@ -51,7 +51,7 @@ public sealed class AcademyTracksController(IAcademyTrackService trackService, I
         return CreatedAtAction(nameof(GetBySlugAsync), new { slug = created.Slug }, hydrated);
     }
 
-    [HttpPut("{id:guid}")]
+    [HttpPost("{id:guid}")]
     [RequestFormLimits(MultipartBodyLengthLimit = 104_857_600)]
     public async Task<ActionResult<AcademyTrackDto>> UpdateAsync(
         Guid id,

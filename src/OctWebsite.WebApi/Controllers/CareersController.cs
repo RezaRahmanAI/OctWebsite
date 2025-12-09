@@ -38,7 +38,7 @@ public sealed class CareersController(ICareerService careerService) : Controller
         return CreatedAtAction(nameof(GetAllAsync), new { }, created);
     }
 
-    [HttpPut("{id:guid}")]
+    [HttpPost("{id:guid}")]
     [Authorize]
     public async Task<ActionResult<JobPostingDto>> UpdateAsync(Guid id, [FromBody] SaveJobPostingRequest request, CancellationToken cancellationToken)
     {
