@@ -12,7 +12,7 @@ using OctWebsite.Infrastructure.Data;
 namespace OctWebsite.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251209033616_init")]
+    [Migration("20251209054028_init")]
     partial class init
     {
         /// <inheritdoc />
