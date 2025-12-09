@@ -293,101 +293,105 @@
 
   <!-- TESTIMONIALS -->
   <div class="card-surface">
-    <div class="flex items-center justify-between gap-4">
-      <div>
-        <p class="text-xs font-semibold uppercase text-primary-600">Home</p>
-        <h2 class="text-xl font-semibold text-slate-900">Edit Testimonials</h2>
-        <p class="text-sm text-slate-600">Manage featured testimonials shown on the home page.</p>
-      </div>
-      <button
-        type="button"
-        class="btn"
-        (click)="submitTestimonials()"
-        [disabled]="loading() || savingTestimonials()"
-      >
-        {{ savingTestimonials() ? 'Saving...' : 'Save Testimonials' }}
-      </button>
-    </div>
-
-    <form class="mt-6 space-y-6" (ngSubmit)="submitTestimonials()">
-      <div class="flex items-center justify-between">
+    <form class="space-y-6" [formGroup]="testimonialForm" (ngSubmit)="submitTestimonials()">
+      <div class="flex items-center justify-between gap-4">
         <div>
-          <p class="text-sm font-semibold text-slate-900">Testimonials</p>
-          <p class="text-xs text-slate-600">
-            Add client or student quotes that appear on the home page.
-          </p>
+          <p class="text-xs font-semibold uppercase text-primary-600">Home</p>
+          <h2 class="text-xl font-semibold text-slate-900">Edit Testimonials</h2>
+          <p class="text-sm text-slate-600">Manage featured testimonials shown on the home page.</p>
         </div>
-        <button type="button" class="btn ghost" (click)="addTestimonial()">Add testimonial</button>
+        <div class="flex items-center gap-2">
+          <button type="button" class="btn ghost" (click)="resetTestimonialForm()">New Testimonial</button>
+          <button class="btn" type="submit" [disabled]="loading() || savingTestimonials()">
+            {{ savingTestimonials() ? 'Saving...' : editingTestimonialId() ? 'Update Testimonial' : 'Create Testimonial' }}
+          </button>
+        </div>
       </div>
 
-      <div class="space-y-4">
-        <div
-          class="rounded-xl border border-slate-200 p-4"
-          *ngFor="let control of testimonialForm.controls; let i = index"
-          [formGroup]="control"
-        >
-          <div class="grid gap-4 md:grid-cols-2">
-            <label class="form-field">
-              <span>Name</span>
-              <input type="text" formControlName="name" />
-            </label>
-            <label class="form-field">
-              <span>Title</span>
-              <input type="text" formControlName="title" />
-            </label>
-            <label class="form-field">
-              <span>Location</span>
-              <input type="text" formControlName="location" />
-            </label>
-            <label class="form-field">
-              <span>Type</span>
-              <select formControlName="type">
-                <option value="client">Client</option>
-                <option value="student">Student</option>
-              </select>
-            </label>
-          </div>
-
-          <label class="form-field mt-3">
-            <span>Quote</span>
-            <textarea rows="3" formControlName="quote"></textarea>
+      <div class="rounded-xl border border-slate-200 p-4">
+        <div class="grid gap-4 md:grid-cols-2">
+          <label class="form-field">
+            <span>Name</span>
+            <input type="text" formControlName="name" />
           </label>
+          <label class="form-field">
+            <span>Title</span>
+            <input type="text" formControlName="title" />
+          </label>
+          <label class="form-field">
+            <span>Location</span>
+            <input type="text" formControlName="location" />
+          </label>
+          <label class="form-field">
+            <span>Type</span>
+            <select formControlName="type">
+              <option value="client">Client</option>
+              <option value="student">Student</option>
+            </select>
+          </label>
+        </div>
 
-          <div class="grid gap-4 md:grid-cols-2 mt-3">
-            <label class="form-field">
-              <span>Rating</span>
-              <input type="number" min="1" max="5" formControlName="rating" />
-            </label>
-          </div>
+        <label class="form-field mt-3">
+          <span>Quote</span>
+          <textarea rows="3" formControlName="quote"></textarea>
+        </label>
 
-          <div class="grid gap-4 md:grid-cols-2 mt-3">
-            <label class="form-field">
-              <span>Image file name</span>
-              <input type="text" formControlName="imageFileName" />
-            </label>
-            <label class="form-field">
-              <span>Upload image</span>
-              <input
-                type="file"
-                accept="image/*"
-                (change)="onTestimonialImageSelected(i, $event)"
-              />
-            </label>
-          </div>
+        <div class="grid gap-4 md:grid-cols-2 mt-3">
+          <label class="form-field">
+            <span>Rating</span>
+            <input type="number" min="1" max="5" formControlName="rating" />
+          </label>
+        </div>
 
-          <div class="mt-3 flex justify-end">
-            <button type="button" class="text-xs text-rose-600" (click)="removeTestimonial(i)">
-              Remove testimonial
-            </button>
-          </div>
+        <div class="grid gap-4 md:grid-cols-2 mt-3">
+          <label class="form-field">
+            <span>Image file name</span>
+            <input type="text" formControlName="imageFileName" />
+          </label>
+          <label class="form-field">
+            <span>Upload image</span>
+            <input
+              type="file"
+              accept="image/*"
+              (change)="onTestimonialImageSelected($event)"
+            />
+          </label>
         </div>
       </div>
 
       <div class="flex justify-end">
         <button class="btn" type="submit" [disabled]="loading() || savingTestimonials()">
-          {{ savingTestimonials() ? 'Saving...' : 'Save Testimonials' }}
+          {{ savingTestimonials() ? 'Saving...' : editingTestimonialId() ? 'Update Testimonial' : 'Create Testimonial' }}
         </button>
       </div>
     </form>
+
+    <div class="mt-6 overflow-x-auto">
+      <table class="w-full text-left text-sm">
+        <thead>
+          <tr class="text-slate-500">
+            <th class="py-2">Name</th>
+            <th class="py-2">Title</th>
+            <th class="py-2">Location</th>
+            <th class="py-2">Type</th>
+            <th class="py-2">Rating</th>
+            <th class="py-2 text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let testimonial of testimonials()" class="border-t">
+            <td class="py-2">{{ testimonial.name }}</td>
+            <td class="py-2">{{ testimonial.title }}</td>
+            <td class="py-2">{{ testimonial.location }}</td>
+            <td class="py-2 capitalize">{{ testimonial.type }}</td>
+            <td class="py-2">{{ testimonial.rating }}/5</td>
+            <td class="py-2 text-right space-x-2">
+              <button class="btn ghost" type="button" (click)="editTestimonial(testimonial)">Edit</button>
+              <button class="btn danger" type="button" (click)="deleteTestimonial(testimonial.id)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
