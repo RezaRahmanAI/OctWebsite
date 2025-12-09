@@ -11,7 +11,7 @@ public sealed class ContactSubmissionsController(IContactSubmissionService servi
 {
     [HttpPost]
     [AllowAnonymous]
-    public async Task<ActionResult<ContactSubmissionDto>> SubmitAsync(
+    public async Task<ActionResult<bool>> SubmitAsync(
         [FromBody] SubmitContactFormRequest request,
         CancellationToken cancellationToken)
     {
@@ -41,8 +41,8 @@ public sealed class ContactSubmissionsController(IContactSubmissionService servi
             return ValidationProblem(ModelState);
         }
 
-        var created = await service.SubmitAsync(request, cancellationToken);
-        return CreatedAtAction(nameof(GetRecentAsync), new { }, created);
+        var success = await service.SubmitAsync(request, cancellationToken);
+        return Ok(success);
     }
 
     [HttpGet]

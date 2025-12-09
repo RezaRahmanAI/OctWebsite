@@ -6,7 +6,7 @@ namespace OctWebsite.Application.Services;
 
 internal sealed class ContactSubmissionService(IContactSubmissionRepository repository) : IContactSubmissionService
 {
-    public async Task<ContactSubmissionDto> SubmitAsync(SubmitContactFormRequest request, CancellationToken cancellationToken = default)
+    public async Task<bool> SubmitAsync(SubmitContactFormRequest request, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(request);
 
@@ -19,8 +19,8 @@ internal sealed class ContactSubmissionService(IContactSubmissionRepository repo
             request.Message.Trim(),
             DateTimeOffset.UtcNow);
 
-        var saved = await repository.CreateAsync(submission, cancellationToken);
-        return saved.ToDto();
+        await repository.CreateAsync(submission, cancellationToken);
+        return true;
     }
 
     public async Task<IReadOnlyList<ContactSubmissionDto>> GetRecentAsync(int take = 200, CancellationToken cancellationToken = default)

@@ -29,11 +29,11 @@ export class HomeContactComponent {
   protected readonly error = signal<string | null>(null);
 
   protected readonly contactForm = this.fb.group({
-    name: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    phone: [''],
-    interest: [''],
-    message: ['', [Validators.required, Validators.minLength(10)]],
+    name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
+    email: ['', [Validators.required, Validators.email, Validators.maxLength(200)]],
+    phone: ['', [Validators.maxLength(25), Validators.pattern(/^[+]?[-0-9\s()]{7,25}$/)]],
+    interest: ['', [Validators.maxLength(100)]],
+    message: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(2000)]],
   });
 
   private readonly defaultFormOptions = [
@@ -49,10 +49,27 @@ export class HomeContactComponent {
     return provided.length > 0 ? provided : this.defaultFormOptions;
   });
 
+  protected fieldInvalid(field: 'name' | 'email' | 'phone' | 'interest' | 'message', error?: string): boolean {
+    const control = this.contactForm.get(field);
+    if (!control) {
+      return false;
+    }
+
+    if (error) {
+      return control.touched && control.hasError(error);
+    }
+
+    return control.touched && control.invalid;
+  }
+
+  protected markRequiredErrors(): void {
+    this.contactForm.markAllAsTouched();
+  }
+
   submit(): void {
     if (this.contactForm.invalid) {
-      this.contactForm.markAllAsTouched();
-      this.error.set('Please fill out the required fields.');
+      this.markRequiredErrors();
+      this.error.set('Please correct the highlighted fields.');
       return;
     }
 
@@ -69,7 +86,16 @@ export class HomeContactComponent {
     };
 
     this.submissionsApi.submit(request).subscribe({
-      next: () => {
+      next: (response) => {
+        const success = response === true || response === 1;
+
+        if (!success) {
+          this.loading.set(false);
+          this.error.set('Unable to submit your message. Please try again.');
+          this.toast.show('Failed to submit contact form', 'error');
+          return;
+        }
+
         this.loading.set(false);
         this.submitted.set(true);
         this.contactForm.reset();

@@ -21,13 +21,15 @@ export interface SubmitContactFormRequest {
   message: string;
 }
 
+export type ContactSubmissionResponse = boolean | number;
+
 @Injectable({ providedIn: 'root' })
 export class ContactSubmissionsApiService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = environment.apiUrl.replace(/\/+$/, '');
 
-  submit(request: SubmitContactFormRequest): Observable<ContactSubmission> {
-    return this.http.post<ContactSubmission>(`${this.baseUrl}/api/contact-submissions`, request);
+  submit(request: SubmitContactFormRequest): Observable<ContactSubmissionResponse> {
+    return this.http.post<ContactSubmissionResponse>(`${this.baseUrl}/api/contact-submissions`, request);
   }
 
   getRecent(take = 200): Observable<ContactSubmission[]> {
