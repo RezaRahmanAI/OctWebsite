@@ -89,7 +89,7 @@ export class NavbarComponent {
   );
 
   readonly featuredServices = computed<ServiceItem[]>(() =>
-    this.servicesService.featuredServices().slice(0, 9)
+    this.servicesService.list()
   );
 
   constructor() {
