@@ -85,6 +85,9 @@
               class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-accent/40"
               placeholder="Your full name"
             />
+            <p *ngIf="fieldInvalid('name', 'required')" class="mt-2 text-xs text-rose-600">Name is required.</p>
+            <p *ngIf="fieldInvalid('name', 'minlength')" class="mt-2 text-xs text-rose-600">Name must be at least 2 characters.</p>
+            <p *ngIf="fieldInvalid('name', 'maxlength')" class="mt-2 text-xs text-rose-600">Name cannot exceed 100 characters.</p>
           </div>
           <div>
             <label for="email" class="text-sm font-semibold text-primary">Email*</label>
@@ -95,6 +98,9 @@
               class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-accent/40"
               placeholder="you@company.com"
             />
+            <p *ngIf="fieldInvalid('email', 'required')" class="mt-2 text-xs text-rose-600">Email is required.</p>
+            <p *ngIf="fieldInvalid('email', 'email')" class="mt-2 text-xs text-rose-600">Enter a valid email address.</p>
+            <p *ngIf="fieldInvalid('email', 'maxlength')" class="mt-2 text-xs text-rose-600">Email cannot exceed 200 characters.</p>
           </div>
         </div>
         <div class="grid gap-4 md:grid-cols-2">
@@ -107,6 +113,8 @@
               class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-accent/40"
               placeholder="Optional"
             />
+            <p *ngIf="fieldInvalid('phone', 'pattern')" class="mt-2 text-xs text-rose-600">Enter a valid phone number.</p>
+            <p *ngIf="fieldInvalid('phone', 'maxlength')" class="mt-2 text-xs text-rose-600">Phone number is too long.</p>
           </div>
           <div>
             <label for="interest" class="text-sm font-semibold text-primary">I'm interested in</label>
@@ -118,6 +126,7 @@
               <option value="">Select an option</option>
               <option *ngFor="let option of options()" [value]="option">{{ option }}</option>
             </select>
+            <p *ngIf="fieldInvalid('interest', 'maxlength')" class="mt-2 text-xs text-rose-600">Selection is too long.</p>
           </div>
         </div>
         <div>
@@ -129,6 +138,9 @@
             class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-accent/40"
             placeholder="Tell us about your goals"
           ></textarea>
+          <p *ngIf="fieldInvalid('message', 'required')" class="mt-2 text-xs text-rose-600">Message is required.</p>
+          <p *ngIf="fieldInvalid('message', 'minlength')" class="mt-2 text-xs text-rose-600">Message must be at least 10 characters.</p>
+          <p *ngIf="fieldInvalid('message', 'maxlength')" class="mt-2 text-xs text-rose-600">Message cannot exceed 2000 characters.</p>
         </div>
         <button
           type="submit"
