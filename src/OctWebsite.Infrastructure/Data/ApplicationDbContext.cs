@@ -36,6 +36,8 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.HasDefaultSchema("dbo");
+
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<TeamMember>(entity =>
