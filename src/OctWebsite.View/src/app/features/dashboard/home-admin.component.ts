@@ -95,7 +95,7 @@ export class HomeAdminComponent implements OnInit {
   readonly trustForm = this.fb.group({
     tagline: this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
     logos: this.fb.array<FormControl<string>>([
-      this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
+      this.fb.control<string>('', { nonNullable: true }),
     ]),
     stats: this.fb.array<StatFormGroup>([]),
   });
@@ -378,13 +378,17 @@ export class HomeAdminComponent implements OnInit {
   }
 
   private toTrustRequest(): SaveHomeTrustRequest {
-    return {
-      tagline: this.trustForm.value.tagline ?? '',
-      logos: this.logos.controls.map((control, index) => ({
+    const logos = this.logos.controls
+      .map((control, index) => ({
         fileName: control.value || null,
         url: control.value || null,
         logoFile: this.trustLogoFiles[index],
-      })),
+      }))
+      .filter((logo) => !!logo.fileName || !!logo.logoFile);
+
+    return {
+      tagline: this.trustForm.value.tagline ?? '',
+      logos,
       stats: this.stats.controls.map(control => ({
         label: control.value.label ?? '',
         value: Number(control.value.value ?? 0),
@@ -480,7 +484,7 @@ export class HomeAdminComponent implements OnInit {
 
   addLogo(value = ''): void {
     this.logos.push(
-      this.fb.control<string>(value, { validators: Validators.required, nonNullable: true })
+      this.fb.control<string>(value, { nonNullable: true })
     );
     this.trustLogoFiles.push(null);
   }
