@@ -9,11 +9,11 @@
         [routerLink]="brand().link"
         (click)="closeMenu()"
       >
-        <img [src]="brand().logo" [alt]="brand().name + ' Logo'" class="h-10 w-10" />
-        <span class="font-heading text-xl font-semibold tracking-tight">
+        <img [src]="brand().logo" [alt]="brand().name + ' Logo'" class="h-16 w-16" />
+        <span class="font-heading text-2xl font-semibold tracking-tight">
           {{ brand().name }}
           <ng-container *ngIf="brand().tagline">
-            <span class="text-sm font-normal text-slate-500">{{ brand().tagline }}</span>
+            <span class="text-lg font-normal text-slate-500">{{ brand().tagline }}</span>
           </ng-container>
         </span>
       </a>
