@@ -11,8 +11,12 @@ namespace OctWebsite.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "dbo");
+
             migrationBuilder.CreateTable(
                 name: "AcademyTracks",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -38,6 +42,7 @@ namespace OctWebsite.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -52,6 +57,7 @@ namespace OctWebsite.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUsers",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -77,6 +83,7 @@ namespace OctWebsite.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "BlogPosts",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -104,7 +111,28 @@ namespace OctWebsite.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CareerPages",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    HeaderEyebrow = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HeaderTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HeaderSubtitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HeroVideoFileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HeroMetaLine = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PrimaryCtaLabel = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PrimaryCtaLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ResponseTime = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CareerPages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CompanyAbout",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -118,6 +146,7 @@ namespace OctWebsite.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ContactPages",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -152,6 +181,7 @@ namespace OctWebsite.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ContactSubmissions",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -169,6 +199,7 @@ namespace OctWebsite.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "HomeHeroSections",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -181,6 +212,7 @@ namespace OctWebsite.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "HomeTestimonials",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -199,6 +231,7 @@ namespace OctWebsite.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "HomeTrustSections",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -210,7 +243,40 @@ namespace OctWebsite.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "JobPostings",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EmploymentType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Summary = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
+                    PublishedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_JobPostings", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MethodologyData",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Key = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MethodologyData", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProductPages",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -226,6 +292,7 @@ namespace OctWebsite.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Products",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -242,7 +309,27 @@ namespace OctWebsite.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProductShowcaseItems",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Slug = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BackgroundColor = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProjectScreenshotUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Highlights = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductShowcaseItems", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Services",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -264,6 +351,7 @@ namespace OctWebsite.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ServicesPages",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -279,6 +367,7 @@ namespace OctWebsite.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "TeamMembers",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -296,6 +385,7 @@ namespace OctWebsite.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AcademyTrackLevels",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -315,6 +405,7 @@ namespace OctWebsite.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_AcademyTrackLevels_AcademyTracks_TrackId",
                         column: x => x.TrackId,
+                        principalSchema: "dbo",
                         principalTable: "AcademyTracks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -322,6 +413,7 @@ namespace OctWebsite.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AdmissionSteps",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -336,6 +428,7 @@ namespace OctWebsite.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_AdmissionSteps_AcademyTracks_TrackId",
                         column: x => x.TrackId,
+                        principalSchema: "dbo",
                         principalTable: "AcademyTracks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -343,6 +436,7 @@ namespace OctWebsite.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -357,6 +451,7 @@ namespace OctWebsite.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
+                        principalSchema: "dbo",
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -364,6 +459,7 @@ namespace OctWebsite.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -378,6 +474,7 @@ namespace OctWebsite.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserClaims_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalSchema: "dbo",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -385,6 +482,7 @@ namespace OctWebsite.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserLogins",
+                schema: "dbo",
                 columns: table => new
                 {
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -398,6 +496,7 @@ namespace OctWebsite.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserLogins_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalSchema: "dbo",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -405,6 +504,7 @@ namespace OctWebsite.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserRoles",
+                schema: "dbo",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -416,12 +516,14 @@ namespace OctWebsite.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
                         column: x => x.RoleId,
+                        principalSchema: "dbo",
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalSchema: "dbo",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -429,6 +531,7 @@ namespace OctWebsite.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserTokens",
+                schema: "dbo",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -442,34 +545,66 @@ namespace OctWebsite.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalSchema: "dbo",
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CareerApplications",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    JobPostingId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CvFileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CareerApplications", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CareerApplications_JobPostings_JobPostingId",
+                        column: x => x.JobPostingId,
+                        principalSchema: "dbo",
+                        principalTable: "JobPostings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AcademyTrackLevels_TrackId",
+                schema: "dbo",
                 table: "AcademyTrackLevels",
                 column: "TrackId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AcademyTracks_Slug",
+                schema: "dbo",
                 table: "AcademyTracks",
                 column: "Slug",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdmissionSteps_TrackId",
+                schema: "dbo",
                 table: "AdmissionSteps",
                 column: "TrackId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
+                schema: "dbo",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
+                schema: "dbo",
                 table: "AspNetRoles",
                 column: "NormalizedName",
                 unique: true,
@@ -477,26 +612,31 @@ namespace OctWebsite.Infrastructure.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
+                schema: "dbo",
                 table: "AspNetUserClaims",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserLogins_UserId",
+                schema: "dbo",
                 table: "AspNetUserLogins",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserRoles_RoleId",
+                schema: "dbo",
                 table: "AspNetUserRoles",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
+                schema: "dbo",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
+                schema: "dbo",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true,
@@ -504,24 +644,48 @@ namespace OctWebsite.Infrastructure.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_BlogPosts_Slug",
+                schema: "dbo",
                 table: "BlogPosts",
                 column: "Slug",
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_CareerApplications_JobPostingId",
+                schema: "dbo",
+                table: "CareerApplications",
+                column: "JobPostingId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CompanyAbout_Key",
+                schema: "dbo",
                 table: "CompanyAbout",
                 column: "Key",
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_MethodologyData_Key",
+                schema: "dbo",
+                table: "MethodologyData",
+                column: "Key",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Products_Slug",
+                schema: "dbo",
                 table: "Products",
                 column: "Slug",
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductShowcaseItems_Slug",
+                schema: "dbo",
+                table: "ProductShowcaseItems",
+                column: "Slug",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Services_Slug",
+                schema: "dbo",
                 table: "Services",
                 column: "Slug",
                 unique: true);
@@ -531,70 +695,112 @@ namespace OctWebsite.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AcademyTrackLevels");
+                name: "AcademyTrackLevels",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "AdmissionSteps");
+                name: "AdmissionSteps",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoleClaims");
+                name: "AspNetRoleClaims",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserClaims");
+                name: "AspNetUserClaims",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserLogins");
+                name: "AspNetUserLogins",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserRoles");
+                name: "AspNetUserRoles",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserTokens");
+                name: "AspNetUserTokens",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "BlogPosts");
+                name: "BlogPosts",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "CompanyAbout");
+                name: "CareerApplications",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "ContactPages");
+                name: "CareerPages",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "ContactSubmissions");
+                name: "CompanyAbout",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "HomeHeroSections");
+                name: "ContactPages",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "HomeTestimonials");
+                name: "ContactSubmissions",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "HomeTrustSections");
+                name: "HomeHeroSections",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "ProductPages");
+                name: "HomeTestimonials",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "HomeTrustSections",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "Services");
+                name: "MethodologyData",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "ServicesPages");
+                name: "ProductPages",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "TeamMembers");
+                name: "Products",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "AcademyTracks");
+                name: "ProductShowcaseItems",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "Services",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "ServicesPages",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "TeamMembers",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "AcademyTracks",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoles",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "JobPostings",
+                schema: "dbo");
         }
     }
 }

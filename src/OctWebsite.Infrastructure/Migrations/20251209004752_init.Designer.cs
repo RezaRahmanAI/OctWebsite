@@ -12,8 +12,8 @@ using OctWebsite.Infrastructure.Data;
 namespace OctWebsite.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251209004203_SetDefaultSchemaToDbo")]
-    partial class SetDefaultSchemaToDbo
+    [Migration("20251209004752_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
