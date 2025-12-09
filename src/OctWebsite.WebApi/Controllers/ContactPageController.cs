@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
@@ -14,7 +13,9 @@ namespace OctWebsite.WebApi.Controllers;
 [ApiController]
 [Route("api/contact-page")]
 [Authorize]
-public sealed class ContactPageController(IContactPageService contactPageService, IWebHostEnvironment environment) : ControllerBase
+public sealed class ContactPageController(
+    IContactPageService contactPageService,
+    IWebHostEnvironment environment) : HomeMediaControllerBase(environment)
 {
     private const string HeroFolder = "uploads/contact";
     private const string OfficesFolder = "uploads/contact/offices";
@@ -73,7 +74,7 @@ public sealed class ContactPageController(IContactPageService contactPageService
 
     private ContactPageDto ResolveMedia(ContactPageDto dto)
     {
-        var heroVideo = ResolveHeroMedia(dto.HeroVideo);
+        var heroVideo = Resolve(dto.HeroVideo, HeroFolder);
         var offices = dto.Offices.Select(ResolveOfficeMedia).ToArray();
 
         return dto with
@@ -81,22 +82,6 @@ public sealed class ContactPageController(IContactPageService contactPageService
             HeroVideo = heroVideo,
             Offices = offices,
         };
-    }
-
-    private MediaResourceDto? ResolveHeroMedia(MediaResourceDto? resource)
-    {
-        if (resource is null || !string.IsNullOrWhiteSpace(resource.Url))
-        {
-            return resource;
-        }
-
-        if (string.IsNullOrWhiteSpace(resource.FileName))
-        {
-            return resource;
-        }
-
-        var url = BuildAbsoluteUrl(resource.FileName, HeroFolder);
-        return resource with { Url = url };
     }
 
     private ContactOfficeDto ResolveOfficeMedia(ContactOfficeDto office)
@@ -108,69 +93,6 @@ public sealed class ContactPageController(IContactPageService contactPageService
 
         var url = BuildAbsoluteUrl(office.ImageUrl, OfficesFolder);
         return office with { ImageUrl = url };
-    }
-
-    private static string BuildRelativePath(string fileName, string folder)
-    {
-        var normalized = fileName.Trim().Replace("\\", "/");
-        if (Uri.TryCreate(normalized, UriKind.Absolute, out var absolute))
-        {
-            return absolute.ToString();
-        }
-
-        var trimmed = normalized.TrimStart('/');
-        if (normalized.StartsWith("/"))
-        {
-            return trimmed;
-        }
-
-        if (trimmed.StartsWith("uploads/", StringComparison.OrdinalIgnoreCase))
-        {
-            return trimmed;
-        }
-
-        if (trimmed.Contains('/'))
-        {
-            return trimmed;
-        }
-
-        var normalizedFolder = folder.Trim('/').Replace("\\", "/");
-        return $"{normalizedFolder}/{normalized}";
-    }
-
-    private string BuildAbsoluteUrl(string fileName, string folder)
-    {
-        var relativePath = BuildRelativePath(fileName, folder);
-        if (Uri.TryCreate(relativePath, UriKind.Absolute, out _))
-        {
-            return relativePath;
-        }
-
-        return $"{Request.Scheme}://{Request.Host}/{relativePath}";
-    }
-
-    private async Task<string?> StoreMediaIfNeededAsync(
-        IFormFile? file,
-        string folder,
-        string? existingFileName,
-        CancellationToken cancellationToken)
-    {
-        if (file is null || file.Length == 0)
-        {
-            return existingFileName;
-        }
-
-        var uploadsRoot = EnsureUploadsFolder(folder);
-        var fileExtension = Path.GetExtension(file.FileName);
-        var fileName = string.IsNullOrWhiteSpace(fileExtension)
-            ? $"{Guid.NewGuid():N}.bin"
-            : $"{Guid.NewGuid()}{fileExtension}";
-        var filePath = Path.Combine(uploadsRoot, fileName);
-
-        await using var stream = System.IO.File.Create(filePath);
-        await file.CopyToAsync(stream, cancellationToken);
-
-        return fileName;
     }
 
     private static IReadOnlyList<ContactOfficeDto> ParseOffices(string? officesJson)
@@ -209,21 +131,6 @@ public sealed class ContactPageController(IContactPageService contactPageService
         }
 
         return resolved;
-    }
-
-    private string EnsureUploadsFolder(string folder)
-    {
-        var webRoot = environment.WebRootPath;
-        if (string.IsNullOrWhiteSpace(webRoot))
-        {
-            webRoot = Path.Combine(environment.ContentRootPath, "wwwroot");
-            Directory.CreateDirectory(webRoot);
-            environment.WebRootPath = webRoot;
-        }
-
-        var uploadsFolder = Path.Combine(webRoot, folder.Replace('/', Path.DirectorySeparatorChar));
-        Directory.CreateDirectory(uploadsFolder);
-        return uploadsFolder;
     }
 }
 
