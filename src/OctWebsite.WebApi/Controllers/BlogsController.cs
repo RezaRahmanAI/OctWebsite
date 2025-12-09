@@ -50,7 +50,7 @@ public sealed class BlogsController(IBlogService blogService, IWebHostEnvironmen
         return CreatedAtAction(nameof(GetByIdAsync), new { id = created.Id }, hydrated);
     }
 
-    [HttpPut("{id:guid}")]
+    [HttpPost("{id:guid}")]
     [RequestFormLimits(MultipartBodyLengthLimit = 104_857_600)]
     public async Task<ActionResult<BlogPostDto>> UpdateAsync(Guid id, [FromForm] SaveBlogPostFormRequest form, CancellationToken cancellationToken)
     {

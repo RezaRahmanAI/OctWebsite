@@ -186,7 +186,7 @@ public sealed class MethodologyOfferingsController(IMethodologyPageService servi
         return CreatedAtAction(nameof(GetBySlugAsync), new { slug = created.Slug }, created);
     }
 
-    [HttpPut("{id:guid}")]
+    [HttpPost("{id:guid}")]
     [ProducesResponseType(typeof(MethodologyOfferingDto), StatusCodes.Status200OK)]
     public async Task<ActionResult<MethodologyOfferingDto>> UpdateAsync(
         Guid id,

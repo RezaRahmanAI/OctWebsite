@@ -27,7 +27,7 @@ public sealed class AcademyPageController(IAcademyPageService academyPageService
         return Ok(ResolveMediaUrls(page));
     }
 
-    [HttpPut]
+    [HttpPost]
     [RequestFormLimits(MultipartBodyLengthLimit = 104_857_600)]
     public async Task<ActionResult<AcademyPageDto>> UpsertAsync(
         [FromForm] SaveAcademyPageFormRequest form,

@@ -59,7 +59,7 @@ public sealed class HomeProductShowcaseController(IProductShowcaseService servic
         return CreatedAtAction(nameof(GetByIdAsync), new { id = created.Id }, hydrated);
     }
 
-    [HttpPut("{id:guid}")]
+    [HttpPost("{id:guid}")]
     [RequestFormLimits(MultipartBodyLengthLimit = 104_857_600)]
     public async Task<ActionResult<ProductShowcaseDto>> UpdateAsync(
         Guid id,

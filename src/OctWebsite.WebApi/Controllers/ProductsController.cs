@@ -41,7 +41,7 @@ public sealed class ProductsController(IProductCatalog catalog) : ControllerBase
         return CreatedAtAction(nameof(GetByIdAsync), new { id = created.Id }, created);
     }
 
-    [HttpPut("{id:guid}")]
+    [HttpPost("{id:guid}")]
     public async Task<ActionResult<ProductDto>> UpdateAsync(Guid id, [FromBody] SaveProductRequest request, CancellationToken cancellationToken)
     {
         var updated = await catalog.UpdateAsync(id, request, cancellationToken);
