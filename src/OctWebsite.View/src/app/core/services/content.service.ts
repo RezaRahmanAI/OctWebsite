@@ -21,7 +21,7 @@ type PageKey =
 
 @Injectable({ providedIn: 'root' })
 export class ContentService {
-  private readonly storageKey = 'objectcanvas-zeroprogramming-home-content';
+  private readonly storageKey = 'Object Canvas Technology-zeroprogramming-home-content';
   private readonly pricingPlans: PricingPlanItem[] = [
     {
       id: 'starter',
@@ -49,7 +49,7 @@ export class ContentService {
 
   private readonly defaultNavigation: NavigationContent = {
     brand: {
-      name: 'ObjectCanvas',
+      name: 'Object Canvas Technology',
       tagline: '',
       logo: '/images/logo/oct_logo.png',
       link: '/',
@@ -229,7 +229,7 @@ export class ContentService {
 
     differentiators: {
       header: {
-        eyebrow: 'Why ObjectCanvas ',
+        eyebrow: 'Why Object Canvas Technology ',
         title: 'Why Leading Companies Choose Us',
         subtitle:
           'End-to-end partnership, measurable outcomes, and a commitment to the teams who rely on our solutions every day.',
@@ -245,7 +245,7 @@ export class ContentService {
         eyebrow: 'Partnership DNA',
         title: 'Strategy, build, enablement and continuous optimization—one integrated team.',
         description:
-          'We embed with your teams, align KPIs, and share knowledge through ObjectCanvas Academy so you stay in control long after launch.',
+          'We embed with your teams, align KPIs, and share knowledge through Object Canvas Technology Academy so you stay in control long after launch.',
         highlights: [
           { label: 'Dedicated PMO', value: 'Weekly sprints & dashboards' },
           { label: 'Academy Enablement', value: 'Workshops & certifications' },
@@ -303,8 +303,8 @@ export class ContentService {
     },
     academy: {
       header: {
-        eyebrow: 'ObjectCanvas Academy',
-        title: 'ObjectCanvas Academy: Learn Technology, Build Careers',
+        eyebrow: 'Object Canvas Technology Academy',
+        title: 'Object Canvas Technology Academy: Learn Technology, Build Careers',
         subtitle: 'Live online courses taught by industry experts. From beginner to professional.',
       },
       categories: [
@@ -346,7 +346,7 @@ export class ContentService {
       ],
       benefits: [
         'Live interactive sessions (not pre-recorded)',
-        'Mentors aligned with active ObjectCanvas projects',
+        'Mentors aligned with active Object Canvas Technology projects',
         'Lifetime access to resources',
         'Job placement support & mentorship',
       ],
@@ -412,7 +412,7 @@ export class ContentService {
           title: 'Designing Omni-Channel Experiences for Emerging Markets',
           category: 'Case Study',
           summary:
-            'How ObjectCanvas reimagined retail experiences with localized content and automation.',
+            'How Object Canvas Technology reimagined retail experiences with localized content and automation.',
           readTime: '7 min read',
         },
         {
@@ -444,7 +444,7 @@ export class ContentService {
       academy: {
         title: 'Ready to Advance Your Career?',
         description:
-          'Enroll in ObjectCanvas Academy programs to upgrade your skills with mentorship from industry practitioners.',
+          'Enroll in Object Canvas Technology Academy programs to upgrade your skills with mentorship from industry practitioners.',
         cta: {
           label: 'Browse Courses',
           routerLink: '/academy',
@@ -458,7 +458,7 @@ export class ContentService {
         subtitle: 'Tell us about your goals and we will curate a dedicated team for you.',
       },
       headquarters:
-        'ObjectCanvas Studios & ObjectCanvas Academy, 12/2 Innovation Avenue, Tejgaon, Dhaka 1207',
+        'Object Canvas Technology Studios & Object Canvas Technology Academy, 12/2 Innovation Avenue, Tejgaon, Dhaka 1207',
       phones: this.buildContactPhones(),
       emails: [...this.buildContactEmails(), { label: 'Academy', value: 'admissions@.com' }],
       businessHours: ['Sun-Thu: 9:00 AM - 6:00 PM (GMT+6)', 'Fri-Sat: Closed'],
@@ -470,13 +470,13 @@ export class ContentService {
       },
       profileDownload: {
         label: 'Download Company Profile (PDF)',
-        url: 'https://objectcanvas.com/company-profile.pdf',
+        url: 'https://Object Canvas Technology.com/company-profile.pdf',
       },
     },
   };
 
   private readonly homeState = signal<HomeContent>(this.loadHomeContent());
-  private readonly pageStorageKeyPrefix = 'objectcanvas-zeroprogramming-page-';
+  private readonly pageStorageKeyPrefix = 'Object Canvas Technology-zeroprogramming-page-';
 
   private readonly pageSignals = new Map<PageKey, WritableSignal<unknown | null>>();
 
