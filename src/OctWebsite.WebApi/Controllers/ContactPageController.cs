@@ -126,11 +126,26 @@ public sealed class ContactPageController(
             var file = i < files.Count ? files[i] : null;
             var existingName = i < existingFileNames.Count ? existingFileNames[i] : offices[i].ImageUrl;
             var storedFileName = await StoreMediaIfNeededAsync(file, OfficesFolder, existingName, cancellationToken);
-            var finalImage = storedFileName ?? existingName ?? string.Empty;
+            var finalImage = NormalizeOfficeImagePath(storedFileName ?? existingName ?? string.Empty);
             resolved.Add(offices[i] with { ImageUrl = finalImage });
         }
 
         return resolved;
+    }
+
+    private string NormalizeOfficeImagePath(string imagePath)
+    {
+        if (string.IsNullOrWhiteSpace(imagePath))
+        {
+            return string.Empty;
+        }
+
+        if (Uri.TryCreate(imagePath, UriKind.Absolute, out var uri))
+        {
+            return BuildRelativePath(uri.AbsolutePath, OfficesFolder);
+        }
+
+        return BuildRelativePath(imagePath, OfficesFolder);
     }
 }
 
