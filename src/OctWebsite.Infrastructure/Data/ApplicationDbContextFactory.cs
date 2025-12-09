@@ -25,7 +25,8 @@ public sealed class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Ap
         }
 
         var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-        optionsBuilder.UseSqlServer(connectionString);
+        optionsBuilder.UseSqlServer(connectionString, sqlOptions =>
+            sqlOptions.MigrationsHistoryTable("__EFMigrationsHistory", "dbo"));
 
         return new ApplicationDbContext(optionsBuilder.Options);
     }

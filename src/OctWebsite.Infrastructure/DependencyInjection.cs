@@ -15,7 +15,9 @@ public static class DependencyInjection
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-        services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+        services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(connectionString, sqlOptions =>
+                sqlOptions.MigrationsHistoryTable("__EFMigrationsHistory", "dbo")));
         services.AddScoped<ApplicationDbInitializer>();
 
         services.AddIdentityCore<ApplicationUser>(options =>
