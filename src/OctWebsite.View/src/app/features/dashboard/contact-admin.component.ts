@@ -18,6 +18,7 @@ export class ContactAdminComponent implements OnInit {
 
   readonly loading = signal(false);
   private heroVideoFile: File | null = null;
+  private officeImageFiles: (File | null)[] = [];
 
   readonly form = this.fb.group({
     headerEyebrow: ['', Validators.required],
@@ -90,10 +91,13 @@ export class ContactAdminComponent implements OnInit {
         imageUrl: [value?.imageUrl ?? '', Validators.required],
       })
     );
+
+    this.officeImageFiles.push(null);
   }
 
   removeOffice(index: number): void {
     this.offices.removeAt(index);
+    this.officeImageFiles.splice(index, 1);
   }
 
   addBusinessHour(value = ''): void {
@@ -107,6 +111,11 @@ export class ContactAdminComponent implements OnInit {
   onHeroVideoSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0] ?? null;
     this.heroVideoFile = file;
+  }
+
+  onOfficeImageSelected(event: Event, index: number): void {
+    const file = (event.target as HTMLInputElement).files?.[0] ?? null;
+    this.officeImageFiles[index] = file;
   }
 
   submit(): void {
@@ -176,6 +185,8 @@ export class ContactAdminComponent implements OnInit {
     this.offices.clear();
     page.offices.forEach(office => this.addOffice(office));
 
+    this.officeImageFiles = new Array(page.offices.length).fill(null);
+
     this.businessHours.clear();
     page.businessHours.forEach(hour => this.addBusinessHour(hour));
 
@@ -203,6 +214,8 @@ export class ContactAdminComponent implements OnInit {
       officesTitle: raw.officesTitle ?? '',
       officesDescription: raw.officesDescription ?? '',
       offices: (raw.offices as ContactOfficeModel[] | undefined)?.filter(Boolean) ?? [],
+      officeImageFiles: this.officeImageFiles,
+      officeImageFileNames: (raw.offices as ContactOfficeModel[] | undefined)?.map(office => office?.imageUrl ?? null) ?? [],
       mapEmbedUrl: raw.mapEmbedUrl ?? '',
       mapTitle: raw.mapTitle ?? '',
       headquarters: raw.headquarters ?? '',

@@ -54,6 +54,8 @@ export interface SaveContactPageRequest {
   officesTitle: string;
   officesDescription: string;
   offices: ContactOfficeModel[];
+  officeImageFiles?: (File | null)[];
+  officeImageFileNames?: (string | null)[];
   mapEmbedUrl: string;
   mapTitle: string;
   headquarters: string;
@@ -110,6 +112,16 @@ export class ContactPageApiService {
     form.append('officesTitle', request.officesTitle);
     form.append('officesDescription', request.officesDescription);
     form.append('officesJson', JSON.stringify(request.offices));
+    request.officeImageFileNames?.forEach((fileName, index) => {
+      if (fileName) {
+        form.append(`officeImageFileNames[${index}]`, fileName);
+      }
+    });
+    request.officeImageFiles?.forEach((file, index) => {
+      if (file) {
+        form.append(`officeImages[${index}]`, file);
+      }
+    });
     form.append('mapEmbedUrl', request.mapEmbedUrl);
     form.append('mapTitle', request.mapTitle);
     form.append('headquarters', request.headquarters);

@@ -160,14 +160,24 @@
             <textarea rows="2" formControlName="address"></textarea>
           </label>
 
-          <div class="flex items-center gap-3">
-            <label class="form-field flex-1">
+          <div class="grid gap-3 md:grid-cols-[1fr,1.15fr]">
+            <label class="form-field">
               <span>Image URL</span>
               <input type="text" formControlName="imageUrl" />
+              <small class="text-slate-500">Existing file name or external URL.</small>
             </label>
-            <button class="text-xs text-rose-600" type="button" (click)="removeOffice(i)">
-              Remove
-            </button>
+
+            <div class="flex items-start gap-3">
+              <label class="form-field flex-1">
+                <span>Upload office image</span>
+                <input type="file" accept="image/*" (change)="onOfficeImageSelected($event, i)" />
+                <small *ngIf="control.value.imageUrl" class="text-slate-500">Current: {{ control.value.imageUrl }}</small>
+              </label>
+
+              <button class="text-xs text-rose-600" type="button" (click)="removeOffice(i)">
+                Remove
+              </button>
+            </div>
           </div>
         </div>
       </div>
