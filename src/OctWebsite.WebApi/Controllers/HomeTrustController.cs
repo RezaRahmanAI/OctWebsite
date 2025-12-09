@@ -28,6 +28,11 @@ public sealed class HomeTrustController(IHomeTrustService trustService, IWebHost
         var logos = new List<HomeTrustLogoRequest>();
         foreach (var logo in form.TrustLogos ?? Array.Empty<HomeTrustLogoFormRequest>())
         {
+            if (logo.Logo is null && string.IsNullOrWhiteSpace(logo.LogoFileName))
+            {
+                continue;
+            }
+
             var logoFileName = await StoreMediaIfNeededAsync(logo.Logo, TrustFolder, logo.LogoFileName, cancellationToken);
             logos.Add(new HomeTrustLogoRequest(logoFileName));
         }
