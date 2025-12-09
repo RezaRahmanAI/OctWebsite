@@ -3,7 +3,7 @@ interface EnvironmentConfig {
 }
 
 export const environment: EnvironmentConfig = {
-  apiUrl: 'https://api.objectcanvas.com',
+  apiUrl: 'http://localhost:5191',
 };
 
 //https://api.objectcanvas.com
