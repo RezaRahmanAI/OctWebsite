@@ -19,11 +19,7 @@ export class HomeServicesComponent {
 
   private readonly servicesService = inject(ServicesService);
 
-  readonly services = computed(() =>
-    this.servicesService.list().filter((service) => service.featured)
-  );
-
-  // this.servicesService.services().slice(0, 8)
+  readonly services = computed(() => this.servicesService.featuredServices());
 
   constructor() {
     void this.servicesService.ensureLoaded();

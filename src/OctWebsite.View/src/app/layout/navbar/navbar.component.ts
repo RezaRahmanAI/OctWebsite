@@ -88,7 +88,9 @@ export class NavbarComponent {
     () => this.navigation()?.productMenu ?? this.defaultNavigation.productMenu
   );
 
-  readonly featuredServices = computed<ServiceItem[]>(() => this.servicesService.services().slice(0, 9));
+  readonly featuredServices = computed<ServiceItem[]>(() =>
+    this.servicesService.featuredServices().slice(0, 9)
+  );
 
   constructor() {
     this.smoothScroll.init();

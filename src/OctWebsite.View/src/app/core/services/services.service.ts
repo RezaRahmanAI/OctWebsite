@@ -17,7 +17,7 @@ export class ServicesService {
 
   readonly services = computed(() => {
     const term = this.query().toLowerCase().trim();
-    const list = this.store.list().filter(service => service.active && service.featured);
+    const list = this.store.list().filter(service => service.active);
     if (!term) {
       return list;
     }
@@ -27,6 +27,10 @@ export class ServicesService {
       ),
     );
   });
+
+  readonly featuredServices = computed(() =>
+    this.services().filter((service) => service.featured)
+  );
 
   readonly all = this.store.items;
 
