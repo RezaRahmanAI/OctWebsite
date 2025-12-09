@@ -23,7 +23,7 @@ public sealed class BlogPageController(IBlogPageService blogPageService, IWebHos
         return Ok(Resolve(page));
     }
 
-    [HttpPut]
+    [HttpPost]
     [RequestFormLimits(MultipartBodyLengthLimit = 104_857_600)]
     public async Task<ActionResult<BlogPageDto>> UpsertAsync(
         [FromForm] SaveBlogPageFormRequest form,

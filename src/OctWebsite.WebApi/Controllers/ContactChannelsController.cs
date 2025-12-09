@@ -20,7 +20,7 @@ public sealed class ContactChannelsController(IContactChannelsService service) :
         return Ok(channels);
     }
 
-    [HttpPut]
+    [HttpPost]
     public async Task<ActionResult<ContactChannelsDto>> UpsertAsync(
         [FromBody] SaveContactChannelsRequest request,
         CancellationToken cancellationToken)

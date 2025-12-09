@@ -26,7 +26,7 @@ public sealed class CareerPageController(ICareerPageService careerPageService, I
         return Ok(ResolveMedia(page));
     }
 
-    [HttpPut]
+    [HttpPost]
     [RequestFormLimits(MultipartBodyLengthLimit = 104_857_600)]
     public async Task<ActionResult<CareerPageDto>> UpsertAsync(
         [FromForm] SaveCareerPageFormRequest form,

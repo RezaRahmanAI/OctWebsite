@@ -25,7 +25,7 @@ public sealed class ProductPageController(IProductPageService productPageService
         return Ok(Resolve(page));
     }
 
-    [HttpPut]
+    [HttpPost]
     [RequestFormLimits(MultipartBodyLengthLimit = 104_857_600)]
     public async Task<ActionResult<ProductPageDto>> UpsertAsync(
         [FromForm] SaveProductPageFormRequest form,

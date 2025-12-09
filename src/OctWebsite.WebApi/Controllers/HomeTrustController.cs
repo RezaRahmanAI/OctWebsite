@@ -21,7 +21,7 @@ public sealed class HomeTrustController(IHomeTrustService trustService, IWebHost
         return Ok(ResolveTrust(trust));
     }
 
-    [HttpPut]
+    [HttpPost]
     [RequestFormLimits(MultipartBodyLengthLimit = 104_857_600)]
     public async Task<ActionResult<HomeTrustDto>> UpsertAsync([FromForm] SaveHomeTrustFormRequest form, CancellationToken cancellationToken)
     {

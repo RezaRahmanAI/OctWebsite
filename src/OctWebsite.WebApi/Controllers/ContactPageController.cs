@@ -29,7 +29,7 @@ public sealed class ContactPageController(
         return Ok(ResolveMedia(page));
     }
 
-    [HttpPut]
+    [HttpPost]
     [RequestFormLimits(MultipartBodyLengthLimit = 104_857_600)]
     public async Task<ActionResult<ContactPageDto>> UpsertAsync(
         [FromForm] SaveContactPageFormRequest form,

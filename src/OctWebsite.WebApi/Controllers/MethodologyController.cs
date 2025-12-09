@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OctWebsite.Application.DTOs;
 using OctWebsite.Application.Services;
@@ -24,8 +18,7 @@ public sealed class MethodologyController(IMethodologyPageService service, IWebH
         return Ok(ResolveMedia(page with { Offerings = page.Offerings.Where(offering => offering.Active).ToArray() }));
     }
 
-    [HttpPut]
-    [Authorize]
+    [HttpPost]
     [RequestFormLimits(MultipartBodyLengthLimit = 104_857_600)]
     [ProducesResponseType(typeof(MethodologyPageDto), StatusCodes.Status200OK)]
     public async Task<ActionResult<MethodologyPageDto>> UpsertAsync(
