@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ContactOfficeModel, ContactPageApiService, ContactPageModel, SaveContactPageRequest } from '../../core/services/contact-page-api.service';
 import { ToastService } from '../../core/services/toast.service';
 
@@ -116,6 +116,9 @@ export class ContactAdminComponent implements OnInit {
   onOfficeImageSelected(event: Event, index: number): void {
     const file = (event.target as HTMLInputElement).files?.[0] ?? null;
     this.officeImageFiles[index] = file;
+    if (file) {
+      (this.offices.at(index) as FormGroup).patchValue({ imageUrl: file.name });
+    }
   }
 
   submit(): void {

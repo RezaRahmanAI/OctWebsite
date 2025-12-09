@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OctWebsite.Application.DTOs;
@@ -25,8 +27,7 @@ public abstract class HomeMediaControllerBase : ControllerBase
             return media;
         }
 
-        var relativePath = BuildRelativePath(media.FileName, folder);
-        var url = $"{Request.Scheme}://{Request.Host}/{relativePath}";
+        var url = BuildAbsoluteUrl(media.FileName, folder);
         return media with { Url = url };
     }
 
@@ -49,9 +50,25 @@ public abstract class HomeMediaControllerBase : ControllerBase
         return fileName;
     }
 
-    private string BuildRelativePath(string fileName, string folder)
+    protected string BuildAbsoluteUrl(string fileName, string folder)
+    {
+        var relativePath = BuildRelativePath(fileName, folder);
+        if (Uri.TryCreate(relativePath, UriKind.Absolute, out _))
+        {
+            return relativePath;
+        }
+
+        return $"{Request.Scheme}://{Request.Host}/{relativePath}";
+    }
+
+    protected string BuildRelativePath(string fileName, string folder)
     {
         var normalized = fileName.Trim().Replace("\\", "/");
+        if (Uri.TryCreate(normalized, UriKind.Absolute, out _))
+        {
+            return normalized;
+        }
+
         if (normalized.Contains('/'))
         {
             var trimmed = normalized.TrimStart('/');
