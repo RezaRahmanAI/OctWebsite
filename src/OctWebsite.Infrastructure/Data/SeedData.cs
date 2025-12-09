@@ -682,7 +682,7 @@ internal static class SeedData
                 "Nilanjona (1st Floor), 627–Ramchandrapur, Rajshahi 6100, Bangladesh.",
                 "/images/offices/rajshahi-office.webp")
         ],
-        MapEmbedUrl = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.7093978657114!2d90.39547967541172!3d23.7572962786824!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755bf5539555555%3A0x555a0a3b6c1b58a!2sTejgaon%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1700000000000!5m2!1sen!2sbd",
+        MapEmbedUrl = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d271.37367831960273!2d90.35626366665193!3d23.777513710494645!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c1f1d9ab7727%3A0x8e94cd99451a6bc0!2sAJWA%20Int.%20Ltd.%20Basic%20Nigar!5e0!3m2!1sen!2sbd!4v1765258190683!5m2!1sen!2sbd",
         MapTitle = "ObjectCanvas Bangladesh locations",
         Headquarters = "ObjectCanvas Studios & ObjectCanvas Academy, 12/2 Innovation Avenue, Tejgaon, Dhaka 1207",
         BusinessHours =

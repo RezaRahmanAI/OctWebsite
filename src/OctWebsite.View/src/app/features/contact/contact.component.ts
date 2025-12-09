@@ -1,5 +1,6 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 import { HomeContactComponent } from '../home/sections/contact/home-contact.component';
 import { AssetUrlPipe } from '../../core/pipes/asset-url.pipe';
@@ -29,7 +30,7 @@ interface ContactPageContent {
   officesTitle: string;
   officesDescription: string;
   offices: ContactOfficeModel[];
-  mapEmbedUrl: string;
+  mapEmbedUrl: SafeResourceUrl;
   mapTitle: string;
 }
 
@@ -45,6 +46,7 @@ export class ContactComponent implements OnInit {
   private readonly contactPageApi = inject(ContactPageApiService);
   private readonly contactChannelsApi = inject(ContactChannelsApiService);
   private readonly document = inject(DOCUMENT);
+  private readonly sanitizer = inject(DomSanitizer);
 
   protected readonly contactPage = computed<ContactPageContent | null>(() => {
     const apiPage = this.contactPageApi.content();
@@ -133,7 +135,7 @@ export class ContactComponent implements OnInit {
       officesTitle: model.officesTitle,
       officesDescription: model.officesDescription,
       offices: model.offices,
-      mapEmbedUrl: model.mapEmbedUrl,
+      mapEmbedUrl: this.sanitizer.bypassSecurityTrustResourceUrl(model.mapEmbedUrl),
       mapTitle: model.mapTitle,
     };
   }
