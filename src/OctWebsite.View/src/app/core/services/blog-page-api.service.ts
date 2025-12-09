@@ -34,7 +34,7 @@ export class BlogPageApiService {
   fetch(): Observable<BlogPageModel> {
     return this.http
       .get<BlogPageModel>(`${this.baseUrl}/api/blog-page`)
-      .pipe(tap(page => this.content.set(page)));
+      .pipe(tap((page) => this.content.set(page)));
   }
 
   update(request: SaveBlogPageRequest): Observable<BlogPageModel> {
@@ -50,7 +50,7 @@ export class BlogPageApiService {
     }
 
     return this.http
-      .put<BlogPageModel>(`${this.baseUrl}/api/blog-page`, form)
-      .pipe(tap(page => this.content.set(page)));
+      .post<BlogPageModel>(`${this.baseUrl}/api/blog-page`, form)
+      .pipe(tap((page) => this.content.set(page)));
   }
 }

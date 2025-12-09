@@ -38,7 +38,7 @@ export class ProductPageApiService {
   fetch(): Observable<ProductPageModel> {
     return this.http
       .get<ProductPageModel>(`${this.baseUrl}/api/products-page`)
-      .pipe(tap(page => this.content.set(page)));
+      .pipe(tap((page) => this.content.set(page)));
   }
 
   update(request: SaveProductPageRequest): Observable<ProductPageModel> {
@@ -54,7 +54,7 @@ export class ProductPageApiService {
     }
 
     return this.http
-      .put<ProductPageModel>(`${this.baseUrl}/api/products-page`, form)
-      .pipe(tap(page => this.content.set(page)));
+      .post<ProductPageModel>(`${this.baseUrl}/api/products-page`, form)
+      .pipe(tap((page) => this.content.set(page)));
   }
 }

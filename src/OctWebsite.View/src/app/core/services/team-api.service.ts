@@ -30,7 +30,7 @@ export class TeamApiService {
 
   update(id: string, request: SaveTeamMemberRequest): Observable<TeamMember> {
     const formData = this.buildFormData(request);
-    return this.http.put<TeamMember>(`${this.baseUrl}/api/team/${id}`, formData);
+    return this.http.post<TeamMember>(`${this.baseUrl}/api/team/${id}`, formData);
   }
 
   delete(id: string): Observable<void> {

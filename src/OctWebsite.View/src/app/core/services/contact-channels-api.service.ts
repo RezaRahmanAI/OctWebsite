@@ -50,17 +50,19 @@ export class ContactChannelsApiService {
   }
 
   update(request: ContactChannelsModel): Observable<ContactChannelsModel> {
-    return this.http.put<ContactChannelsModel>(`${this.baseUrl}/api/contact-channels`, request).pipe(
-      tap((channels) => {
-        this.channels.set(channels);
-        this.applyToIdentity(channels);
-      })
-    );
+    return this.http
+      .post<ContactChannelsModel>(`${this.baseUrl}/api/contact-channels`, request)
+      .pipe(
+        tap((channels) => {
+          this.channels.set(channels);
+          this.applyToIdentity(channels);
+        })
+      );
   }
 
   private applyToIdentity(channels: ContactChannelsModel): void {
     const mapped: SiteContactChannels = {
-      socialLinks: channels.socialLinks.map(link => ({ ...link })),
+      socialLinks: channels.socialLinks.map((link) => ({ ...link })),
       phoneNumbers: {
         local: channels.localPhoneNumber,
         international: channels.internationalPhoneNumber,

@@ -61,7 +61,7 @@ export class CareersApiService {
   }
 
   updatePosting(id: string, request: SaveJobPostingRequest): Observable<JobPosting> {
-    return this.http.put<JobPosting>(`${this.baseUrl}/api/careers/${id}`, request);
+    return this.http.post<JobPosting>(`${this.baseUrl}/api/careers/${id}`, request);
   }
 
   deletePosting(id: string): Observable<void> {

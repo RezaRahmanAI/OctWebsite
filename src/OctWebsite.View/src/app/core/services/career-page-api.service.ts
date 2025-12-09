@@ -35,13 +35,13 @@ export class CareerPageApiService {
   readonly content = signal<CareerPageModel | null>(null);
 
   load(): void {
-    this.fetch().subscribe(page => this.content.set(page));
+    this.fetch().subscribe((page) => this.content.set(page));
   }
 
   fetch(): Observable<CareerPageModel> {
-    return this.http.get<CareerPageModel>(`${this.baseUrl}/api/career-page`).pipe(
-      tap(page => this.content.set(page))
-    );
+    return this.http
+      .get<CareerPageModel>(`${this.baseUrl}/api/career-page`)
+      .pipe(tap((page) => this.content.set(page)));
   }
 
   update(request: SaveCareerPageRequest): Observable<CareerPageModel> {
@@ -61,7 +61,7 @@ export class CareerPageApiService {
     form.append('responseTime', request.responseTime);
 
     return this.http
-      .put<CareerPageModel>(`${this.baseUrl}/api/career-page`, form)
-      .pipe(tap(page => this.content.set(page)));
+      .post<CareerPageModel>(`${this.baseUrl}/api/career-page`, form)
+      .pipe(tap((page) => this.content.set(page)));
   }
 }

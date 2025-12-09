@@ -31,7 +31,7 @@ export class ProductsApiService {
   }
 
   update(id: string, request: SaveProductRequest): Observable<ProductItem> {
-    return this.http.put<ProductItem>(`${this.baseUrl}/api/products/${id}`, request);
+    return this.http.post<ProductItem>(`${this.baseUrl}/api/products/${id}`, request);
   }
 
   delete(id: string): Observable<void> {

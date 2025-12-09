@@ -30,11 +30,17 @@ export class ProductShowcaseApiService {
   }
 
   create(request: SaveProductShowcaseRequest): Observable<ProductShowcaseItem> {
-    return this.http.post<ProductShowcaseItem>(`${this.baseUrl}/api/home-showcase`, this.toFormData(request));
+    return this.http.post<ProductShowcaseItem>(
+      `${this.baseUrl}/api/home-showcase`,
+      this.toFormData(request)
+    );
   }
 
   update(id: string, request: SaveProductShowcaseRequest): Observable<ProductShowcaseItem> {
-    return this.http.put<ProductShowcaseItem>(`${this.baseUrl}/api/home-showcase/${id}`, this.toFormData(request));
+    return this.http.post<ProductShowcaseItem>(
+      `${this.baseUrl}/api/home-showcase/${id}`,
+      this.toFormData(request)
+    );
   }
 
   delete(id: string): Observable<void> {
@@ -57,7 +63,7 @@ export class ProductShowcaseApiService {
       form.append('projectScreenshotUrl', request.projectScreenshotUrl);
     }
 
-    request.highlights.forEach(highlight => form.append('highlights', highlight));
+    request.highlights.forEach((highlight) => form.append('highlights', highlight));
 
     if (request.primaryImage) {
       form.append('primaryImage', request.primaryImage, request.primaryImage.name);

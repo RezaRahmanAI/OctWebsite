@@ -36,7 +36,10 @@ export class ServicesApiService {
   }
 
   update(id: string, request: SaveServiceRequest): Observable<ServiceItem> {
-    return this.http.put<ServiceItem>(`${this.baseUrl}/api/services/${id}`, this.buildFormData(request));
+    return this.http.post<ServiceItem>(
+      `${this.baseUrl}/api/services/${id}`,
+      this.buildFormData(request)
+    );
   }
 
   delete(id: string): Observable<void> {
@@ -71,7 +74,7 @@ export class ServicesApiService {
     if (request.backgroundImage) {
       formData.append('backgroundImage', request.backgroundImage, request.backgroundImage.name);
     }
-    request.features.forEach(feature => formData.append('features', feature));
+    request.features.forEach((feature) => formData.append('features', feature));
 
     return formData;
   }

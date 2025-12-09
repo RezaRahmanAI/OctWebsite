@@ -38,7 +38,7 @@ export class ServicesPageApiService {
   fetch(): Observable<ServicesPageModel> {
     return this.http
       .get<ServicesPageModel>(`${this.baseUrl}/api/services-page`)
-      .pipe(tap(page => this.content.set(page)));
+      .pipe(tap((page) => this.content.set(page)));
   }
 
   update(request: SaveServicesPageRequest): Observable<ServicesPageModel> {
@@ -54,7 +54,7 @@ export class ServicesPageApiService {
     }
 
     return this.http
-      .put<ServicesPageModel>(`${this.baseUrl}/api/services-page`, form)
-      .pipe(tap(page => this.content.set(page)));
+      .post<ServicesPageModel>(`${this.baseUrl}/api/services-page`, form)
+      .pipe(tap((page) => this.content.set(page)));
   }
 }

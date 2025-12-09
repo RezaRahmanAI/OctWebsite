@@ -192,7 +192,7 @@ export class HomePageApiService {
     });
 
     return this.http
-      .put<HomeTrustModel>(`${this.baseUrl}/api/home-trust`, form)
+      .post<HomeTrustModel>(`${this.baseUrl}/api/home-trust`, form)
       .pipe(tap((trust) => this.mergeContent({ trust })));
   }
 
@@ -213,7 +213,7 @@ export class HomePageApiService {
   ): Observable<HomeTestimonialModel> {
     const form = this.toTestimonialFormData(request);
     return this.http
-      .put<HomeTestimonialModel>(`${this.baseUrl}/api/home-testimonials/${id}`, form)
+      .post<HomeTestimonialModel>(`${this.baseUrl}/api/home-testimonials/${id}`, form)
       .pipe(
         tap((testimonial) => {
           const existing = this.content()?.testimonials ?? [];

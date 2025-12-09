@@ -114,16 +114,16 @@ export class AcademyPageApiService {
   readonly tracks = signal<AcademyTrackModel[]>([]);
 
   loadPage() {
-    return this.fetchPage().subscribe(page => {
+    return this.fetchPage().subscribe((page) => {
       this.page.set(page);
       this.tracks.set(page.tracks);
     });
   }
 
   fetchPage(): Observable<AcademyPageModel> {
-    return this.http.get<AcademyPageModel>(`${this.baseUrl}/api/academy-page`).pipe(
-      tap(page => this.page.set(page))
-    );
+    return this.http
+      .get<AcademyPageModel>(`${this.baseUrl}/api/academy-page`)
+      .pipe(tap((page) => this.page.set(page)));
   }
 
   upsertPage(request: SaveAcademyPageRequest): Observable<AcademyPageModel> {
@@ -154,14 +154,14 @@ export class AcademyPageApiService {
     });
 
     return this.http
-      .put<AcademyPageModel>(`${this.baseUrl}/api/academy-page`, form)
-      .pipe(tap(page => this.page.set(page)));
+      .post<AcademyPageModel>(`${this.baseUrl}/api/academy-page`, form)
+      .pipe(tap((page) => this.page.set(page)));
   }
 
   fetchTracks(): Observable<AcademyTrackModel[]> {
     return this.http
       .get<AcademyTrackModel[]>(`${this.baseUrl}/api/academy-tracks`)
-      .pipe(tap(tracks => this.tracks.set(tracks)));
+      .pipe(tap((tracks) => this.tracks.set(tracks)));
   }
 
   fetchTrack(slug: string): Observable<AcademyTrackModel> {
@@ -172,20 +172,24 @@ export class AcademyPageApiService {
     const formData = this.buildTrackFormData(request);
     return this.http
       .post<AcademyTrackModel>(`${this.baseUrl}/api/academy-tracks`, formData)
-      .pipe(tap(track => this.tracks.set([...this.tracks(), track])));
+      .pipe(tap((track) => this.tracks.set([...this.tracks(), track])));
   }
 
   updateTrack(id: string, request: SaveAcademyTrackRequest): Observable<AcademyTrackModel> {
     const formData = this.buildTrackFormData(request);
     return this.http
-      .put<AcademyTrackModel>(`${this.baseUrl}/api/academy-tracks/${id}`, formData)
-      .pipe(tap(updated => this.tracks.set(this.tracks().map(track => (track.id === id ? updated : track)))));
+      .post<AcademyTrackModel>(`${this.baseUrl}/api/academy-tracks/${id}`, formData)
+      .pipe(
+        tap((updated) =>
+          this.tracks.set(this.tracks().map((track) => (track.id === id ? updated : track)))
+        )
+      );
   }
 
   deleteTrack(id: string) {
-    return this.http.delete<void>(`${this.baseUrl}/api/academy-tracks/${id}`).pipe(
-      tap(() => this.tracks.set(this.tracks().filter(track => track.id !== id)))
-    );
+    return this.http
+      .delete<void>(`${this.baseUrl}/api/academy-tracks/${id}`)
+      .pipe(tap(() => this.tracks.set(this.tracks().filter((track) => track.id !== id))));
   }
 
   private buildTrackFormData(request: SaveAcademyTrackRequest): FormData {

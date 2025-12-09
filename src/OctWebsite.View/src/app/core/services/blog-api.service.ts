@@ -31,11 +31,15 @@ export class BlogApiService {
   private readonly baseUrl = environment.apiUrl.replace(/\/+$/, '');
 
   list(): Observable<BlogPost[]> {
-    return this.http.get<BlogPost[]>(`${this.baseUrl}/api/blogs`).pipe(map(posts => posts.map(this.hydrate)));
+    return this.http
+      .get<BlogPost[]>(`${this.baseUrl}/api/blogs`)
+      .pipe(map((posts) => posts.map(this.hydrate)));
   }
 
   getBySlug(slug: string): Observable<BlogPost> {
-    return this.http.get<BlogPost>(`${this.baseUrl}/api/blogs/slug/${slug}`).pipe(map(this.hydrate));
+    return this.http
+      .get<BlogPost>(`${this.baseUrl}/api/blogs/slug/${slug}`)
+      .pipe(map(this.hydrate));
   }
 
   create(request: SaveBlogRequest): Observable<BlogPost> {
@@ -45,7 +49,9 @@ export class BlogApiService {
 
   update(id: string, request: SaveBlogRequest): Observable<BlogPost> {
     const form = this.toFormData(request);
-    return this.http.put<BlogPost>(`${this.baseUrl}/api/blogs/${id}`, form).pipe(map(this.hydrate));
+    return this.http
+      .post<BlogPost>(`${this.baseUrl}/api/blogs/${id}`, form)
+      .pipe(map(this.hydrate));
   }
 
   delete(id: string): Observable<void> {
@@ -73,7 +79,7 @@ export class BlogApiService {
       form.append('headerVideo', request.headerVideoFile);
     }
 
-    request.tags.forEach(tag => form.append('tags', tag));
+    request.tags.forEach((tag) => form.append('tags', tag));
     form.append('published', String(request.published));
     if (request.publishedAt) {
       form.append('publishedAt', request.publishedAt);
@@ -91,7 +97,7 @@ export class BlogApiService {
       form.append('heroQuote', request.heroQuote ?? '');
     }
 
-    request.keyPoints?.forEach(point => form.append('keyPoints', point));
+    request.keyPoints?.forEach((point) => form.append('keyPoints', point));
     request.stats?.forEach((stat, index) => {
       form.append(`stats[${index}].label`, stat.label);
       form.append(`stats[${index}].value`, stat.value);

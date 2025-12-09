@@ -95,7 +95,7 @@ export class MethodologyPageApiService {
 
   fetchPage(): Observable<MethodologyPageModel> {
     return this.http.get<MethodologyPageModel>(`${this.baseUrl}/api/methodology-page`).pipe(
-      tap(page => {
+      tap((page) => {
         this.page.set(page);
         this.offerings.set(page.offerings);
       })
@@ -135,39 +135,48 @@ export class MethodologyPageApiService {
     request.contactFields.forEach((field, index) => form.append(`contactFields[${index}]`, field));
 
     return this.http
-      .put<MethodologyPageModel>(`${this.baseUrl}/api/methodology-page`, form)
-      .pipe(tap(page => this.page.set(page)));
+      .post<MethodologyPageModel>(`${this.baseUrl}/api/methodology-page`, form)
+      .pipe(tap((page) => this.page.set(page)));
   }
 
   fetchOfferings(): Observable<MethodologyOfferingModel[]> {
     return this.http
       .get<MethodologyOfferingModel[]>(`${this.baseUrl}/api/methodology-offerings`)
-      .pipe(tap(offerings => this.offerings.set(offerings)));
+      .pipe(tap((offerings) => this.offerings.set(offerings)));
   }
 
   fetchOffering(slug: string): Observable<MethodologyOfferingModel> {
-    return this.http.get<MethodologyOfferingModel>(`${this.baseUrl}/api/methodology-offerings/${slug}`);
+    return this.http.get<MethodologyOfferingModel>(
+      `${this.baseUrl}/api/methodology-offerings/${slug}`
+    );
   }
 
   createOffering(request: SaveMethodologyOfferingRequest): Observable<MethodologyOfferingModel> {
     return this.http
       .post<MethodologyOfferingModel>(`${this.baseUrl}/api/methodology-offerings`, request)
-      .pipe(tap(offering => this.offerings.set([...this.offerings(), offering])));
+      .pipe(tap((offering) => this.offerings.set([...this.offerings(), offering])));
   }
 
-  updateOffering(id: string, request: SaveMethodologyOfferingRequest): Observable<MethodologyOfferingModel> {
+  updateOffering(
+    id: string,
+    request: SaveMethodologyOfferingRequest
+  ): Observable<MethodologyOfferingModel> {
     return this.http
-      .put<MethodologyOfferingModel>(`${this.baseUrl}/api/methodology-offerings/${id}`, request)
+      .post<MethodologyOfferingModel>(`${this.baseUrl}/api/methodology-offerings/${id}`, request)
       .pipe(
-        tap(updated =>
-          this.offerings.set(this.offerings().map(offering => (offering.id === id ? updated : offering)))
+        tap((updated) =>
+          this.offerings.set(
+            this.offerings().map((offering) => (offering.id === id ? updated : offering))
+          )
         )
       );
   }
 
   deleteOffering(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/api/methodology-offerings/${id}`).pipe(
-      tap(() => this.offerings.set(this.offerings().filter(offering => offering.id !== id)))
-    );
+    return this.http
+      .delete<void>(`${this.baseUrl}/api/methodology-offerings/${id}`)
+      .pipe(
+        tap(() => this.offerings.set(this.offerings().filter((offering) => offering.id !== id)))
+      );
   }
 }

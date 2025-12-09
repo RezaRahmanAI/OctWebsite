@@ -79,13 +79,13 @@ export class ContactPageApiService {
   readonly content = signal<ContactPageModel | null>(null);
 
   load(): void {
-    this.fetch().subscribe(page => this.content.set(page));
+    this.fetch().subscribe((page) => this.content.set(page));
   }
 
   fetch(): Observable<ContactPageModel> {
-    return this.http.get<ContactPageModel>(`${this.baseUrl}/api/contact-page`).pipe(
-      tap(page => this.content.set(page))
-    );
+    return this.http
+      .get<ContactPageModel>(`${this.baseUrl}/api/contact-page`)
+      .pipe(tap((page) => this.content.set(page)));
   }
 
   update(request: SaveContactPageRequest): Observable<ContactPageModel> {
@@ -130,7 +130,7 @@ export class ContactPageApiService {
     form.append('profileDownloadUrl', request.profileDownloadUrl);
 
     return this.http
-      .put<ContactPageModel>(`${this.baseUrl}/api/contact-page`, form)
-      .pipe(tap(page => this.content.set(page)));
+      .post<ContactPageModel>(`${this.baseUrl}/api/contact-page`, form)
+      .pipe(tap((page) => this.content.set(page)));
   }
 }
