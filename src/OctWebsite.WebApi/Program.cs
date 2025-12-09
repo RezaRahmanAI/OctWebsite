@@ -22,9 +22,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddProblemDetails();
 const string CorsPolicyName = "AllowFrontend";
-var allowedOrigins = builder.Configuration
-    .GetSection("Cors:AllowedOrigins")
-    .Get<string[]>() ?? [];
+var corsSection = builder.Configuration.GetSection("Cors");
+var allowedOrigins = corsSection.GetSection("AllowedOrigins").Get<string[]>() ?? [];
+var allowSubdomains = corsSection.GetValue("AllowSubdomains", false);
+var allowedHosts = allowedOrigins
+    .Select(origin => new Uri(origin).Host)
+    .ToArray();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(
@@ -33,7 +36,23 @@ builder.Services.AddCors(options =>
         {
             if (allowedOrigins.Length > 0)
             {
-                policy.WithOrigins(allowedOrigins)
+                policy
+                    .SetIsOriginAllowed(origin =>
+                    {
+                        if (allowedOrigins.Contains(origin, StringComparer.OrdinalIgnoreCase))
+                        {
+                            return true;
+                        }
+
+                        if (allowSubdomains && Uri.TryCreate(origin, UriKind.Absolute, out var uri))
+                        {
+                            return allowedHosts.Any(host =>
+                                uri.Host.Equals(host, StringComparison.OrdinalIgnoreCase) ||
+                                uri.Host.EndsWith($".{host}", StringComparison.OrdinalIgnoreCase));
+                        }
+
+                        return false;
+                    })
                     .AllowAnyHeader()
                     .AllowAnyMethod();
             }
