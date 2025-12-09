@@ -93,6 +93,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseExceptionHandler();
+app.UseRouting();
 app.UseCors(CorsPolicyName);
 app.UseAuthentication();
 app.UseAuthorization();
