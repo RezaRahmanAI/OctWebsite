@@ -8,7 +8,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Observable, forkJoin, tap } from 'rxjs';
 import { ToastService } from '../../core/services';
 import {
   HomePageApiService,
@@ -33,17 +32,6 @@ type StatFormGroup = FormGroup<{
   decimals: FormControl<number | null>;
 }>;
 
-type TestimonialFormGroup = FormGroup<{
-  id: FormControl<string | null>;
-  quote: FormControl<string>;
-  name: FormControl<string>;
-  title: FormControl<string>;
-  location: FormControl<string>;
-  rating: FormControl<number>;
-  type: FormControl<HomeTestimonialModel['type']>;
-  imageFileName: FormControl<string>;
-}>;
-
 @Component({
   selector: 'app-home-admin',
   standalone: true,
@@ -58,14 +46,15 @@ export class HomeAdminComponent implements OnInit {
 
   private heroVideo: File | null = null;
   private heroPoster: File | null = null;
-  private testimonialImages: (File | null)[] = [];
   private trustLogoFiles: (File | null)[] = [null];
-  private existingTestimonialIds: string[] = [];
+  private testimonialImage: File | null = null;
 
   readonly loading = signal(false);
   readonly savingHero = signal(false);
   readonly savingTrust = signal(false);
   readonly savingTestimonials = signal(false);
+  readonly editingTestimonialId = signal<string | null>(null);
+  readonly testimonials = signal<HomeTestimonialModel[]>([]);
 
   readonly heroForm = this.fb.group({
     badge: this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
@@ -100,7 +89,18 @@ export class HomeAdminComponent implements OnInit {
     stats: this.fb.array<StatFormGroup>([]),
   });
 
-  readonly testimonialForm = this.fb.array<TestimonialFormGroup>([]);
+  readonly testimonialForm = this.fb.group({
+    quote: this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
+    name: this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
+    title: this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
+    location: this.fb.control<string>('', { validators: Validators.required, nonNullable: true }),
+    rating: this.fb.control<number>(5, { validators: Validators.required, nonNullable: true }),
+    type: this.fb.control<HomeTestimonialModel['type']>('client', {
+      validators: Validators.required,
+      nonNullable: true,
+    }),
+    imageFileName: this.fb.control<string>('', { nonNullable: true }),
+  });
 
   ngOnInit(): void {
     this.load();
@@ -153,16 +153,6 @@ export class HomeAdminComponent implements OnInit {
     this.stats.removeAt(index);
   }
 
-  addTestimonial(testimonial?: HomeTestimonialModel): void {
-    this.testimonialForm.push(this.createTestimonialGroup(testimonial));
-    this.testimonialImages.push(null);
-  }
-
-  removeTestimonial(index: number): void {
-    this.testimonialForm.removeAt(index);
-    this.testimonialImages.splice(index, 1);
-  }
-
   onHeroVideoSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0] ?? null;
     this.heroVideo = file;
@@ -173,9 +163,12 @@ export class HomeAdminComponent implements OnInit {
     this.heroPoster = file;
   }
 
-  onTestimonialImageSelected(index: number, event: Event): void {
+  onTestimonialImageSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0] ?? null;
-    this.testimonialImages[index] = file;
+    this.testimonialImage = file;
+    if (file) {
+      this.testimonialForm.patchValue({ imageFileName: file.name });
+    }
   }
 
   submitHero(): void {
@@ -226,33 +219,24 @@ export class HomeAdminComponent implements OnInit {
       return;
     }
 
-    const operations: Observable<unknown>[] = [];
-    const nextIds: string[] = [];
-
-    this.testimonialForm.controls.forEach((control, index) => {
-      const request = this.toTestimonialRequest(control, index);
-      const id = control.value.id;
-      if (id) {
-        nextIds.push(id);
-        operations.push(this.api.updateTestimonial(id, request));
-      } else {
-        operations.push(
-          this.api
-            .createTestimonial(request)
-            .pipe(tap(created => nextIds.push(created.id)))
-        );
-      }
-    });
-
-    const deletions = this.existingTestimonialIds.filter(id => !nextIds.includes(id));
-    deletions.forEach(id => operations.push(this.api.deleteTestimonial(id)));
-
     this.savingTestimonials.set(true);
-    forkJoin(operations).subscribe({
-      next: () => {
-        this.toast.show('Testimonials saved', 'success');
+    const request = this.toTestimonialRequest();
+    const id = this.editingTestimonialId();
+    const operation$ = id
+      ? this.api.updateTestimonial(id, request)
+      : this.api.createTestimonial(request);
+
+    operation$.subscribe({
+      next: testimonial => {
+        this.toast.show('Testimonial saved', 'success');
         this.savingTestimonials.set(false);
-        this.load();
+        this.resetTestimonialForm();
+        if (id) {
+          const updated = this.testimonials().map(item => (item.id === testimonial.id ? testimonial : item));
+          this.testimonials.set(updated);
+        } else {
+          this.testimonials.set([...this.testimonials(), testimonial]);
+        }
       },
       error: () => {
         this.toast.show('Failed to save testimonials', 'error');
@@ -330,10 +314,13 @@ export class HomeAdminComponent implements OnInit {
   }
 
   private applyTestimonials(testimonials: HomeTestimonialModel[]): void {
-    this.testimonialForm.clear();
-    this.testimonialImages = [];
-    testimonials.forEach(testimonial => this.addTestimonial(testimonial));
-    this.existingTestimonialIds = testimonials.map(t => t.id);
+    this.testimonials.set(testimonials);
+    if (this.editingTestimonialId()) {
+      const current = testimonials.find(t => t.id === this.editingTestimonialId());
+      if (!current) {
+        this.resetTestimonialForm();
+      }
+    }
   }
 
   private toHeroRequest(): SaveHomeHeroRequest {
@@ -398,16 +385,54 @@ export class HomeAdminComponent implements OnInit {
     } satisfies SaveHomeTrustRequest;
   }
 
-  private toTestimonialRequest(control: TestimonialFormGroup, index: number): SaveHomeTestimonialRequest {
+  editTestimonial(testimonial: HomeTestimonialModel): void {
+    this.editingTestimonialId.set(testimonial.id);
+    this.testimonialImage = null;
+    this.testimonialForm.setValue({
+      quote: testimonial.quote,
+      name: testimonial.name,
+      title: testimonial.title,
+      location: testimonial.location,
+      rating: testimonial.rating,
+      type: testimonial.type as HomeTestimonialModel['type'],
+      imageFileName: testimonial.image?.fileName ?? testimonial.image?.url ?? '',
+    });
+  }
+
+  resetTestimonialForm(): void {
+    this.editingTestimonialId.set(null);
+    this.testimonialImage = null;
+    this.testimonialForm.reset({ rating: 5, type: 'client', imageFileName: '' });
+  }
+
+  deleteTestimonial(id: string): void {
+    this.savingTestimonials.set(true);
+    this.api.deleteTestimonial(id).subscribe({
+      next: () => {
+        this.toast.show('Testimonial deleted', 'success');
+        this.testimonials.set(this.testimonials().filter(t => t.id !== id));
+        if (this.editingTestimonialId() === id) {
+          this.resetTestimonialForm();
+        }
+        this.savingTestimonials.set(false);
+      },
+      error: () => {
+        this.toast.show('Failed to delete testimonial', 'error');
+        this.savingTestimonials.set(false);
+      },
+    });
+  }
+
+  private toTestimonialRequest(): SaveHomeTestimonialRequest {
     return {
-      quote: control.value.quote ?? '',
-      name: control.value.name ?? '',
-      title: control.value.title ?? '',
-      location: control.value.location ?? '',
-      rating: Number(control.value.rating ?? 5),
-      type: control.value.type ?? 'client',
-      imageFileName: control.value.imageFileName || null,
-      imageFile: this.testimonialImages[index],
+      quote: this.testimonialForm.value.quote ?? '',
+      name: this.testimonialForm.value.name ?? '',
+      title: this.testimonialForm.value.title ?? '',
+      location: this.testimonialForm.value.location ?? '',
+      rating: Number(this.testimonialForm.value.rating ?? 5),
+      type: this.testimonialForm.value.type ?? 'client',
+      imageFileName: this.testimonialForm.value.imageFileName || null,
+      imageFile: this.testimonialImage,
     } satisfies SaveHomeTestimonialRequest;
   }
 
@@ -445,40 +470,6 @@ export class HomeAdminComponent implements OnInit {
       }),
       suffix: this.fb.control<string | null>(stat?.suffix ?? ''),
       decimals: this.fb.control<number | null>(stat?.decimals ?? null),
-    });
-  }
-
-  private createTestimonialGroup(testimonial?: HomeTestimonialModel): TestimonialFormGroup {
-    return this.fb.group({
-      id: this.fb.control<string | null>(testimonial?.id ?? null),
-      quote: this.fb.control<string>(testimonial?.quote ?? '', {
-        validators: Validators.required,
-        nonNullable: true,
-      }),
-      name: this.fb.control<string>(testimonial?.name ?? '', {
-        validators: Validators.required,
-        nonNullable: true,
-      }),
-      title: this.fb.control<string>(testimonial?.title ?? '', {
-        validators: Validators.required,
-        nonNullable: true,
-      }),
-      location: this.fb.control<string>(testimonial?.location ?? '', {
-        validators: Validators.required,
-        nonNullable: true,
-      }),
-      rating: this.fb.control<number>(testimonial?.rating ?? 5, {
-        validators: Validators.required,
-        nonNullable: true,
-      }),
-      type: this.fb.control<HomeTestimonialModel['type']>(
-        testimonial?.type ?? 'client',
-        { validators: Validators.required, nonNullable: true }
-      ),
-      imageFileName: this.fb.control<string>(
-        testimonial?.image?.fileName ?? testimonial?.image?.url ?? '',
-        { nonNullable: true }
-      ),
     });
   }
 
