@@ -69,6 +69,7 @@ export interface ContactOfficeModel {
   headline: string;
   address: string;
   imageUrl: string;
+  imageFileName?: string | null;
 }
 
 @Injectable({ providedIn: 'root' })

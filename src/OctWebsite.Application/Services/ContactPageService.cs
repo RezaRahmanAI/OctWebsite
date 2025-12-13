@@ -123,11 +123,15 @@ internal sealed class ContactPageService(IContactPageRepository repository) : IC
         return entity;
     }
 
-    private static ContactOffice MapToEntity(ContactOfficeDto dto) => new(
-        dto.Name.Trim(),
-        dto.Headline.Trim(),
-        dto.Address.Trim(),
-        dto.ImageUrl.Trim());
+    private static ContactOffice MapToEntity(ContactOfficeDto dto)
+    {
+        var storedPath = string.IsNullOrWhiteSpace(dto.ImageFileName) ? dto.ImageUrl : dto.ImageFileName;
+        return new ContactOffice(
+            dto.Name.Trim(),
+            dto.Headline.Trim(),
+            dto.Address.Trim(),
+            storedPath.Trim());
+    }
 
     private static ContactPageDto MapToDto(ContactPage page) => new(
         page.Id,
@@ -159,6 +163,7 @@ internal sealed class ContactPageService(IContactPageRepository repository) : IC
         office.Name,
         office.Headline,
         office.Address,
+        office.ImageUrl,
         office.ImageUrl);
 
     private static void Validate(SaveContactPageRequest request)

@@ -88,7 +88,7 @@ export class ContactAdminComponent implements OnInit {
         name: [value?.name ?? '', Validators.required],
         headline: [value?.headline ?? '', Validators.required],
         address: [value?.address ?? '', Validators.required],
-        imageUrl: [value?.imageUrl ?? '', Validators.required],
+        imageUrl: [value?.imageFileName ?? value?.imageUrl ?? '', Validators.required],
       })
     );
 
@@ -216,9 +216,16 @@ export class ContactAdminComponent implements OnInit {
       officesEyebrow: raw.officesEyebrow ?? '',
       officesTitle: raw.officesTitle ?? '',
       officesDescription: raw.officesDescription ?? '',
-      offices: (raw.offices as ContactOfficeModel[] | undefined)?.filter(Boolean) ?? [],
+      offices:
+        (raw.offices as ContactOfficeModel[] | undefined)
+          ?.filter(Boolean)
+          .map(office => ({
+            ...office,
+            imageFileName: office?.imageFileName ?? office?.imageUrl ?? '',
+          })) ?? [],
       officeImageFiles: this.officeImageFiles,
-      officeImageFileNames: (raw.offices as ContactOfficeModel[] | undefined)?.map(office => office?.imageUrl ?? null) ?? [],
+      officeImageFileNames:
+        (raw.offices as ContactOfficeModel[] | undefined)?.map(office => office?.imageFileName ?? office?.imageUrl ?? null) ?? [],
       mapEmbedUrl: raw.mapEmbedUrl ?? '',
       mapTitle: raw.mapTitle ?? '',
       headquarters: raw.headquarters ?? '',
