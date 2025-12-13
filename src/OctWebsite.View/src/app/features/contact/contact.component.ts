@@ -9,6 +9,7 @@ import { ContactChannelsApiService } from '../../core/services/contact-channels-
 import type { HomeContent } from '../../core/models/home-content.model';
 import { RouterLink } from '@angular/router';
 import { SectionHeadingComponent, SectionHeadingCta } from '../../shared/components/section-heading/section-heading.component';
+import { FaqsService } from '../../core/services/faqs.service';
 
 interface ContactPageContent {
   header: {
@@ -47,6 +48,7 @@ export class ContactComponent implements OnInit {
   private readonly contactChannelsApi = inject(ContactChannelsApiService);
   private readonly document = inject(DOCUMENT);
   private readonly sanitizer = inject(DomSanitizer);
+  private readonly faqsService = inject(FaqsService);
 
   protected readonly contactPage = computed<ContactPageContent | null>(() => {
     const apiPage = this.contactPageApi.content();
@@ -104,9 +106,11 @@ export class ContactComponent implements OnInit {
       },
     } satisfies HomeContent['contact'];
   });
+  protected readonly faqs = this.faqsService.faqs;
 
   ngOnInit(): void {
     this.contactPageApi.load();
+    void this.faqsService.load();
   }
 
   scrollToOffices(): void {

@@ -19,6 +19,7 @@ import { CareerApplicationsAdminComponent } from './career-applications-admin.co
 import { CareerPageAdminComponent } from './career-page-admin.component';
 import { MethodologyAdminComponent } from './methodology-admin.component';
 import { MethodologyOfferingsAdminComponent } from './methodology-offerings-admin.component';
+import { FaqAdminComponent } from './faq-admin.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -42,6 +43,7 @@ import { MethodologyOfferingsAdminComponent } from './methodology-offerings-admi
     CareerPageAdminComponent,
     MethodologyAdminComponent,
     MethodologyOfferingsAdminComponent,
+    FaqAdminComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
@@ -66,6 +68,7 @@ export class DashboardComponent {
     | 'products'
     | 'showcase'
     | 'careers'
+    | 'faq'
   >('home');
 
   select(
@@ -85,6 +88,7 @@ export class DashboardComponent {
       | 'products'
       | 'showcase'
       | 'careers'
+      | 'faq'
   ): void {
     this.activeTab.set(tab);
   }

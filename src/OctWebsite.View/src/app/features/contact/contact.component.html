@@ -78,4 +78,38 @@
   </div>
 </section>
 
+<section class="section-padding container-wide" id="faq" *ngIf="faqs() as faqsList">
+  <div class="grid gap-12 lg:grid-cols-[1.2fr,2fr]">
+    <div class="space-y-4">
+      <p class="inline-flex items-center gap-2 rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-indigo-700">
+        Frequently Asked Questions
+      </p>
+      <h2 class="text-3xl font-semibold text-slate-900 sm:text-4xl">Get quick answers</h2>
+      <p class="text-slate-600 max-w-xl">
+        Browse the most common questions about working with our team. If you don't see your question here, our support specialists are just a call or message away.
+      </p>
+    </div>
+
+    <div class="space-y-4" *ngIf="faqsList.length > 0; else noFaqs">
+      <details
+        class="faq-card"
+        *ngFor="let faq of faqsList; let i = index"
+        [attr.open]="i === 0 ? '' : null"
+      >
+        <summary class="faq-question">
+          <span>{{ faq.question }}</span>
+          <span class="faq-icon" aria-hidden="true">＋</span>
+        </summary>
+        <p class="faq-answer">{{ faq.answer }}</p>
+      </details>
+    </div>
+
+    <ng-template #noFaqs>
+      <div class="rounded-2xl border border-dashed border-slate-300 bg-white/60 p-6 text-slate-600">
+        FAQ entries will appear here once published from the dashboard.
+      </div>
+    </ng-template>
+  </div>
+</section>
+
 <app-home-contact *ngIf="contactData() as contactData" [data]="contactData" [formOptions]="formOptions()"></app-home-contact>
