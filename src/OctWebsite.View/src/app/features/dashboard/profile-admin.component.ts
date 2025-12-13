@@ -17,8 +17,10 @@ export class ProfileAdminComponent implements OnInit {
   private readonly toast = inject(ToastService);
 
   readonly heroImageName = signal<string | null>(null);
+  readonly heroVideoName = signal<string | null>(null);
   readonly downloadFileName = signal<string | null>(null);
   private heroFile: File | null = null;
+  private heroVideoFile: File | null = null;
   private downloadFile: File | null = null;
 
   readonly form = this.fb.group({
@@ -48,6 +50,7 @@ export class ProfileAdminComponent implements OnInit {
   ngOnInit(): void {
     this.api.fetch().subscribe((page) => {
       this.heroImageName.set(page.heroImage?.fileName ?? null);
+      this.heroVideoName.set(page.heroVideo?.fileName ?? null);
       this.downloadFileName.set(page.download?.fileName ?? null);
       this.form.patchValue({
         headerEyebrow: page.headerEyebrow,
@@ -112,6 +115,14 @@ export class ProfileAdminComponent implements OnInit {
     }
   }
 
+  onHeroVideoSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      this.heroVideoFile = file;
+      this.heroVideoName.set(file.name);
+    }
+  }
+
   onDownloadSelected(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
@@ -142,8 +153,10 @@ export class ProfileAdminComponent implements OnInit {
       stats: (value.stats ?? []) as ProfileStatModel[],
       pillars: (value.pillars ?? []) as ProfilePillarModel[],
       heroImageFileName: this.heroImageName(),
+      heroVideoFileName: this.heroVideoName(),
       downloadFileName: this.downloadFileName(),
       heroImageFile: this.heroFile,
+      heroVideoFile: this.heroVideoFile,
       downloadFile: this.downloadFile,
     };
 

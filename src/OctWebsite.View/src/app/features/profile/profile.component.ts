@@ -17,6 +17,8 @@ export class ProfileComponent implements OnInit {
   private readonly profileApi = inject(ProfilePageApiService);
 
   readonly page = computed<ProfilePageModel | null>(() => this.profileApi.content());
+  readonly heroVideoUrl = computed(() => this.page()?.heroVideo?.url ?? null);
+  readonly heroPosterUrl = computed(() => this.page()?.heroImage?.url ?? null);
   readonly stats = computed(() => this.page()?.stats ?? []);
   readonly pillars = computed(() => this.page()?.pillars ?? []);
   readonly heroCtas = computed<SectionHeadingCta[]>(() => [

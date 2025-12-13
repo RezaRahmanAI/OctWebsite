@@ -32,7 +32,12 @@
 
     <div class="card-surface space-y-3">
       <div class="form-field">
-        <label>Hero Image</label>
+        <label>Hero Video</label>
+        <input type="file" accept="video/*" (change)="onHeroVideoSelected($event)" />
+        <small *ngIf="heroVideoName()">Current: {{ heroVideoName() }}</small>
+      </div>
+      <div class="form-field">
+        <label>Hero Poster (optional)</label>
         <input type="file" accept="image/*" (change)="onHeroSelected($event)" />
         <small *ngIf="heroImageName()">Current: {{ heroImageName() }}</small>
       </div>

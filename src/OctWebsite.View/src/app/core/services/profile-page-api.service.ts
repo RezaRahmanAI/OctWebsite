@@ -26,6 +26,7 @@ export interface ProfilePageModel {
   headerTitle: string;
   headerSubtitle: string;
   heroTagline: string;
+  heroVideo: ProfileMediaResource | null;
   heroImage: ProfileMediaResource | null;
   downloadLabel: string;
   download: ProfileMediaResource | null;
@@ -45,6 +46,8 @@ export interface SaveProfilePageRequest {
   heroTagline: string;
   heroImageFileName?: string | null;
   heroImageFile?: File | null;
+  heroVideoFileName?: string | null;
+  heroVideoFile?: File | null;
   downloadLabel: string;
   downloadFileName?: string | null;
   downloadFile?: File | null;
@@ -93,6 +96,13 @@ export class ProfilePageApiService {
     }
     if (request.heroImageFile) {
       form.append('heroImage', request.heroImageFile);
+    }
+
+    if (request.heroVideoFileName) {
+      form.append('heroVideoFileName', request.heroVideoFileName);
+    }
+    if (request.heroVideoFile) {
+      form.append('heroVideo', request.heroVideoFile);
     }
 
     if (request.downloadFileName) {

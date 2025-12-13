@@ -1,83 +1,130 @@
 <section class="container-wide space-y-16">
-  <header class="section-padding">
-    <div class="relative overflow-hidden rounded-[2.5rem] bg-white/90 shadow-card ring-1 ring-white/70">
-      <div class="absolute inset-0 bg-hero-grid opacity-60"></div>
-      <div class="relative grid items-center gap-10 px-6 py-12 lg:grid-cols-2 lg:px-12">
-        <div class="space-y-6">
-          <app-section-heading
-            [eyebrow]="page()?.headerEyebrow"
-            [title]="page()?.headerTitle || 'Download our company profile'"
-            [subtitle]="page()?.headerSubtitle"
-            [ctas]="heroCtas()"
-            align="left"
-          ></app-section-heading>
+  <header class="section-padding lg:min-h-screen lg:flex lg:items-center">
+    <div class="grid w-full items-center gap-10 lg:grid-cols-2">
+      <div class="space-y-6">
+        <app-section-heading
+          [eyebrow]="page()?.headerEyebrow || 'Profile'"
+          [title]="page()?.headerTitle || 'Download our company profile'"
+          [subtitle]="page()?.headerSubtitle"
+          [ctas]="heroCtas()"
+          align="left"
+        ></app-section-heading>
 
-          <div class="flex flex-wrap items-center gap-3 text-sm text-slate-600">
-            <span
-              *ngIf="page()?.spotlightBadge"
-              class="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 font-semibold text-primary"
-            >
-              {{ page()?.spotlightBadge }}
-            </span>
-            <span class="text-base font-semibold text-slate-800" *ngIf="page()?.heroTagline">
-              {{ page()?.heroTagline }}
-            </span>
-          </div>
+        <div class="flex flex-wrap items-center gap-3 text-sm text-slate-600">
+          <span
+            *ngIf="page()?.spotlightBadge"
+            class="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 font-semibold text-primary"
+          >
+            {{ page()?.spotlightBadge }}
+          </span>
+          <span
+            class="inline-flex items-center gap-2 rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-white"
+          >
+            {{ page()?.overviewTitle || 'Studios · Platform · Academy' }}
+          </span>
         </div>
 
-        <div class="relative">
-          <div class="group relative overflow-hidden rounded-[2rem] border border-white/60 bg-white shadow-xl">
-            <div class="relative aspect-[4/3]">
-              <img
-                *ngIf="page()?.heroImage?.url as heroUrl"
-                [src]="heroUrl | assetUrl"
-                alt="Profile preview"
-                class="absolute inset-0 h-full w-full object-cover"
-              />
-              <div *ngIf="!page()?.heroImage?.url" class="flex h-full w-full items-center justify-center bg-slate-100 text-sm text-slate-500">
-                Profile visual coming soon
-              </div>
-            </div>
+        <p class="max-w-2xl text-base text-slate-600" *ngIf="page()?.heroTagline">
+          {{ page()?.heroTagline }}
+        </p>
+      </div>
 
-            <div class="absolute inset-x-6 bottom-6 flex items-center justify-between rounded-2xl bg-white/90 px-4 py-3 text-xs text-slate-700 shadow-lg">
-              <span>{{ page()?.overviewTitle }}</span>
-              <span class="inline-flex items-center gap-1">
-                <span class="h-2 w-2 rounded-full bg-primary"></span>
-                {{ page()?.spotlightTitle }}
-              </span>
-            </div>
+      <div class="relative">
+        <div class="group relative overflow-hidden rounded-[2.5rem] shadow-xl">
+          <div class="relative aspect-[4/3]">
+            <ng-container *ngIf="heroVideoUrl(); else heroPoster">
+              <video
+                class="absolute inset-0 h-full w-full object-cover"
+                autoplay
+                loop
+                muted
+                playsinline
+                [poster]="heroPosterUrl() ? (heroPosterUrl() | assetUrl) : null"
+              >
+                <source [src]="heroVideoUrl() | assetUrl" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </ng-container>
+
+            <ng-template #heroPoster>
+              <ng-container *ngIf="heroPosterUrl(); else heroPlaceholder">
+                <img
+                  [src]="heroPosterUrl() | assetUrl"
+                  alt="Profile preview"
+                  class="absolute inset-0 h-full w-full object-cover"
+                />
+              </ng-container>
+            </ng-template>
+
+            <ng-template #heroPlaceholder>
+              <div class="flex h-full w-full items-center justify-center bg-slate-100 text-sm text-slate-500">
+                Media coming soon
+              </div>
+            </ng-template>
+          </div>
+
+          <div
+            class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-primary/40 via-transparent to-secondary/40 opacity-40 transition-opacity duration-300 group-hover:opacity-20"
+          ></div>
+
+          <div class="absolute inset-x-6 bottom-6 flex items-center justify-between rounded-2xl bg-white/90 px-4 py-3 text-xs text-slate-700 shadow-lg">
+            <span>{{ page()?.overviewTitle || 'Studios · Platform · Academy' }}</span>
+            <span class="inline-flex items-center gap-1">
+              <span class="h-2 w-2 rounded-full bg-primary"></span>
+              {{ page()?.spotlightTitle || 'Modern profile' }}
+            </span>
           </div>
         </div>
       </div>
     </div>
   </header>
 
-  <section class="section-padding rounded-[2.5rem] bg-white/90 shadow-card ring-1 ring-white/70">
-    <div class="grid gap-8 lg:grid-cols-[1.3fr_0.7fr]">
-      <div class="space-y-3">
-        <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary">{{ page()?.overviewTitle }}</p>
+  <section class="section-padding space-y-10 rounded-[2.5rem] bg-white/90 shadow-card ring-1 ring-white/70">
+    <div class="grid gap-8 lg:grid-cols-[1.25fr_0.75fr] items-start">
+      <div class="space-y-4">
+        <p class="text-xs font-semibold uppercase tracking-[0.25em] text-primary">{{ page()?.overviewTitle }}</p>
         <h2 class="text-3xl font-semibold text-title">{{ page()?.spotlightTitle }}</h2>
-        <p class="text-base text-slate-600 max-w-3xl">{{ page()?.spotlightDescription }}</p>
+        <p class="max-w-3xl text-base text-slate-600">{{ page()?.spotlightDescription }}</p>
+        <p class="max-w-3xl text-sm text-slate-600">{{ page()?.overviewDescription }}</p>
       </div>
-      <div class="rounded-3xl border border-slate-200 bg-slate-50/80 p-6 shadow-lg">
-        <p class="text-sm font-semibold text-primary">Download the profile</p>
-        <p class="mt-2 text-sm text-slate-600">
-          A modern, shareable PDF that blends credentials, case studies, and our delivery playbooks.
-        </p>
-        <button
-          type="button"
-          class="mt-4 inline-flex w-full items-center justify-center rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition hover:translate-y-0.5 hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-white disabled:cursor-not-allowed disabled:opacity-50"
-          (click)="openDownload()"
-          [disabled]="!downloadUrl()"
-        >
-          {{ page()?.downloadLabel }}
-        </button>
+
+      <div class="relative overflow-hidden rounded-[2rem] bg-slate-900 text-white shadow-xl">
+        <div class="absolute inset-0 opacity-30 bg-gradient-to-br from-primary/80 via-slate-800 to-secondary"></div>
+        <div class="relative space-y-4 p-6">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[0.25em] text-primary-100">Download the profile</p>
+              <h3 class="mt-2 text-xl font-semibold">{{ page()?.downloadLabel || 'Download profile' }}</h3>
+              <p class="mt-2 text-sm text-slate-100/80">
+                A modern, shareable PDF that blends credentials, case studies, and our delivery playbooks.
+              </p>
+            </div>
+            <span class="rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-white">PDF</span>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-primary-100">
+            <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1">Always-on partnership</span>
+            <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1">
+              {{ page()?.spotlightBadge || 'Built with our team DNA' }}
+            </span>
+          </div>
+
+          <button
+            type="button"
+            class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-primary/30 transition hover:translate-y-0.5 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            (click)="openDownload()"
+            [disabled]="!downloadUrl()"
+          >
+            <span>Download PDF</span>
+            <span class="text-xs text-primary" *ngIf="!downloadUrl()">Coming soon</span>
+          </button>
+        </div>
       </div>
     </div>
 
-    <div class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
       <article
-        class="rounded-[1.5rem] border border-white/80 bg-slate-50/70 p-6 shadow-lg"
+        class="rounded-[1.5rem] border border-white/80 bg-gradient-to-br from-slate-50 via-white to-primary/5 p-6 shadow-lg"
         *ngFor="let stat of stats()"
       >
         <p class="text-3xl font-bold text-title">{{ stat.value }}</p>
