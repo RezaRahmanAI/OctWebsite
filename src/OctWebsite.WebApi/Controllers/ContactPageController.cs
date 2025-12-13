@@ -39,7 +39,7 @@ public sealed class ContactPageController(
 
         var offices = await ApplyOfficeImagesAsync(
             ParseOffices(form.OfficesJson),
-            form.OfficeImages,
+            ResolveOfficeImages(form.OfficeImages),
             form.OfficeImageFileNames,
             cancellationToken);
 
@@ -108,7 +108,7 @@ public sealed class ContactPageController(
 
     private async Task<IReadOnlyList<ContactOfficeDto>> ApplyOfficeImagesAsync(
         IReadOnlyList<ContactOfficeDto> offices,
-        IList<IFormFile>? officeImages,
+        IReadOnlyList<IFormFile> officeImages,
         IList<string>? officeImageFileNames,
         CancellationToken cancellationToken)
     {
@@ -117,13 +117,12 @@ public sealed class ContactPageController(
             return offices;
         }
 
-        var files = officeImages ?? Array.Empty<IFormFile>();
         var existingFileNames = officeImageFileNames ?? Array.Empty<string>();
         var resolved = new List<ContactOfficeDto>(offices.Count);
 
         for (var i = 0; i < offices.Count; i++)
         {
-            var file = i < files.Count ? files[i] : null;
+            var file = i < officeImages.Count ? officeImages[i] : null;
             var existingName = i < existingFileNames.Count ? existingFileNames[i] : offices[i].ImageUrl;
             var storedFileName = await StoreMediaIfNeededAsync(file, OfficesFolder, existingName, cancellationToken);
             var finalImage = NormalizeOfficeImagePath(storedFileName ?? existingName ?? string.Empty);
@@ -154,6 +153,29 @@ public sealed class ContactPageController(
         return relative.StartsWith("images/", StringComparison.OrdinalIgnoreCase)
             ? $"/{relative.TrimStart('/')}"
             : relative;
+    }
+
+    private IReadOnlyList<IFormFile> ResolveOfficeImages(IList<IFormFile>? officeImages)
+    {
+        if (officeImages is { Count: > 0 })
+        {
+            return officeImages;
+        }
+
+        if (Request.HasFormContentType)
+        {
+            var formFiles = Request.Form.Files
+                .Where(file => file.Name.StartsWith("officeImages", StringComparison.OrdinalIgnoreCase))
+                .OrderBy(file => file.Name, StringComparer.OrdinalIgnoreCase)
+                .ToArray();
+
+            if (formFiles.Length > 0)
+            {
+                return formFiles;
+            }
+        }
+
+        return Array.Empty<IFormFile>();
     }
 }
 
