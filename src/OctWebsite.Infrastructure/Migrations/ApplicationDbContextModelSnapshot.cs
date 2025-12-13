@@ -866,11 +866,11 @@ namespace OctWebsite.Infrastructure.Migrations
                     b.Property<string>("HeroImageFileName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("HeroVideoFileName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("HeroTagline")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HeroVideoFileName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OverviewDescription")

@@ -12,8 +12,8 @@ using OctWebsite.Infrastructure.Data;
 namespace OctWebsite.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251213100304_AddProfilePage")]
-    partial class AddProfilePage
+    [Migration("20251213113524_pro")]
+    partial class pro
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -871,6 +871,9 @@ namespace OctWebsite.Infrastructure.Migrations
 
                     b.Property<string>("HeroTagline")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HeroVideoFileName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OverviewDescription")

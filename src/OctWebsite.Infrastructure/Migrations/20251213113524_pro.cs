@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace OctWebsite.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AddProfilePage : Migration
+    public partial class pro : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,7 +31,8 @@ namespace OctWebsite.Infrastructure.Migrations
                     DownloadLabel = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DownloadFileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DownloadUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HeroImageFileName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    HeroImageFileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HeroVideoFileName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
