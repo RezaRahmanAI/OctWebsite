@@ -142,10 +142,18 @@ public sealed class ContactPageController(
 
         if (Uri.TryCreate(imagePath, UriKind.Absolute, out var uri))
         {
-            return BuildRelativePath(uri.AbsolutePath, OfficesFolder);
+            return NormalizeFinalOfficePath(uri.AbsolutePath);
         }
 
-        return BuildRelativePath(imagePath, OfficesFolder);
+        return NormalizeFinalOfficePath(imagePath);
+    }
+
+    private string NormalizeFinalOfficePath(string path)
+    {
+        var relative = BuildRelativePath(path, OfficesFolder);
+        return relative.StartsWith("images/", StringComparison.OrdinalIgnoreCase)
+            ? $"/{relative.TrimStart('/')}"
+            : relative;
     }
 }
 

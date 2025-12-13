@@ -69,10 +69,15 @@ public abstract class HomeMediaControllerBase : ControllerBase
             return normalized;
         }
 
-        if (normalized.Contains('/'))
+        var trimmed = normalized.TrimStart('/');
+        if (trimmed.Contains('/'))
         {
-            var trimmed = normalized.TrimStart('/');
             if (trimmed.StartsWith("uploads/", StringComparison.OrdinalIgnoreCase))
+            {
+                return trimmed;
+            }
+
+            if (trimmed.StartsWith("images/", StringComparison.OrdinalIgnoreCase))
             {
                 return trimmed;
             }
