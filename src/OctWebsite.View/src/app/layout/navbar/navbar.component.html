@@ -23,7 +23,7 @@
         <ul class="flex items-center gap-7 text-sm font-medium text-slate-600">
           <!-- LEFT: Home + About -->
           <ng-container *ngFor="let link of navLinks()">
-            <li *ngIf="link.label === 'Home' || link.label === 'About'">
+            <li *ngIf="link.label === 'Home' || link.label === 'About' || link.label === 'Profile'">
               <a
                 [routerLink]="link.path"
                 routerLinkActive="text-primary"
@@ -257,6 +257,15 @@
             (click)="closeMenu()"
           >
             About Us
+          </a>
+        </li>
+        <li>
+          <a
+            routerLink="/profile"
+            class="block rounded-lg px-3 py-2 transition hover:bg-slate-50"
+            (click)="closeMenu()"
+          >
+            Profile
           </a>
         </li>
         <li>
