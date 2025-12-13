@@ -159,7 +159,7 @@ public sealed class ContactPageController(
     {
         if (officeImages is { Count: > 0 })
         {
-            return officeImages;
+            return officeImages.ToArray();
         }
 
         if (Request.HasFormContentType)
