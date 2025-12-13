@@ -1,0 +1,103 @@
+<section class="profile-hero">
+  <div class="profile-hero__overlay"></div>
+  <div class="container-wide profile-hero__grid">
+    <div class="profile-hero__copy">
+      <p class="eyebrow">{{ page()?.headerEyebrow }}</p>
+      <h1 class="headline">{{ page()?.headerTitle }}</h1>
+      <p class="subhead">{{ page()?.headerSubtitle }}</p>
+      <div class="hero-meta">
+        <span class="badge">{{ page()?.spotlightBadge }}</span>
+        <p class="tagline">{{ page()?.heroTagline }}</p>
+      </div>
+      <div class="hero-actions">
+        <a
+          *ngIf="downloadUrl(); else disabledDownload"
+          class="btn primary"
+          [href]="downloadUrl() ?? '#'"
+          target="_blank"
+          rel="noopener"
+          download
+        >
+          {{ page()?.downloadLabel }}
+        </a>
+        <ng-template #disabledDownload>
+          <span class="btn ghost disabled">Preparing download...</span>
+        </ng-template>
+        <a class="btn ghost" routerLink="/contact">Talk to our team</a>
+      </div>
+    </div>
+    <div class="profile-hero__visual" *ngIf="page()?.heroImage?.url as heroUrl">
+      <div class="visual-card">
+        <div class="visual-card__image" [style.backgroundImage]="'url(' + heroUrl + ')'"></div>
+        <div class="visual-card__meta">
+          <p class="meta-title">Always-on studio</p>
+          <p class="meta-subtitle">Product, platform, data, and academy under one roof.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-padding bg-slate">
+  <div class="container-wide">
+    <div class="section-header">
+      <div>
+        <p class="eyebrow">{{ page()?.overviewTitle }}</p>
+        <h2 class="section-title">{{ page()?.spotlightTitle }}</h2>
+        <p class="section-subtitle">{{ page()?.spotlightDescription }}</p>
+      </div>
+      <div class="download-card">
+        <p class="download-label">Download the profile</p>
+        <p class="download-description">
+          A modern, shareable PDF that blends credentials, case studies, and our delivery playbooks.
+        </p>
+        <a
+          class="btn primary full"
+          [href]="downloadUrl() ?? '#'"
+          target="_blank"
+          rel="noopener"
+          download
+        >
+          {{ page()?.downloadLabel }}
+        </a>
+      </div>
+    </div>
+
+    <div class="grid stats">
+      <div class="stat-card" *ngFor="let stat of stats()">
+        <p class="stat-value">{{ stat.value }}</p>
+        <p class="stat-label">{{ stat.label }}</p>
+        <p class="stat-description">{{ stat.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-padding">
+  <div class="container-wide">
+    <div class="pillars-header">
+      <div>
+        <p class="eyebrow">{{ page()?.overviewTitle }}</p>
+        <h2 class="section-title">{{ page()?.headerSubtitle }}</h2>
+        <p class="section-subtitle">{{ page()?.overviewDescription }}</p>
+      </div>
+      <div class="accent-card">
+        <p class="accent-title">In this profile</p>
+        <ul class="accent-list">
+          <li>Engagement models and delivery playbooks</li>
+          <li>Representative case studies and squads</li>
+          <li>Capability-building approach for partners</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid pillars">
+      <article class="pillar-card" *ngFor="let pillar of pillars()">
+        <span class="pillar-accent">{{ pillar.accent }}</span>
+        <h3>{{ pillar.title }}</h3>
+        <p>{{ pillar.description }}</p>
+        <div class="pill"></div>
+      </article>
+    </div>
+  </div>
+</section>

@@ -20,6 +20,7 @@ import { CareerPageAdminComponent } from './career-page-admin.component';
 import { MethodologyAdminComponent } from './methodology-admin.component';
 import { MethodologyOfferingsAdminComponent } from './methodology-offerings-admin.component';
 import { FaqAdminComponent } from './faq-admin.component';
+import { ProfileAdminComponent } from './profile-admin.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -44,6 +45,7 @@ import { FaqAdminComponent } from './faq-admin.component';
     MethodologyAdminComponent,
     MethodologyOfferingsAdminComponent,
     FaqAdminComponent,
+    ProfileAdminComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
@@ -69,6 +71,7 @@ export class DashboardComponent {
     | 'showcase'
     | 'careers'
     | 'faq'
+    | 'profile'
   >('home');
 
   select(
@@ -89,6 +92,7 @@ export class DashboardComponent {
       | 'showcase'
       | 'careers'
       | 'faq'
+      | 'profile'
   ): void {
     this.activeTab.set(tab);
   }

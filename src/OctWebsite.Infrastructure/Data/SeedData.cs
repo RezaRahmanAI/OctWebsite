@@ -694,6 +694,52 @@ internal static class SeedData
         ProfileDownloadUrl = "https://objectcanvas.com/company-profile.pdf"
     };
 
+    public static ProfilePage ProfilePage { get; } = new()
+    {
+        Id = Guid.Parse("4c1e7a70-203e-45fd-8d1d-3a6712b2f902"),
+        HeaderEyebrow = "Profile",
+        HeaderTitle = "ObjectCanvas company profile",
+        HeaderSubtitle = "Credentials, focus areas, and the way our teams deliver.",
+        HeroTagline = "Purpose-built teams that ship outcomes while leveling up your capability.",
+        HeroImageFileName = "/images/hero/profile-cover.webp",
+        DownloadLabel = "Download full profile (PDF)",
+        DownloadUrl = "https://objectcanvas.com/company-profile.pdf",
+        OverviewTitle = "Who we are",
+        OverviewDescription =
+            "ObjectCanvas is a multi-disciplinary product studio and academy helping teams build, launch, and level up across product, platform, and data initiatives.",
+        Stats =
+        [
+            new ProfileStat { Label = "Founded", Value = "2018", Description = "Years of building products and talent in Bangladesh." },
+            new ProfileStat { Label = "Studios", Value = "2", Description = "Hybrid teams across Dhaka and Rajshahi." },
+            new ProfileStat { Label = "Specialists", Value = "20+", Description = "Engineers, designers, and data practitioners." },
+            new ProfileStat { Label = "Engagement speed", Value = "< 2 weeks", Description = "Average time from scoping to kickoff." }
+        ],
+        Pillars =
+        [
+            new ProfilePillar
+            {
+                Title = "Strategic discovery",
+                Description = "We co-design outcomes, roadmaps, and resourcing with stakeholders before writing code.",
+                Accent = "Discovery"
+            },
+            new ProfilePillar
+            {
+                Title = "Delivery discipline",
+                Description = "Battle-tested engineering practices with observability, CI/CD, and peer reviews by default.",
+                Accent = "Delivery"
+            },
+            new ProfilePillar
+            {
+                Title = "Capability building",
+                Description = "We leave behind playbooks, pairing sessions, and clear documentation so teams level up.",
+                Accent = "Enablement"
+            }
+        ],
+        SpotlightTitle = "Built for modern teams",
+        SpotlightDescription = "Download a profile that blends credentials, case studies, and the operating model we use to de-risk projects.",
+        SpotlightBadge = "Always-on partnership"
+    };
+
     public static CareerPage CareerPage { get; } = new()
     {
         Id = Guid.Parse("b0c2b7fa-1ed3-4b3c-8c83-0dd9efed3a5c"),

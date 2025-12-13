@@ -25,3 +25,4 @@ export * from './home-page-api.service';
 export * from './product-page-api.service';
 export * from './faqs-api.service';
 export * from './faqs.service';
+export * from './profile-page-api.service';

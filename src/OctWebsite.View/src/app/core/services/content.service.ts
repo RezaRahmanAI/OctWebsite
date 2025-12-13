@@ -57,6 +57,7 @@ export class ContentService {
     primaryLinks: [
       { label: 'Home', path: '/', exact: true },
       { label: 'About', path: '/about', exact: true },
+      { label: 'Profile', path: '/profile', exact: true },
       { label: 'Product', path: '/product', exact: true },
       { label: 'Academy', path: '/academy', exact: true },
       { label: 'Careers', path: '/careers', exact: true },

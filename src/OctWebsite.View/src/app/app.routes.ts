@@ -17,6 +17,11 @@ export const routes: Routes = [
           import('./features/about/about.component').then((m) => m.AboutComponent),
       },
       {
+        path: 'profile',
+        loadComponent: () =>
+          import('./features/profile/profile.component').then((m) => m.ProfileComponent),
+      },
+      {
         path: 'services',
         children: [
           {

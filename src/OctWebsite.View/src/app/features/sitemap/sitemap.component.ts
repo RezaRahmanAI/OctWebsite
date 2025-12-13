@@ -15,6 +15,7 @@ export class SitemapComponent {
   protected readonly links = [
     { label: 'Home', url: '/' },
     { label: 'About', url: '/about' },
+    { label: 'Profile', url: '/profile' },
     { label: 'Services', url: '/services' },
     { label: 'Academy', url: '/academy' },
     { label: 'Blog', url: '/blog' },
