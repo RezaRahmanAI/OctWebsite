@@ -113,7 +113,7 @@ public sealed class ContactPageController(
 
     private async Task<IReadOnlyList<ContactOfficeDto>> ApplyOfficeImagesAsync(
         IReadOnlyList<ContactOfficeDto> offices,
-        IReadOnlyList<IFormFile> officeImages,
+        IReadOnlyDictionary<int, IFormFile> officeImages,
         IList<string>? officeImageFileNames,
         CancellationToken cancellationToken)
     {
@@ -127,7 +127,7 @@ public sealed class ContactPageController(
 
         for (var i = 0; i < offices.Count; i++)
         {
-            var file = i < officeImages.Count ? officeImages[i] : null;
+            officeImages.TryGetValue(i, out var file);
             var existingName = i < existingFileNames.Count ? existingFileNames[i] : offices[i].ImageUrl;
             var storedFileName = await StoreMediaIfNeededAsync(file, OfficesFolder, existingName, cancellationToken);
             var finalImage = NormalizeOfficeImagePath(storedFileName ?? existingName ?? string.Empty);
@@ -164,27 +164,57 @@ public sealed class ContactPageController(
             : relative;
     }
 
-    private IReadOnlyList<IFormFile> ResolveOfficeImages(IList<IFormFile>? officeImages)
+    private IReadOnlyDictionary<int, IFormFile> ResolveOfficeImages(IList<IFormFile>? officeImages)
     {
+        var indexedFiles = new Dictionary<int, IFormFile>();
+
         if (officeImages is { Count: > 0 })
         {
-            return officeImages.ToArray();
+            AddFiles(indexedFiles, officeImages);
+            return indexedFiles;
         }
 
         if (Request.HasFormContentType)
         {
             var formFiles = Request.Form.Files
                 .Where(file => file.Name.StartsWith("officeImages", StringComparison.OrdinalIgnoreCase))
-                .OrderBy(file => file.Name, StringComparer.OrdinalIgnoreCase)
                 .ToArray();
 
             if (formFiles.Length > 0)
             {
-                return formFiles;
+                AddFiles(indexedFiles, formFiles);
+                return indexedFiles;
             }
         }
 
-        return Array.Empty<IFormFile>();
+        return indexedFiles;
+
+        static void AddFiles(IDictionary<int, IFormFile> target, IEnumerable<IFormFile> files)
+        {
+            foreach (var file in files)
+            {
+                var index = ParseOfficeIndex(file.Name);
+                if (index is not null)
+                {
+                    target[index.Value] = file;
+                }
+            }
+        }
+
+        static int? ParseOfficeIndex(string fileName)
+        {
+            var openIndex = fileName.IndexOf('[', StringComparison.Ordinal);
+            var closeIndex = fileName.IndexOf(']', StringComparison.Ordinal);
+            if (openIndex < 0 || closeIndex <= openIndex)
+            {
+                return null;
+            }
+
+            var start = openIndex + 1;
+            var length = closeIndex - start;
+            var indexText = fileName.Substring(start, length);
+            return int.TryParse(indexText, out var index) ? index : null;
+        }
     }
 }
 
