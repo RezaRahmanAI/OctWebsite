@@ -80,4 +80,5 @@ public sealed record ContactOfficeDto(
     string Name,
     string Headline,
     string Address,
-    string ImageUrl);
+    string ImageUrl,
+    string? ImageFileName = null);

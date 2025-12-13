@@ -86,13 +86,18 @@ public sealed class ContactPageController(
 
     private ContactOfficeDto ResolveOfficeMedia(ContactOfficeDto office)
     {
-        if (string.IsNullOrWhiteSpace(office.ImageUrl))
+        var storedPath = NormalizeFinalOfficePath(office.ImageFileName ?? office.ImageUrl);
+        if (string.IsNullOrWhiteSpace(storedPath))
         {
-            return office;
+            return office with { ImageFileName = string.Empty };
         }
 
-        var url = BuildAbsoluteUrl(office.ImageUrl, OfficesFolder);
-        return office with { ImageUrl = url };
+        var url = BuildAbsoluteUrl(storedPath, OfficesFolder);
+        return office with
+        {
+            ImageUrl = url,
+            ImageFileName = storedPath,
+        };
     }
 
     private static IReadOnlyList<ContactOfficeDto> ParseOffices(string? officesJson)
@@ -126,7 +131,11 @@ public sealed class ContactPageController(
             var existingName = i < existingFileNames.Count ? existingFileNames[i] : offices[i].ImageUrl;
             var storedFileName = await StoreMediaIfNeededAsync(file, OfficesFolder, existingName, cancellationToken);
             var finalImage = NormalizeOfficeImagePath(storedFileName ?? existingName ?? string.Empty);
-            resolved.Add(offices[i] with { ImageUrl = finalImage });
+            resolved.Add(offices[i] with
+            {
+                ImageUrl = finalImage,
+                ImageFileName = finalImage,
+            });
         }
 
         return resolved;
