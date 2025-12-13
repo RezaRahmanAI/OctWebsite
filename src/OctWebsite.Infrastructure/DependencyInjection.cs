@@ -50,6 +50,7 @@ public static class DependencyInjection
         services.AddScoped<ICareerApplicationRepository, EfCareerApplicationRepository>();
         services.AddScoped<IMethodologyDataRepository, EfMethodologyDataRepository>();
         services.AddScoped<IFaqRepository, EfFaqRepository>();
+        services.AddScoped<IProfilePageRepository, EfProfilePageRepository>();
 
         return services;
     }

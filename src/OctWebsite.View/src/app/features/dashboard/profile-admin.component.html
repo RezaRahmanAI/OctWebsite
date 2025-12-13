@@ -1,0 +1,138 @@
+<form class="card-surface space-y-4" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="flex flex-wrap items-center justify-between gap-2">
+    <div>
+      <p class="text-xs font-semibold uppercase text-primary-600">Profile Page</p>
+      <h2 class="text-xl font-bold text-slate-900">Modern company profile</h2>
+      <p class="text-sm text-slate-600">Update the public profile page, hero media, and downloadable PDF.</p>
+    </div>
+    <button class="btn" type="submit">Save Profile Page</button>
+  </div>
+
+  <div class="grid gap-4 md:grid-cols-2">
+    <div class="card-surface">
+      <div class="grid gap-3">
+        <div class="form-field">
+          <label>Header Eyebrow</label>
+          <input type="text" formControlName="headerEyebrow" />
+        </div>
+        <div class="form-field">
+          <label>Header Title</label>
+          <input type="text" formControlName="headerTitle" />
+        </div>
+        <div class="form-field">
+          <label>Header Subtitle</label>
+          <textarea rows="2" formControlName="headerSubtitle"></textarea>
+        </div>
+        <div class="form-field">
+          <label>Hero Tagline</label>
+          <textarea rows="2" formControlName="heroTagline"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-surface space-y-3">
+      <div class="form-field">
+        <label>Hero Image</label>
+        <input type="file" accept="image/*" (change)="onHeroSelected($event)" />
+        <small *ngIf="heroImageName()">Current: {{ heroImageName() }}</small>
+      </div>
+      <div class="form-field">
+        <label>Download Label</label>
+        <input type="text" formControlName="downloadLabel" />
+      </div>
+      <div class="form-field">
+        <label>Download URL (optional)</label>
+        <input type="text" formControlName="downloadUrl" placeholder="https://example.com/profile.pdf" />
+        <small>Provide a custom link or upload a PDF below.</small>
+      </div>
+      <div class="form-field">
+        <label>Upload PDF</label>
+        <input type="file" accept="application/pdf" (change)="onDownloadSelected($event)" />
+        <small *ngIf="downloadFileName()">Current: {{ downloadFileName() }}</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid gap-4 md:grid-cols-2">
+    <div class="card-surface space-y-3">
+      <div class="form-field">
+        <label>Overview Title</label>
+        <input type="text" formControlName="overviewTitle" />
+      </div>
+      <div class="form-field">
+        <label>Overview Description</label>
+        <textarea rows="3" formControlName="overviewDescription"></textarea>
+      </div>
+      <div class="form-field">
+        <label>Spotlight Title</label>
+        <input type="text" formControlName="spotlightTitle" />
+      </div>
+      <div class="form-field">
+        <label>Spotlight Description</label>
+        <textarea rows="3" formControlName="spotlightDescription"></textarea>
+      </div>
+      <div class="form-field">
+        <label>Spotlight Badge</label>
+        <input type="text" formControlName="spotlightBadge" />
+      </div>
+    </div>
+
+    <div class="card-surface space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="text-base font-semibold">Stats</h3>
+          <p class="text-xs text-slate-500">Showcase numbers on the profile hero.</p>
+        </div>
+        <button class="btn ghost" type="button" (click)="addStat()">Add Stat</button>
+      </div>
+      <div class="space-y-4" formArrayName="stats">
+        <div class="stat-row" *ngFor="let stat of stats.controls; let i = index" [formGroupName]="i">
+          <div class="grid gap-3 md:grid-cols-3">
+            <div class="form-field">
+              <label>Label</label>
+              <input type="text" formControlName="label" />
+            </div>
+            <div class="form-field">
+              <label>Value</label>
+              <input type="text" formControlName="value" />
+            </div>
+            <div class="form-field md:col-span-2">
+              <label>Description</label>
+              <input type="text" formControlName="description" />
+            </div>
+          </div>
+          <button class="btn ghost" type="button" (click)="removeStat(i)" *ngIf="stats.length > 1">Remove</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-surface space-y-4">
+    <div class="flex items-center justify-between">
+      <div>
+        <h3 class="text-base font-semibold">Pillars</h3>
+        <p class="text-xs text-slate-500">Define the pillars that shape the profile page.</p>
+      </div>
+      <button class="btn ghost" type="button" (click)="addPillar()">Add Pillar</button>
+    </div>
+    <div class="space-y-4" formArrayName="pillars">
+      <div class="stat-row" *ngFor="let pillar of pillars.controls; let i = index" [formGroupName]="i">
+        <div class="grid gap-3 md:grid-cols-3">
+          <div class="form-field md:col-span-1">
+            <label>Accent</label>
+            <input type="text" formControlName="accent" />
+          </div>
+          <div class="form-field md:col-span-1">
+            <label>Title</label>
+            <input type="text" formControlName="title" />
+          </div>
+          <div class="form-field md:col-span-3 lg:col-span-1">
+            <label>Description</label>
+            <textarea rows="2" formControlName="description"></textarea>
+          </div>
+        </div>
+        <button class="btn ghost" type="button" (click)="removePillar(i)" *ngIf="pillars.length > 1">Remove</button>
+      </div>
+    </div>
+  </div>
+</form>

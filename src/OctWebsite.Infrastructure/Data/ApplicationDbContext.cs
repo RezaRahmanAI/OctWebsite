@@ -26,6 +26,7 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<ProductShowcaseItem> ProductShowcaseItems => Set<ProductShowcaseItem>();
     public DbSet<ServicesPage> ServicesPages => Set<ServicesPage>();
     public DbSet<ProductPage> ProductPages => Set<ProductPage>();
+    public DbSet<ProfilePage> ProfilePages => Set<ProfilePage>();
     public DbSet<HomeHeroSection> HomeHeroSections => Set<HomeHeroSection>();
     public DbSet<HomeTrustSection> HomeTrustSections => Set<HomeTrustSection>();
     public DbSet<HomeTestimonial> HomeTestimonials => Set<HomeTestimonial>();
@@ -265,6 +266,75 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
             entity.Property(page => page.HeaderEyebrow).IsRequired();
             entity.Property(page => page.HeaderTitle).IsRequired();
             entity.Property(page => page.HeaderSubtitle).IsRequired();
+        });
+
+        modelBuilder.Entity<ProfilePage>(entity =>
+        {
+            entity.ToTable("ProfilePages");
+            entity.HasKey(page => page.Id);
+            entity.Property(page => page.Id).ValueGeneratedNever();
+            entity.Property(page => page.HeaderEyebrow).IsRequired();
+            entity.Property(page => page.HeaderTitle).IsRequired();
+            entity.Property(page => page.HeaderSubtitle).IsRequired();
+            entity.Property(page => page.HeroTagline).IsRequired();
+            entity.Property(page => page.OverviewTitle).IsRequired();
+            entity.Property(page => page.OverviewDescription).IsRequired();
+            entity.Property(page => page.DownloadLabel).IsRequired();
+            entity.Property(page => page.SpotlightTitle).IsRequired();
+            entity.Property(page => page.SpotlightDescription).IsRequired();
+            entity.Property(page => page.SpotlightBadge).IsRequired();
+
+            var statConverter = new ValueConverter<List<ProfileStat>, string>(
+                list => JsonSerializer.Serialize(list, JsonSerializerOptions.Default),
+                json => JsonSerializer.Deserialize<List<ProfileStat>>(json, JsonSerializerOptions.Default) ?? new List<ProfileStat>());
+            var statComparer = new ValueComparer<List<ProfileStat>>(
+                (left, right) =>
+                    left.Count == right.Count &&
+                    left.Zip(right).All(pair =>
+                        string.Equals(pair.First.Label, pair.Second.Label, StringComparison.Ordinal) &&
+                        string.Equals(pair.First.Value, pair.Second.Value, StringComparison.Ordinal) &&
+                        string.Equals(pair.First.Description, pair.Second.Description, StringComparison.Ordinal)),
+                list => list.Aggregate(0, (hash, item) =>
+                    HashCode.Combine(hash,
+                        item.Label == null ? 0 : item.Label.GetHashCode(StringComparison.Ordinal),
+                        item.Value == null ? 0 : item.Value.GetHashCode(StringComparison.Ordinal),
+                        item.Description == null ? 0 : item.Description.GetHashCode(StringComparison.Ordinal))),
+                list => list.Select(item => new ProfileStat
+                {
+                    Label = item.Label,
+                    Value = item.Value,
+                    Description = item.Description
+                }).ToList());
+
+            var pillarConverter = new ValueConverter<List<ProfilePillar>, string>(
+                list => JsonSerializer.Serialize(list, JsonSerializerOptions.Default),
+                json => JsonSerializer.Deserialize<List<ProfilePillar>>(json, JsonSerializerOptions.Default) ?? new List<ProfilePillar>());
+            var pillarComparer = new ValueComparer<List<ProfilePillar>>(
+                (left, right) =>
+                    left.Count == right.Count &&
+                    left.Zip(right).All(pair =>
+                        string.Equals(pair.First.Title, pair.Second.Title, StringComparison.Ordinal) &&
+                        string.Equals(pair.First.Description, pair.Second.Description, StringComparison.Ordinal) &&
+                        string.Equals(pair.First.Accent, pair.Second.Accent, StringComparison.Ordinal)),
+                list => list.Aggregate(0, (hash, item) =>
+                    HashCode.Combine(hash,
+                        item.Title == null ? 0 : item.Title.GetHashCode(StringComparison.Ordinal),
+                        item.Description == null ? 0 : item.Description.GetHashCode(StringComparison.Ordinal),
+                        item.Accent == null ? 0 : item.Accent.GetHashCode(StringComparison.Ordinal))),
+                list => list.Select(item => new ProfilePillar
+                {
+                    Title = item.Title,
+                    Description = item.Description,
+                    Accent = item.Accent
+                }).ToList());
+
+            entity.Property(page => page.Stats)
+                .HasConversion(statConverter)
+                .Metadata.SetValueComparer(statComparer);
+
+            entity.Property(page => page.Pillars)
+                .HasConversion(pillarConverter)
+                .Metadata.SetValueComparer(pillarComparer);
         });
 
         modelBuilder.Entity<HomeHeroSection>(entity =>
