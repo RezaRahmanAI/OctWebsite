@@ -1,0 +1,69 @@
+<div class="card-surface" [class.opacity-60]="loading()">
+  <div class="flex items-center justify-between gap-4">
+    <div>
+      <p class="text-xs font-semibold uppercase text-primary-600">FAQ</p>
+      <h2 class="text-xl font-semibold text-slate-900">Manage frequently asked questions</h2>
+      <p class="text-sm text-slate-600">Add, edit, and reorder the answers shown on the contact page.</p>
+    </div>
+    <button class="btn" type="button" (click)="submit()" [disabled]="loading()">
+      {{ editingId() ? 'Update' : 'Create' }} FAQ
+    </button>
+  </div>
+
+  <form class="mt-6 space-y-4" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="grid gap-4 md:grid-cols-[2fr,1fr]">
+      <label class="form-field md:col-span-2">
+        <span>Question</span>
+        <input type="text" formControlName="question" placeholder="How quickly can you start?" />
+      </label>
+      <label class="form-field md:col-span-2">
+        <span>Answer</span>
+        <textarea rows="3" formControlName="answer" placeholder="We begin onboarding within 3 business days."></textarea>
+      </label>
+      <label class="form-field">
+        <span>Display order</span>
+        <input type="number" min="0" formControlName="displayOrder" />
+        <p class="text-xs text-slate-500">Lower numbers appear first.</p>
+      </label>
+    </div>
+
+    <div class="flex items-center justify-end gap-2">
+      <button type="submit" class="btn" [disabled]="loading()">
+        {{ editingId() ? 'Update' : 'Create' }} FAQ
+      </button>
+      <button type="button" class="btn ghost" (click)="reset()">Reset</button>
+    </div>
+  </form>
+</div>
+
+<div class="card-surface">
+  <div class="flex items-center justify-between gap-4">
+    <div>
+      <p class="text-xs font-semibold uppercase text-primary-600">Published FAQs</p>
+      <h3 class="text-lg font-semibold text-slate-900">Contact page questions</h3>
+    </div>
+    <span class="text-sm text-slate-600">{{ faqs().length }} entries</span>
+  </div>
+
+  <div class="mt-4 space-y-3">
+    <div
+      class="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white/80 p-4 md:flex-row md:items-center md:justify-between"
+      *ngFor="let faq of faqs(); trackBy: trackByFaq"
+    >
+      <div class="space-y-1">
+        <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Order {{ faq.displayOrder }}</p>
+        <p class="text-base font-semibold text-slate-900">{{ faq.question }}</p>
+        <p class="text-sm text-slate-700 leading-relaxed">{{ faq.answer }}</p>
+      </div>
+
+      <div class="flex gap-2 whitespace-nowrap">
+        <button type="button" class="btn ghost" (click)="edit(faq)">Edit</button>
+        <button type="button" class="btn danger" (click)="delete(faq.id)" [disabled]="loading()">Delete</button>
+      </div>
+    </div>
+
+    <div *ngIf="faqs().length === 0" class="rounded-xl border border-dashed border-slate-300 bg-slate-50 p-6 text-sm text-slate-600">
+      No FAQs yet. Add your first entry to help visitors get answers faster.
+    </div>
+  </div>
+</div>

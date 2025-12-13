@@ -22,6 +22,7 @@
       <button class="tab-button" [ngClass]="activeTab() === 'showcase' ? 'active' : 'inactive'" (click)="select('showcase')">Showcase</button>
       <button class="tab-button" [ngClass]="activeTab() === 'blog' ? 'active' : 'inactive'" (click)="select('blog')">Blog</button>
       <button class="tab-button" [ngClass]="activeTab() === 'contact' ? 'active' : 'inactive'" (click)="select('contact')">Contact</button>
+      <button class="tab-button" [ngClass]="activeTab() === 'faq' ? 'active' : 'inactive'" (click)="select('faq')">FAQ</button>
       <button class="tab-button" [ngClass]="activeTab() === 'channels' ? 'active' : 'inactive'" (click)="select('channels')">Social Links</button>
       <button class="tab-button" [ngClass]="activeTab() === 'submissions' ? 'active' : 'inactive'" (click)="select('submissions')">Submissions</button>
       <button class="tab-button" [ngClass]="activeTab() === 'careers' ? 'active' : 'inactive'" (click)="select('careers')">Careers</button>
@@ -40,6 +41,7 @@
       <app-product-showcase-admin *ngSwitchCase="'showcase'"></app-product-showcase-admin>
       <app-blog-admin *ngSwitchCase="'blog'"></app-blog-admin>
       <app-contact-admin *ngSwitchCase="'contact'"></app-contact-admin>
+      <app-faq-admin *ngSwitchCase="'faq'"></app-faq-admin>
       <app-contact-channels-admin *ngSwitchCase="'channels'"></app-contact-channels-admin>
       <app-contact-submissions-admin *ngSwitchCase="'submissions'"></app-contact-submissions-admin>
       <ng-container *ngSwitchCase="'careers'">

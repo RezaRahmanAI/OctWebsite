@@ -10,3 +10,4 @@ export * from './home-content.model';
 export * from './pricing-plan.model';
 export * from './site-content.model';
 export * from './site-identity.model';
+export * from './faq.model';

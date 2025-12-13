@@ -23,3 +23,5 @@ export * from './services-api.service';
 export * from './services-page-api.service';
 export * from './home-page-api.service';
 export * from './product-page-api.service';
+export * from './faqs-api.service';
+export * from './faqs.service';

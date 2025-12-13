@@ -93,4 +93,10 @@ public static class MappingExtensions
         application.CvFileName,
         null,
         application.CreatedAt);
+
+    public static FaqDto ToDto(this Faq faq) => new(
+        faq.Id,
+        faq.Question,
+        faq.Answer,
+        faq.DisplayOrder);
 }

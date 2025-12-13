@@ -33,6 +33,7 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<CareerApplication> CareerApplications => Set<CareerApplication>();
     public DbSet<CareerPage> CareerPages => Set<CareerPage>();
     public DbSet<MethodologyData> MethodologyDataEntries => Set<MethodologyData>();
+    public DbSet<Faq> Faqs => Set<Faq>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -303,6 +304,16 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
             entity.Property(submission => submission.Email).IsRequired();
             entity.Property(submission => submission.Message).IsRequired();
             entity.Property(submission => submission.CreatedAt).IsRequired();
+        });
+
+        modelBuilder.Entity<Faq>(entity =>
+        {
+            entity.ToTable("Faqs");
+            entity.HasKey(faq => faq.Id);
+            entity.Property(faq => faq.Id).ValueGeneratedNever();
+            entity.Property(faq => faq.Question).IsRequired();
+            entity.Property(faq => faq.Answer).IsRequired();
+            entity.Property(faq => faq.DisplayOrder).HasDefaultValue(0);
         });
 
         modelBuilder.Entity<ServiceItem>(entity =>

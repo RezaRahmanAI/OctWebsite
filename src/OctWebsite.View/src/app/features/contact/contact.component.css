@@ -2,3 +2,49 @@
 :host {
   display: block;
 }
+
+.faq-card {
+  border-radius: 1rem;
+  border: 1px solid rgb(226 232 240);
+  background: white;
+  padding: 1rem 1.25rem;
+  transition: box-shadow 150ms ease, transform 150ms ease;
+}
+
+.faq-card[open] {
+  box-shadow: 0 20px 60px -40px rgba(15, 23, 42, 0.45);
+  transform: translateY(-2px);
+}
+
+.faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-weight: 600;
+  color: rgb(15 23 42);
+  cursor: pointer;
+  list-style: none;
+}
+
+.faq-question::-webkit-details-marker {
+  display: none;
+}
+
+.faq-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  background: rgb(238 242 255);
+  color: rgb(79 70 229);
+  font-weight: 700;
+}
+
+.faq-answer {
+  margin-top: 0.75rem;
+  color: rgb(71 85 105);
+  line-height: 1.6;
+}
