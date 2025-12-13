@@ -702,6 +702,7 @@ internal static class SeedData
         HeaderSubtitle = "Credentials, focus areas, and the way our teams deliver.",
         HeroTagline = "Purpose-built teams that ship outcomes while leveling up your capability.",
         HeroImageFileName = "/images/hero/profile-cover.webp",
+        HeroVideoFileName = null,
         DownloadLabel = "Download full profile (PDF)",
         DownloadUrl = "https://objectcanvas.com/company-profile.pdf",
         OverviewTitle = "Who we are",

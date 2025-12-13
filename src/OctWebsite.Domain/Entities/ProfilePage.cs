@@ -33,6 +33,8 @@ public sealed class ProfilePage
     public string? DownloadUrl { get; set; }
 
     public string? HeroImageFileName { get; set; }
+
+    public string? HeroVideoFileName { get; set; }
 }
 
 public sealed class ProfileStat

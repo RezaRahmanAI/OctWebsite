@@ -34,6 +34,7 @@ public sealed class ProfilePageController(
         CancellationToken cancellationToken)
     {
         var heroImage = await StoreMediaIfNeededAsync(form.HeroImage, MediaFolder, form.HeroImageFileName, cancellationToken);
+        var heroVideo = await StoreMediaIfNeededAsync(form.HeroVideo, MediaFolder, form.HeroVideoFileName, cancellationToken);
         var downloadFile = await StoreMediaIfNeededAsync(form.DownloadFile, DownloadFolder, form.DownloadFileName, cancellationToken);
 
         var stats = ParseJson<IReadOnlyList<ProfileStatDto>>(form.StatsJson) ?? Array.Empty<ProfileStatDto>();
@@ -45,6 +46,7 @@ public sealed class ProfilePageController(
             form.HeaderSubtitle ?? string.Empty,
             form.HeroTagline ?? string.Empty,
             heroImage ?? form.HeroImageFileName,
+            heroVideo ?? form.HeroVideoFileName,
             form.DownloadLabel ?? string.Empty,
             downloadFile ?? form.DownloadFileName,
             string.IsNullOrWhiteSpace(form.DownloadUrl) ? null : form.DownloadUrl,
@@ -63,8 +65,9 @@ public sealed class ProfilePageController(
     private ProfilePageDto ResolveMedia(ProfilePageDto dto)
     {
         var hero = Resolve(dto.HeroImage, MediaFolder);
+        var heroVideo = Resolve(dto.HeroVideo, MediaFolder);
         var download = Resolve(dto.Download, DownloadFolder);
-        return dto with { HeroImage = hero, Download = download };
+        return dto with { HeroImage = hero, HeroVideo = heroVideo, Download = download };
     }
 
     private static T? ParseJson<T>(string? raw)
@@ -104,9 +107,13 @@ public sealed class SaveProfilePageFormRequest
 
     public string? HeroImageFileName { get; init; }
 
+    public string? HeroVideoFileName { get; init; }
+
     public string? DownloadFileName { get; init; }
 
     public IFormFile? HeroImage { get; init; }
+
+    public IFormFile? HeroVideo { get; init; }
 
     public IFormFile? DownloadFile { get; init; }
 

@@ -40,6 +40,7 @@ internal sealed class ProfilePageService(IProfilePageRepository repository) : IP
             "A single hub for our credentials, focus areas, and team DNA.",
             "A modern profile built for partners who want a crisp snapshot of ObjectCanvas.",
             "/images/hero/profile-cover.webp",
+            null,
             "Download profile (PDF)",
             null,
             "https://objectcanvas.com/company-profile.pdf",
@@ -74,6 +75,7 @@ internal sealed class ProfilePageService(IProfilePageRepository repository) : IP
         entity.HeaderSubtitle = request.HeaderSubtitle.Trim();
         entity.HeroTagline = request.HeroTagline.Trim();
         entity.HeroImageFileName = NormalizeMediaPath(request.HeroImageFileName);
+        entity.HeroVideoFileName = NormalizeMediaPath(request.HeroVideoFileName);
         entity.DownloadLabel = request.DownloadLabel.Trim();
         entity.DownloadFileName = NormalizeMediaPath(request.DownloadFileName);
         entity.DownloadUrl = string.IsNullOrWhiteSpace(request.DownloadUrl)
@@ -110,6 +112,7 @@ internal sealed class ProfilePageService(IProfilePageRepository repository) : IP
         page.HeaderTitle,
         page.HeaderSubtitle,
         page.HeroTagline,
+        CreateMedia(page.HeroVideoFileName),
         CreateMedia(page.HeroImageFileName),
         page.DownloadLabel,
         CreateDownload(page),
